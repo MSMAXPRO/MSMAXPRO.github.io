@@ -6,7 +6,6 @@
     <title>CodeWithMSMAXPRO - Your Coding Companion</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -44,30 +43,44 @@
             font-size: 1.6rem;
             color: #ffffff;
             text-decoration: none;
-            display: flex; /* YAHAN BADLAAV KIYA GAYA HAI */
-            align-items: center; /* YAHAN BADLAAV KIYA GAYA HAI */
+            display: flex;
+            align-items: center;
         }
         .logo img {
-            height: 40px; /* YAHAN BADLAAV KIYA GAYA HAI */
-            margin-right: 10px; /* YAHAN BADLAAV KIYA GAYA HAI */
+            height: 40px;
+            margin-right: 10px;
         }
-        nav ul {
+        .nav-links {
             list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
         }
-        nav ul li {
+        .nav-links li {
             margin-left: 30px;
         }
-        nav ul li a {
+        .nav-links li a {
             text-decoration: none;
             color: #cbd5e1;
             font-weight: 500;
             transition: color 0.3s ease;
         }
-        nav ul li a:hover {
+        .nav-links li a:hover {
             color: #7c3aed;
+        }
+
+        /* --- Hamburger Menu Icon --- */
+        /* YEH HAMBURGER MENU KE LIYE NAYA STYLE HAI */
+        .hamburger {
+            display: none; /* Desktop par chhipa rahega */
+            cursor: pointer;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
         }
 
         /* --- Hero Section --- */
@@ -176,20 +189,32 @@
         }
 
         /* --- Responsive Design (Media Queries) --- */
+        /* YEH MOBILE KE LIYE NAYA AUR BEHTAR STYLE HAI */
         @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 15px;
-            }
-            nav ul {
+            /* Desktop wala menu chhipa do */
+            .nav-links {
+                position: absolute;
+                right: 0px;
+                height: 92vh;
+                top: 8vh;
+                background-color: #1e293b;
+                display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 15px;
-                margin-top: 15px;
+                justify-content: space-around;
+                width: 50%;
+                transform: translateX(100%); /* Menu ko screen se bahar rakho */
+                transition: transform 0.5s ease-in;
+                z-index: 10;
             }
-            nav ul li {
+            .nav-links li {
                 margin-left: 0;
             }
+            /* Hamburger ko dikhao */
+            .hamburger {
+                display: block;
+            }
+            
             .hero h1 {
                 font-size: 2.8rem;
             }
@@ -200,6 +225,20 @@
                 flex-direction: column;
             }
         }
+        /* YEH CLASS JAVASCRIPT SE ADD HOGI */
+        .nav-active {
+            transform: translateX(0%); /* Menu ko screen ke andar le aao */
+        }
+        /* YEH HAMBURGER KO 'X' BANANE KE LIYE HAI */
+        .toggle .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .toggle .line2 {
+            opacity: 0;
+        }
+        .toggle .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
     </style>
 </head>
 <body>
@@ -208,13 +247,24 @@
         <div class="container">
             <nav>
                 <a href="/" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo"> <span>CodeWithMSMAXPRO</span> </a>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="#">Roadmaps</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">About</a></li>
-                </ul>
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <div class="nav-links-container">
+                    <ul class="nav-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="#">Roadmaps</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
+                </div>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
             </nav>
         </div>
     </header>
@@ -272,6 +322,23 @@
             <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
         </div>
     </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', () => {
+                // Toggle Nav
+                nav.classList.toggle('nav-active');
+                
+                // Animate Burger
+                hamburger.classList.toggle('toggle');
+            });
+        }
+
+        navSlide();
+    </script>
 
 </body>
 </html>
