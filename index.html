@@ -49,7 +49,7 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            z-index: 1000; /* Taaki logo menu ke upar rahe */
+            z-index: 1000;
         }
         .logo img {
             height: 40px;
@@ -78,7 +78,7 @@
         .hamburger {
             display: none;
             cursor: pointer;
-            z-index: 1000; /* Taaki icon menu ke upar rahe */
+            z-index: 1000;
         }
         .hamburger div {
             width: 25px;
@@ -196,19 +196,19 @@
         /* --- Responsive Design (Media Queries) --- */
         @media (max-width: 768px) {
             .nav-links {
-                position: fixed; /* YAHAN BADLAAV KIYA GAYA HAI */
+                position: fixed;
                 right: 0px;
-                height: 100vh; /* Poori height lega */
-                top: 0; /* Bilkul upar se shuru hoga */
+                height: 100vh;
+                top: 0;
                 background-color: #1e293b;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: space-evenly; /* Links ko barabar baant dega */
-                width: 60%; /* Thoda aur चौड़ा */
+                justify-content: space-evenly;
+                width: 60%;
                 transform: translateX(100%);
                 transition: transform 0.5s ease-in;
-                z-index: 999; /* Sabse upar rahega */
+                z-index: 999;
             }
             .nav-links li {
                 margin-left: 0;
@@ -231,6 +231,13 @@
         .nav-active {
             transform: translateX(0%);
         }
+        
+        /* YAHAN BADLAAV KIYA GAYA HAI - YEH LINKS KO WAPAS DIKHAYEGA */
+        .nav-active li {
+            opacity: 1; /* Jab menu khulega, to links dikhne lagenge */
+            transition: opacity 0.5s ease 0.3s; /* Animation effect */
+        }
+        
         .toggle .line1 {
             transform: rotate(-45deg) translate(-5px, 6px);
         }
@@ -326,6 +333,7 @@
         const navSlide = () => {
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.nav-links');
+            const navLinks = document.querySelectorAll('.nav-links li'); // Yeh line add ki gayi hai
 
             hamburger.addEventListener('click', () => {
                 nav.classList.toggle('nav-active');
