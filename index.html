@@ -158,6 +158,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            box-sizing: border-box; /* YAHAN BADLAAV KIYA GAYA HAI */
         }
         .feature-card:hover {
             transform: translateY(-5px);
@@ -196,7 +197,7 @@
         /* --- Responsive Design (Media Queries) --- */
         @media (max-width: 768px) {
             .logo span {
-                display: none; /* YAHAN BADLAAV KIYA GAYA HAI */
+                display: none;
             }
             .nav-links {
                 position: fixed;
@@ -234,12 +235,10 @@
         .nav-active {
             transform: translateX(0%);
         }
-        
         .nav-active li {
             opacity: 1;
             transition: opacity 0.5s ease 0.3s;
         }
-        
         .toggle .line1 {
             transform: rotate(-45deg) translate(-5px, 6px);
         }
@@ -292,25 +291,25 @@
                 <div class="features-grid">
                     <a href="roadmaps.html" style="text-decoration: none; color: inherit;">
                         <div class="feature-card">
-                        <img src="images/roadmap.png" alt="Career Roadmaps Icon"> 
-                        <h3>Career Roadmaps</h3>
-                        <p>Step-by-step guides for roles like Frontend, Backend, and Data Science.</p>
-                    </div>
+                            <img src="images/roadmap.png" alt="Career Roadmaps Icon"> 
+                            <h3>Career Roadmaps</h3>
+                            <p>Step-by-step guides for roles like Frontend, Backend, and Data Science.</p>
+                        </div>
                     </a>
-                    <a href="interview.html" style="text-decoration: none; color: inherit;"> 
-                    <div class="feature-card">
-                        <img src="images/interview.png" alt="Interview Ready Icon"> 
-                        <h3>Interview Ready</h3>
-                        <p>DSA, resume tips, and questions asked in top companies.</p>
-                    </div>
-                    </a>    
-                    <a href="resources.html" style="text-decoration: none; color: inherit;">    
-                    <div class="feature-card">
-                        <img src="images/resources.png" alt="Free Resources Icon"> 
-                        <h3>Free Resources</h3>
-                        <p>A curated list of the best tools, platforms, and channels for students.</p>
-                    </div>
-                    </a>                        
+                    <a href="interview.html" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card">
+                            <img src="images/interview.png" alt="Interview Ready Icon"> 
+                            <h3>Interview Ready</h3>
+                            <p>DSA, resume tips, and questions asked in top companies.</p>
+                        </div>
+                    </a>
+                    <a href="resources.html" style="text-decoration: none; color: inherit;">
+                        <div class="feature-card">
+                            <img src="images/resources.png" alt="Free Resources Icon"> 
+                            <h3>Free Resources</h3>
+                            <p>A curated list of the best tools, platforms, and channels for students.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -341,14 +340,12 @@
         const navSlide = () => {
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.nav-links');
-            const navLinks = document.querySelectorAll('.nav-links li');
 
             hamburger.addEventListener('click', () => {
                 nav.classList.toggle('nav-active');
                 hamburger.classList.toggle('toggle');
             });
         }
-
         navSlide();
     </script>
 
