@@ -13,10 +13,10 @@
         /* --- General Styles --- */
         /* Poori website ki body ke liye styles */
         body {
-            font-family: 'Nunito Sans', sans-serif; /* Naya, professional font */
+            font-family: 'Nunito Sans', sans-serif; /* Professional font */
             margin: 0;
-            background-color: #0a0f18; /* Naya professional dark blue background */
-            color: #e0e0e0; 
+            background-color: #f4f6f8; /* Naya professional LIGHT background */
+            color: #333333; /* Dark text color for readability */
             line-height: 1.7;
         }
 
@@ -30,8 +30,10 @@
         /* --- Header / Navigation Bar --- */
         /* Website ka sabse upar wala hissa */
         header {
-            background-color: transparent;
+            background-color: #ffffff; /* Header ke liye white background */
             padding: 1.5rem 0;
+            border-bottom: 1px solid #dddddd;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Halki si shadow */
         }
         nav {
             display: flex;
@@ -42,7 +44,7 @@
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             font-size: 1.6rem;
-            color: #ffffff;
+            color: #111111; /* Logo ke liye dark color */
             text-decoration: none;
         }
         nav ul {
@@ -56,12 +58,15 @@
         }
         nav ul li a {
             text-decoration: none;
-            color: #e0e0e0;
+            color: #333333;
             font-weight: 700;
             transition: color 0.3s ease;
         }
         nav ul li a:hover {
-            color: #9013fe; /* Purple accent color */
+            /* Hover par ab gradient color aayega */
+            background: linear-gradient(90deg, #4a90e2, #9013fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         /* --- Hero Section --- */
@@ -82,7 +87,7 @@
         }
         .hero p {
             font-size: 1.2rem;
-            color: #a0a0a0;
+            color: #555555; /* Thoda halka dark text */
             margin-bottom: 35px;
             max-width: 600px;
             margin-left: auto;
@@ -98,6 +103,7 @@
             border-radius: 50px;
             transition: all 0.3s ease;
             border: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .cta-button:hover {
             transform: translateY(-4px);
@@ -115,6 +121,7 @@
             font-size: 2.8rem;
             margin-bottom: 50px;
             font-weight: 700;
+            color: #222222;
         }
 
         /* --- Features Section --- */
@@ -126,23 +133,24 @@
             flex-wrap: wrap; 
         }
         .feature-card {
-            background-color: #161b22; /* Thoda halka dark color */
+            background-color: #ffffff; /* Card ke liye white background */
             padding: 35px;
             border-radius: 12px;
             text-align: center;
             flex-basis: 300px;
-            border: 1px solid #30363d;
+            border: 1px solid #e0e0e0;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
         .feature-card:hover {
             transform: translateY(-5px);
-            border-color: #9013fe;
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
         }
         .feature-card h3 {
             margin-top: 15px;
             font-family: 'Poppins', sans-serif;
             font-size: 1.5rem;
-            color: #ffffff;
+            color: #222222;
         }
         .feature-card img {
             width: 90px;
@@ -152,10 +160,10 @@
 
         /* --- AI Bot Section --- */
         .ai-bot-section {
-            background-color: #161b22;
+            background-color: #ffffff;
             text-align: center;
             border-radius: 15px;
-            border: 1px solid #30363d;
+            border: 1px solid #e0e0e0;
         }
         
         /* --- Footer --- */
@@ -164,7 +172,7 @@
             text-align: center;
             padding: 25px 0;
             margin-top: 40px;
-            border-top: 1px solid #30363d;
+            border-top: 1px solid #e0e0e0;
             color: #888;
         }
 
