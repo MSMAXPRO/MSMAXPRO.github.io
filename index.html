@@ -2,10 +2,231 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to My Website</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeWithMSMAXPRO - Aapka Coding Dost</title>
+    
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+            line-height: 1.6;
+        }
+
+        /* Container to keep content centered */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header and Navigation Bar */
+        header {
+            background-color: #1e1e1e;
+            padding: 1rem 0;
+            border-bottom: 1px solid #333;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #00aaff;
+            text-decoration: none;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        nav ul li {
+            margin-left: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+        nav ul li a:hover {
+            color: #00aaff;
+        }
+
+        /* Hero Section (Main Bada Section) */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #00aaff;
+            color: #fff;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .cta-button:hover {
+            background-color: #0088cc;
+        }
+        
+        /* General Section Styling */
+        section {
+            padding: 60px 0;
+        }
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        /* Features Section */
+        .features-grid {
+            display: flex;
+            justify-content: center; /* Center items for better wrapping */
+            gap: 20px;
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+        }
+        .feature-card {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            flex-basis: 300px; /* Set a base width */
+        }
+        .feature-card h3 {
+            margin-top: 0;
+            color: #00aaff;
+        }
+
+        /* AI Bot Section */
+        .ai-bot-section {
+            background-color: #1e1e1e;
+            text-align: center;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* --- YEH HAI RESPONSIVE WALA JAADU (MEDIA QUERIES) --- */
+        /* Yeh style tab lagega jab screen 768px se choti hogi (Mobile/Tablet) */
+        @media (max-width: 768px) {
+            
+            /* Menu ko aamne-saamne se upar-neeche kar do */
+            nav {
+                flex-direction: column;
+                gap: 10px; /* Add space between logo and menu */
+            }
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            nav ul li {
+                margin-left: 0;
+            }
+
+            /* Headline aur text ko chota kar do */
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+
+            /* Feature cards ko side-by-side se upar-neeche kar do */
+            .features-grid {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Website is Live!</h1>
-    <p>Congratulations! Your website codewithmsmaxpro.me is now working.</p>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">CodeWithMSMAXPRO</a>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Roadmaps</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Aapka Coding Dost, Placement Tak.</h1>
+                <p>Yahan aapko coding ke resources, career roadmaps, aur interview ki taiyari ke liye sab kuch milega.</p>
+                <a href="#" class="cta-button">Start Learning Now</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2>Aapke Liye Kya Hai?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Career Roadmaps</h3>
+                        <p>Frontend, Backend, Data Science. Har role ke liye step-by-step guide.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Interview Ready</h3>
+                        <p>DSA, resume tips, aur top companies mein puche jaane waale sawaal.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Free Resources</h3>
+                        <p>Students ke liye best tools, platforms aur YouTube channels ki list.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="latest-posts">
+            <div class="container">
+                <h2>Latest Blog Posts</h2>
+                <p style="text-align:center;">(Yahan aapke naye blog posts aayenge...)</p>
+            </div>
+        </section>
+
+        <section class="ai-bot-section">
+            <div class="container">
+                <h2>Need Instant Help? Ask our AI Mentor!</h2>
+                <p>Aapka 24x7 AI saathi jo aapke har sawaal ka jawab dega.</p>
+                <a href="#" class="cta-button">Chat on Telegram</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+            </div>
+    </footer>
+
 </body>
 </html>
