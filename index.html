@@ -5,23 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeWithMSMAXPRO - Your Coding Companion</title>
     
+    <link rel="icon" type="image/png" href="favicon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
         /* --- General Styles --- */
-        /* Poori website ki body ke liye styles */
         body {
-            font-family: 'Inter', sans-serif; /* Naya, clean font */
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            background-color: #0f172a; /* Main dark blue color */
-            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%); /* Halka sa gradient background */
-            color: #cbd5e1; /* Halka text color */
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
             line-height: 1.7;
         }
 
-        /* Content ko page ke beech mein rakhne ke liye */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -29,7 +29,6 @@
         }
 
         /* --- Header / Navigation Bar --- */
-        /* Website ka sabse upar wala hissa */
         header {
             background-color: transparent;
             padding: 1.5rem 0;
@@ -45,6 +44,12 @@
             font-size: 1.6rem;
             color: #ffffff;
             text-decoration: none;
+            display: flex; /* YAHAN BADLAAV KIYA GAYA HAI */
+            align-items: center; /* YAHAN BADLAAV KIYA GAYA HAI */
+        }
+        .logo img {
+            height: 40px; /* YAHAN BADLAAV KIYA GAYA HAI */
+            margin-right: 10px; /* YAHAN BADLAAV KIYA GAYA HAI */
         }
         nav ul {
             list-style: none;
@@ -62,11 +67,10 @@
             transition: color 0.3s ease;
         }
         nav ul li a:hover {
-            color: #7c3aed; /* Naya purple accent */
+            color: #7c3aed;
         }
 
         /* --- Hero Section --- */
-        /* Website ka main bada section */
         .hero {
             text-align: center;
             padding: 100px 0;
@@ -79,14 +83,13 @@
             line-height: 1.2;
         }
         .hero .highlight {
-            /* Headline ke text ke liye gradient */
             background: linear-gradient(90deg, #38bdf8, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .hero p {
             font-size: 1.2rem;
-            color: #94a3b8; /* Thoda halka text */
+            color: #94a3b8;
             margin-bottom: 35px;
             max-width: 650px;
             margin-left: auto;
@@ -102,7 +105,7 @@
             border-radius: 50px;
             transition: all 0.3s ease;
             border: none;
-            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3); /* Button ke neeche halki si glow */
+            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
         }
         .cta-button:hover {
             transform: translateY(-4px);
@@ -110,7 +113,6 @@
         }
         
         /* --- Common Section Styling --- */
-        /* Baaki sabhi sections ke liye common style */
         section {
             padding: 60px 0;
         }
@@ -123,7 +125,6 @@
         }
 
         /* --- Features Section --- */
-        /* Teen feature cards ke liye style */
         .features-grid {
             display: flex;
             justify-content: center;
@@ -131,13 +132,13 @@
             flex-wrap: wrap; 
         }
         .feature-card {
-            background-color: rgba(30, 41, 59, 0.5); /* "Frosted Glass" effect */
+            background-color: rgba(30, 41, 59, 0.5);
             padding: 35px;
             border-radius: 16px;
             text-align: center;
             flex-basis: 300px;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Halka sa border */
-            backdrop-filter: blur(10px); /* Background ko blur karne ke liye */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             transition: all 0.3s ease;
         }
         .feature-card:hover {
@@ -150,14 +151,13 @@
             color: #ffffff;
             font-weight: 700;
         }
-        /* YAHAN BADLAAV KIYA GAYA HAI */
         .feature-card img {
-            width: 140px;  /* Image ki चौड़ाई badha di hai */
-            height: 140px; /* Image ki ऊंचाई badha di hai */
-            border-radius: 50%; /* Image ko GOL bana diya hai */
-            object-fit: cover; /* Image ko stretch hone se bachane ke liye */
-            border: 3px solid rgba(255, 255, 255, 0.1); /* Halka sa border */
-            margin-bottom: 25px; /* Thodi zyada jagah */
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 25px;
         }
 
         /* --- AI Bot Section --- */
@@ -167,7 +167,6 @@
         }
         
         /* --- Footer --- */
-        /* Website ka sabse neeche wala hissa */
         footer {
             text-align: center;
             padding: 25px 0;
@@ -177,7 +176,6 @@
         }
 
         /* --- Responsive Design (Media Queries) --- */
-        /* Yeh style tab lagega jab screen 768px se choti hogi (Mobile/Tablet) */
         @media (max-width: 768px) {
             nav {
                 flex-direction: column;
@@ -209,7 +207,8 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">CodeWithMSMAXPRO</a>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo"> <span>CodeWithMSMAXPRO</span> </a>
                 <ul>
                     <li><a href="/">Home</a></li>
                     <li><a href="#">Roadmaps</a></li>
