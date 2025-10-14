@@ -19,6 +19,7 @@
             background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
             color: #cbd5e1;
             line-height: 1.7;
+            overflow-x: hidden; /* YAHAN BADLAAV KIYA GAYA HAI */
         }
 
         .container {
@@ -70,9 +71,8 @@
         }
 
         /* --- Hamburger Menu Icon --- */
-        /* YEH HAMBURGER MENU KE LIYE NAYA STYLE HAI */
         .hamburger {
-            display: none; /* Desktop par chhipa rahega */
+            display: none;
             cursor: pointer;
         }
         .hamburger div {
@@ -189,9 +189,7 @@
         }
 
         /* --- Responsive Design (Media Queries) --- */
-        /* YEH MOBILE KE LIYE NAYA AUR BEHTAR STYLE HAI */
         @media (max-width: 768px) {
-            /* Desktop wala menu chhipa do */
             .nav-links {
                 position: absolute;
                 right: 0px;
@@ -203,14 +201,13 @@
                 align-items: center;
                 justify-content: space-around;
                 width: 50%;
-                transform: translateX(100%); /* Menu ko screen se bahar rakho */
+                transform: translateX(100%);
                 transition: transform 0.5s ease-in;
                 z-index: 10;
             }
             .nav-links li {
                 margin-left: 0;
             }
-            /* Hamburger ko dikhao */
             .hamburger {
                 display: block;
             }
@@ -225,11 +222,9 @@
                 flex-direction: column;
             }
         }
-        /* YEH CLASS JAVASCRIPT SE ADD HOGI */
         .nav-active {
-            transform: translateX(0%); /* Menu ko screen ke andar le aao */
+            transform: translateX(0%);
         }
-        /* YEH HAMBURGER KO 'X' BANANE KE LIYE HAI */
         .toggle .line1 {
             transform: rotate(-45deg) translate(-5px, 6px);
         }
@@ -329,10 +324,7 @@
             const nav = document.querySelector('.nav-links');
 
             hamburger.addEventListener('click', () => {
-                // Toggle Nav
                 nav.classList.toggle('nav-active');
-                
-                // Animate Burger
                 hamburger.classList.toggle('toggle');
             });
         }
