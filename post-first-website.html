@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Website: What I Learned - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Yeh saare styles aapke index.html se same hain */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        .post-header h1 {
+            font-size: 2.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .post-meta {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        .post-content h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-top: 40px;
+        }
+        .post-content p {
+            font-size: 1.1rem;
+        }
+        .post-content ul {
+            font-size: 1.1rem;
+            padding-left: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo span {
+                display: none;
+            }
+            .nav-links {
+                position: fixed;
+                right: 0px;
+                height: 100vh;
+                top: 0;
+                background-color: #1e293b;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+                width: 60%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                z-index: 999;
+            }
+            .nav-links li {
+                margin-left: 0;
+                opacity: 0;
+            }
+            .hamburger {
+                display: block;
+            }
+            .post-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+        .nav-active {
+            transform: translateX(0%);
+        }
+        .nav-active li {
+            opacity: 1;
+            transition: opacity 0.5s ease 0.3s;
+        }
+        .toggle .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .toggle .line2 {
+            opacity: 0;
+        }
+        .toggle .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="post-container">
+            <div class="container">
+                <article class="post-content">
+                    <div class="post-header">
+                        <h1>My First Website: The Journey and What I Learned</h1>
+                        <p class="post-meta">Published on October 14, 2025 by MSMAXPRO</p>
+                    </div>
+
+                    <h2>The Idea and The Frustration</h2>
+                    <p>Building your first website feels like a huge mountain to climb. I started with a simple idea: to create a helpful platform for students. But the journey from getting a domain name to making it look professional was full of challenges. This post is about what I learned along the way.</p>
+
+                    <h2>Key Lessons for Every Beginner</h2>
+                    <p>If you're just starting, keep these things in mind:</p>
+                    <ul>
+                        <li><strong>Plan First, Code Later:</strong> Before writing a single line of code, I had to decide on a layout. What sections should be there? What should the website look like? Having a blueprint makes coding much easier.</li>
+                        <li><strong>HTML is the Skeleton, CSS is the Soul:</strong> It was amazing to see how plain HTML turned into a beautiful website with CSS. Learning about responsiveness (making the site look good on mobile) was the most important part.</li>
+                        <li><strong>GitHub Pages is Magic:</strong> For a beginner, the easiest way to host a website for free is GitHub Pages. The process of connecting a custom domain was a bit technical, but totally worth it.</li>
+                        <li><strong>Patience is Everything:</strong> From waiting for DNS changes to propagate to fixing small bugs in the mobile menu, patience is the key. Don't get frustrated if things don't work on the first try.</li>
+                    </ul>
+
+                    <h2>Conclusion</h2>
+                    <p>Building this website has been an incredible learning experience. My advice to you is simple: just start. Choose a simple idea, follow a plan, and don't be afraid to ask for help. Your first website won't be perfect, but the lessons you learn will be priceless.</p>
+                
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', () => {
+                nav.classList.toggle('nav-active');
+                hamburger.classList.toggle('toggle');
+            });
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
