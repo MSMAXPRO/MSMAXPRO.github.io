@@ -195,6 +195,9 @@
 
         /* --- Responsive Design (Media Queries) --- */
         @media (max-width: 768px) {
+            .logo span {
+                display: none; /* YAHAN BADLAAV KIYA GAYA HAI */
+            }
             .nav-links {
                 position: fixed;
                 right: 0px;
@@ -212,7 +215,7 @@
             }
             .nav-links li {
                 margin-left: 0;
-                opacity: 0; /* Shuru mein links chhipe rahenge */
+                opacity: 0;
             }
             .hamburger {
                 display: block;
@@ -232,10 +235,9 @@
             transform: translateX(0%);
         }
         
-        /* YAHAN BADLAAV KIYA GAYA HAI - YEH LINKS KO WAPAS DIKHAYEGA */
         .nav-active li {
-            opacity: 1; /* Jab menu khulega, to links dikhne lagenge */
-            transition: opacity 0.5s ease 0.3s; /* Animation effect */
+            opacity: 1;
+            transition: opacity 0.5s ease 0.3s;
         }
         
         .toggle .line1 {
@@ -333,7 +335,7 @@
         const navSlide = () => {
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.nav-links');
-            const navLinks = document.querySelectorAll('.nav-links li'); // Yeh line add ki gayi hai
+            const navLinks = document.querySelectorAll('.nav-links li');
 
             hamburger.addEventListener('click', () => {
                 nav.classList.toggle('nav-active');
