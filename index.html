@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeWithMSMAXPRO - Your Coding Companion</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
@@ -12,7 +12,6 @@
     
     <style>
         /* --- General Styles --- */
-        /* YAHAN HTML TAG KO BHI ADD KIYA HAI */
         html, body {
             overflow-x: hidden;
         }
@@ -50,6 +49,7 @@
             text-decoration: none;
             display: flex;
             align-items: center;
+            z-index: 1000; /* Taaki logo menu ke upar rahe */
         }
         .logo img {
             height: 40px;
@@ -78,6 +78,7 @@
         .hamburger {
             display: none;
             cursor: pointer;
+            z-index: 1000; /* Taaki icon menu ke upar rahe */
         }
         .hamburger div {
             width: 25px;
@@ -195,22 +196,23 @@
         /* --- Responsive Design (Media Queries) --- */
         @media (max-width: 768px) {
             .nav-links {
-                position: absolute;
+                position: fixed; /* YAHAN BADLAAV KIYA GAYA HAI */
                 right: 0px;
-                height: 92vh;
-                top: 8vh;
+                height: 100vh; /* Poori height lega */
+                top: 0; /* Bilkul upar se shuru hoga */
                 background-color: #1e293b;
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                justify-content: space-around;
-                width: 50%;
+                justify-content: space-evenly; /* Links ko barabar baant dega */
+                width: 60%; /* Thoda aur चौड़ा */
                 transform: translateX(100%);
                 transition: transform 0.5s ease-in;
-                z-index: 10;
+                z-index: 999; /* Sabse upar rahega */
             }
             .nav-links li {
                 margin-left: 0;
+                opacity: 0; /* Shuru mein links chhipe rahenge */
             }
             .hamburger {
                 display: block;
@@ -250,14 +252,12 @@
                     <span>CodeWithMSMAXPRO</span>
                 </a>
                 
-                <div class="nav-links-container">
-                    <ul class="nav-links">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="#">Roadmaps</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">About</a></li>
-                    </ul>
-                </div>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#">Roadmaps</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
                 
                 <div class="hamburger">
                     <div class="line1"></div>
