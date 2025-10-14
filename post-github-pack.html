@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Get the GitHub Student Pack - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Yeh saare styles aapke index.html se same hain */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.8; /* Padhne ke liye thoda zyada line space */
+        }
+
+        .container {
+            max-width: 800px; /* Blog post ke liye thoda chhota container */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* Yeh Blog Post ke liye naya style hai */
+        .post-header h1 {
+            font-size: 2.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .post-meta {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        .post-content h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-top: 40px;
+        }
+        .post-content p {
+            font-size: 1.1rem;
+        }
+        .post-content ul {
+            font-size: 1.1rem;
+            padding-left: 20px;
+        }
+        .post-content code {
+            background-color: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) {
+            .logo span {
+                display: none;
+            }
+            .nav-links {
+                position: fixed;
+                right: 0px;
+                height: 100vh;
+                top: 0;
+                background-color: #1e293b;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+                width: 60%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                z-index: 999;
+            }
+            .nav-links li {
+                margin-left: 0;
+                opacity: 0;
+            }
+            .hamburger {
+                display: block;
+            }
+            .post-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+        .nav-active {
+            transform: translateX(0%);
+        }
+        .nav-active li {
+            opacity: 1;
+            transition: opacity 0.5s ease 0.3s;
+        }
+        .toggle .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .toggle .line2 {
+            opacity: 0;
+        }
+        .toggle .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="post-container">
+            <div class="container">
+                <article class="post-content">
+                    <div class="post-header">
+                        <h1>How to Get the GitHub Student Developer Pack? (Step-by-Step)</h1>
+                        <p class="post-meta">Published on October 14, 2025 by MSMAXPRO</p>
+                    </div>
+
+                    <h2>What is the GitHub Student Developer Pack?</h2>
+                    <p>The GitHub Student Developer Pack is a free collection of developer tools and resources available to students. It includes free access to hosting, domain names, premium courses, and much more, valued at thousands of dollars. It's a must-have for every student in tech!</p>
+
+                    <h2>Step-by-Step Guide to Apply</h2>
+                    <p>Here’s the exact process I followed to get my pack approved:</p>
+                    <ul>
+                        <li><strong>Step 1: Sign up on GitHub Education:</strong> Go to the official GitHub Education website and start the application process.</li>
+                        <li><strong>Step 2: Upload Proof of Enrollment:</strong> You'll need to provide proof that you are currently a student. I used my college fee receipt, which worked perfectly.</li>
+                        <li><strong>Step 3: Match Your Details:</strong> Make sure the name on your GitHub profile and your billing information matches the name on your student document. This is where most applications get rejected.</li>
+                        <li><strong>Step 4: Wait for Approval:</strong> After submitting, the verification is done manually, so it can take a few hours to a few days. You will receive an approval email once it's done.</li>
+                    </ul>
+
+                    <h2>Common Problems and Solutions</h2>
+                    <p>My first application was rejected because my GitHub profile name didn't match my fee receipt. To fix this, I simply updated my profile name under <code>Settings > Profile</code> and added my full name to the <code>Settings > Billing & plans > Payment information</code> section (no card needed, just the name and address). After doing this, my application was approved quickly!</p>
+                
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', () => {
+                nav.classList.toggle('nav-active');
+                hamburger.classList.toggle('toggle');
+            });
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
