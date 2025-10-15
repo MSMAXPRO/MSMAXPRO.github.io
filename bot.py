@@ -7,11 +7,11 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
 # --- YAHAN APNI TELEGRAM ID DAALO ---
-# Yeh ID @userinfobot se milegi
-ADMIN_ID = 1584806105
+# Yeh ID aapko @userinfobot se milegi
+ADMIN_ID = 1584806105 
 # ------------------------------------
 
-# --- SECRET KEYS (Yeh Render.com se aayengi) ---
+# --- SECRET KEYS (Yeh Railway se aayengi) ---
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 # ------------------------------------
@@ -24,7 +24,8 @@ try:
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel('gemini-pro')
 except Exception as e:
-    logging.error(f"Error configuring Google AI: {e}")
+    # Agar keys set nahi hain, to bot shuru nahi hoga
+    logging.error(f"Error configuring Google AI: {e}. Make sure API keys are set in Railway.")
     exit()
 
 # Logging set up karna
@@ -110,7 +111,6 @@ async def dsa(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = model.generate_content(prompt)
         await update.message.reply_text(response.text)
     except Exception as e:
-        logging.error(f"Error getting DSA problem from AI: {e}")
         await update.message.reply_text("Sorry, I couldn't find a problem right now. Please try again later.")
         
 # /connect command ke liye
