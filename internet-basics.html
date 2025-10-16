@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Basics - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Yeh saare styles aapke baaki pages se same hain */
+        html, body { overflow-x: hidden; }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.8; /* Padhne ke liye thoda zyada line space */
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header { background-color: transparent; padding: 1.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; text-decoration: none; display: flex; align-items: center; z-index: 1000; }
+        .logo img { height: 40px; margin-right: 10px; }
+        .nav-links { list-style: none; margin: 0; padding: 0; display: flex; }
+        .nav-links li { margin-left: 30px; }
+        .nav-links li a { text-decoration: none; color: #cbd5e1; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links li a:hover { color: #7c3aed; }
+        .hamburger { display: none; cursor: pointer; z-index: 1000; }
+        .hamburger div { width: 25px; height: 3px; background-color: #ffffff; margin: 5px; transition: all 0.3s ease; }
+        section { padding: 60px 0; }
+        footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
+        
+        /* Yeh Content Page ke liye naya style hai */
+        .content-header h1 {
+            font-size: 2.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .content-meta {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        .content-body h2 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-top: 40px;
+            text-align: left;
+        }
+        .content-body p, .content-body ul {
+            font-size: 1.1rem;
+        }
+        .content-body code {
+            background-color: #1e293b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        @media (max-width: 768px) { /* Mobile styles */ }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container">
+                <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 1: Internet Basics</h1>
+                        <p class="content-meta">Frontend Developer Roadmap</p>
+                    </div>
+
+                    <h2>Page 1: How Does the Internet Work?</h2>
+                    <p>Before you build websites, it's important to understand the magic behind them. The internet is a giant network of connected computers. When you visit a website, a lot happens in just a few milliseconds.</p>
+                    
+                    <h3>Clients and Servers</h3>
+                    <p>The internet works on a client-server model. Your computer's browser (like Chrome or Firefox) is the **Client**. The computer where the website is stored is the **Server**.</p>
+                    <ul>
+                        <li>The **Client** requests information (e.g., "Give me the homepage of codewithmsmaxpro.me").</li>
+                        <li>The **Server** receives this request, finds the correct files (like `index.html`), and sends them back to the client.</li>
+                    </ul>
+
+                    <h2>IP Addresses and DNS</h2>
+                    <p>Every device on the internet has a unique address called an **IP Address** (e.g., `192.168.1.1`). It's like a phone number for computers. But these numbers are hard to remember.</p>
+                    <p>This is where the **DNS (Domain Name System)** comes in. The DNS is like the internet's phonebook. When you type `codewithmsmaxpro.me` into your browser, the DNS looks up this name and finds the correct IP address for the server where the website is stored. Your browser then sends its request to that IP address.</p>
+
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            </div>
+    </footer>
+    
+    <script>
+        // Hamburger menu ka JavaScript code yahan aayega
+    </script>
+
+</body>
+</html>
