@@ -37,31 +37,24 @@
         
         /* Yeh Content Page ke liye naya style hai */
         .content-header h1 {
-            font-size: 2.8rem;
-            color: #ffffff;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 15px;
+            font-size: 2.8rem; color: #ffffff; font-weight: 700;
+            text-align: center; margin-bottom: 15px;
         }
-        .content-meta {
-            text-align: center;
-            color: #94a3b8;
-            margin-bottom: 40px;
-        }
+        .content-meta { text-align: center; color: #94a3b8; margin-bottom: 40px; }
         .content-body h2 {
-            font-size: 2rem;
-            color: #ffffff;
-            margin-top: 40px;
-            text-align: left;
+            font-size: 2rem; color: #ffffff; margin-top: 50px; text-align: left;
+            border-bottom: 2px solid #38bdf8; padding-bottom: 10px;
         }
-        .content-body p, .content-body ul {
-            font-size: 1.1rem;
+        .content-body h3 {
+            font-size: 1.5rem; color: #e0e0e0; margin-top: 30px;
         }
+        .content-body p, .content-body ul { font-size: 1.1rem; }
+        .content-body ul { padding-left: 25px; }
+        .content-body li { margin-bottom: 10px; }
         .content-body code {
-            background-color: #1e293b;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
+            background-color: #1e293b; padding: 3px 8px;
+            border-radius: 6px; font-family: monospace;
+            border: 1px solid #334155;
         }
 
         @media (max-width: 768px) { /* Mobile styles */ }
@@ -72,7 +65,21 @@
     <header>
         <div class="container">
             <nav>
-                </nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    </div>
+            </nav>
         </div>
     </header>
 
@@ -85,19 +92,64 @@
                         <p class="content-meta">Frontend Developer Roadmap</p>
                     </div>
 
-                    <h2>Page 1: How Does the Internet Work?</h2>
-                    <p>Before you build websites, it's important to understand the magic behind them. The internet is a giant network of connected computers. When you visit a website, a lot happens in just a few milliseconds.</p>
+                    <p>Before you can build for the web, you must first understand the web itself. The internet is not a magical cloud; it's a massive, physical network of connected computers that communicate using a set of standardized rules. Understanding these foundational concepts is the first and most critical step in becoming a competent web developer. This chapter will demystify the core components that make browsing a website possible.</p>
                     
-                    <h3>Clients and Servers</h3>
-                    <p>The internet works on a client-server model. Your computer's browser (like Chrome or Firefox) is the **Client**. The computer where the website is stored is the **Server**.</p>
+                    <h2>How Does the Internet Work? The Client-Server Model</h2>
+                    <p>At its core, the internet operates on a simple but powerful concept: the <strong>client-server model</strong>. Imagine a restaurant. You, the customer, are the <strong>client</strong>. The kitchen, where the food is prepared, is the <strong>server</strong>. You place an order (a request), and the kitchen prepares and sends back your food (a response).</p>
+                    <p>In the digital world:</p>
                     <ul>
-                        <li>The **Client** requests information (e.g., "Give me the homepage of codewithmsmaxpro.me").</li>
-                        <li>The **Server** receives this request, finds the correct files (like `index.html`), and sends them back to the client.</li>
+                        <li><strong>The Client:</strong> This is the device you use to access the internet, such as your laptop or smartphone, and more specifically, the web browser application (like Chrome, Firefox, or Safari) running on that device. The client's job is to <strong>request</strong> information.</li>
+                        <li><strong>The Server:</strong> This is a powerful computer, often stored in a large data center, that is always on and connected to the internet. Its job is to store website files (HTML, CSS, JavaScript, images) and <strong>serve</strong> (send) them to clients when they are requested. Every website you visit lives on a server somewhere in the world.</li>
                     </ul>
-
-                    <h2>IP Addresses and DNS</h2>
-                    <p>Every device on the internet has a unique address called an **IP Address** (e.g., `192.168.1.1`). It's like a phone number for computers. But these numbers are hard to remember.</p>
-                    <p>This is where the **DNS (Domain Name System)** comes in. The DNS is like the internet's phonebook. When you type `codewithmsmaxpro.me` into your browser, the DNS looks up this name and finds the correct IP address for the server where the website is stored. Your browser then sends its request to that IP address.</p>
+                    <p>When you type a website address into your browser and press Enter, you are initiating this process. Your browser (the client) sends a request over the internet to the correct server. The server finds the requested files for that website and sends them back to your browser as a response. Your browser then assembles these files and displays the website on your screen. This entire back-and-forth conversation is known as the <strong>request-response cycle</strong>.</p>
+                    
+                    <h2>IP Addresses & DNS: The Internet's Phonebook</h2>
+                    <p>How does your browser know which server to send the request to? Every device connected to the internet, including servers, has a unique identifier called an <strong>IP (Internet Protocol) Address</strong>. An IP address is a long string of numbers, like <code>172.217.167.78</code>. Think of it as the server's unique phone number.</p>
+                    <p>Memorizing these numbers for every website would be impossible. This is where the <strong>DNS (Domain Name System)</strong> comes in. The DNS is the internet's global phonebook. It translates human-readable <strong>domain names</strong> (like <code>google.com</code>) into computer-readable IP addresses.</p>
+                    <p>Here's the sequence of events:</p>
+                    <ol>
+                        <li>You type <code>google.com</code> into your browser.</li>
+                        <li>Your browser sends a query to a DNS server, asking, "What is the IP address for <code>google.com</code>?"</li>
+                        <li>The DNS server looks up <code>google.com</code> in its directory and finds the corresponding IP address, <code>172.217.167.78</code>.</li>
+                        <li>The DNS server sends this IP address back to your browser.</li>
+                        <li>Now that your browser has the server's "phone number," it can send the request for the website directly to that IP address.</li>
+                    </ol>
+                    <p>This entire DNS lookup process usually takes only a few milliseconds, but it is a fundamental step that happens every time you visit a new website.</p>
+                    
+                    <h2>What is HTTP/HTTPS? The Language of the Web</h2>
+                    <p>Once the client knows the server's address, it needs a standardized language to communicate. This language is <strong>HTTP (Hypertext Transfer Protocol)</strong>. HTTP defines the rules for how requests and responses are structured.</p>
+                    <h3>A client's HTTP request typically includes:</h3>
+                    <ul>
+                        <li><strong>A Method:</strong> The action the client wants to perform. Common methods are <code>GET</code> (to retrieve data) and <code>POST</code> (to submit data).</li>
+                        <li><strong>A Path:</strong> Which specific resource is being requested (e.g., <code>/about.html</code>).</li>
+                        <li><strong>Headers:</strong> Additional information about the request (e.g., what kind of browser is being used).</li>
+                    </ul>
+                    <h3>The server's HTTP response includes:</h3>
+                    <ul>
+                        <li><strong>A Status Code:</strong> A three-digit number indicating the result. You will frequently encounter <code>200 OK</code> (success), <code>404 Not Found</code> (error), and <code>500 Internal Server Error</code>.</li>
+                        <li><strong>Headers:</strong> Additional information about the response.</li>
+                        <li><strong>The Body:</strong> The actual content that was requested (e.g., the HTML code of the webpage).</li>
+                    </ul>
+                    <p>You will also see <strong>HTTPS (Hypertext Transfer Protocol Secure)</strong>. This is simply a secure version of HTTP. When you use HTTPS, the communication between your client and the server is <strong>encrypted</strong>, protecting sensitive information like passwords and credit card numbers.</p>
+                    
+                    <h2>What is a Browser? The Rendering Engine</h2>
+                    <p>A web browser is a complex piece of software whose main job is to take the files sent by a server (HTML, CSS, JavaScript) and render them into a visual, interactive webpage.</p>
+                    <p>When your browser receives these files, it goes through a critical process:</p>
+                    <ol>
+                        <li><strong>Parsing HTML:</strong> The browser reads the HTML to understand the structure and builds a "tree" of elements called the <strong>DOM (Document Object Model)</strong>.</li>
+                        <li><strong>Parsing CSS:</strong> The browser reads the CSS to understand the styling and builds a "tree" of styles called the <strong>CSSOM (CSS Object Model)</strong>.</li>
+                        <li><strong>Creating the Render Tree:</strong> The browser combines the DOM and CSSOM to know what to display on the page with its calculated styles.</li>
+                        <li><strong>Layout:</strong> The browser then calculates the exact size and position of every element on the screen.</li>
+                        <li><strong>Painting:</strong> Finally, the browser takes the render tree and paints the pixels on the screen.</li>
+                    </ol>
+                    
+                    <h2>Domain Names & Hosting: Your Address and Your Land</h2>
+                    <p>To put a website on the internet, you need two things:</p>
+                    <ul>
+                        <li><strong>A Domain Name:</strong> This is your website's unique, human-readable address (e.g., <code>codewithmsmaxpro.me</code>). You register this from a domain registrar.</li>
+                        <li><strong>Hosting:</strong> This is the service that provides the server space where your website's files will be stored. When you buy hosting, you are essentially renting a small piece of a server. Companies like GitHub Pages offer free hosting for developers.</li>
+                    </ul>
+                    <p>When you set up your website, you configure your domain's DNS records to point to your hosting provider's IP address. This is how you connect your custom address to the land where your website lives, making it accessible to the entire world.</p>
 
                 </article>
             </div>
@@ -106,7 +158,8 @@
 
     <footer>
         <div class="container">
-            </div>
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
     </footer>
     
     <script>
