@@ -1,1 +1,150 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Basics - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Yeh saare styles aapke baaki pages se same hain */
+        html, body { overflow-x: hidden; }
+        body {
+            font-family: 'Inter', sans-serif; margin: 0; background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1; line-height: 1.8;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+        header { background-color: transparent; padding: 1.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; text-decoration: none; display: flex; align-items: center; z-index: 1000; }
+        .logo img { height: 40px; margin-right: 10px; }
+        .nav-links { list-style: none; margin: 0; padding: 0; display: flex; }
+        .nav-links li { margin-left: 30px; }
+        .nav-links li a { text-decoration: none; color: #cbd5e1; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links li a:hover { color: #7c3aed; }
+        .hamburger { display: none; } /* Mobile menu styles */
+        section { padding: 60px 0; }
+        footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
+        
+        .content-header h1 {
+            font-size: 2.8rem; color: #ffffff; font-weight: 700;
+            text-align: center; margin-bottom: 15px;
+        }
+        .content-meta { text-align: center; color: #94a3b8; margin-bottom: 40px; }
+        .content-body h2 {
+            font-size: 2rem; color: #ffffff; margin-top: 50px; text-align: left;
+            border-bottom: 2px solid #38bdf8; padding-bottom: 10px;
+        }
+        .content-body h3 { font-size: 1.5rem; color: #e0e0e0; margin-top: 30px; }
+        .content-body p, .content-body ul, .content-body ol { font-size: 1.1rem; }
+        .content-body ul, .content-body ol { padding-left: 25px; }
+        .content-body li { margin-bottom: 10px; }
+        .content-body code {
+            background-color: #1e293b; padding: 3px 8px;
+            border-radius: 6px; font-family: monospace;
+            border: 1px solid #334155;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <div class="hamburger"></div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container">
+                <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 2: HTML - The Structure</h1>
+                        <p class="content-meta">Frontend Developer Roadmap</p>
+                    </div>
+
+                    <h2>What is HTML?</h2>
+                    <p>HTML stands for <strong>Hypertext Markup Language</strong>. It is the standard language used to create and design the content on a web page. Think of it as the skeleton of a house. Just as a skeleton provides the basic structure for a house, HTML provides the basic structure for a website. It tells the browser what content to display and how to organize it—where the headings are, where the paragraphs go, and where to put images.</p>
+
+                    <h2>Basic Structure of an HTML Document</h2>
+                    <p>Every HTML document follows a standard structure. This structure tells the browser that it is reading an HTML file and helps it understand the content correctly.</p>
+                    <pre><code style="display:block; padding: 15px; white-space: pre-wrap;">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Page Title&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;My First Heading&lt;/h1&gt;
+        &lt;p&gt;My first paragraph.&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    <ul>
+                        <li><code>&lt;!DOCTYPE html&gt;</code>: This declaration defines that this document is an HTML5 document.</li>
+                        <li><code>&lt;html&gt;</code>: This is the root element of an HTML page. All other elements go inside it.</li>
+                        <li><code>&lt;head&gt;</code>: This element contains meta-information about the page, such as the title, links to CSS files, and character set. This information is not displayed on the page itself.</li>
+                        <li><code>&lt;title&gt;</code>: This specifies the title for the page, which is shown in the browser's title bar or in the page's tab.</li>
+                        <li><code>&lt;body&gt;</code>: This element contains all the visible content of a webpage, such as headings, paragraphs, images, links, etc.</li>
+                    </ul>
+                    
+                    <h2>Common HTML Tags</h2>
+                    <p>HTML uses "tags" to define different types of content. Most tags come in pairs: an opening tag (e.g., <code>&lt;p&gt;</code>) and a closing tag (e.g., <code>&lt;/p&gt;</code>). Here are some of the most common tags you will use every day:</p>
+                    
+                    <h3>Headings and Paragraphs</h3>
+                    <p>Headings are defined with the <code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code> tags. <code>&lt;h1&gt;</code> defines the most important heading, and <code>&lt;h6&gt;</code> defines the least important. Paragraphs are defined with the <code>&lt;p&gt;</code> tag.</p>
+
+                    <h3>Links (Anchors)</h3>
+                    <p>Links are one of the most important parts of the web. They allow you to navigate from one page to another. The <code>&lt;a&gt;</code> tag (anchor tag) is used to create a link. The destination of the link is specified in the <code>href</code> attribute.</p>
+                    <pre><code style="display:block; padding: 15px;">&lt;a href="https://www.google.com"&gt;Visit Google&lt;/a&gt;</code></pre>
+                    
+                    <h3>Images</h3>
+                    <p>To display an image on a page, you use the <code>&lt;img&gt;</code> tag. This is a self-closing tag and does not have a closing tag. The path to the image is specified in the <code>src</code> attribute, and it's very important to provide an <code>alt</code> attribute, which describes the image for screen readers and if the image fails to load.</p>
+                    <pre><code style="display:block; padding: 15px;">&lt;img src="images/logo.png" alt="Website Logo"&gt;</code></pre>
+
+                    <h3>Lists</h3>
+                    <p>HTML provides two types of lists:</p>
+                    <ul>
+                        <li><strong>Unordered Lists</strong> (<code>&lt;ul&gt;</code>): Used for items where the order doesn't matter. Each list item starts with the <code>&lt;li&gt;</code> tag.</li>
+                        <li><strong>Ordered Lists</strong> (<code>&lt;ol&gt;</code>): Used for items where the order is important. Each list item also starts with the <code>&lt;li&gt;</code> tag.</li>
+                    </ul>
+                    
+                    <h2>Semantic HTML</h2>
+                    <p>As you get more advanced, it's important to use "semantic" HTML. This means using tags that clearly describe their content. For example, instead of using <code>&lt;div&gt;</code> for everything, you should use tags like:</p>
+                    <ul>
+                        <li><code>&lt;header&gt;</code>: For the introductory content or navigation links.</li>
+                        <li><code>&lt;footer&gt;</code>: For the footer section of a page.</li>
+                        <li><code>&lt;nav&gt;</code>: For a set of navigation links.</li>
+                        <li><code>&lt;section&gt;</code>: For a thematic grouping of content.</li>
+                        <li><code>&lt;article&gt;</code>: For self-contained content like a blog post.</li>
+                    </ul>
+                    <p>Using semantic tags makes your code easier to read and improves your website's SEO (Search Engine Optimization), helping search engines like Google understand your content better.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
