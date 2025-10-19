@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
+<<<<<<< HEAD
+    <link rel="stylesheet" href="style.css">
+=======
     <style>
         /* Yeh saare styles aapke baaki pages se same hain */
         html, body { overflow-x: hidden; }
@@ -76,6 +79,7 @@
         }
         .note strong { color: #facc15; }
     </style>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 </head>
 <body>
 
@@ -92,7 +96,15 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
+<<<<<<< HEAD
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+=======
                 <div class="hamburger"></div>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
             </nav>
         </div>
     </header>
@@ -119,7 +131,11 @@
 &lt;head&gt;
     &lt;link rel="stylesheet" href="style.css"&gt;
 &lt;/head&gt;</code></pre>
+<<<<<<< HEAD
+                        <li><strong>Internal Stylesheet:</strong> You can also write CSS directly inside your HTML file using the <code>&lt;style&gt;</code> tag, which is also placed in the <code>&lt;head&gt;</code> section. This is useful for single-page websites or for applying styles that are unique to one specific page.</li>
+=======
                         <li><strong>Internal Stylesheet:</strong> You can also write CSS directly inside your HTML file using the <code>&lt;style&gt;</code> tag, which is also placed in the <code>&lt;head&gt;</code> section. This is useful for single-page websites or for applying styles that are unique to one specific page. For this project, we are temporarily using this method for simplicity.</li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 <pre><code>&lt;!-- In your HTML file --&gt;
 &lt;head&gt;
     &lt;style&gt;
@@ -131,14 +147,21 @@
         }
     &lt;/style&gt;
 &lt;/head&gt;</code></pre>
+<<<<<<< HEAD
+                        <li><strong>Inline Styles:</strong> This method applies styles directly to a specific HTML element using the <code>style</code> attribute. It is generally considered bad practice because it mixes content and presentation, making maintenance very difficult.</li>
+=======
                         <li><strong>Inline Styles:</strong> This method applies styles directly to a specific HTML element using the <code>style</code> attribute. It is generally considered bad practice because it mixes content and presentation, making maintenance very difficult. It should only be used in rare, specific situations where a single, dynamic style needs to be applied.</li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 <pre><code>&lt;!-- In your HTML file --&gt;
 &lt;p style="color: red; font-size: 20px;"&gt;This is a red paragraph.&lt;/p&gt;</code></pre>
                     </ol>
                     
                     <h3>The Anatomy of a CSS Rule</h3>
                     <p>A CSS stylesheet is composed of a series of rules. Each rule targets one or more HTML elements and applies a set of styles to them. Understanding this syntax is fundamental.</p>
+<<<<<<< HEAD
+=======
                     <p>A CSS rule consists of two main parts: a <strong>selector</strong> and a <strong>declaration block</strong>.</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     <pre><code>/* Selector   Declaration Block */
 /* |         /---------------\ */
       h1 {
@@ -150,9 +173,15 @@
 /* Declaration         */
       }</code></pre>
                     <ul>
+<<<<<<< HEAD
+                        <li><strong>Selector:</strong> This points to the HTML element(s) you want to style.</li>
+                        <li><strong>Declaration Block:</strong> This is enclosed in curly braces <code>{...}</code> and contains one or more declarations.</li>
+                        <li><strong>Declaration:</strong> This is a single rule composed of a CSS <strong>property</strong> and its <strong>value</strong>, separated by a colon (<code>:</code>) and ending with a semicolon (<code>;</code>).</li>
+=======
                         <li><strong>Selector:</strong> This points to the HTML element(s) you want to style. In the example above, <code>h1</code> is the selector.</li>
                         <li><strong>Declaration Block:</strong> This is enclosed in curly braces <code>{...}</code> and contains one or more declarations.</li>
                         <li><strong>Declaration:</strong> This is a single rule composed of a CSS <strong>property</strong> and its <strong>value</strong>, separated by a colon (<code>:</code>) and ending with a semicolon (<code>;</code>). The semicolon is crucial as it separates one declaration from the next.</li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     </ul>
 
                     <h3>Mastering Selectors: How to Target Anything</h3>
@@ -160,6 +189,21 @@
                     
                     <h4>Basic Selectors</h4>
                     <ul>
+<<<<<<< HEAD
+                        <li><strong>Element Selector:</strong> <code>p { ... }</code></li>
+                        <li><strong>Class Selector:</strong> <code>.highlight { ... }</code></li>
+                        <li><strong>ID Selector:</strong> <code>#main-header { ... }</code></li>
+                        <li><strong>Universal Selector:</strong> <code>* { ... }</code></li>
+                        <li><strong>Grouping Selector:</strong> <code>h1, h2, h3 { ... }</code></li>
+                    </ul>
+
+                    <h4>Combinator Selectors</h4>
+                    <ul>
+                        <li><strong>Descendant Selector (space):</strong> <code>nav a { ... }</code></li>
+                        <li><strong>Child Selector (>):</strong> <code>ul > li { ... }</code></li>
+                        <li><strong>Adjacent Sibling Selector (+):</strong> <code>h2 + p { ... }</code></li>
+                        <li><strong>General Sibling Selector (~):</strong> <code>h2 ~ p { ... }</code></li>
+=======
                         <li><strong>Element Selector:</strong> Targets all instances of an HTML element.
                             <br><code>p { ... } /* Selects all &lt;p&gt; tags */</code></li>
                         <li><strong>Class Selector:</strong> Targets all elements with a specific <code>class</code> attribute. This is the most versatile and commonly used selector. It is prefixed with a dot (<code>.</code>).
@@ -183,11 +227,126 @@
                             <br><code>h2 + p { ... } /* Selects the first &lt;p&gt; tag that comes right after an &lt;h2&gt; */</code></li>
                         <li><strong>General Sibling Selector (~):</strong> Selects all elements that are siblings of a specified element (they follow it and share the same parent).
                             <br><code>h2 ~ p { ... } /* Selects all &lt;p&gt; tags that follow an &lt;h2&gt; at the same level */</code></li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     </ul>
                     
                     <h3>The Cascade, Specificity, and Inheritance: The Rules of CSS</h3>
                     <p>Sometimes, multiple CSS rules might apply to the same element. How does the browser decide which one wins? This is governed by three core concepts: the Cascade, Specificity, and Inheritance.</p>
                     
+<<<<<<< HEAD
+                    <h4>Specificity</h4>
+                    <p>Specificity is a weight or score that a selector has. The browser calculates this score to decide which rule to apply.</p>
+                    <ul>
+                        <li><strong>Inline Styles</strong>: 1000 points.</li>
+                        <li><strong>IDs</strong>: 100 points.</li>
+                        <li><strong>Classes, Pseudo-classes, Attribute selectors</strong>: 10 points each.</li>
+                        <li><strong>Elements, Pseudo-elements</strong>: 1 point each.</li>
+                    </ul>
+                    
+                    <h4>Inheritance</h4>
+                    <p>Some CSS properties, when applied to a parent element, are passed down or "inherited" by its child elements (e.g., <code>color</code>, <code>font-family</code>). Properties related to layout, like <code>margin</code>, <code>padding</code>, and <code>border</code>, are generally not inherited.</p>
+
+                    <div class="note">
+                        <strong>Pro Tip:</strong> Understanding Specificity is a developer superpower. When a style isn't applying as you expect, the cause is almost always a more specific rule overriding it.
+                    </div>
+
+                    <h2>Section 2: The Visual Building Blocks</h2>
+                    
+                    <h3>The Box Model: The Foundation of All Layout</h3>
+                    <p>Every single element on a web page can be thought of as a rectangular box. The CSS Box Model describes how this box is structured. It consists of four parts, from the inside out: <strong>Content</strong>, <strong>Padding</strong>, <strong>Border</strong>, and <strong>Margin</strong>.</p>
+                    
+<pre><code>.box {
+    width: 300px;
+    height: 150px;
+    padding: 20px; /* Space inside the border */
+    border: 2px solid #38bdf8;
+    margin: 40px; /* Space outside the border */
+}</code></pre>
+                    <p>By default, the <code>width</code> and <code>height</code> you set apply only to the content area. To simplify this, we use the universal rule: <code>* { box-sizing: border-box; }</code>. This makes the <code>width</code> you set the *total* width of the box, including padding and border.</p>
+
+                    <h3>Colors and Backgrounds</h3>
+                    <ul>
+                        <li><code>color</code>: Sets the color of the text.</li>
+                        <li><code>background-color</code>: Sets the background color of the element.</li>
+                        <li><code>background-image</code>: Sets an image as the background.</li>
+                    </ul>
+
+                    <h3>Typography: Styling Text</h3>
+                    <ul>
+                        <li><code>font-family</code>: Sets the typeface (e.g., 'Inter', Arial, sans-serif).</li>
+                        <li><code>font-size</code>: Sets the size of the text (e.g., <code>16px</code> or <code>1rem</code>).</li>
+                        <li><code>font-weight</code>: Sets the thickness of the font (e.g., <code>normal</code>, <code>bold</code>).</li>
+                        <li><code>line-height</code>: Sets the vertical space between lines of text.</li>
+                        <li><code>text-align</code>: Aligns text horizontally (<code>left</code>, <code>right</code>, <code>center</code>).</li>
+                    </ul>
+
+                    <h2>Section 3: Modern CSS Layouts</h2>
+                    <p>This is where the magic happens. With modern tools like Flexbox and Grid, we can create any layout imaginable with ease.</p>
+
+                    <h3>Flexbox: One-Dimensional Layouts</h3>
+                    <p>The **Flexbox** is a layout model designed for arranging items in a single dimension—either in a row or in a column. It is perfect for navigation bars, card components, and aligning items.</p>
+                    <p>To use Flexbox, you define a flex container by setting <code>display: flex;</code>.</p>
+<pre><code>.container {
+    display: flex;
+    justify-content: center; /* Aligns items horizontally */
+    align-items: center; /* Aligns items vertically */
+    flex-direction: row; /* Can be 'row' or 'column' */
+}</code></pre>
+                    
+                    <h3>CSS Grid: Two-Dimensional Layouts</h3>
+                    <p>While Flexbox is great for one dimension, **CSS Grid** is a layout model designed for two dimensions—rows and columns simultaneously. It is the most powerful layout system in CSS.</p>
+                    <p>You create a grid container by setting <code>display: grid;</code>.</p>
+<pre><code>.grid-container {
+    display: grid;
+    /* Creates a three-column grid */
+    grid-template-columns: 1fr 1fr 1fr;
+    /* Creates space between items */
+    gap: 20px;
+}</code></pre>
+
+                    <div class="note">
+                        <strong>Flexbox vs. Grid:</strong> Don't think of it as a choice between one or the other. Professional developers use them **together**. Use Grid for the main page layout and Flexbox inside those sections to align smaller components.
+                    </div>
+
+                    <h2>Section 4: Responsive Design and Advanced Techniques</h2>
+                    <p>A modern website must look great on all devices, from small mobile phones to large desktop monitors. This is called **Responsive Web Design**.</p>
+
+                    <h3>Media Queries: The Core of Responsiveness</h3>
+                    <p>Media Queries are a feature of CSS that allows you to apply styles only when certain conditions are met, most commonly the viewport width.</p>
+<pre><code>/* Default styles (Mobile-First) */
+.container {
+    width: 90%;
+}
+
+/* Styles for screens 768px wide or wider (tablets and up) */
+@media (min-width: 768px) {
+    .container {
+        width: 80%;
+    }
+}</code></pre>
+
+                    <h3>Positioning Elements</h3>
+                    <p>The <code>position</code> property controls how an element is placed. Common values are <code>static</code> (default), <code>relative</code>, <code>absolute</code> (relative to its parent), and <code>fixed</code> (relative to the window).</p>
+                    
+                    <h3>Transitions and Simple Animations</h3>
+                    <p>CSS allows you to add smooth visual effects to your website.</p>
+<pre><code>.btn {
+    background-color: #8b5cf6;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #7c3aed;
+}</code></pre>
+                    
+                    <h2>Conclusion: Your Journey with CSS Has Just Begun</h2>
+                    <p>We have covered an enormous amount of ground. From the fundamental rules of the cascade to the powerful layout systems of Flexbox and Grid, you now possess the core knowledge required to style any website. The key to mastery is practice. Take the concepts you've learned here and start building!</p>
+
+                </article>
+            </div>
+        </section>
+    </main>
+=======
                     <h4>The Cascade</h4>
                     <p>The "C" in CSS stands for Cascading. The cascade algorithm determines which styles are applied to an element. It considers three factors in order:</p>
                     <ol>
@@ -264,6 +423,7 @@
                         <li><code>text-align</code>: Aligns text horizontally (<code>left</code>, <code>right</code>, <code>center</code>, <code>justify</code>).</li>
                         <li><code>text-decoration</code>: Adds decorations like <code>underline</code>, <code>overline</code>. Often used to rem
                             </main>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
     <footer>
         <div class="container">
@@ -271,5 +431,11 @@
         </div>
     </footer>
     
+<<<<<<< HEAD
+    <script src="app.js"></script>
+</body>
+</html>
+=======
     </body>
 </html>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b

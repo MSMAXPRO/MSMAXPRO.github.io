@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Basics (MongoDB) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css"> 
+    
+    </head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container"> <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 3: Databases (<span class="highlight">MongoDB</span> Basics)</h1>
+                        <p class="content-meta">Backend Developer Roadmap</p>
+                    </div>
+
+                    <p>Our Express server can now send "Hello World" and even basic JSON data. But there's a problem: every time we stop and restart the server, all our data is lost! We need a way to store information **permanently**. This is where databases come in.</p>
+                    <p>A **database** is an organized collection of data, stored electronically. Think of it as a super-smart filing cabinet for your application's information (like user accounts, blog posts, product details, etc.). Your backend server (Node.js/Express) will talk to the database to save new data, retrieve existing data, update it, or delete it.</p>
+
+                    <h2>SQL vs. NoSQL: Two Ways to Organize Data</h2>
+                    <p>Databases generally fall into two main categories:</p>
+                    
+                    <h3>1. SQL (Relational Databases)</h3>
+                    <ul>
+                        <li><strong>Stands for:</strong> Structured Query Language.</li>
+                        <li><strong>Examples:</strong> PostgreSQL, MySQL, SQLite.</li>
+                        <li><strong>How it works:</strong> Data is stored in **tables** with predefined **columns** and **rows**.</li>
+                        <li><strong>Pros:</strong> Mature, reliable, great for complex relationships.</li>
+                        <li><strong>Cons:</strong> Can be less flexible if your data structure changes often.</li>
+                    </ul>
+
+                    <h3>2. NoSQL (Non-Relational Databases)</h3>
+                    <ul>
+                        <li><strong>Stands for:</strong> Not Only SQL.</li>
+                        <li><strong>Examples:</strong> MongoDB (Document), Redis (Key-Value).</li>
+                        <li><strong>How it works:</strong> Data storage is more flexible. MongoDB stores data in **collections** of **documents** (like JSON objects).</li>
+                        <li><strong>Pros:</strong> Flexible, easy to scale, works well with JavaScript.</li>
+                        <li><strong>Cons:</strong> Doesn't enforce relationships as strictly.</li>
+                    </ul>
+                    
+                    <div class="note">
+                        <strong>Which one to choose?</strong> For modern web apps with JavaScript, **NoSQL databases like MongoDB** are often preferred. That's what we'll focus on.
+                    </div>
+
+                    <h2>Introducing MongoDB & Mongoose 🍃</h2>
+                    
+                    <h3>What is MongoDB?</h3>
+                    <p>MongoDB is the most popular NoSQL **document database**. It stores data in flexible, JSON-like documents called BSON.</p>
+                    <ul>
+                        <li>**Databases:** Containers for collections.</li>
+                        <li>**Collections:** Groups of documents (like tables).</li>
+                        <li>**Documents:** Individual records (like JS objects).</li>
+                    </ul>
+
+                    <h3>What is Mongoose?</h3>
+                    <p>**Mongoose** is an **ODM (Object Data Modeling)** library for MongoDB and Node.js. It makes working with MongoDB much easier.</p>
+                    <p>Mongoose provides:</p>
+                    <ul>
+                        <li>**Schema Definition:** Lets you define a structure for your documents.</li>
+                        <li>**Models:** Tools built from Schemas to easily create, read, update, and delete (CRUD) documents.</li>
+                    </ul>
+
+                    <h2>Setting Up MongoDB & Connecting with Mongoose</h2>
+                    
+                    <h3>Step 1: Get a MongoDB Database</h3>
+                    <p>Use **MongoDB Atlas**, their cloud database service (offers a **free tier**).</p>
+                    
+                    <h4>How to Perform (MongoDB Atlas):</h4>
+                    <ol>
+                        <li>Go to <a href="https://www.mongodb.com/cloud/atlas" target="_blank">MongoDB Atlas</a> and sign up.</li>
+                        <li>Create a new **Free Tier Cluster**.</li>
+                        <li>**Create a Database User** (remember username/password).</li>
+                        <li>**Whitelist Your IP Address** (or `0.0.0.0/0` for development only).</li>
+                        <li>Click "Connect" -> "Connect your application" -> Choose "Node.js".</li>
+                        <li>**Copy the Connection String**. Replace placeholders with your credentials.</li>
+                    </ol>
+
+                    <h3>Step 2: Install Mongoose</h3>
+                    <p>In your Node.js project folder, install the Mongoose package.</p>
+                    <h4>How to Perform:</h4>
+<pre><code>npm install mongoose
+</code></pre>
+
+                    <h3>Step 3: Connect in Your `server.js`</h3>
+                    <p>Modify `server.js` to connect to the database.</p>
+                    <h4>How to Perform (Update `server.js`):</h4>
+<pre><code class="language-javascript">const express = require('express');
+const mongoose = require('mongoose'); // 1. Import mongoose
+
+const app = express();
+const PORT = 3000;
+
+// 2. Define your MongoDB Connection String (Replace!)
+const MONGO_URI = 'mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@yourcluster.mongodb.net/YOUR_DB_NAME?retryWrites=true&w=majority';
+
+// 3. Connect to MongoDB using Mongoose
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    console.log('MongoDB Connected Successfully! ✅');
+    // Start the server ONLY after successful DB connection
+    app.listen(PORT, () => {
+      console.log(`Server listening on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('MongoDB Connection Error: ❌', error);
+    process.exit(1); 
+  });
+
+// --- Your Routes Will Go Here Later ---
+app.get('/', (req, res) => {
+  res.send('Hello World! Connected to DB (Check Console)!'); 
+});
+
+// Note: app.listen moved inside .then()
+</code></pre>
+
+                    <h2>Defining Structure: Schemas & Models</h2>
+                    
+                    <h3>Schema: The Blueprint 📜</h3>
+                    <p>A Mongoose **Schema** defines the structure of documents within a collection (fields, data types, validation rules).</p>
+                    <h4>How to Perform (Define a User Schema):</h4>
+<pre><code class="language-javascript">// --- Add this after the mongoose.connect() part ---
+
+// 4. Define a Schema (Blueprint) for Users
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  email: { type: String, required: true, unique: true },
+  age: { type: Number, min: 13 },
+  createdAt: { type: Date, default: Date.now }
+});
+</code></pre>
+
+                    <h3>Model: The Working Tool 🛠️</h3>
+                    <p>A Mongoose **Model** provides the interface for CRUD operations on the collection.</p>
+                    <h4>How to Perform (Create a User Model):</h4>
+<pre><code class="language-javascript">// 5. Create a Model from the Schema
+// Mongoose uses 'User' to find the 'users' collection
+const User = mongoose.model('User', userSchema);
+</code></pre>
+
+                    <h2>CRUD Operations with Mongoose</h2>
+                    <p>CRUD stands for **Create, Read, Update, Delete**.</p>
+                    
+                    <h3>1. Create (Saving a new document)</h3>
+                    <h4>How to Perform (Example Route):</h4>
+<pre><code class="language-javascript">// Add Express middleware to parse JSON bodies
+app.use(express.json()); // Important for POST/PUT requests!
+
+// --- Add these routes after creating the User model ---
+
+// CREATE a new user (usually via a POST request)
+app.post('/users', async (req, res) => {
+  try {
+    const newUser = new User(req.body); // Create instance from request body
+    const savedUser = await newUser.save(); // Save to DB
+    res.status(201).json(savedUser); // Send back created user
+  } catch (error) {
+    res.status(400).json({ message: error.message }); 
+  }
+});
+</code></pre>
+
+                    <h3>2. Read (Finding documents)</h3>
+                    <h4>How to Perform (Example Routes):</h4>
+<pre><code class="language-javascript">// READ all users
+app.get('/users', async (req, res) => {
+  try {
+    const users = await User.find(); // Find all documents
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// READ one user by ID
+app.get('/users/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id); // Find by ID from URL
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+</code></pre>
+
+                    <h3>3. Update (Modifying a document)</h3>
+                    <h4>How to Perform (Example Route):</h4>
+<pre><code class="language-javascript">// UPDATE a user by ID (usually via PATCH)
+app.patch('/users/:id', async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id, 
+      req.body, 
+      { new: true, runValidators: true } // Options: return updated doc, run validation
+    );
+     if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+    res.json(updatedUser);
+  } catch (error) {
+    res.status(400).json({ message: error.message }); 
+  }
+});
+</code></pre>
+
+                    <h3>4. Delete (Removing a document)</h3>
+                    <h4>How to Perform (Example Route):</h4>
+<pre><code class="language-javascript">// DELETE a user by ID
+app.delete('/users/:id', async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+     if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+</code></pre>
+
+                    <h2>Conclusion: Your Data Has a Home! 🏠</h2>
+                    <p>You've now learned how to connect your Node.js/Express backend to a MongoDB database using Mongoose. You understand Schemas, Models, and how to perform basic CRUD operations. Your backend can now remember data permanently! The next steps involve learning more advanced Mongoose queries and building robust APIs.</p>
+
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="app.js"></script> 
+    </body>
+</html>

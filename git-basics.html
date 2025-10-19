@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
+<<<<<<< HEAD
+    <link rel="stylesheet" href="style.css">
+=======
     <style>
         /* --- General Styles (Same as other pages) --- */
         html, body { overflow-x: hidden; }
@@ -78,6 +81,7 @@
         }
         .note strong { color: #facc15; }
     </style>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 </head>
 <body>
 
@@ -94,7 +98,15 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
+<<<<<<< HEAD
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+=======
                 <div class="hamburger"></div>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
             </nav>
         </div>
     </header>
@@ -104,13 +116,61 @@
             <div class="container">
                 <article class="content-body">
                     <div class="content-header">
+<<<<<<< HEAD
+                        <h1>Chapter 6: Version Control with <span class="git-highlight">Git</span></h1>
+=======
                         <h1>Chapter 6: Version Control with <span class="highlight">Git</span></h1>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                         <p class="content-meta">Frontend Developer Roadmap</p>
                     </div>
 
                     <p>Welcome to the final chapter of the foundational roadmap! You've learned how to build a complete, interactive website. Now, it's time to learn how to manage your code like a professional. This is where **Version Control** comes in.</p>
                     
                     <h2>What is Version Control? (And Why Do I Need It?)</h2>
+<<<<<<< HEAD
+                    <p>Imagine you're working on your website. You change 3 files... and suddenly, the entire website breaks. You don't remember what you changed. Version Control is a system that records changes to files over time so that you can recall specific versions later. It's like a "time machine" for your code.</p>
+                    
+                    <div class="note">
+                        <strong>Analogy:</strong>
+                        <br><strong>Without Git:</strong> You save files like `project_final.zip`, `project_REALLY_final.zip`. This is messy.
+                        <br><strong>With Git:</strong> You have one project folder. Git automatically saves "snapshots" (called commits) of your project.
+                    </div>
+
+                    <h2>Git vs. GitHub: What's the Difference?</h2>
+                    <ul>
+                        <li><strong>Git:</strong> This is the *software* on your computer. It's the "time machine" that tracks your files.</li>
+                        <li><strong>GitHub:</strong> This is a *website* (a cloud service). It's a place to store your Git projects (called repositories or "repos") online. It's like a "Google Drive for your code."</li>
+                    </ul>
+                    <p>You use **Git** on your computer, and then you "push" your project to **GitHub** to back it up.</p>
+
+                    <h2>Core Concept #1: The Basic Workflow (The 3 Stages)</h2>
+                    <p>Git has a three-stage process:</p>
+                    <ol>
+                        <li><strong>Working Directory:</strong> Your project folder where you edit files.</li>
+                        <li><strong>Staging Area (Index):</strong> Your "shopping cart." You put the files you want to save in here.</li>
+                        <li><strong>Repository (`.git` folder):</strong> The "checkout counter." When you "commit," you permanently save everything in your cart as a snapshot.</li>
+                    </ol>
+
+                    <h2>Core Concept #2: The 5 Basic Commands</h2>
+                    <p>You'll use these 5 commands 90% of the time in your terminal.</p>
+                    
+                    <h3>1. `git init`</h3>
+                    <p>Turns your project folder into a Git repository. You only run this **once** per project.</p>
+<pre><code>git init
+</code></pre>
+
+                    <h3>2. `git status`</h3>
+                    <p>Your best friend. It *tells you* the current status: which files are changed, staged, etc.</p>
+<pre><code>git status
+</code></pre>
+
+                    <h3>3. `git add <file>`</h3>
+                    <p>Moves a file from the Working Directory to the Staging Area (puts it in your cart).</p>
+<pre><code># Add just one file
+git add index.html
+
+# A common shortcut to add ALL changed files
+=======
                     <p>Imagine you're working on your website. You decide to add a new feature. You change 3 files... and suddenly, the entire website breaks. You don't remember what you changed. What do you do? Panic?</p>
                     <p>Version Control is a system that records changes to a file or set of files over time so that you can recall specific versions later. It's like a "time machine" for your code.</p>
                     <ul>
@@ -170,10 +230,30 @@ git status
 git add index.html
 
 # A common shortcut to add ALL changed files to the cart
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 git add .
 </code></pre>
 
                     <h3>4. `git commit -m "Your Message"`</h3>
+<<<<<<< HEAD
+                    <p>The "save" button. It takes *everything* in your Staging Area and saves it as a snapshot. The `-m` flag is for the required "message."</p>
+<pre><code>git commit -m "Created the basic HTML for homepage"
+</code></pre>
+
+                    <h3>5. `git push`</h3>
+                    <p>This uploads your local commits from your computer to a remote server like **GitHub**.</p>
+<pre><code>git push origin main
+</code></pre>
+                    
+                    <h2>Core Concept #3: Branches (Working in Parallel)</h2>
+                    <p>What if you want to try a new feature without breaking your main, working website? You use **branches**. A branch is like making a *copy* of your project.</p>
+                    <p>By default, you are on the `main` branch. You can create a new branch (`new-feature`), work on it, and if it works, **merge** it back into `main`. If it fails, you just delete the branch.</p>
+
+<pre><code># Create a new branch AND switch to it
+git checkout -b new-feature
+
+# ... (do your work, add, commit) ...
+=======
                     <p>This is the "save" button. It takes *everything* in your Staging Area (your cart) and saves it as a permanent snapshot in your Repository. The `-m` flag stands for "message." Every commit *must* have a message explaining what you did.</p>
 <pre><code># Save the staged files with a clear message
 git commit -m "Created the basic HTML structure for homepage"
@@ -203,6 +283,7 @@ git checkout -b new-feature
 
 # ... (Now you do your work: add, commit, etc.) ...
 # ... (When you're done and happy with it) ...
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
 # Switch back to the main branch
 git checkout main
@@ -212,6 +293,17 @@ git merge new-feature
 </code></pre>
 
                     <h2>Conclusion: Your New Workflow</h2>
+<<<<<<< HEAD
+                    <p>Your new workflow for *any* project should be:</p>
+                    <ol>
+                        <li>**Initialize:** `git init` (once).</li>
+                        <li>**Work:** Change your code.</li>
+                        <li>**Stage:** `git add .`</li>
+                        <li>**Commit:** `git commit -m "Made some changes"`</li>
+                        <li>**Push:** `git push origin main` (to back it up).</li>
+                    </ol>
+                    <p>Congratulations on completing the foundational roadmap. You now have the skills to not only build modern websites but to manage them professionally.</p>
+=======
                     <p>This is just the beginning of your journey with Git, but you now know the most important concepts. Your new workflow for *any* project should be:</p>
                     <ol>
                         <li>**Initialize:** `git init` (only once).</li>
@@ -221,6 +313,7 @@ git merge new-feature
                         <li>**Push:** `git push origin main` (upload your saves to GitHub).</li>
                     </ol>
                     <p>Congratulations on completing the foundational roadmap. You now have the skills to not only build modern websites but to manage them professionally. The next step is to practice these skills by building as many projects as you can!</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
                 </article>
             </div>
@@ -233,5 +326,11 @@ git merge new-feature
         </div>
     </footer>
     
+<<<<<<< HEAD
+    <script src="app.js"></script>
+</body>
+</html>
+=======
     </body>
 </html>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b

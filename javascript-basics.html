@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
+<<<<<<< HEAD
+    <link rel="stylesheet" href="style.css">
+=======
     <style>
         /* --- General Styles (Same as other pages) --- */
         html, body { overflow-x: hidden; }
@@ -76,6 +79,7 @@
         }
         .note strong { color: #facc15; }
     </style>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 </head>
 <body>
 
@@ -92,7 +96,15 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
+<<<<<<< HEAD
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+=======
                 <div class="hamburger"></div>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
             </nav>
         </div>
     </header>
@@ -102,7 +114,11 @@
             <div class="container">
                 <article class="content-body">
                     <div class="content-header">
+<<<<<<< HEAD
+                        <h1>Chapter 4: JavaScript - The <span class="js-highlight">Logic</span> of the Web</h1>
+=======
                         <h1>Chapter 4: JavaScript - The <span class="highlight">Logic</span> of the Web</h1>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                         <p class="content-meta">Frontend Developer Roadmap</p>
                     </div>
 
@@ -121,6 +137,19 @@
                     <h3>How to Add JavaScript</h3>
                     <p>Like CSS, there are three ways to add JS, but only one is the best practice.</p>
                     <ol>
+<<<<<<< HEAD
+                        <li><strong>External JavaScript (Best Practice):</strong> We write all JS code in a separate file (e.g., <code>app.js</code>) and link it to the HTML. This uses the <code>&lt;script&gt;</code> tag and should always be placed right *before* the closing <code>&lt;/body&gt;</code> tag.</li>
+<pre><code>&lt;!-- In your HTML file --&gt;
+    &lt;script src="app.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                        <li><strong>Internal JavaScript:</strong> You can write JS code directly inside a <code>&lt;script&gt;</code> tag, usually right before the <code>&lt;/body&gt;</code> tag. This is okay for small scripts or testing.</li>
+                        <li><strong>Inline JavaScript:</strong> This writes code directly in HTML attributes (like `onclick`). This is considered bad practice.</li>
+                    </ol>
+
+                    <h3>Variables: Storing Data</h3>
+                    <p>Variables are like containers for storing data. In JavaScript, we use <code>let</code> and <code>const</code>.</p>
+=======
                         <li><strong>External JavaScript (Best Practice):</strong> We write all JS code in a separate file (e.g., <code>script.js</code>) and link it to the HTML. This uses the <code>&lt;script&gt;</code> tag and should always be placed right *before* the closing <code>&lt;/body&gt;</code> tag. This lets the page load first, so the user doesn't have to wait.</li>
 <pre><code>&lt;!-- In your HTML file --&gt;
     &lt;script src="script.js"&gt;&lt;/script&gt;
@@ -149,6 +178,7 @@
 
                     <h3>Variables: Storing Data</h3>
                     <p>Variables are like containers for storing data. In JavaScript, we use the <code>let</code> and <code>const</code> keywords to declare variables.</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     <ul>
                         <li><code>let</code>: Use this when the value of the variable *might change later*.</li>
                         <li><code>const</code>: Use this when the value will be *constant* (fixed) and will not change.</li>
@@ -158,6 +188,25 @@ score = 15; // This is perfectly fine (using let)
 
 const name = "MSMAXPRO";
 // name = "Code"; // This will cause an error (using const)
+<<<<<<< HEAD
+</code></pre>
+                    
+                    <h3>Data Types</h3>
+                    <p>Variables can store different types of data. Common types include:</p>
+                    <ul>
+                        <li><strong>String:</strong> Text data, always inside quotes (<code>"Hello"</code>).</li>
+                        <li><strong>Number:</strong> Numbers (<code>25</code> or <code>10.5</code>).</li>
+                        <li><strong>Boolean:</strong> Can only be <code>true</code> or <code>false</code>. Used for logic.</li>
+                        <li><strong>Array:</strong> A list of data (<code>["Apple", "Banana"]</code>).</li>
+                        <li><strong>Object:</strong> A collection of related data (<code>{name: "MSMAX", age: 20}</code>).</li>
+                    </ul>
+
+                    <h3>Operators</h3>
+                    <p>Operators perform actions on data. Common operators are <code>+</code> (Add), <code>=</code> (Assignment), <code>===</code> (Strict equal to), and <code>&&</code> (Logical AND).</p>
+
+                    <h2>Section 2: Controlling the Flow</h2>
+                    
+=======
 
 console.log(score);
 console.log(name);
@@ -195,19 +244,28 @@ console.log(name);
                     <h2>Section 2: Controlling the Flow</h2>
                     <p>A program doesn't always run straight through. We use conditions and loops to control its flow.</p>
 
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     <h3>Conditional Statements (if/else)</h3>
                     <p><code>if</code> statements are used to check if a condition is `true`. If it is, run a block of code.</p>
 <pre><code>let age = 19;
 
 if (age > 18) {
     console.log("You can vote.");
+<<<<<<< HEAD
+=======
 } else if (age === 18) {
     console.log("You just turned 18, you can vote!");
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 } else {
     console.log("You cannot vote yet.");
 }
 // Output: You can vote.
 </code></pre>
+<<<<<<< HEAD
+
+                    <h3>Loops: Repeating Actions</h3>
+                    <p>Loops are used to do the same task over and over again.</p>
+=======
                     <p>Modern JS also has a **Ternary Operator**, which is a shortcut for `if/else`:</p>
 <pre><code>let message = (age >= 18) ? "Can vote" : "Cannot vote";
 console.log(message);
@@ -217,11 +275,19 @@ console.log(message);
                     <p>Loops are used to do the same task over and over again.</p>
                     <ul>
                         <li><strong>For Loop:</strong> Use this when you know exactly how many times you want the loop to run.</li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 <pre><code>// Will print 1 through 5
 for (let i = 1; i <= 5; i++) {
     console.log(i);
 }
 </code></pre>
+<<<<<<< HEAD
+
+                    <h2>Section 3: Functions - The Reusable Blocks</h2>
+                    <p>A function is a reusable block of code that you give a name to, and you can run it ("call" it) later.</p>
+                    
+                    <h3>1. How to Define a Function</h3>
+=======
                         <li><strong>While Loop:</strong> Use this when you don't know how many times it will run, only when it should stop.</li>
 <pre><code>let count = 1;
 while (count <= 5) {
@@ -237,6 +303,7 @@ while (count <= 5) {
                     <h3>1. How to Define a Function (Creating the recipe)</h3>
                     <p>Think of a function as a "recipe." You write it down first.</p>
                     <p>This is called a "Function Declaration." We use the <code>function</code> keyword, give it a name (e.g., `greet`), and add parentheses <code>()</code>. Inside the parentheses, we can define "parameters"—these are the values the function needs to do its job (like ingredients in a recipe).</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 <pre><code>// FUNCTION DEFINITION
 // 'name' here is a parameter
 function greet(name) {
@@ -244,6 +311,19 @@ function greet(name) {
     return message;
 }
 </code></pre>
+<<<<<<< HEAD
+
+                    <h3>2. How to Apply a Function</h3>
+<pre><code>// FUNCTION APPLICATION (CALLING)
+// "MSMAXPRO" here is an argument
+let welcomeMessage = greet("MSMAXPRO");
+console.log(welcomeMessage); 
+// Output: Hello, MSMAXPRO! Welcome to our website.
+</code></pre>
+                    
+                    <h2>Section 5: The Magic - JavaScript and the DOM</h2>
+                    <p>This is the most powerful part of JavaScript. The **DOM (Document Object Model)** is a live, tree-like representation of your HTML document. JavaScript can use the DOM to change *anything* on the page.</p>
+=======
                     <p>The <code>return</code> keyword specifies what value the function will send back after it's done.</p>
 
                     <h3>2. How to Apply a Function (Using the recipe)</h3>
@@ -305,27 +385,47 @@ user.sayHello(); // Output: Hello!
 
                     <h2>Section 5: The Magic - JavaScript and the DOM</h2>
                     <p>This is the most powerful part of JavaScript. The **DOM (Document Object Model)** is a live, tree-like representation of your HTML document. JavaScript can use the DOM to change *anything* on the page: content, styles, structure—everything!</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
                     <h3>How to Select HTML Elements</h3>
                     <p>To change an HTML element, you must first select it.</p>
                     <ul>
                         <li><code>getElementById('id')</code>: Selects one specific element by its ID.</li>
+<<<<<<< HEAD
+                        <li><code>querySelector('selector')</code>: Uses any CSS selector to select the *first* matching element.</li>
+                        <li><code>querySelectorAll('selector')</code>: Selects *all* matching elements.</li>
+=======
                         <li><code>querySelector('selector')</code>: This is the most powerful. It uses any CSS selector (like `.class`, `#id`, `tag`) to select the *first* matching element.</li>
                         <li><code>querySelectorAll('selector')</code>: This selects *all* matching elements and returns a list (a NodeList).</li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     </ul>
 <pre><code>// In HTML: <h1 id="main-title">Hello</h1>
 const title = document.getElementById('main-title');
 
 // In HTML: <p class="intro">Welcome...</p>
 const intro = document.querySelector('.intro');
+<<<<<<< HEAD
+=======
 
 // In HTML: <ul> <li>Item 1</li> <li>Item 2</li> </ul>
 const listItems = document.querySelectorAll('li');
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 </code></pre>
 
                     <h3>How to Manipulate Elements</h3>
                     <p>Once you've selected an element, you can do anything with it.</p>
                     <ul>
+<<<<<<< HEAD
+                        <li><strong>Changing Content:</strong> <code>title.textContent = "Goodbye!";</code></li>
+                        <li><strong>Changing Styles:</strong> <code>intro.style.color = "#f97316";</code></li>
+                        <li><strong>Changing Classes:</strong> <code>title.classList.add('highlight');</code></li>
+                    </ul>
+
+                    <h2>Section 6: Handling Events</h2>
+                    <p>Events are what make JavaScript "interactive." Events are actions the user performs: <code>click</code>, <code>mouseover</code>, <code>submit</code>, etc. We use **Event Listeners** to run a function when an event happens.</p>
+                    
+                    <h3>Example: A Simple Click Counter</h3>
+=======
                         <li><strong>Changing Content:</strong>
                             <br><code>title.textContent = "Goodbye!"; // Will change the text</code>
                         </li>
@@ -347,12 +447,17 @@ const listItems = document.querySelectorAll('li');
                     <p>This is the modern and best way to handle events. It takes three parts: the element, the event name, and the function to run (called a "callback function").</p>
 
                     <h4>Example: A Simple Click Counter</h4>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     <p>Let's build a mini-project combining our HTML, CSS, and JS.</p>
                     <p><strong>HTML:</strong></p>
 <pre><code>&lt;h2&gt;Clicks: &lt;span id="click-count"&gt;0&lt;/span&gt;&lt;/h2&gt;
 &lt;button id="click-btn"&gt;Click Me!&lt;/button&gt;
 </code></pre>
+<<<<<<< HEAD
+                    <p><strong>JavaScript (in your `app.js`):</strong></p>
+=======
                     <p><strong>JavaScript (Application):</strong></p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 <pre><code>// 1. Select the elements
 const countDisplay = document.getElementById('click-count');
 const clickButton = document.getElementById('click-btn');
@@ -362,14 +467,29 @@ let count = 0;
 
 // 3. Define a function to run on each click
 function updateCounter() {
+<<<<<<< HEAD
+    count++;
+=======
     // Increment the count
     count++;
     
     // Display the new count on the page
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
     countDisplay.textContent = count;
 }
 
 // 4. Apply the Event Listener
+<<<<<<< HEAD
+// This check makes sure the button exists on the page
+if (clickButton) {
+    clickButton.addEventListener('click', updateCounter);
+}
+</code></pre>
+                    <p>This is the power of JavaScript. You can now make your pages interactive.</p>
+                    
+                    <h2>Conclusion: The Journey Ahead</h2>
+                    <p>Congratulations! You have learned the core concepts of HTML, CSS, and JavaScript. The next steps are learning to get data from servers (APIs) and using modern frameworks like **React** to build powerful applications.</p>
+=======
 // "Hey JS, when a 'click' happens on 'clickButton', run the 'updateCounter' function."
 clickButton.addEventListener('click', updateCounter);
 </code></pre>
@@ -378,6 +498,7 @@ clickButton.addEventListener('click', updateCounter);
                     <h2>Conclusion: The Journey Ahead</h2>
                     <p>Congratulations! You have learned the core concepts of HTML, CSS, and JavaScript. You can now build a complete, interactive website. You've learned what variables are, how to create and apply functions, and most importantly, how to manipulate the DOM to bring a page to life.</p>
                     <p>From here, your journey gets even more exciting. The next steps are learning how to get data from servers (using APIs and `fetch`), how to manage complex code, and how to use modern frameworks like **React** to build powerful single-page applications (SPAs).</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
                 </article>
             </div>
@@ -390,5 +511,11 @@ clickButton.addEventListener('click', updateCounter);
         </div>
     </footer>
     
+<<<<<<< HEAD
+    <script src="app.js"></script>
+</body>
+</html>
+=======
     </body>
 </html>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b

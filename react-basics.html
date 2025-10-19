@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
+<<<<<<< HEAD
+    <link rel="stylesheet" href="style.css">
+=======
     <style>
         /* --- General Styles (Same as other pages) --- */
         html, body { overflow-x: hidden; }
@@ -78,6 +81,7 @@
         }
         .note strong { color: #facc15; }
     </style>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 </head>
 <body>
 
@@ -94,7 +98,15 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
+<<<<<<< HEAD
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+=======
                 <div class="hamburger"></div>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
             </nav>
         </div>
     </header>
@@ -104,6 +116,21 @@
             <div class="container">
                 <article class="content-body">
                     <div class="content-header">
+<<<<<<< HEAD
+                        <h1>Chapter 5: Pick a Framework (Intro to <span class="react-highlight">React</span>)</h1>
+                        <p class="content-meta">Frontend Developer Roadmap</p>
+                    </div>
+
+                    <p>You've done it. You've mastered HTML, CSS, and JavaScript. But as your app gets bigger, managing it with just `document.getElementById` becomes a nightmare. This is where frameworks come in. Think of React as a set of powerful, pre-built **Lego blocks** for your website. Instead of building every tiny piece from scratch, React gives you smart blocks (called **Components**) that manage themselves.</p>
+                    
+                    <h2>What is React, Really?</h2>
+                    <p>React is a JavaScript library for building user interfaces. Its main idea is simple: **"Your UI is a reflection of your data."**</p>
+                    <p>You *don't* tell the website "change this text." You just tell React, "Hey, the number of likes is now 101." React then automatically figures out *what* to change on the screen. This is called **declarative programming**.</p>
+                    
+                    <div class="note">
+                        <strong>Analogy:</strong>
+                        <br><strong>Vanilla JS (Imperative):</strong> "Walk to the kitchen, open the fridge, take out 2 eggs, crack them in a bowl..." (You give every single command).
+=======
                         <h1>Chapter 5: Pick a Framework (Intro to <span class="highlight">React</span>)</h1>
                         <p class="content-meta">Frontend Developer Roadmap</p>
                     </div>
@@ -118,10 +145,15 @@
                     <div class="note">
                         <strong>Analogy:</strong> Imagine ordering food.
                         <br><strong>Vanilla JS (Imperative):</strong> "Walk to the kitchen, open the fridge, take out 2 eggs, crack them in a bowl, add salt, whisk, heat the pan..." (You give every single command).
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                         <br><strong>React (Declarative):</strong> "I want one cheese omelette." (You just declare what you want, and the chef handles the steps).
                     </div>
 
                     <h2>Core Concept #1: Components (The Reusable Legos)</h2>
+<<<<<<< HEAD
+                    <p>Everything in React is a component. A component is just a piece of your UI. A component is just a JavaScript function that returns what looks like HTML. By convention, component names **always start with a capital letter**.</p>
+<pre><code>// This is a component!
+=======
                     <p>Everything in React is a component. A component is just a piece of your UI. Your whole website is just components inside other components.</p>
                     <ul>
                         <li>A `<Navbar>` component</li>
@@ -131,12 +163,21 @@
                     <p>A component is just a JavaScript function that returns what looks like HTML. By convention, component names **always start with a capital letter**.</p>
 <pre><code>// This is a component!
 // It's just a function that returns the UI.
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 function WelcomeMessage() {
     return (
         &lt;h1&gt;Hello, world! This is my first component.&lt;/h1&gt;
     );
 }
 </code></pre>
+<<<<<<< HEAD
+                    
+                    <h2>Core Concept #2: JSX (JavaScript + XML)</h2>
+                    <p>JSX is a syntax extension that lets you write HTML-like code directly in your JavaScript. This is the *best* part of React. It lets you see exactly what your component will look like, right next to the logic that controls it.</p>
+                    <p>Just remember two simple rules:</p>
+                    <ol>
+                        <li>You must use `className` instead of `class`.</li>
+=======
                     <p>But wait... is that HTML inside JavaScript? Yes! It's called...</p>
 
                     <h2>Core Concept #2: JSX (JavaScript + XML)</h2>
@@ -157,6 +198,7 @@ document.body.appendChild(h1);
                     <p>See? The React version is cleaner and exactly what you see is what you get. Just remember two simple rules for JSX:</p>
                     <ol>
                         <li>You must use `className` instead of `class` (because `class` is a reserved word in JS).</li>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                         <li>To use a JavaScript variable inside JSX, you put it in curly braces `{}`.</li>
                     </ol>
 
@@ -172,11 +214,16 @@ document.body.appendChild(h1);
 </code></pre>
 
                     <h2>Core Concept #3: Props (Passing Data)</h2>
+<<<<<<< HEAD
+                    <p>Props (short for properties) are how you pass data from a parent component down to a child component. Think of them as settings for your component.</p>
+                    
+=======
                     <p>What if we want our Lego blocks to be customizable? What if we want a *red* block and a *blue* block? We use **Props** (short for properties).</p>
                     <p>Props are how you pass data from a parent component down to a child component. Think of them as settings for your component.</p>
                     
                     <p>Let's make our `GreetUser` component reusable:</p>
 
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     <p><strong>Child Component (`GreetUser.js`):</strong></p>
 <pre><code>// This component now receives 'props' as an argument
 function GreetUser(props) {
@@ -189,6 +236,22 @@ function GreetUser(props) {
 </code></pre>
 
                     <p><strong>Parent Component (`App.js`):</strong></p>
+<<<<<<< HEAD
+<pre><code>function App() {
+    return (
+        &lt;&gt; {/* This is a Fragment */}
+            &lt;GreetUser username="MSMAXPRO" /&gt;
+            &lt;GreetUser username="Priya" /&gt;
+        &lt;/&gt;
+    );
+}
+</code></pre>
+
+                    <h2>Core Concept #4: State (A Component's "Memory")</h2>
+                    <p>What if a component needs to *remember* something? Props are data from the *outside* (parent). **State** is data from the *inside* (the component's own memory). To use state, we use a **Hook** called `useState`.</p>
+                    
+                    <p>Let's build a "Like" button that remembers if it's been liked.</p>
+=======
 <pre><code>// This component uses GreetUser and *passes* props to it
 function App() {
     return (
@@ -211,23 +274,48 @@ function App() {
                     <p>Props are data from the *outside* (parent). **State** is data from the *inside* (the component's own memory). To use state, we use a special React function called a **Hook**. The most important one is `useState`.</p>
 
                     <p>Let's build a "Like" button that remembers if it's been liked or not.</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
 <pre><code>import React, { useState } from 'react'; // First, import useState
 
 function LikeButton() {
     // 1. Create a piece of state
+<<<<<<< HEAD
+=======
     // 'isLiked' is our variable (initial value = false)
     // 'setIsLiked' is the *only* function that can change it
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
     const [isLiked, setIsLiked] = useState(false);
 
     // 2. Create an event handler
     function handleClick() {
+<<<<<<< HEAD
+=======
         // We tell React to set the state to the opposite of what it was
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
         setIsLiked(!isLiked);
     }
 
     // 3. Render the UI based on the state
     if (isLiked) {
+<<<<<<< HEAD
+        return &lt;button onClick={handleClick}&gt;You liked this! 👍&lt;/button&gt;;
+    } else {
+        return &lt;button onClick={handleClick}&gt;Like This Post&lt;/button&gt;;
+    }
+}
+</code></pre>
+                    <p>When you click the button, `handleClick` runs. It calls `setIsLiked()`. React then **automatically re-runs** the `LikeButton` component with the new state, showing the new UI. No `getElementById` needed!</p>
+
+                    <h2>How Do I Even *Run* This?</h2>
+                    <p>You *cannot* just save this code in an `.html` file and open it in the browser. You need a "build process" to compile your React code. The easiest way to start a real React project is with a tool called **Vite**.</p>
+                    <p>You'll open your terminal and run:</p>
+<pre><code># This command creates a new project
+npm create vite@latest
+</code></pre>
+                    <p>Then, just follow the instructions on screen (choose "React").</p>
+                    
+=======
         return (
             &lt;button onClick={handleClick} className="liked-button"&gt;
                 You liked this! 👍
@@ -260,6 +348,7 @@ npm run dev
 </code></pre>
                     <p>This will start a local server, and you can start building your components for real!</p>
 
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                     <h2>Conclusion: Thinking in React</h2>
                     <p>You now understand the "big ideas" of React. The workflow is:</p>
                     <ol>
@@ -268,7 +357,10 @@ npm run dev
                         <li>Pass data *down* from parents to children using **Props**.</li>
                         <li>Give your components their own *memory* using **State**.</li>
                     </ol>
+<<<<<<< HEAD
+=======
                     <p>This is the foundation for all modern frontend development. Your journey from here is all about building projects and learning more powerful hooks and patterns.</p>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
                 </article>
             </div>
@@ -281,5 +373,11 @@ npm run dev
         </div>
     </footer>
     
+<<<<<<< HEAD
+    <script src="app.js"></script>
+</body>
+</html>
+=======
     </body>
 </html>
+>>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b

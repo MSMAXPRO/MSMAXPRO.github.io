@@ -1,0 +1,558 @@
+/* --- General Styles --- */
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background-color: #0f172a;
+    background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+    color: #cbd5e1;
+    line-height: 1.8; /* Good line height for reading */
+}
+
+.container {
+    max-width: 1100px; /* Default container for homepage */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+section {
+    padding: 60px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 25px 0;
+    margin-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+}
+
+/* --- Header / Navigation Bar --- */
+header {
+    background-color: transparent;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+}
+.logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+.logo span {
+    display: block;
+}
+.nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+.nav-links li {
+    margin-left: 30px;
+}
+.nav-links li a {
+    text-decoration: none;
+    color: #cbd5e1;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.nav-links li a:hover {
+    color: #7c3aed;
+}
+
+/* --- Hamburger Menu Icon --- */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    z-index: 1000;
+}
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+/* --- Hero Section (Homepage) --- */
+.hero {
+    text-align: center;
+    padding: 100px 0;
+}
+.hero h1 {
+    font-size: 3.8rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+}
+.hero p {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    margin-bottom: 35px;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.hero .highlight {
+    background: linear-gradient(90deg, #38bdf8, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+    color: #fff;
+    padding: 16px 40px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
+}
+.cta-button:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+}
+
+/* --- Features Section (Homepage) --- */
+h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #ffffff;
+}
+.features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap; 
+}
+.features-grid > a {
+    flex: 1;
+    min-width: 280px;
+    text-decoration: none;
+    color: inherit;
+    
+}
+
+/* --- AI Bot Section (Homepage) --- */
+.ai-bot-section {
+    text-align: center; 
+}
+
+.feature-card {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 35px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+}
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+.feature-card h3 {
+    margin-top: 15px;
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+.feature-card p {
+    flex-grow: 1;
+}
+.feature-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    /* Update this line */
+    margin: 0 auto 25px auto;
+}
+
+
+/* --- Roadmap Card Styles (Roadmaps Page) --- */
+.roadmaps-grid {
+    display: grid; /* Using grid for roadmap cards */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+.roadmap-card {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 35px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #cbd5e1;
+}
+.roadmap-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+.roadmap-card h3 {
+    margin-top: 15px;
+    font-size: 1.5rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+.roadmap-card img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 25px;
+}
+
+/* --- Blog Post Card Styles (Blog Page) --- */
+/* Smaller container for blog list */
+.blog-section .container, 
+.interview-prep-section .container, 
+.resources-page-section .container {
+    max-width: 900px;
+}
+.blog-post-card {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+.blog-post-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+.blog-post-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+.blog-post-card p {
+    margin: 0 0 20px 0;
+    color: #94a3b8;
+}
+.read-more-btn {
+    display: inline-block;
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* --- Interview/Resources Page Styles --- */
+.prep-section, .resource-section {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 30px;
+}
+.prep-section h2, .resource-section h2 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-top: 0;
+    text-align: left;
+    border-bottom: none; /* Override default h2 */
+}
+.prep-section ul {
+    padding-left: 20px;
+    font-size: 1.1rem;
+}
+.resource-section ul {
+    padding-left: 0;
+    list-style: none;
+}
+.resource-section ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.resource-section ul li:last-child {
+    border-bottom: none;
+}
+.resource-section ul li a {
+    font-size: 1.1rem;
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* --- Roadmap Step Styles (Tutorial Pages) --- */
+.roadmap-step {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 25px 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    transition: all 0.3s ease;
+}
+.roadmap-step:hover {
+    transform: translateY(-3px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+.step-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+    color: #fff;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.step-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+.step-content p {
+    margin: 0;
+    color: #94a3b8;
+}
+
+/* --- Content/Article Page Styles (Tutorials & Posts) --- */
+/* Set a smaller container for article pages */
+.content-container .container,
+.about-section .container {
+    max-width: 800px;
+}
+
+.content-header h1, .post-header h1 {
+    font-size: 2.8rem;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.content-meta, .post-meta {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 40px;
+}
+.content-body h2, .post-content h2, .about-content h2 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-top: 60px;
+    text-align: left;
+    border-bottom: 2px solid #38bdf8;
+    padding-bottom: 10px;
+}
+.content-body h3, .post-content h3, .about-content h3 {
+    font-size: 1.7rem;
+    color: #e0e0e0;
+    margin-top: 40px;
+    border-left: 3px solid #8b5cf6;
+    padding-left: 15px;
+}
+.content-body p, .post-content p, .about-content p,
+.content-body ul, .post-content ul, .about-content ul,
+.content-body ol {
+    font-size: 1.1rem;
+}
+.content-body ul, .post-content ul, .about-content ul,
+.content-body ol {
+    padding-left: 25px;
+}
+.content-body li, .post-content li, .about-content li {
+    margin-bottom: 10px;
+}
+.content-body code, .post-content code, .about-content code {
+    background-color: #1e293b;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    border: 1px solid #334155;
+    color: #f8fafc;
+}
+pre {
+    background-color: #1e293b;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #334155;
+    overflow-x: auto;
+}
+pre code {
+    display: block;
+    padding: 0;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border: none;
+}
+.note {
+    background-color: rgba(30, 41, 59, 0.7);
+    border-left: 4px solid #facc15;
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 8px;
+}
+.note strong {
+    color: #facc15;
+}
+
+/* --- Page-Specific: Language Comparison (backend-language-choice) --- */
+.language-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+.language-card {
+    background-color: rgba(30, 41, 59, 0.7);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #334155;
+}
+.language-card h3 {
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin-top: 0;
+    border-bottom: 2px solid;
+    padding-bottom: 10px;
+    border-left: none; /* Override default h3 */
+    padding-left: 0;
+}
+.python-card h3 { border-color: #fde047; } /* Python Yellow */
+.node-card h3 { border-color: #86efac; } /* Node Green */
+
+/* --- Responsive Design (Media Queries) --- */
+@media (max-width: 768px) {
+    .logo span {
+        display: none; /* Hide logo text on mobile */
+    }
+    .nav-links {
+        position: fixed;
+        right: 0px;
+        height: 100vh;
+        top: 0;
+        background-color: #1e293b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 60%;
+        transform: translateX(100%);
+        transition: transform 0.5s ease-in;
+        z-index: 999;
+    }
+    .nav-links li {
+        margin-left: 0;
+        opacity: 0;
+    }
+    .hamburger {
+        display: block; /* Show hamburger on mobile */
+    }
+    
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+    h2 {
+        font-size: 2.2rem;
+    }
+    .content-header h1, .post-header h1 {
+        font-size: 2.2rem;
+    }
+    .features-grid {
+        flex-direction: column;
+    }
+    .language-comparison {
+        grid-template-columns: 1fr; /* Stack cards on mobile */
+    }
+}
+
+/* --- JS-Toggled Classes for Mobile Menu --- */
+.nav-active {
+    transform: translateX(0%);
+}
+.nav-active li {
+    opacity: 1;
+    transition: opacity 0.5s ease 0.3s;
+}
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+.toggle .line2 {
+    opacity: 0;
+}
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* --- Page-Specific Highlight Colors --- */
+/* These are used in the <h1> of tutorial pages */
+
+/* JS Page Highlight */
+.js-highlight {
+    background: linear-gradient(90deg, #fde047, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* React Page Highlight */
+.react-highlight {
+    background: linear-gradient(90deg, #61DAFB, #00C8FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Git Page Highlight */
+.git-highlight {
+    background: linear-gradient(90deg, #F05033, #f97316);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Node.js Page Highlight */
+.node-highlight {
+    background: linear-gradient(90deg, #86efac, #22c55e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Keyframes for Nav Link Animation --- */
+@keyframes navLinkFade {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js & Express Basics - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- General Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.8; /* Good line height for reading */
+        }
+
+        .container {
+            max-width: 1100px; /* Default container */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 60px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+
+        /* --- Header / Navigation Bar --- */
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .logo span {
+            display: block;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        /* --- Hamburger Menu Icon --- */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Content/Article Page Styles (Tutorials & Posts) --- */
+        /* Set a smaller container for article pages */
+        .content-container .container {
+            max-width: 800px;
+        }
+        
+        .content-header h1, .post-header h1 {
+            font-size: 2.8rem;
+            color: #ffffff;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .content-meta, .post-meta {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+        .content-body h2, .post-content h2 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-top: 60px;
+            text-align: left;
+            border-bottom: 2px solid #38bdf8;
+            padding-bottom: 10px;
+        }
+        .content-body h3, .post-content h3 {
+            font-size: 1.7rem;
+            color: #e0e0e0;
+            margin-top: 40px;
+            border-left: 3px solid #8b5cf6;
+            padding-left: 15px;
+        }
+        .content-body p, .post-content p,
+        .content-body ul, .post-content ul,
+        .content-body ol {
+            font-size: 1.1rem;
+        }
+        .content-body ul, .post-content ul,
+        .content-body ol {
+            padding-left: 25px;
+        }
+        .content-body li, .post-content li {
+            margin-bottom: 10px;
+        }
+        .content-body code {
+            background-color: #1e293b;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            border: 1px solid #334155;
+            color: #f8fafc;
+        }
+        pre {
+            background-color: #1e293b;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #334155;
+            overflow-x: auto;
+        }
+        pre code {
+            display: block;
+            padding: 0;
+            white-space: pre-wrap;
+            background-color: transparent;
+            border: none;
+        }
+        .note {
+            background-color: rgba(30, 41, 59, 0.7);
+            border-left: 4px solid #facc15;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        .note strong {
+            color: #facc15;
+        }
+
+        /* --- New Node.js-green highlight for this page --- */
+        .highlight {
+            background: linear-gradient(90deg, #86efac, #22c55e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* --- Responsive Design (Media Queries) --- */
+        @media (max-width: 768px) {
+            .logo span {
+                display: none; /* Hide logo text on mobile */
+            }
+            .nav-links {
+                position: fixed;
+                right: 0px;
+                height: 100vh;
+                top: 0;
+                background-color: #1e293b;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-evenly;
+                width: 60%;
+                transform: translateX(100%);
+                transition: transform 0.5s ease-in;
+                z-index: 999;
+            }
+            .nav-links li {
+                margin-left: 0;
+                opacity: 0;
+            }
+            .hamburger {
+                display: block; /* Show hamburger on mobile */
+            }
+            
+            h2 {
+                font-size: 2.2rem;
+            }
+            .content-header h1, .post-header h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* --- JS-Toggled Classes for Mobile Menu --- */
+        .nav-active {
+            transform: translateX(0%);
+        }
+        .nav-active li {
+            opacity: 1;
+            transition: opacity 0.5s ease 0.3s;
+        }
+        .toggle .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .toggle .line2 {
+            opacity: 0;
+        }
+        .toggle .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container"> <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 2: Intro to <span class="highlight">Node.js & Express</span></h1>
+                        <p class="content-meta">Backend Developer Roadmap</p>
+                    </div>
+
+                    <p>Alright, time to roll up our sleeves and build the 'engine' for our web applications! We chose **Node.js** in the last chapter because it lets us use the JavaScript we already know. But how do we actually make a server with it? We'll use **Express.js**, the most popular framework for Node.js, to make our lives easier.</p>
+                    <p>This chapter is all about getting from zero to a running backend server. We'll cover the theory behind each step and show you exactly how to write the code.</p>
+
+                    <h2>Node.js: JavaScript Everywhere 🌍</h2>
+                    <p>Let's revisit: **Node.js** is a program you install on your computer. Its only job is to run JavaScript code *outside* of a web browser. Think about the JavaScript we wrote for the frontend – it runs inside Chrome or Firefox. Node.js lets that *same* JavaScript language run directly on your computer or a server, allowing it to interact with the file system, databases, and network requests.</p>
+                    <p>Key features of Node.js that make it popular for backends:</p>
+                    <ul>
+                        <li><strong>Asynchronous & Non-Blocking I/O:** This is Node's superpower. Imagine a waiter taking orders. A "blocking" waiter takes one order, goes to the kitchen, waits for the food, brings it back, and *only then* takes the next order. A "non-blocking" Node.js waiter takes an order, gives it to the kitchen, and immediately takes the next order without waiting. When the food is ready, the kitchen notifies the waiter. This makes Node.js extremely efficient at handling many user requests simultaneously (like in chat apps or APIs).</li>
+                        <li><strong>npm (Node Package Manager):** Node.js comes with npm, the world's largest library of pre-written code packages. Need to work with dates? There's a package. Need to connect to a database? There's a package. This saves developers huge amounts of time.</li>
+                    </ul>
+
+                    <h2>Express.js: The Friendly Layer on Top 🚗</h2>
+                    <p>While Node.js provides the engine (`http` module for creating servers), writing a full server with just Node.js is tedious. You have to manually parse URLs, handle different request methods (GET, POST), manage headers, etc.</p>
+                    <p>**Express.js** is a minimal and flexible Node.js web application framework. It provides a thin layer of fundamental web application features, without obscuring Node.js features. It simplifies the process immensely.</p>
+                    <p>Think of it like this: Node.js gives you the raw engine parts. Express gives you a pre-assembled chassis, steering wheel, and pedals, making it much easier to build and drive your application.</p>
+                    
+                    <h2>Building Our First Server: Step-by-Step Breakdown 🛠️</h2>
+                    <p>Let's go through the code we wrote previously, explaining each part in more detail. You'll need <a href="https://nodejs.org/" target="_blank">Node.js installed</a>. Open your terminal.</p>
+
+                    <h3>Step 1: Project Setup & `npm init`</h3>
+                    <p>Every Node.js project needs a central file to keep track of its details and dependencies (the external packages it uses). This file is `package.json`.</p>
+                    
+                    <h4>How to Perform:</h4>
+                    <ol>
+                        <li>Create a new directory (folder) for your project: `mkdir my-server`</li>
+                        <li>Navigate into that directory: `cd my-server`</li>
+                        <li>Run the command: `npm init -y`</li>
+                    </ol>
+                    
+                    <h4>Theory: What does `npm init -y` do?</h4>
+                    <ul>
+                        <li>`npm`: Stands for Node Package Manager. It's the command-line tool used to manage packages and run scripts for your Node.js projects.</li>
+                        <li>`init`: This command initializes a new Node.js project.</li>
+                        <li>`-y`: This flag automatically says "yes" to all the default questions `npm init` asks (like project name, version, etc.), quickly creating a basic `package.json` file.</li>
+                    </ul>
+                    <p>Your `package.json` file will look something like this initially:</p>
+<pre><code class="language-json">{
+  "name": "my-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js", 
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+</code></pre>
+                    <p>The `"main": "index.js"` part tells Node.js which file to run by default if you just type `node .`, but we'll be explicitly running our file, so it's not critical right now.</p>
+
+                    <h3>Step 2: Installing Express & `npm install`</h3>
+                    <p>Now we need to add the Express framework to our project. We use npm to download it from the internet and save it locally for our project.</p>
+                    
+                    <h4>How to Perform:</h4>
+                    <p>In the same `my-server` directory, run:</p>
+<pre><code>npm install express
+</code></pre>
+                    
+                    <h4>Theory: What does `npm install express` do?</h4>
+                    <ul>
+                        <li>`install`: This npm command downloads and installs packages.</li>
+                        <li>`express`: This is the name of the package we want to install.</li>
+                        <li>npm looks up "express" in the online npm registry.</li>
+                        <li>It downloads the Express.js code and all the other packages *it* depends on.</li>
+                        <li>It places all this code inside a new folder called `node_modules`. You should *never* manually edit files inside `node_modules`.</li>
+                        <li>It adds `express` as a dependency in your `package.json` file:</li>
+<pre><code class="language-json">  "dependencies": {
+    "express": "^4.17.1" // Version might differ
+  }
+</code></pre>
+                        <li>It also creates or updates `package-lock.json`, which records the *exact* versions of all installed packages, ensuring your project works consistently everywhere.</li>
+                    </ul>
+
+                    <h3>Step 3 & 4: Creating `server.js` and Writing Code</h3>
+                    <p>Now we write the actual server logic.</p>
+                    
+                    <h4>How to Perform:</h4>
+                    <ol>
+                        <li>Create a new file named `server.js` in your `my-server` folder.</li>
+                        <li>Add the following code:</li>
+                    </ol>
+<pre><code class="language-javascript">// Line 1: Import Express using 'require'
+const express = require('express');
+
+// Line 2: Create the Express application object
+const app = express();
+
+// Line 3: Define the Port
+const PORT = 3000; // Standard port for development
+
+// Line 4: Define the '/' Route Handler (Homepage)
+app.get('/', (req, res) => {
+  // Line 5: Send a response back to the browser
+  res.send('Hello World from Express!'); 
+});
+
+// Line 6: Start the Server
+app.listen(PORT, () => {
+  // Line 7: Log a confirmation message to the console
+  console.log(`Server listening on port ${PORT}`);
+});
+</code></pre>
+
+                    <h4>Theory: Breaking down `server.js`</h4>
+                    <ul>
+                        <li><strong>Line 1: `const express = require('express');`</strong>
+                            <ul>
+                                <li>`require()`: This is Node.js's built-in function to import modules (packages or files). It's like `import` in frontend JavaScript, but `require` is the standard in traditional Node.js (CommonJS modules).</li>
+                                <li>`'express'`: We're telling Node to find the 'express' package we installed (it looks inside `node_modules`).</li>
+                                <li>`const express = ...`: The `require` function returns the main function/object exported by the Express package, and we store it in a constant named `express`.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Line 2: `const app = express();`</strong>
+                            <ul>
+                                <li>We are calling the `express()` function we just imported. This function creates and returns an "app" object. This `app` object represents our Express application and has all the methods we need to build our server (like `.get()`, `.post()`, `.listen()`, etc.).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Line 3: `const PORT = 3000;`</strong>
+                            <ul>
+                                <li>A web server needs to "listen" for incoming requests on a specific network "port" on the computer. Ports are like apartment numbers for different applications. Port `3000` is a common convention for local development servers.</li>
+                                <li>(Advanced: `process.env.PORT || 3000` is often used. This tries to get the port from an environment variable first, which is useful for deployment platforms like Heroku, otherwise it defaults to 3000).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Line 4: `app.get('/', (req, res) => { ... });`</strong>
+                            <ul>
+                                <li>`app.get()`: This method tells our Express app how to handle incoming **GET** requests (the most common type, used when you type a URL in your browser).</li>
+                                <li>`/`: This is the **path** or **route** we want to handle. `/` always refers to the root or homepage of the website.</li>
+                                <li>`(req, res) => { ... }`: This is the **handler function** (also called a callback function). Express runs this function *every time* a GET request comes in for the `/` path. It automatically provides two important objects as arguments:
+                                    <ul>
+                                        <li>`req` (Request): An object containing information about the incoming request (like headers, query parameters, user data).</li>
+                                        <li>`res` (Response): An object with methods for sending a response back to the client (the browser).</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><strong>Line 5: `res.send('Hello World from Express!');`</strong>
+                            <ul>
+                                <li>`res.send()`: This is one of the methods on the `res` object. It sends a simple text-based response back to the browser. Express automatically sets the correct headers (like `Content-Type: text/html`).</li>
+                            </ul>
+                        </li>
+                        <li><strong>Line 6: `app.listen(PORT, () => { ... });`</strong>
+                            <ul>
+                                <li>`app.listen()`: This method starts the server. It tells the Express app to start listening for incoming connections on the specified `PORT`.</li>
+                                <li>`() => { ... }`: This is another callback function. `app.listen` runs this function *once* when the server successfully starts listening.</li>
+                            </ul>
+                        </li>
+                         <li><strong>Line 7: `console.log(...)`</strong>
+                            <ul>
+                                <li>We log a message to the *terminal* (not the browser) to confirm that the server has started and tell us which port it's using.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>Step 5: Running the Server with `node`</h3>
+                    
+                    <h4>How to Perform:</h4>
+                    <p>In your terminal (in the `my-server` directory), run:</p>
+<pre><code>node server.js
+</code></pre>
+                    
+                    <h4>Theory: What does `node server.js` do?</h4>
+                    <ul>
+                        <li>`node`: This command invokes the Node.js runtime environment that you installed.</li>
+                        <li>`server.js`: You are telling Node.js which JavaScript file you want it to execute.</li>
+                        <li>Node.js reads `server.js`, executes the code line by line, imports Express, sets up the route, and starts the server with `app.listen()`. The server then keeps running in your terminal, waiting for requests.</li>
+                    </ul>
+                    <p>Now, open your browser and navigate to `http://localhost:3000`. Your browser sends a GET request to `/` on your local machine's port 3000. Your running Node.js server receives it, the `app.get('/', ...)` handler runs, and `res.send()` sends the "Hello World" message back to your browser, which displays it.</p>
+                    <p>To stop the server, go back to your terminal and press `Ctrl + C`.</p>
+
+                    <div class="note">
+                        <strong>Tip:** Every time you change your `server.js` file, you need to stop the server (`Ctrl + C`) and restart it (`node server.js`) to see the changes. Tools like `nodemon` can automate this restarting process during development.
+                    </div>
+                    
+                    <h2>Next Steps: Building More Routes and APIs</h2>
+                    <p>You've now successfully built and understood your first Node.js and Express server! From here, you'll learn how to:</p>
+                    <ul>
+                        <li>Handle different HTTP methods (like `POST` for submitting forms).</li>
+                        <li>Work with **route parameters** (e.g., `/users/:userId`).</li>
+                        <li>Use **middleware** (functions that run before your route handlers, useful for logging or authentication).</li>
+                        <li>Send JSON data to build **APIs** for your frontend.</li>
+                        <li>Connect to **Databases** to store and retrieve information.</li>
+                    </ul>
+                    <p>This foundation is crucial for building the powerful backend logic that modern web applications require.</p>
+
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="app.js"></script> </body>
+</html>
