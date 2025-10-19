@@ -193,6 +193,28 @@
             from { opacity: 0; transform: translateX(50px); }
             to { opacity: 1; transform: translateX(0); }
         }
+
+        /* --- Add these styles for the rating --- */
+        .rating-group {
+            display: flex; /* Arrange items horizontally */
+            align-items: center; /* Vertically align items */
+            gap: 5px; /* Space between number labels */
+            margin-bottom: 20px; /* Space below the rating */
+            margin-top: 5px;  /* Space above the rating */
+        }
+
+        .rating-group input[type="radio"] {
+            margin-right: 2px; /* Small space between radio button and its label */
+        }
+        
+        .rating-group label {
+            margin-bottom: 0; /* Override default label margin */
+            margin-right: 15px; /* Space between each radio/label pair */
+            cursor: pointer;
+        }
+        /* --- End of rating styles --- */
+
+        /* --- Responsive Design --- */
     </style>
 </head>
 <body>
@@ -240,6 +262,25 @@
                     
                     <label for="message">Message:</label>
                     <textarea id="message" name="message" required></textarea>
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" required></textarea>
+                    
+                    <label>Rate your experience (1=Poor, 5=Excellent):</label>
+                    <div class="rating-group">
+                        <input type="radio" id="star1" name="rating" value="1" required>
+                        <label for="star1">1</label>
+                        <input type="radio" id="star2" name="rating" value="2">
+                        <label for="star2">2</label>
+                        <input type="radio" id="star3" name="rating" value="3">
+                        <label for="star3">3</label>
+                        <input type="radio" id="star4" name="rating" value="4">
+                        <label for="star4">4</label>
+                        <input type="radio" id="star5" name="rating" value="5">
+                        <label for="star5">5</label>
+                    </div>
+                    <button type="submit">Send Message</button>
+                </form>
                     
                     <button type="submit">Send Message</button>
                 </form>
