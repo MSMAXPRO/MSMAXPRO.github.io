@@ -10,78 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
-
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* --- General Styles (Same as other pages) --- */
-        html, body { overflow-x: hidden; }
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: #0f172a;
-            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
-            color: #cbd5e1;
-            line-height: 1.8; 
-        }
-        .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
-        header { background-color: transparent; padding: 1.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; text-decoration: none; display: flex; align-items: center; z-index: 1000; }
-        .logo img { height: 40px; margin-right: 10px; }
-        .nav-links { list-style: none; margin: 0; padding: 0; display: flex; }
-        .nav-links li { margin-left: 30px; }
-        .nav-links li a { text-decoration: none; color: #cbd5e1; font-weight: 500; transition: color 0.3s ease; }
-        .nav-links li a:hover { color: #7c3aed; }
-        .hamburger { display: none; } 
-        section { padding: 60px 0; }
-        footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
-        
-        /* --- Content Page Styles --- */
-        .content-header h1 {
-            font-size: 2.8rem; color: #ffffff; font-weight: 700;
-            text-align: center; margin-bottom: 15px;
-        }
-        .content-meta { text-align: center; color: #94a3b8; margin-bottom: 40px; }
-        .content-body h2 {
-            font-size: 2.2rem; color: #ffffff; margin-top: 60px; text-align: left;
-            border-bottom: 2px solid #38bdf8; padding-bottom: 10px;
-        }
-        .content-body h3 { font-size: 1.7rem; color: #e0e0e0; margin-top: 40px; border-left: 3px solid #8b5cf6; padding-left: 15px;}
-        .content-body p, .content-body ul, .content-body ol { font-size: 1.1rem; }
-        .content-body ul, .content-body ol { padding-left: 25px; }
-        .content-body li { margin-bottom: 10px; }
-        .content-body code {
-            background-color: #1e293b; padding: 3px 8px;
-            border-radius: 6px; font-family: monospace;
-            border: 1px solid #334155;
-            color: #f8fafc;
-        }
-        pre {
-            background-color: #1e293b;
-            border-radius: 8px;
-            padding: 20px;
-            border: 1px solid #334155;
-            overflow-x: auto;
-        }
-        pre code { display: block; padding: 0; white-space: pre-wrap; background-color: transparent; border: none;}
-        
-        /* --- New Git-orange highlight for this page --- */
-        .highlight {
-            background: linear-gradient(90deg, #F05033, #f97316);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .note {
-            background-color: rgba(30, 41, 59, 0.7);
-            border-left: 4px solid #facc15;
-            padding: 20px;
-            margin: 30px 0;
-            border-radius: 8px;
-        }
-        .note strong { color: #facc15; }
-    </style>
->>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 </head>
 <body>
 
@@ -98,15 +27,11 @@
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="about.html">About</a></li>
                 </ul>
-<<<<<<< HEAD
                 <div class="hamburger">
                     <div class="line1"></div>
                     <div class="line2"></div>
                     <div class="line3"></div>
                 </div>
-=======
-                <div class="hamburger"></div>
->>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
             </nav>
         </div>
     </header>
@@ -116,18 +41,13 @@
             <div class="container">
                 <article class="content-body">
                     <div class="content-header">
-<<<<<<< HEAD
                         <h1>Chapter 6: Version Control with <span class="git-highlight">Git</span></h1>
-=======
-                        <h1>Chapter 6: Version Control with <span class="highlight">Git</span></h1>
->>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
                         <p class="content-meta">Frontend Developer Roadmap</p>
                     </div>
 
                     <p>Welcome to the final chapter of the foundational roadmap! You've learned how to build a complete, interactive website. Now, it's time to learn how to manage your code like a professional. This is where **Version Control** comes in.</p>
                     
                     <h2>What is Version Control? (And Why Do I Need It?)</h2>
-<<<<<<< HEAD
                     <p>Imagine you're working on your website. You change 3 files... and suddenly, the entire website breaks. You don't remember what you changed. Version Control is a system that records changes to files over time so that you can recall specific versions later. It's like a "time machine" for your code.</p>
                     
                     <div class="note">
@@ -170,72 +90,10 @@
 git add index.html
 
 # A common shortcut to add ALL changed files
-=======
-                    <p>Imagine you're working on your website. You decide to add a new feature. You change 3 files... and suddenly, the entire website breaks. You don't remember what you changed. What do you do? Panic?</p>
-                    <p>Version Control is a system that records changes to a file or set of files over time so that you can recall specific versions later. It's like a "time machine" for your code.</p>
-                    <ul>
-                        <li>It lets you **undo mistakes** and go back to a working version.</li>
-                        <li>It lets you **work with a team**. Two people can work on the same project without overwriting each other's code.</li>
-                        <li>It creates a **history** of your project, showing who changed what, when, and why.</li>
-                    </ul>
-                    <p>The most popular version control system in the world is **Git**.</p>
-                    
-                    <div class="note">
-                        <strong>Analogy:</strong>
-                        <br><strong>Without Git:</strong> You save files like `project_v1.zip`, `project_final.zip`, `project_REALLY_final.zip`. This is messy and confusing.
-                        <br><strong>With Git:</strong> You have one project folder. Git automatically saves "snapshots" (called commits) of your project every time you tell it to. You can just ask Git, "Show me the project from last Tuesday at 5 PM," and it will.
-                    </div>
-
-                    <h2>Git vs. GitHub: What's the Difference?</h2>
-                    <p>This is a common point of confusion for beginners.</p>
-                    <ul>
-                        <li><strong>Git:</strong> This is the *software* itself. It's a command-line tool that you install on your computer. It's the "time machine" that runs locally and tracks your files.</li>
-                        <li><strong>GitHub:</strong> This is a *website* (a cloud service). It's a place to store your Git projects (called repositories or "repos") online. It's like a "Google Drive for your code." It also adds features like collaboration, bug tracking, and a social platform for developers.</li>
-                    </ul>
-                    <p>You use **Git** on your computer, and then you "push" your project's history to **GitHub** to back it up and share it with others.</p>
-
-                    <h2>Core Concept #1: The Basic Workflow (The 3 Stages)</h2>
-                    <p>Git doesn't just "save" everything. It has a three-stage process that gives you complete control. Imagine you're at a grocery store.</p>
-                    <ol>
-                        <li><strong>Working Directory:</strong> This is the store itself. You're walking around, putting things in your cart. These are your files as you edit them (`index.html`, `style.css`). They are "unstaged."</li>
-                        <li><strong>Staging Area (Index):</strong> This is your shopping cart. You've picked up an item (`index.html`) and put it in the cart. You're *planning* to buy it, but you haven't yet. This is the most important and unique part of Git.</li>
-                        <li><strong>Repository (`.git` folder):</strong> This is the checkout counter. When you "commit," you are taking everything in your shopping cart (the Staging Area) and permanently saving it as a snapshot. You get a "receipt" (a commit message) describing what you bought.</li>
-                    </ol>
-
-                    <h2>Core Concept #2: The 5 Basic Commands</h2>
-                    <p>You'll use these 5 commands 90% of the time. You run these in your project folder using a terminal or command prompt.</p>
-                    
-                    <h3>1. `git init`</h3>
-                    <p>This is how you start a new project. It means "Initialize Repository." You only run this **once** at the very beginning of a project. It creates the hidden `.git` folder that will store all the history.</p>
-<pre><code># Go to your project folder
-cd my-website
-
-# Turn this folder into a Git repository
-git init
-</code></pre>
-
-                    <h3>2. `git status`</h3>
-                    <p>This is your best friend. It doesn't change anything. It just *tells you* the current status. It shows you:</p>
-                    <ul>
-                        <li>Which files you've changed (Working Directory).</li>
-                        <li>Which files are in your "shopping cart" (Staging Area).</li>
-                    </ul>
-<pre><code># Shows the current state of your project
-git status
-</code></pre>
-
-                    <h3>3. `git add <file>`</h3>
-                    <p>This is how you move a file from the Working Directory to the Staging Area. You're putting an item in your shopping cart.</p>
-<pre><code># Add just the index.html file to the cart
-git add index.html
-
-# A common shortcut to add ALL changed files to the cart
->>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 git add .
 </code></pre>
 
                     <h3>4. `git commit -m "Your Message"`</h3>
-<<<<<<< HEAD
                     <p>The "save" button. It takes *everything* in your Staging Area and saves it as a snapshot. The `-m` flag is for the required "message."</p>
 <pre><code>git commit -m "Created the basic HTML for homepage"
 </code></pre>
@@ -253,37 +111,6 @@ git add .
 git checkout -b new-feature
 
 # ... (do your work, add, commit) ...
-=======
-                    <p>This is the "save" button. It takes *everything* in your Staging Area (your cart) and saves it as a permanent snapshot in your Repository. The `-m` flag stands for "message." Every commit *must* have a message explaining what you did.</p>
-<pre><code># Save the staged files with a clear message
-git commit -m "Created the basic HTML structure for homepage"
-</code></pre>
-
-                    <h3>5. `git push`</h3>
-                    <p>This is how you upload your local commits (your entire project history) from your computer to a remote server like **GitHub**. This is your backup and how you share code.</p>
-<pre><code># Upload your commits to the 'origin' (GitHub) 'main' branch
-git push origin main
-</code></pre>
-                    <p>(To set up the "origin" link, you first run `git remote add origin <your-github-repo-url>`)</p>
-                    
-                    <h2>Core Concept #3: Branches (Working in Parallel)</h2>
-                    <p>What if you want to try a new, experimental feature (like a new layout) but you don't want to break your main, working website?</p>
-                    <p>You use **branches**. By default, you are on a branch called `main`. A branch is like making a *copy* of your project at a specific point in time.</p>
-                    
-                    <p>Think of it like a video game save. `main` is your main save file. You create a new branch (`new-layout`) to try a risky new strategy. If it works, you can **merge** it back into your `main` save. If it fails, you just delete the `new-layout` branch, and your `main` save is completely untouched and safe.</p>
-
-<pre><code># Create a new branch called 'new-feature'
-git branch new-feature
-
-# Switch to that new branch to start working
-git checkout new-feature
-
-# (A popular shortcut to create AND switch in one command)
-git checkout -b new-feature
-
-# ... (Now you do your work: add, commit, etc.) ...
-# ... (When you're done and happy with it) ...
->>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
 # Switch back to the main branch
 git checkout main
@@ -293,7 +120,6 @@ git merge new-feature
 </code></pre>
 
                     <h2>Conclusion: Your New Workflow</h2>
-<<<<<<< HEAD
                     <p>Your new workflow for *any* project should be:</p>
                     <ol>
                         <li>**Initialize:** `git init` (once).</li>
@@ -303,17 +129,6 @@ git merge new-feature
                         <li>**Push:** `git push origin main` (to back it up).</li>
                     </ol>
                     <p>Congratulations on completing the foundational roadmap. You now have the skills to not only build modern websites but to manage them professionally.</p>
-=======
-                    <p>This is just the beginning of your journey with Git, but you now know the most important concepts. Your new workflow for *any* project should be:</p>
-                    <ol>
-                        <li>**Initialize:** `git init` (only once).</li>
-                        <li>**Work:** Change your code (e.g., add the `css-basics.html` file).</li>
-                        <li>**Stage:** `git add .` (put your changes in the cart).</li>
-                        <li>**Commit:** `git commit -m "Added CSS tutorial page"` (save your cart).</li>
-                        <li>**Push:** `git push origin main` (upload your saves to GitHub).</li>
-                    </ol>
-                    <p>Congratulations on completing the foundational roadmap. You now have the skills to not only build modern websites but to manage them professionally. The next step is to practice these skills by building as many projects as you can!</p>
->>>>>>> 73452c6fc81c8a36d41091668b4356e9f24b2d2b
 
                 </article>
             </div>
@@ -326,11 +141,6 @@ git merge new-feature
         </div>
     </footer>
     
-<<<<<<< HEAD
     <script src="app.js"></script>
 </body>
 </html>
-=======
-    </body>
-</html>
-
