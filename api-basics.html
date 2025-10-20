@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Basics (RESTful APIs) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css"> 
+
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li> 
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container"> <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 4: APIs (<span class="highlight">RESTful</span> Design)</h1>
+                        <p class="content-meta">Backend Developer Roadmap</p>
+                    </div>
+
+                    <p>So far, our backend can connect to a database and perform basic CRUD operations. But how does our frontend (like a React app or even another server) actually *use* this data? How do different software components talk to each other? The answer is **APIs (Application Programming Interfaces)**.</p>
+                    <p>An API is essentially a set of rules and protocols that allows different software applications to communicate with each other. For web development, the most common type is a **Web API**, and the most popular architectural style for designing them is **REST (Representational State Transfer)**.</p>
+
+                    <h2>Theory: What is a RESTful API? 🏛️</h2>
+                    <p>REST isn't a strict protocol like HTTP, but rather a set of **architectural constraints** or guidelines for building scalable, maintainable web services. When an API follows these guidelines, we call it "RESTful".</p>
+                    <p>Think of it like designing a library:</p>
+                    <ul>
+                        <li>**Resources:** Everything is a "resource" (like a book, an author, a library member). In our case, resources are usually data entities like `users`, `posts`, `products`.</li>
+                        <li>**Unique Identifiers (URIs):** Each resource has a unique address or identifier, typically a URL (e.g., `/users`, `/users/123`, `/posts`).</li>
+                        <li>**Standard Methods (Verbs):** You use standard HTTP methods (verbs) to perform actions on these resources:
+                            <ul>
+                                <li>`GET`: Retrieve a resource (like reading a book).</li>
+                                <li>`POST`: Create a new resource (like adding a new book to the collection).</li>
+                                <li>`PUT`/`PATCH`: Update an existing resource (like editing book details. `PUT` replaces, `PATCH` modifies).</li>
+                                <li>`DELETE`: Remove a resource (like discarding a damaged book).</li>
+                            </ul>
+                        </li>
+                        <li>**Stateless Communication:** Each request from the client to the server must contain all the information needed to understand and process the request. The server doesn't store any "state" about the client between requests (like remembering which book you asked about last time).</li>
+                        <li>**Representations:** Resources are transferred in a specific format, usually **JSON** (JavaScript Object Notation), but sometimes XML or others.</li>
+                    </ul>
+                    <p>Following REST principles makes your API predictable, understandable, and easier for different clients (web apps, mobile apps, other servers) to use.</p>
+
+                    <h2>Theory: Key API Concepts Review</h2>
+                    
+                    <h3>HTTP Request/Response Cycle</h3>
+                    <p>Remember this from the Internet Basics chapter?</p>
+                    <ol>
+                        <li>**Client (e.g., React App):** Sends an HTTP Request to a specific URL (e.g., `GET /api/users/123`).</li>
+                        <li>**Server (Express App):** Receives the request, processes it (e.g., finds the user with ID 123 in the database).</li>
+                        <li>**Server:** Sends an HTTP Response back, containing:
+                            <ul>
+                                <li>**Status Code:** Indicates success or failure (e.g., `200 OK`, `404 Not Found`).</li>
+                                <li>**Headers:** Metadata about the response (e.g., `Content-Type: application/json`).</li>
+                                <li>**Body:** The actual data requested, usually in JSON format.</li>
+                            </ul>
+                        </li>
+                        <li>**Client:** Receives the response and uses the data (e.g., displays the user's profile).</li>
+                    </ol>
+                    
+
+                    <h3>Common HTTP Status Codes</h3>
+                    <p>These codes are crucial for the client to understand the outcome of its request:</p>
+                    <ul>
+                        <li>**2xx (Success):**
+                            <ul>
+                                <li>`200 OK`: Request succeeded (used for GET, PUT, PATCH, DELETE).</li>
+                                <li>`201 Created`: Resource was successfully created (used for POST).</li>
+                                <li>`204 No Content`: Request succeeded, but there's no data to send back (often used for DELETE).</li>
+                            </ul>
+                        </li>
+                        <li>**4xx (Client Errors):**
+                            <ul>
+                                <li>`400 Bad Request`: Server couldn't understand the request (e.g., invalid JSON format, missing required fields).</li>
+                                <li>`401 Unauthorized`: Authentication is required and failed or wasn't provided.</li>
+                                <li>`403 Forbidden`: Authenticated user doesn't have permission to access the resource.</li>
+                                <li>`404 Not Found`: The requested resource (URL) doesn't exist.</li>
+                            </ul>
+                        </li>
+                        <li>**5xx (Server Errors):**
+                            <ul>
+                                <li>`500 Internal Server Error`: A generic error occurred on the server (e.g., database connection failed, unhandled code error).</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h3>JSON: The Lingua Franca of APIs</h3>
+                    <p>JSON (JavaScript Object Notation) is the standard format for sending data between web servers and clients. It's lightweight, human-readable, and maps directly to JavaScript objects.</p>
+<pre><code class="language-json">{
+  "id": "123xyz",
+  "username": "MSMAXPRO",
+  "email": "msmaxpro@example.com",
+  "isActive": true,
+  "tags": ["developer", "student"] 
+}
+</code></pre>
+                    <p>Express makes sending JSON easy with the `res.json()` method.</p>
+
+                    <h2>Task: Designing and Building RESTful Routes in Express</h2>
+                    <p>Let's apply REST principles to the `User` model we created in the previous chapter. We'll refine our existing CRUD routes to follow REST conventions.</p>
+                    <p>Conventionally, API routes are often prefixed (e.g., `/api/v1/`) to distinguish them from server-rendered page routes.</p>
+
+                    <h3>Resource: `User`</h3>
+                    <h3>Base Path: `/api/users`</h3>
+
+                    <h4>1. Get All Users (READ)</h4>
+                    <ul>
+                        <li>**Method:** `GET`</li>
+                        <li>**Path:** `/api/users`</li>
+                        <li>**Action:** Retrieve a list of all users.</li>
+                        <li>**Response:** `200 OK` with an array of user objects in the body.</li>
+                    </ul>
+                    <h4>How to Perform (Refined Route in `server.js`):</h4>
+<pre><code class="language-javascript">// Ensure User model is defined above this
+// const User = mongoose.model('User', userSchema); 
+
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find().select('-__v'); // .select('-__v') excludes the __v field from results
+    res.status(200).json(users); // Explicitly set 200 OK
+  } catch (error) {
+    console.error('Error fetching users:', error.message);
+    res.status(500).json({ message: "Error fetching users" }); // Generic error for client
+  }
+});
+</code></pre>
+
+                    <h4>2. Create a New User (CREATE)</h4>
+                    <ul>
+                        <li>**Method:** `POST`</li>
+                        <li>**Path:** `/api/users`</li>
+                        <li>**Action:** Create a new user based on data in the request body.</li>
+                        <li>**Response:** `201 Created` with the newly created user object in the body.</li>
+                    </ul>
+                    <h4>How to Perform (Refined Route):</h4>
+<pre><code class="language-javascript">// Ensure middleware app.use(express.json()); is defined above
+
+app.post('/api/users', async (req, res) => {
+  try {
+    // Basic Input Validation (Example - more robust validation is better)
+    if (!req.body.username || !req.body.email) {
+      return res.status(400).json({ message: 'Username and email are required' });
+    }
+
+    const newUser = new User({
+      username: req.body.username,
+      email: req.body.email,
+      age: req.body.age 
+    });
+    
+    const savedUser = await newUser.save(); 
+    
+    // Exclude __v field from response if desired
+    const userResponse = savedUser.toObject(); // Convert Mongoose doc to plain object
+    delete userResponse.__v; 
+
+    res.status(201).json(userResponse); 
+  } catch (error) {
+    // Handle specific errors like duplicates
+    if (error.code === 11000) { // MongoDB duplicate key error code
+        return res.status(400).json({ message: 'Username or email already exists.' });
+    }
+    console.error('Error creating user:', error.message);
+    res.status(400).json({ message: "Error creating user" }); // Validation or other errors
+  }
+});
+</code></pre>
+
+                    <h4>3. Get Single User (READ)</h4>
+                    <ul>
+                        <li>**Method:** `GET`</li>
+                        <li>**Path:** `/api/users/:id` (where `:id` is the user's unique identifier)</li>
+                        <li>**Action:** Retrieve details for a specific user.</li>
+                        <li>**Response:** `200 OK` with the user object, or `404 Not Found` if the ID doesn't exist.</li>
+                    </ul>
+                    <h4>How to Perform (Refined Route):</h4>
+<pre><code class="language-javascript">app.get('/api/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id; 
+    
+    // Validate if the ID format is likely correct (basic check)
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: 'Invalid user ID format' });
+    }
+
+    const user = await User.findById(userId).select('-__v'); 
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' }); 
+    }
+    
+    res.status(200).json(user);
+  } catch (error) {
+    console.error('Error fetching user by ID:', error.message);
+    res.status(500).json({ message: "Error fetching user" });
+  }
+});
+</code></pre>
+                    <p>**Theory:** `req.params.id` extracts the `:id` value from the URL. We added a check `mongoose.Types.ObjectId.isValid()` to prevent database errors if the ID format is completely wrong.</p>
+
+                    <h4>4. Update User (UPDATE)</h4>
+                    <ul>
+                        <li>**Method:** `PATCH` (or `PUT`)</li>
+                        <li>**Path:** `/api/users/:id`</li>
+                        <li>**Action:** Update details for a specific user based on data in the request body.</li>
+                        <li>**Response:** `200 OK` with the updated user object, or `404 Not Found`.</li>
+                    </ul>
+                    <h4>How to Perform (Refined Route):</h4>
+<pre><code class="language-javascript">app.patch('/api/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body; 
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: 'Invalid user ID format' });
+    }
+
+    // Prevent updating immutable or sensitive fields accidentally
+    delete updates.createdAt; 
+    delete updates._id; 
+    // Add more fields to protect if needed (like password hashes in real apps)
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId, 
+      updates, 
+      { 
+        new: true, // Return the updated document
+        runValidators: true, // Run schema validation
+        context: 'query' // Needed for some validators on update
+      } 
+    ).select('-__v');
+    
+     if (!updatedUser) {
+       return res.status(404).json({ message: 'User not found' });
+    }
+    
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    if (error.code === 11000) { 
+        return res.status(400).json({ message: 'Update failed: Username or email already exists.' });
+    }
+    console.error('Error updating user:', error.message);
+    res.status(400).json({ message: "Error updating user" }); // Validation errors usually
+  }
+});
+</code></pre>
+                    <p>**Theory:** We added checks for ID validity and prevented modification of certain fields (`createdAt`, `_id`).</p>
+
+                    <h4>5. Delete User (DELETE)</h4>
+                    <ul>
+                        <li>**Method:** `DELETE`</li>
+                        <li>**Path:** `/api/users/:id`</li>
+                        <li>**Action:** Remove a specific user.</li>
+                        <li>**Response:** `200 OK` with a success message (or `204 No Content`), or `404 Not Found`.</li>
+                    </ul>
+                    <h4>How to Perform (Refined Route):</h4>
+<pre><code class="language-javascript">app.delete('/api/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: 'Invalid user ID format' });
+    }
+
+    const deletedUser = await User.findByIdAndDelete(userId);
+    
+     if (!deletedUser) {
+       return res.status(404).json({ message: 'User not found' });
+    }
+    
+    // Option 1: Send confirmation message
+    res.status(200).json({ message: 'User deleted successfully', userId: deletedUser._id });
+    
+    // Option 2: Send No Content status (common REST practice)
+    // res.status(204).send(); 
+
+  } catch (error) {
+    console.error('Error deleting user:', error.message);
+    res.status(500).json({ message: "Error deleting user" });
+  }
+});
+</code></pre>
+
+                    <h2>Task: Handling Query Parameters</h2>
+                    <p>What if you want to filter or sort the list of users? REST APIs often use **Query Parameters** in the URL for this.</p>
+                    <p>Example: `GET /api/users?verified=true&sortBy=age`</p>
+                    <p>Express makes these available in the `req.query` object.</p>
+
+                    <h4>How to Perform (Modify `GET /api/users`):</h4>
+<pre><code class="language-javascript">// READ all users (with optional filtering/sorting)
+app.get('/api/users', async (req, res) => {
+  try {
+    let query = User.find(); // Start with a base query finding all users
+
+    // --- Filtering ---
+    // Example: Filter by verification status if query param exists
+    if (req.query.isVerified) {
+      query = query.where('isVerified').equals(req.query.isVerified === 'true'); 
+    }
+
+    // Example: Filter by minimum age if query param exists
+    if (req.query.minAge) {
+      const minAgeNum = parseInt(req.query.minAge);
+      if (!isNaN(minAgeNum)) {
+          query = query.where('age').gte(minAgeNum); // gte = greater than or equal
+      }
+    }
+    
+    // --- Sorting ---
+    // Example: Sort by username if query param exists
+    if (req.query.sortBy === 'username') {
+        query = query.sort({ username: 1 }); // 1 for ascending, -1 for descending
+    } else {
+        query = query.sort({ createdAt: -1 }); // Default sort by newest created
+    }
+
+    // --- Execute the Query ---
+    const users = await query.select('-__v'); 
+    
+    res.status(200).json(users); 
+  } catch (error) {
+    console.error('Error fetching users:', error.message);
+    res.status(500).json({ message: "Error fetching users" }); 
+  }
+});
+</code></pre>
+                    <h4>Theory & How to Test:</h4>
+                    <ul>
+                        <li>**`req.query`:** An object containing the query parameters from the URL (e.g., for `?isVerified=true`, `req.query` would be `{ isVerified: 'true' }`). Note that values are usually strings.</li>
+                        <li>**Mongoose Query Chaining:** Mongoose allows you to build queries step-by-step (`.find()`, `.where()`, `.equals()`, `.gte()`, `.sort()`, `.select()`). The query is only executed when you `await` it.</li>
+                        <li>**Testing:** Try these URLs in your browser:
+                            <ul>
+                                <li>`http://localhost:3000/api/users` (All users, newest first)</li>
+                                <li>`http://localhost:3000/api/users?sortBy=username` (Sorted by username)</li>
+                                <li>`http://localhost:3000/api/users?isVerified=false` (Only unverified users)</li>
+                                <li>`http://localhost:3000/api/users?minAge=20` (Only users 20 or older)</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div class="note">
+                        <strong>API Security Basics (Important!):</strong>
+                        <ul>
+                            <li>**Input Validation:** Always validate data coming from `req.body`, `req.params`, and `req.query`. Never trust user input directly. Use Mongoose schema validation and consider libraries like `express-validator`.</li>
+                            <li>**Error Handling:** Don't send detailed database error messages or stack traces back to the client in production. Log them on the server and send generic error messages (like `500 Internal Server Error`).</li>
+                            <li>**Authentication & Authorization (Next Steps):** Real APIs need to know *who* is making the request (Authentication) and *what* they are allowed to do (Authorization). This is covered in the next chapter.</li>
+                            <li>**Rate Limiting:** Protect your API from abuse by limiting how many requests a user can make in a certain time period.</li>
+                        </ul>
+                    </div>
+
+                    <h2>Conclusion: Building Bridges Between Systems 🌉</h2>
+                    <p>You've now learned the core principles of RESTful API design and how to implement them using Node.js, Express, and Mongoose. You can create endpoints (URLs) that allow clients to perform CRUD operations on your data using standard HTTP methods and JSON.</p>
+                    <p>This ability to create APIs is fundamental to modern web development, enabling communication between your frontend, backend, mobile apps, and even other third-party services. The next crucial step is securing these APIs with **Authentication and Authorization**.</p>
+
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="app.js"></script> 
+
+</body>
+</html>
