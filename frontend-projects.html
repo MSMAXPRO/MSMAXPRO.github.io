@@ -69,392 +69,551 @@
                     </ul>
                     <h3>Core Logic:</h3>
                     <ol>
-                        <li>Listen for the form submission to get the new task text from the input field.</li>
-                        <li>When a task is submitted, create a new list item (`<li>`) element in JavaScript.</li>
+                        <li>Listen for the form submission to get the new task text.</li>
+                        <li>Create a new list item (`<li>`) element in JavaScript.</li>
                         <li>Add the task text and a "Delete" button inside the `<li>`.</li>
                         <li>Append the new `<li>` to the main task list (`<ul>`).</li>
-                        <li>Add event listeners to the `<li>` (for marking as complete) and the "Delete" button (for removing the item).</li>
+                        <li>Add event listeners to the `<li>` (for toggling complete) and the "Delete" button.</li>
                     </ol>
                     <h3>Example Code:</h3>
 <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;To-Do List&lt;/title&gt;
-    &lt;style&gt;
-        body { font-family: sans-serif; background: #222; color: #eee; }
-        .container { max-width: 500px; margin: 20px auto; padding: 20px; background: #333; border-radius: 8px; }
-        input { width: 70%; padding: 8px; }
-        button { padding: 8px; }
-        ul { list-style-type: none; padding: 0; }
-        li { padding: 10px; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
-        .completed { text-decoration: line-through; color: #888; }
-        .delete-btn { background: #e74c3c; color: white; border: none; cursor: pointer; }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="container"&gt;
-        &lt;h1&gt;My To-Do List&lt;/h1&gt;
-        &lt;form id="todo-form"&gt;
-            &lt;input type="text" id="todo-input" placeholder="Add a new task..." required&gt;
-            &lt;button type="submit"&gt;Add Task&lt;/button&gt;
-        &lt;/form&gt;
-        &lt;ul id="todo-list"&gt;&lt;/ul&gt;
-    &lt;/div&gt;
-
-    &lt;script&gt;
-        const form = document.getElementById('todo-form');
-        const input = document.getElementById('todo-input');
-        const list = document.getElementById('todo-list');
-
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent page reload
-            const taskText = input.value;
-            
-            // Create list item
-            const li = document.createElement('li');
-            li.textContent = taskText;
-
-            // Create delete button
-            const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = 'Delete';
-            deleteBtn.classList.add('delete-btn');
-            
-            li.appendChild(deleteBtn);
-            list.appendChild(li);
-
-            input.value = ''; // Clear input field
-
-            // Add event listener to mark as complete
-            li.addEventListener('click', function() {
-                li.classList.toggle('completed');
-            });
-
-            // Add event listener to delete button
-            deleteBtn.addEventListener('click', function() {
-                list.removeChild(li);
-            });
+&lt;html&gt;&lt;head&gt;&lt;title&gt;To-Do List&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background: #222; color: #eee; text-align: center; }
+    .container { max-width: 500px; margin: 20px auto; padding: 20px; background: #333; border-radius: 8px; }
+    input { width: 70%; padding: 8px; } button { padding: 8px; } ul { list-style-type: none; padding: 0; text-align: left;}
+    li { padding: 10px; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .completed { text-decoration: line-through; color: #888; }
+    .delete-btn { background: #e74c3c; color: white; border: none; cursor: pointer; padding: 5px 10px; border-radius: 4px; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="container"&gt;
+    &lt;h1&gt;My To-Do List&lt;/h1&gt;
+    &lt;form id="todo-form"&gt;
+        &lt;input type="text" id="todo-input" placeholder="Add a new task..." required&gt;
+        &lt;button type="submit"&gt;Add Task&lt;/button&gt;
+    &lt;/form&gt;
+    &lt;ul id="todo-list"&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const form = document.getElementById('todo-form');
+    const input = document.getElementById('todo-input');
+    const list = document.getElementById('todo-list');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const li = document.createElement('li');
+        const taskSpan = document.createElement('span');
+        taskSpan.textContent = input.value;
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.classList.add('delete-btn');
+        li.appendChild(taskSpan);
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+        input.value = '';
+        li.addEventListener('click', (event) => {
+            if (event.target.tagName !== 'BUTTON') { li.classList.toggle('completed'); }
         });
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+        deleteBtn.addEventListener('click', () => { list.removeChild(li); });
+    });
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 </code></pre>
 
                     <!-- ==================== PROJECT 2: WEATHER APP ==================== -->
                     <h2>2. Weather App</h2>
                     <p>An application where a user can enter a city name and get the current weather information.</p>
-                    <ul>
-                        <li><strong>Skills Practiced:</strong> Fetching data from a third-party API (`fetch`), handling Promises (`async/await`), working with JSON data, DOM manipulation to display results.</li>
-                    </ul>
+                    <ul><li><strong>Skills Practiced:</strong> Fetching data from a third-party API (`fetch`), `async/await`, JSON, DOM manipulation.</li></ul>
                     <h3>Core Logic:</h3>
                     <ol>
-                        <li>Sign up for a free weather API key (e.g., from OpenWeatherMap or WeatherAPI).</li>
-                        <li>Listen for the form submission to get the city name.</li>
-                        <li>Use the `fetch()` function to make a request to the weather API URL, including the city name and your API key.</li>
-                        <li>Use `await` to wait for the response and parse the JSON data.</li>
-                        <li>Extract the relevant information (temperature, weather description, icon) from the JSON object.</li>
-                        <li>Update the DOM to display the weather information on the page.</li>
-                        <li>Handle potential errors (e.g., city not found, network issues).</li>
+                        <li>Get a free API key (e.g., from OpenWeatherMap).</li>
+                        <li>Get the city name from the user.</li>
+                        <li>Use `fetch()` and `await` to make a request to the weather API URL with the city and your key.</li>
+                        <li>Parse the JSON response and extract the temperature, description, and icon.</li>
+                        <li>Update the DOM to display the weather info and handle any errors.</li>
                     </ol>
                     <h3>Example Code:</h3>
 <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Weather App&lt;/title&gt;
-    &lt;style&gt;
-        body { font-family: sans-serif; background: #2c3e50; color: #ecf0f1; text-align: center; }
-        .container { max-width: 400px; margin: 50px auto; padding: 20px; background: #34495e; border-radius: 8px; }
-        input { padding: 10px; }
-        button { padding: 10px; }
-        #weather-result { margin-top: 20px; }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="container"&gt;
-        &lt;h1&gt;Weather App&lt;/h1&gt;
-        &lt;input type="text" id="city-input" placeholder="Enter city name..."&gt;
-        &lt;button id="get-weather-btn"&gt;Get Weather&lt;/button&gt;
-        &lt;div id="weather-result"&gt;&lt;p&gt;Enter a city to get the weather.&lt;/p&gt;&lt;/div&gt;
-    &lt;/div&gt;
-
-    &lt;script&gt;
-        const cityInput = document.getElementById('city-input');
-        const getWeatherBtn = document.getElementById('get-weather-btn');
-        const weatherResult = document.getElementById('weather-result');
-        
-        // IMPORTANT: Replace with your own free API key from OpenWeatherMap
-        const apiKey = 'YOUR_API_KEY_HERE'; 
-
-        getWeatherBtn.addEventListener('click', async () => {
-            const city = cityInput.value;
-            if (!city) {
-                alert('Please enter a city name.');
-                return;
-            }
-
-            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-            try {
-                weatherResult.innerHTML = '&lt;p&gt;Fetching weather...&lt;/p&gt;';
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error('City not found. Please try again.');
-                }
-                
-                const data = await response.json();
-                
-                const temperature = data.main.temp;
-                const description = data.weather[0].description;
-                const icon = data.weather[0].icon;
-
-                weatherResult.innerHTML = `
-                    &lt;h2&gt;${data.name}&lt;/h2&gt;
-                    &lt;p&gt;Temperature: ${temperature}°C&lt;/p&gt;
-                    &lt;p&gt;Condition: ${description}&lt;/p&gt;
-                    &lt;img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Weather icon"&gt;
-                `;
-            } catch (error) {
-                weatherResult.innerHTML = `&lt;p style="color: red;"&gt;${error.message}&lt;/p&gt;`;
-            }
-        });
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Weather App&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background: #2c3e50; color: #ecf0f1; text-align: center; }
+    .container { max-width: 400px; margin: 50px auto; padding: 20px; background: #34495e; border-radius: 8px; }
+    input { padding: 10px; border-radius: 5px; border: none; }
+    button { padding: 10px; border-radius: 5px; border: none; cursor: pointer; background: #3498db; color: white; }
+    #weather-result { margin-top: 20px; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="container"&gt;
+    &lt;h1&gt;Weather App&lt;/h1&gt;
+    &lt;input type="text" id="city-input" placeholder="Enter city name..."&gt;
+    &lt;button id="get-weather-btn"&gt;Get Weather&lt;/button&gt;
+    &lt;div id="weather-result"&gt;&lt;p&gt;Enter a city to get the weather.&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const cityInput = document.getElementById('city-input');
+    const getWeatherBtn = document.getElementById('get-weather-btn');
+    const weatherResult = document.getElementById('weather-result');
+    const apiKey = 'YOUR_API_KEY_HERE'; // IMPORTANT: Replace with your key
+    getWeatherBtn.addEventListener('click', async () => {
+        const city = cityInput.value;
+        if (!city) { alert('Please enter a city name.'); return; }
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        try {
+            weatherResult.innerHTML = '&lt;p&gt;Fetching weather...&lt;/p&gt;';
+            const response = await fetch(apiUrl);
+            if (!response.ok) { throw new Error('City not found.'); }
+            const data = await response.json();
+            weatherResult.innerHTML = `
+                &lt;h2&gt;${data.name}&lt;/h2&gt;
+                &lt;p&gt;${data.main.temp}°C, ${data.weather[0].description}&lt;/p&gt;
+                &lt;img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png"&gt;
+            `;
+        } catch (error) {
+            weatherResult.innerHTML = `&lt;p style="color: red;"&gt;${error.message}&lt;/p&gt;`;
+        }
+    });
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 </code></pre>
-                    <div class="note"><strong>Safe Practice:</strong> Never commit your real API keys to a public GitHub repository. For frontend-only projects, this is tricky. For a real application, you would have a backend server to securely store and use the key, and your frontend would call your backend, not the weather API directly.</div>
-                    
+
                     <!-- ==================== PROJECT 3: QUIZ APP ==================== -->
                     <h2>3. Quiz App</h2>
-                    <p>A simple multiple-choice quiz that shows the user their final score at the end.</p>
-                    <ul>
-                        <li><strong>Skills Practiced:</strong> JavaScript logic (loops, conditionals), handling user interaction (radio buttons), managing state (current question, score), DOM manipulation.</li>
-                    </ul>
+                    <p>A multiple-choice quiz that shows a final score.</p>
+                    <ul><li><strong>Skills Practiced:</strong> JavaScript logic, arrays of objects, event handling, managing state (score, question index).</li></ul>
                     <h3>Core Logic:</h3>
                     <ol>
-                        <li>Create an array of objects, where each object represents a question and contains the question text, a list of options, and the correct answer.</li>
-                        <li>Display the current question and its options on the page.</li>
-                        <li>Listen for the user to submit their answer.</li>
-                        <li>Check if the selected answer is correct and update the score.</li>
-                        <li>Move to the next question in the array and repeat, or show the final score if it's the last question.</li>
+                        <li>Store questions, options, and answers in a JavaScript array of objects.</li>
+                        <li>Display the current question and options.</li>
+                        <li>When a user clicks an option, check if it's correct, update the score, and provide feedback.</li>
+                        <li>Load the next question or show the final score screen.</li>
                     </ol>
                      <h3>Example Code:</h3>
 <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Quiz App&lt;/title&gt;
-    &lt;style&gt;
-        body { font-family: sans-serif; background: #222; color: #eee; }
-        .quiz-container { max-width: 600px; margin: 50px auto; background: #333; padding: 20px; border-radius: 8px; }
-        #question { font-size: 1.2rem; }
-        #options-container li { list-style-type: none; margin: 10px 0; padding: 10px; background: #444; cursor: pointer; }
-        #feedback { margin-top: 15px; font-weight: bold; }
-        #score-container { text-align: center; }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="quiz-container"&gt;
-        &lt;div id="quiz-view"&gt;
-            &lt;h2 id="question"&gt;Question text goes here&lt;/h2&gt;
-            &lt;ul id="options-container"&gt;&lt;/ul&gt;
-            &lt;button id="next-btn"&gt;Next&lt;/button&gt;
-            &lt;div id="feedback"&gt;&lt;/div&gt;
-        &lt;/div&gt;
-        &lt;div id="score-view" style="display: none;"&gt;
-            &lt;h2 id="score-text"&gt;You scored 0 out of 0&lt;/h2&gt;
-            &lt;button id="restart-btn"&gt;Restart Quiz&lt;/button&gt;
-        &lt;/div&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Quiz App&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background: #222; color: #eee; }
+    .quiz-container { max-width: 600px; margin: 50px auto; background: #333; padding: 20px; border-radius: 8px; }
+    .option { list-style-type: none; margin: 10px 0; padding: 10px; background: #444; cursor: pointer; border-radius: 5px; }
+    .option:hover { background: #555; }
+    #feedback { margin-top: 15px; font-weight: bold; height: 20px; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="quiz-container"&gt;
+    &lt;div id="quiz-view"&gt;
+        &lt;h2 id="question"&gt;&lt;/h2&gt;
+        &lt;ul id="options-container"&gt;&lt;/ul&gt;
+        &lt;div id="feedback"&gt;&lt;/div&gt;
+        &lt;button id="next-btn" style="display:none;"&gt;Next&lt;/button&gt;
     &lt;/div&gt;
-
-    &lt;script&gt;
-        const questions = [
-            { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"], answer: "Paris" },
-            { question: "Which language runs in a web browser?", options: ["Java", "C++", "Python", "JavaScript"], answer: "JavaScript" },
-            { question: "What does CSS stand for?", options: ["Central Style Sheets", "Cascading Style Sheets", "Computer Style Sheets", "Creative Style Sheets"], answer: "Cascading Style Sheets" }
-        ];
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-
-        const questionEl = document.getElementById('question');
-        const optionsContainer = document.getElementById('options-container');
-        const nextBtn = document.getElementById('next-btn');
-        const feedbackEl = document.getElementById('feedback');
-        const quizView = document.getElementById('quiz-view');
-        const scoreView = document.getElementById('score-view');
-        const scoreText = document.getElementById('score-text');
-        const restartBtn = document.getElementById('restart-btn');
-
-        function loadQuestion() {
-            feedbackEl.textContent = '';
-            nextBtn.style.display = 'none';
-            const currentQuestion = questions[currentQuestionIndex];
-            questionEl.textContent = currentQuestion.question;
-            optionsContainer.innerHTML = '';
-
-            currentQuestion.options.forEach(option => {
-                const li = document.createElement('li');
-                li.textContent = option;
-                li.addEventListener('click', () => selectAnswer(option, currentQuestion.answer, li));
-                optionsContainer.appendChild(li);
-            });
-        }
-
-        function selectAnswer(selectedOption, correctAnswer, li) {
-            if (selectedOption === correctAnswer) {
-                feedbackEl.textContent = "Correct!";
-                feedbackEl.style.color = 'lightgreen';
-                score++;
-            } else {
-                feedbackEl.textContent = `Wrong! The correct answer was ${correctAnswer}`;
-                feedbackEl.style.color = 'salmon';
-            }
-            nextBtn.style.display = 'block';
-            // Disable further clicks
-            optionsContainer.querySelectorAll('li').forEach(item => item.style.pointerEvents = 'none');
-        }
-        
-        nextBtn.addEventListener('click', () => {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < questions.length) {
-                loadQuestion();
-            } else {
-                showScore();
-            }
+    &lt;div id="score-view" style="display: none;"&gt;
+        &lt;h2 id="score-text"&gt;&lt;/h2&gt;
+        &lt;button id="restart-btn"&gt;Restart Quiz&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const questions = [
+        { q: "Capital of France?", o: ["Berlin", "Paris", "Rome"], a: "Paris" },
+        { q: "Language of the web?", o: ["Java", "Python", "JavaScript"], a: "JavaScript" }
+    ];
+    let currentQ = 0; let score = 0;
+    const questionEl = document.getElementById('question');
+    const optionsContainer = document.getElementById('options-container');
+    const nextBtn = document.getElementById('next-btn');
+    const feedbackEl = document.getElementById('feedback');
+    function loadQuestion() {
+        feedbackEl.textContent = ''; nextBtn.style.display = 'none';
+        questionEl.textContent = questions[currentQ].q;
+        optionsContainer.innerHTML = '';
+        questions[currentQ].o.forEach(opt => {
+            const li = document.createElement('li'); li.classList.add('option');
+            li.textContent = opt;
+            li.addEventListener('click', () => selectAnswer(opt, questions[currentQ].a));
+            optionsContainer.appendChild(li);
         });
-        
-        restartBtn.addEventListener('click', () => {
-            currentQuestionIndex = 0;
-            score = 0;
-            quizView.style.display = 'block';
-            scoreView.style.display = 'none';
-            loadQuestion();
-        });
-
-        function showScore() {
-            quizView.style.display = 'none';
-            scoreView.style.display = 'block';
-            scoreText.textContent = `You scored ${score} out of ${questions.length}!`;
-        }
-
-        loadQuestion(); // Start the quiz
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+    }
+    function selectAnswer(selected, correct) {
+        if (selected === correct) { feedbackEl.textContent = "Correct!"; score++; }
+        else { feedbackEl.textContent = `Wrong! Answer was ${correct}`; }
+        nextBtn.style.display = 'block';
+        optionsContainer.querySelectorAll('li').forEach(item => item.style.pointerEvents = 'none');
+    }
+    nextBtn.addEventListener('click', () => { currentQ++; (currentQ < questions.length) ? loadQuestion() : showScore(); });
+    document.getElementById('restart-btn').addEventListener('click', () => { currentQ = 0; score = 0; document.getElementById('quiz-view').style.display = 'block'; document.getElementById('score-view').style.display = 'none'; loadQuestion(); });
+    function showScore() { document.getElementById('quiz-view').style.display = 'none'; document.getElementById('score-view').style.display = 'block'; document.getElementById('score-text').textContent = `You scored ${score} out of ${questions.length}!`; }
+    loadQuestion();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 </code></pre>
                     
                     <!-- ==================== PROJECT 4: NOTE TAKING APP ==================== -->
                     <h2>4. Note-Taking App with Local Storage</h2>
                     <p>A simple app to write and save notes that persist even after the browser is closed.</p>
-                    <ul>
-                        <li><strong>Skills Practiced:</strong> Local Storage API, DOM Manipulation, handling arrays of objects in JavaScript.</li>
-                    </ul>
+                    <ul><li><strong>Skills Practiced:</strong> Local Storage API, JSON `stringify`/`parse`, DOM Manipulation, arrays of objects.</li></ul>
                      <h3>Core Logic:</h3>
                     <ol>
-                        <li>When the page loads, check if there are any notes saved in Local Storage. If so, parse the data and display them.</li>
-                        <li>When a user saves a new note, add it to an array of notes.</li>
-                        <li>Convert the entire array to a JSON string using `JSON.stringify()`.</li>
-                        <li>Save this string to Local Storage using `localStorage.setItem('notes', jsonString)`.</li>
-                        <li>When deleting a note, remove it from the array, then re-save the updated array to Local Storage.</li>
+                        <li>On page load, check Local Storage for saved notes. If found, parse the JSON and display them.</li>
+                        <li>When a user saves a note, add it to an array.</li>
+                        <li>Convert the array to a JSON string with `JSON.stringify()`.</li>
+                        <li>Save this string to Local Storage with `localStorage.setItem()`.</li>
+                        <li>When deleting a note, remove it from the array and re-save the updated array to Local Storage.</li>
                     </ol>
                     <h3>Example Code:</h3>
 <pre><code>&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-&lt;head&gt;
-    &lt;title&gt;Note Taking App&lt;/title&gt;
-    &lt;style&gt;
-        body { font-family: sans-serif; background: #333; color: #eee; display: flex; gap: 20px; padding: 20px; }
-        .editor, .notes-display { background: #444; padding: 20px; border-radius: 8px; width: 50%; }
-        textarea { width: 100%; height: 150px; }
-        .note { background: #555; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="editor"&gt;
-        &lt;h2&gt;Add a Note&lt;/h2&gt;
-        &lt;textarea id="note-input" placeholder="Write your note here..."&gt;&lt;/textarea&gt;
-        &lt;button id="save-btn"&gt;Save Note&lt;/button&gt;
-    &lt;/div&gt;
-    &lt;div class="notes-display"&gt;
-        &lt;h2&gt;Saved Notes&lt;/h2&gt;
-        &lt;div id="notes-container"&gt;&lt;/div&gt;
-    &lt;/div&gt;
-
-    &lt;script&gt;
-        const noteInput = document.getElementById('note-input');
-        const saveBtn = document.getElementById('save-btn');
-        const notesContainer = document.getElementById('notes-container');
-
-        function getNotes() {
-            // Get notes from local storage or return an empty array
-            return JSON.parse(localStorage.getItem('notes') || '[]');
-        }
-
-        function saveNotes(notes) {
-            localStorage.setItem('notes', JSON.stringify(notes));
-        }
-
-        function displayNotes() {
-            const notes = getNotes();
-            notesContainer.innerHTML = ''; // Clear current display
-            notes.forEach((noteText, index) => {
-                const noteDiv = document.createElement('div');
-                noteDiv.classList.add('note');
-                noteDiv.textContent = noteText;
-                
-                const deleteBtn = document.createElement('button');
-                deleteBtn.textContent = 'Delete';
-                deleteBtn.onclick = () => {
-                    notes.splice(index, 1); // Remove the note from array
-                    saveNotes(notes);
-                    displayNotes();
-                };
-                
-                noteDiv.appendChild(deleteBtn);
-                notesContainer.appendChild(noteDiv);
-            });
-        }
-
-        saveBtn.addEventListener('click', () => {
-            const notes = getNotes();
-            const newNote = noteInput.value;
-            if (newNote) {
-                notes.push(newNote);
-                saveNotes(notes);
-                noteInput.value = '';
-                displayNotes();
-            }
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Note Taking App&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background: #333; color: #eee; display: flex; gap: 20px; padding: 20px; }
+    .editor, .notes-display { background: #444; padding: 20px; border-radius: 8px; width: 50%; }
+    textarea { width: 100%; height: 150px; box-sizing: border-box;}
+    .note { background: #555; padding: 10px; margin-bottom: 10px; border-radius: 4px; display: flex; justify-content: space-between; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="editor"&gt;
+    &lt;h2&gt;Add a Note&lt;/h2&gt;
+    &lt;textarea id="note-input" placeholder="Write your note..."&gt;&lt;/textarea&gt;
+    &lt;button id="save-btn"&gt;Save Note&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="notes-display"&gt;
+    &lt;h2&gt;Saved Notes&lt;/h2&gt;
+    &lt;div id="notes-container"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const noteInput = document.getElementById('note-input');
+    const saveBtn = document.getElementById('save-btn');
+    const notesContainer = document.getElementById('notes-container');
+    const getNotes = () => JSON.parse(localStorage.getItem('notes') || '[]');
+    const saveNotes = (notes) => localStorage.setItem('notes', JSON.stringify(notes));
+    function displayNotes() {
+        const notes = getNotes();
+        notesContainer.innerHTML = '';
+        notes.forEach((noteText, index) => {
+            const noteDiv = document.createElement('div'); noteDiv.classList.add('note');
+            const textSpan = document.createElement('span'); textSpan.textContent = noteText;
+            const deleteBtn = document.createElement('button'); deleteBtn.textContent = 'X';
+            deleteBtn.onclick = () => { notes.splice(index, 1); saveNotes(notes); displayNotes(); };
+            noteDiv.appendChild(textSpan); noteDiv.appendChild(deleteBtn);
+            notesContainer.appendChild(noteDiv);
         });
-
-        displayNotes(); // Initial display of notes on page load
-    &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
+    }
+    saveBtn.addEventListener('click', () => {
+        const notes = getNotes();
+        if (noteInput.value) {
+            notes.push(noteInput.value);
+            saveNotes(notes);
+            noteInput.value = '';
+            displayNotes();
+        }
+    });
+    displayNotes();
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
 </code></pre>
 
-                    <!-- Other Projects (Descriptions Only for Brevity) -->
+                    <!-- ==================== PROJECT 5: TIP CALCULATOR ==================== -->
                     <h2>5. Tip Calculator</h2>
-                    <p>A simple calculator where a user inputs the bill amount and a tip percentage to calculate the total.</p>
-                    <ul><li><strong>Skills Practiced:</strong> Math operations, handling form inputs (`input` events), updating the UI in real-time.</li></ul>
+                    <p>Calculates the tip amount and total bill per person.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Math operations, form inputs (`input` events), real-time UI updates.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Get the bill amount, tip percentage, and number of people from input fields.</li>
+                        <li>Add an `input` event listener to all fields to trigger recalculation on any change.</li>
+                        <li>Inside the calculation function, parse the input values as numbers.</li>
+                        <li>Calculate `tipAmount = bill * (tipPercentage / 100)`.</li>
+                        <li>Calculate `totalBill = bill + tipAmount`.</li>
+                        <li>Calculate `tipPerPerson = tipAmount / numberOfPeople` and `totalPerPerson = totalBill / numberOfPeople`.</li>
+                        <li>Update the DOM to display the results. Handle division by zero.</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Tip Calculator&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background-color: #f4f4f4; color: #333; display: grid; place-items: center; height: 100vh; margin: 0;}
+    .calculator { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); width: 300px; }
+    .input-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    input { width: 100%; padding: 8px; box-sizing: border-box; }
+    .results { margin-top: 20px; } h3 { margin: 5px 0; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="calculator"&gt;
+    &lt;h1&gt;Tip Calculator&lt;/h1&gt;
+    &lt;div class="input-group"&gt;
+        &lt;label for="bill"&gt;Bill Amount ($)&lt;/label&gt;
+        &lt;input type="number" id="bill" value="0" min="0"&gt;
+    &lt;/div&gt;
+    &lt;div class="input-group"&gt;
+        &lt;label for="tip"&gt;Tip Percentage (%)&lt;/label&gt;
+        &lt;input type="number" id="tip" value="15" min="0"&gt;
+    &lt;/div&gt;
+    &lt;div class="input-group"&gt;
+        &lt;label for="people"&gt;Number of People&lt;/label&gt;
+        &lt;input type="number" id="people" value="1" min="1"&gt;
+    &lt;/div&gt;
+    &lt;div class="results"&gt;
+        &lt;h3&gt;Tip per Person: $&lt;span id="tip-per-person"&gt;0.00&lt;/span&gt;&lt;/h3&gt;
+        &lt;h3&gt;Total per Person: $&lt;span id="total-per-person"&gt;0.00&lt;/span&gt;&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const billInput = document.getElementById('bill');
+    const tipInput = document.getElementById('tip');
+    const peopleInput = document.getElementById('people');
+    const tipPerPersonEl = document.getElementById('tip-per-person');
+    const totalPerPersonEl = document.getElementById('total-per-person');
+    function calculate() {
+        const bill = parseFloat(billInput.value) || 0;
+        const tipPercent = parseFloat(tipInput.value) || 0;
+        const people = parseInt(peopleInput.value) || 1;
+        if (bill >= 0 && tipPercent >= 0 && people > 0) {
+            const tipAmount = bill * (tipPercent / 100);
+            const totalAmount = bill + tipAmount;
+            const tipPerPerson = tipAmount / people;
+            const totalPerPerson = totalAmount / people;
+            tipPerPersonEl.textContent = tipPerPerson.toFixed(2);
+            totalPerPersonEl.textContent = totalPerPerson.toFixed(2);
+        }
+    }
+    billInput.addEventListener('input', calculate);
+    tipInput.addEventListener('input', calculate);
+    peopleInput.addEventListener('input', calculate);
+    calculate(); // Initial calculation
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
                     
-                    <h2>6. Movie Info App (using an API)</h2>
-                    <p>An app where users can search for a movie and get details like its poster, plot, and rating.</p>
-                    <ul><li><strong>Skills Practiced:</strong> Fetching data from a public API (like OMDB or TMDB), dynamically creating and displaying elements based on API data.</li></ul>
-
+                    <!-- ==================== PROJECT 7: SIMPLE DRAWING APP ==================== -->
                     <h2>7. Simple Drawing App</h2>
                     <p>A canvas where users can draw with their mouse.</p>
-                    <ul><li><strong>Skills Practiced:</strong> HTML Canvas API, mouse event listeners (`mousedown`, `mousemove`, `mouseup`).</li></ul>
+                    <ul><li><strong>Skills Practiced:</strong> HTML Canvas API, `mousedown`, `mousemove`, `mouseup` events.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Get the `<canvas>` element and its 2D rendering context.</li>
+                        <li>Create a `drawing` flag, initially `false`.</li>
+                        <li>On `mousedown`, set `drawing` to `true` and get the starting coordinates.</li>
+                        <li>On `mousemove`, if `drawing` is `true`, draw a line from the last coordinates to the current mouse coordinates.</li>
+                        <li>On `mouseup` or `mouseleave`, set `drawing` to `false`.</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Drawing App&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; text-align: center; }
+    canvas { border: 2px solid black; cursor: crosshair; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+    &lt;h1&gt;Simple Drawing App&lt;/h1&gt;
+    &lt;canvas id="draw-canvas" width="600" height="400"&gt;&lt;/canvas&gt;
+    &lt;br&gt;
+    &lt;button id="clear-btn"&gt;Clear&lt;/button&gt;
+&lt;script&gt;
+    const canvas = document.getElementById('draw-canvas');
+    const clearBtn = document.getElementById('clear-btn');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0; let lastY = 0;
+    ctx.strokeStyle = '#000'; ctx.lineWidth = 5; ctx.lineCap = 'round';
+    function draw(e) {
+        if (!isDrawing) return;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    }
+    canvas.addEventListener('mousedown', (e) => {
+        isDrawing = true;
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+    clearBtn.addEventListener('click', () => ctx.clearRect(0, 0, canvas.width, canvas.height));
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
 
+                    <!-- ==================== PROJECT 8: COUNTDOWN TIMER ==================== -->
                     <h2>8. Countdown Timer</h2>
-                    <p>A timer that counts down to a specific date (e.g., New Year's Eve).</p>
-                    <ul><li><strong>Skills Practiced:</strong> JavaScript `Date` object, `setInterval()` for periodic updates, calculating time differences.</li></ul>
-
+                    <p>A timer that counts down to a specific date.</p>
+                    <ul><li><strong>Skills Practiced:</strong> JavaScript `Date` object, `setInterval()`, time calculations.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Set a target future date.</li>
+                        <li>Use `setInterval` to run a function every 1000 milliseconds (1 second).</li>
+                        <li>Inside the function, get the current time.</li>
+                        <li>Calculate the difference between the target time and current time in milliseconds.</li>
+                        <li>Convert the difference to days, hours, minutes, and seconds using math (`%` and `/`).</li>
+                        <li>Update the DOM with the new values.</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Countdown Timer&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background: #111; color: white; display: grid; place-items: center; height: 100vh; margin: 0;}
+    .timer { text-align: center; }
+    .time-block { display: inline-block; margin: 0 15px; }
+    .time-block span { display: block; font-size: 3rem; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="timer"&gt;
+    &lt;h1&gt;New Year's Eve Countdown&lt;/h1&gt;
+    &lt;div&gt;
+        &lt;div class="time-block"&gt;&lt;span id="days"&gt;0&lt;/span&gt;Days&lt;/div&gt;
+        &lt;div class="time-block"&gt;&lt;span id="hours"&gt;0&lt;/span&gt;Hours&lt;/div&gt;
+        &lt;div class="time-block"&gt;&lt;span id="minutes"&gt;0&lt;/span&gt;Minutes&lt;/div&gt;
+        &lt;div class="time-block"&gt;&lt;span id="seconds"&gt;0&lt;/span&gt;Seconds&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const daysEl = document.getElementById('days');
+    const hoursEl = document.getElementById('hours');
+    const minutesEl = document.getElementById('minutes');
+    const secondsEl = document.getElementById('seconds');
+    const targetDate = new Date('Jan 1, 2026 00:00:00').getTime();
+    function countdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+        if (distance < 0) {
+            clearInterval(timerInterval);
+            document.querySelector('.timer h1').textContent = "Happy New Year!";
+            return;
+        }
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        daysEl.textContent = days;
+        hoursEl.textContent = hours.toString().padStart(2, '0');
+        minutesEl.textContent = minutes.toString().padStart(2, '0');
+        secondsEl.textContent = seconds.toString().padStart(2, '0');
+    }
+    const timerInterval = setInterval(countdown, 1000);
+    countdown(); // Initial call
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 9: ROCK, PAPER, SCISSORS ==================== -->
                     <h2>9. Rock, Paper, Scissors Game</h2>
                     <p>The classic game against the computer.</p>
-                    <ul><li><strong>Skills Practiced:</strong> Game logic, generating random choices for the computer, comparing user vs. computer choices, updating scores.</li></ul>
-                    
-                    <h2>10. Recipe Finder App (using an API)</h2>
-                    <p>An app where users can search for recipes based on ingredients.</p>
-                    <ul><li><strong>Skills Practiced:</strong> Fetching data from a public API (like TheMealDB), handling complex JSON data, displaying results in a grid/card layout.</li></ul>
+                    <ul><li><strong>Skills Practiced:</strong> Game logic, random number generation, comparing choices, updating scores.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Add event listeners to the "Rock", "Paper", and "Scissors" buttons.</li>
+                        <li>When a user clicks, get their choice.</li>
+                        <li>Generate a random choice for the computer.</li>
+                        <li>Compare the two choices to determine a winner, loser, or a tie.</li>
+                        <li>Update the DOM to show the choices, the result, and update the scores.</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Rock Paper Scissors&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; text-align: center; background: #333; color: white; }
+    .choices button { font-size: 2rem; margin: 10px; padding: 10px; cursor: pointer; }
+    .result { margin-top: 20px; }
+    .scores { margin-top: 20px; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Rock, Paper, Scissors&lt;/h1&gt;
+&lt;div class="choices"&gt;
+    &lt;button id="rock"&gt;✊&lt;/button&gt;
+    &lt;button id="paper"&gt;✋&lt;/button&gt;
+    &lt;button id="scissors"&gt;✌️&lt;/button&gt;
+&lt;/div&gt;
+&lt;div class="result"&gt;
+    &lt;h2 id="result-text"&gt;Choose your move!&lt;/h2&gt;
+    &lt;p&gt;You chose: &lt;span id="user-choice"&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;p&gt;Computer chose: &lt;span id="computer-choice"&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="scores"&gt;
+    &lt;h3&gt;Score: You &lt;span id="user-score"&gt;0&lt;/span&gt; - &lt;span id="computer-score"&gt;0&lt;/span&gt; Computer&lt;/h3&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const choices = ['rock', 'paper', 'scissors'];
+    const buttons = document.querySelectorAll('.choices button');
+    const resultText = document.getElementById('result-text');
+    const userChoiceEl = document.getElementById('user-choice');
+    const computerChoiceEl = document.getElementById('computer-choice');
+    const userScoreEl = document.getElementById('user-score');
+    const computerScoreEl = document.getElementById('computer-score');
+    let userScore = 0; let computerScore = 0;
+    
+    buttons.forEach(button => button.addEventListener('click', () => {
+        const userChoice = button.id;
+        const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+        playRound(userChoice, computerChoice);
+    }));
+
+    function playRound(user, computer) {
+        userChoiceEl.textContent = user;
+        computerChoiceEl.textContent = computer;
+        if (user === computer) {
+            resultText.textContent = "It's a tie!";
+        } else if (
+            (user === 'rock' && computer === 'scissors') ||
+            (user === 'paper' && computer === 'rock') ||
+            (user === 'scissors' && computer === 'paper')
+        ) {
+            resultText.textContent = "You win!";
+            userScore++;
+        } else {
+            resultText.textContent = "You lose!";
+            computerScore++;
+        }
+        userScoreEl.textContent = userScore;
+        computerScoreEl.textContent = computerScore;
+    }
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
+
+                    <!-- ==================== PROJECT 10: RECIPE FINDER ==================== -->
+                    <h2>10. Recipe Finder App</h2>
+                    <p>An app where users can search for recipes based on an ingredient.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Fetching data from a public API, displaying results in a grid/card layout.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Find a free recipe API (e.g., TheMealDB, which doesn't require a key).</li>
+                        <li>Get the search term (ingredient) from the user.</li>
+                        <li>Use `fetch()` to call the API.</li>
+                        <li>Parse the JSON response and loop through the array of meals.</li>
+                        <li>For each meal, dynamically create an HTML card with its image and title, and append it to the results container.</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;title&gt;Recipe Finder&lt;/title&gt;
+&lt;style&gt;
+    body { font-family: sans-serif; background: #222; color: #eee; }
+    .container { max-width: 900px; margin: auto; text-align: center; }
+    #recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+    .recipe-card { background: #333; border-radius: 8px; overflow: hidden; }
+    .recipe-card img { width: 100%; }
+    .recipe-card h3 { padding: 10px; margin: 0; }
+&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
+&lt;div class="container"&gt;
+    &lt;h1&gt;Recipe Finder&lt;/h1&gt;
+    &lt;input type="text" id="search-input" placeholder="Enter an ingredient (e.g., chicken)"&gt;
+    &lt;button id="search-btn"&gt;Search&lt;/button&gt;
+    &lt;div id="recipe-grid"&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    const searchInput = document.getElementById('search-input');
+    const searchBtn = document.getElementById('search-btn');
+    const recipeGrid = document.getElementById('recipe-grid');
+    
+    async function getRecipes() {
+        const ingredient = searchInput.value.trim();
+        if (!ingredient) { alert('Please enter an ingredient'); return; }
+        const apiUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`;
+        try {
+            recipeGrid.innerHTML = '&lt;p&gt;Loading...&lt;/p&gt;';
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            recipeGrid.innerHTML = '';
+            if (data.meals) {
+                data.meals.forEach(meal => {
+                    const recipeCard = document.createElement('div');
+                    recipeCard.classList.add('recipe-card');
+                    recipeCard.innerHTML = `
+                        &lt;img src="${meal.strMealThumb}" alt="${meal.strMeal}"&gt;
+                        &lt;h3&gt;${meal.strMeal}&lt;/h3&gt;
+                    `;
+                    recipeGrid.appendChild(recipeCard);
+                });
+            } else {
+                recipeGrid.innerHTML = '&lt;p&gt;No recipes found. Try another ingredient.&lt;/p&gt;';
+            }
+        } catch (error) {
+            recipeGrid.innerHTML = '&lt;p&gt;Something went wrong. Please try again later.&lt;/p&gt;';
+        }
+    }
+    searchBtn.addEventListener('click', getRecipes);
+&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;
+</code></pre>
 
                     <h2>Conclusion: Keep Building! 🚀</h2>
                     <p>Completing these projects will give you a strong, practical foundation in frontend development. The key is not just to build them, but to **customize and expand** them. Add new features, improve the styling, and make them your own. This is the best way to learn and build a portfolio to showcase your skills.</p>
@@ -462,7 +621,7 @@
 
                 <!-- START: Add Back Link -->
                 <div class="next-step-link" style="text-align: center; margin-top: 50px;">
-                    <a href="Frontend-roadmaps.html" class="cta-button">&larr; Back to Frontend Roadmap</a>
+                    <a href="frontend-roadmaps.html" class="cta-button">&larr; Back to Frontend Roadmap</a>
                 </div>
                 <!-- END: Add Back Link -->
             </div>
