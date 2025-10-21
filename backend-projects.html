@@ -1,1 +1,574 @@
-b
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Projects - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css"> 
+
+    <style>
+        /* --- Page-Specific Highlight Color --- */
+        .highlight {
+            background: linear-gradient(90deg, #86efac, #22c55e); /* Node.js Green */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li> 
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container"> <!-- This container is 800px wide via style.css -->
+                <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 7: Build <span class="highlight">Backend Projects</span></h1>
+                        <p class="content-meta">Backend Developer Roadmap</p>
+                    </div>
+
+                    <p>It's time to build! The following projects are designed to be "headless" – meaning they focus entirely on the backend logic (APIs, databases, services) without requiring a frontend. You can test each of these projects using an API client like <a href="https://www.postman.com/" target="_blank">Postman</a> or <a href="https://insomnia.rest/" target="_blank">Insomnia</a>.</p>
+                    <p>For each project, create a new folder, run `npm init -y`, install the required packages, create a `server.js` file, and paste the code. Let's get started!</p>
+
+                    <!-- ==================== PROJECT 1: BASIC BLOG API ==================== -->
+                    <h2>1. Basic Blog API (CRUD)</h2>
+                    <p>A fundamental REST API for creating, reading, updating, and deleting blog posts. This is a core skill for any backend developer.</p>
+                    <ul>
+                        <li><strong>Skills Practiced:</strong> REST API principles, Express routing, Mongoose Schemas & Models, CRUD operations, `async/await`.</li>
+                    </ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Define a Mongoose schema for a `Post` with `title` and `content`.</li>
+                        <li>Create a `Post` model from the schema.</li>
+                        <li>Set up Express routes for `GET /posts`, `GET /posts/:id`, `POST /posts`, `PATCH /posts/:id`, and `DELETE /posts/:id`.</li>
+                        <li>Connect each route to the corresponding Mongoose method (`find`, `findById`, `save`, `findByIdAndUpdate`, `findByIdAndDelete`).</li>
+                    </ol>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express mongoose dotenv
+// Create a .env file with your MONGO_URI
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+app.use(express.json()); // Middleware to parse JSON
+
+// --- Mongoose Schema & Model ---
+const postSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    createdAt: { type: Date, default: Date.now }
+});
+const Post = mongoose.model('Post', postSchema);
+
+// --- API Routes ---
+// CREATE a new post
+app.post('/posts', async (req, res) => {
+    try {
+        const newPost = new Post({ title: req.body.title, content: req.body.content });
+        const savedPost = await newPost.save();
+        res.status(201).json(savedPost);
+    } catch (err) { res.status(400).json({ message: err.message }); }
+});
+
+// READ all posts
+app.get('/posts', async (req, res) => {
+    try {
+        const posts = await Post.find();
+        res.json(posts);
+    } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// READ a single post by ID
+app.get('/posts/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) return res.status(404).json({ message: 'Post not found' });
+        res.json(post);
+    } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// UPDATE a post by ID
+app.patch('/posts/:id', async (req, res) => {
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!updatedPost) return res.status(404).json({ message: 'Post not found' });
+        res.json(updatedPost);
+    } catch (err) { res.status(400).json({ message: err.message }); }
+});
+
+// DELETE a post by ID
+app.delete('/posts/:id', async (req, res) => {
+    try {
+        const deletedPost = await Post.findByIdAndDelete(req.params.id);
+        if (!deletedPost) return res.status(404).json({ message: 'Post not found' });
+        res.json({ message: 'Post deleted' });
+    } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+
+// --- Database Connection & Server Start ---
+const PORT = process.env.PORT || 3000;
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log('MongoDB Connected...');
+        app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    })
+    .catch(err => console.log(err));
+</code></pre>
+
+                    <!-- ==================== PROJECT 2: URL SHORTENER ==================== -->
+                    <h2>2. URL Shortener</h2>
+                    <p>An API that takes a long URL and returns a short, unique code. When someone visits the short URL, they are redirected to the original long URL.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Routing with parameters, Database interaction, Generating unique strings.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Create a schema with `originalUrl` and `shortCode`.</li>
+                        <li>`POST /shorten`: When a long URL is received, generate a unique short code, save the pair to the database, and return the short URL.</li>
+                        <li>`GET /:shortCode`: When a request comes to this route, find the document with the matching `shortCode` in the database. If found, redirect the user to the `originalUrl`. If not, return a 404 error.</li>
+                    </ol>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express mongoose nanoid dotenv
+// Create a .env file with your MONGO_URI
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const { nanoid } = require('nanoid'); // For generating short codes
+const app = express();
+app.use(express.json());
+
+// --- Mongoose Schema & Model ---
+const urlSchema = new mongoose.Schema({
+    originalUrl: { type: String, required: true },
+    shortCode: { type: String, required: true, unique: true, default: () => nanoid(7) }
+});
+const Url = mongoose.model('Url', urlSchema);
+
+// --- API Routes ---
+// CREATE a short URL
+app.post('/shorten', async (req, res) => {
+    try {
+        const { originalUrl } = req.body;
+        // Optional: Check if URL already exists
+        let url = await Url.findOne({ originalUrl });
+        if (url) {
+            res.json(url);
+        } else {
+            const newUrl = new Url({ originalUrl });
+            await newUrl.save();
+            res.status(201).json(newUrl);
+        }
+    } catch (err) { res.status(500).json({ message: 'Server error' }); }
+});
+
+// REDIRECT to original URL
+app.get('/:shortCode', async (req, res) => {
+    try {
+        const url = await Url.findOne({ shortCode: req.params.shortCode });
+        if (url) {
+            return res.redirect(url.originalUrl);
+        } else {
+            return res.status(404).json('No URL found');
+        }
+    } catch (err) { res.status(500).json('Server error'); }
+});
+
+
+// --- Database Connection & Server Start ---
+const PORT = process.env.PORT || 3000;
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
+    .catch(err => console.log(err));
+</code></pre>
+
+                    <!-- ==================== PROJECT 3: USER AUTH API ==================== -->
+                    <h2>3. User Authentication API</h2>
+                    <p>The foundation of any application with user accounts. This API will handle user signup and login, returning a JWT for accessing protected routes.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Password hashing (`bcrypt`), JWT creation/verification, secure API design, middleware.</li></ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>`POST /signup`: Hash the user's password using `bcrypt` and save the new user to the database.</li>
+                        <li>`POST /login`: Find the user by email. Use `bcrypt.compare()` to check if the submitted password matches the stored hash.</li>
+                        <li>If the login is successful, generate a JWT containing the user's ID and sign it with a secret key. Return the token.</li>
+                        <li>Create a protected route (e.g., `GET /profile`) and a middleware function that checks for a valid JWT in the `Authorization` header.</li>
+                    </ol>
+                     <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express mongoose bcrypt jsonwebtoken dotenv
+// Create .env with MONGO_URI and a strong JWT_SECRET
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const app = express();
+app.use(express.json());
+
+// --- User Schema & Model ---
+const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
+});
+const User = mongoose.model('User', userSchema);
+
+// --- Middleware to protect routes ---
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+};
+
+// --- Auth Routes ---
+// SIGNUP
+app.post('/signup', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const user = new User({ email: req.body.email, password: hashedPassword });
+        await user.save();
+        res.status(201).send('User created');
+    } catch { res.status(500).send(); }
+});
+
+// LOGIN
+app.post('/login', async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (user == null) return res.status(400).send('Cannot find user');
+    try {
+        if (await bcrypt.compare(req.body.password, user.password)) {
+            const payload = { userId: user._id };
+            const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+            res.json({ accessToken: accessToken });
+        } else {
+            res.send('Not Allowed');
+        }
+    } catch { res.status(500).send(); }
+});
+
+// PROTECTED ROUTE
+app.get('/profile', authenticateToken, (req, res) => {
+    // req.user is available from the middleware
+    res.json({ message: `Welcome user with ID: ${req.user.userId}` });
+});
+
+
+// --- DB & Server ---
+const PORT = process.env.PORT || 3000;
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
+    .catch(err => console.log(err));
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 4: WEATHER API PROXY ==================== -->
+                    <h2>4. Weather API Proxy</h2>
+                    <p>An API that acts as a middleman. Your frontend calls *your* server, and your server securely calls the external weather API, hiding your secret API key.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Calling external APIs from Node.js (`axios`), securing API keys with environment variables.</li></ul>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express axios dotenv
+// Create .env with a WEATHER_API_KEY from OpenWeatherMap
+require('dotenv').config();
+const express = require('express');
+const axios = require('axios'); // For making HTTP requests
+const app = express();
+
+app.get('/weather', async (req, res) => {
+    try {
+        const city = req.query.city;
+        if (!city) return res.status(400).json({ message: 'City query parameter is required' });
+
+        const apiKey = process.env.WEATHER_API_KEY;
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        
+        const weatherResponse = await axios.get(apiUrl);
+        res.json(weatherResponse.data);
+
+    } catch (error) {
+        if (error.response) { // The request was made and the server responded with a status code
+            res.status(error.response.status).json({ message: error.response.data.message });
+        } else {
+            res.status(500).json({ message: 'Server error' });
+        }
+    }
+});
+
+const PORT = 3000;
+app.listen(PORT, () => console.log(`Proxy server running on port ${PORT}`));
+</code></pre>
+
+                    <!-- ==================== PROJECT 5: TASK SCHEDULER ==================== -->
+                    <h2>5. Task Scheduler (Cron Job)</h2>
+                    <p>A script that automatically runs a specific task on a schedule (e.g., send a report every morning, clean up temporary files once a week).</p>
+                    <ul><li><strong>Skills Practiced:</strong> Scheduling tasks (`node-cron`), running background processes.</li></ul>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install node-cron
+const cron = require('node-cron');
+const express = require('express');
+const app = express();
+
+console.log('Scheduler started. Waiting for tasks...');
+
+// Schedule a task to run every minute
+cron.schedule('* * * * *', () => {
+  console.log(`Task is running every minute - ${new Date()}`);
+  // Example task: Fetch data, send an email, perform cleanup, etc.
+});
+
+// Schedule a task to run at 8 AM every day
+cron.schedule('0 8 * * *', () => {
+    console.log('Running daily report at 8:00 AM');
+});
+
+// Keep the server running so the scheduler stays active
+app.get('/', (req, res) => res.send('Cron scheduler is active. Check the console!'));
+app.listen(3000);
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 6: FILE UPLOAD API ==================== -->
+                    <h2>6. File Upload API</h2>
+                    <p>An endpoint that can accept file uploads (like images) and save them to a directory on the server.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Handling `multipart/form-data`, using middleware (`multer`), working with the file system.</li></ul>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express multer
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+const app = express();
+
+// Set up storage for Multer
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: function(req, file, cb){
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
+
+// Route to handle single file upload
+app.post('/upload', upload.single('myFile'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+    console.log(req.file); // Information about the uploaded file
+    res.send(`File uploaded successfully: ${req.file.path}`);
+});
+
+// Test with Postman: Send a POST request to /upload. 
+// In the Body tab, select 'form-data', enter 'myFile' as the key,
+// change the type to 'File', and select a file from your computer.
+
+app.listen(3000, () => console.log('Server started on port 3000'));
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 7: REAL-TIME CHAT SERVER ==================== -->
+                    <h2>7. Real-time Chat Server (Simple)</h2>
+                    <p>A basic WebSocket server that broadcasts any message it receives to all connected clients.</p>
+                    <ul><li><strong>Skills Practiced:</strong> WebSockets (`ws` library), event-driven programming, managing connections.</li></ul>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install ws express
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+
+const app = express();
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', ws => {
+    console.log('Client connected');
+    
+    ws.on('message', message => {
+        console.log(`Received message: ${message}`);
+        // Broadcast the message to all clients
+        wss.clients.forEach(client => {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(String(message)); // Ensure it's a string
+            }
+        });
+    });
+
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
+});
+
+server.listen(8080, () => {
+    console.log('WebSocket server started on port 8080');
+});
+
+// To test, use a simple WebSocket client tool or a small HTML file.
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 8: API RATE LIMITER ==================== -->
+                    <h2>8. API Rate Limiter</h2>
+                    <p>Protect your API from abuse by limiting how many requests a user can make in a given time period.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Express middleware, security concepts.</li></ul>
+                    <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express express-rate-limit
+const express = require('express');
+const rateLimit = require('express-rate-limit');
+const app = express();
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // Limit each IP to 100 requests per windowMs
+	standardHeaders: true, 
+	legacyHeaders: false, 
+    message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter);
+
+// Your API routes
+app.get('/', (req, res) => {
+    res.send('This is a rate-limited API!');
+});
+
+app.get('/api/data', (req, res) => {
+    res.json({ data: 'Some important data' });
+});
+
+app.listen(3000, () => console.log('Server with rate limiter running on port 3000'));
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 9: SIMPLE E-COMMERCE API ==================== -->
+                    <h2>9. Simple E-commerce API</h2>
+                    <p>Endpoints to list products and view a single product. This is a great way to practice data modeling.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Advanced CRUD, data modeling in Mongoose, routing with parameters.</li></ul>
+                     <h3>Example Code (`server.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install express mongoose dotenv
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express(); app.use(express.json());
+
+const productSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    price: { type: Number, required: true, min: 0 },
+    description: String,
+    inStock: { type: Boolean, default: true }
+});
+const Product = mongoose.model('Product', productSchema);
+
+// CREATE a new product
+app.post('/products', async (req, res) => {
+    try {
+        const product = new Product(req.body);
+        await product.save();
+        res.status(201).json(product);
+    } catch (err) { res.status(400).json({ message: err.message }); }
+});
+
+// GET all products
+app.get('/products', async (req, res) => {
+    try {
+        const products = await Product.find();
+        res.json(products);
+    } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+// GET a single product by ID
+app.get('/products/:id', async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id);
+        if (!product) return res.status(404).json({ message: 'Product not found' });
+        res.json(product);
+    } catch (err) { res.status(500).json({ message: err.message }); }
+});
+
+const PORT = 3000;
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
+    .catch(err => console.log(err));
+</code></pre>
+
+                    <!-- ==================== PROJECT 10: WEB SCRAPER ==================== -->
+                    <h2>10. Basic Web Scraper</h2>
+                    <p>A script that fetches a webpage, parses its HTML, and extracts specific data (e.g., all the headlines from a news site).</p>
+                    <ul><li><strong>Skills Practiced:</strong> HTTP requests (`axios`), HTML parsing (`cheerio`).</li></ul>
+                     <h3>Example Code (`scraper.js` - run with `node scraper.js`):</h3>
+<pre><code class="language-javascript">// Setup: npm install axios cheerio
+const axios = require('axios');
+const cheerio = require('cheerio');
+
+// URL to scrape (use a simple site for example)
+const url = 'https://news.ycombinator.com';
+
+async function scrapeData() {
+    try {
+        const { data } = await axios.get(url);
+        const $ = cheerio.load(data); // Load HTML into Cheerio
+        
+        const headlines = [];
+        // Use a CSS selector to find all headline elements
+        $('.titleline > a').each((index, element) => {
+            headlines.push($(element).text());
+        });
+
+        console.log('Scraped Headlines:');
+        console.log(headlines);
+
+    } catch (error) {
+        console.error('Error scraping data:', error.message);
+    }
+}
+
+scrapeData();
+</code></pre>
+                    
+                </article>
+
+                <!-- START: Add Back Link -->
+                <div class="next-step-link" style="text-align: center; margin-top: 50px;">
+                    <a href="backend-roadmaps.html" class="cta-button">&larr; Back to Backend Roadmap</a>
+                </div>
+                <!-- END: Add Back Link -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Link to the external JS file -->
+    <script src="app.js"></script> 
+
+</body>
+</html>
