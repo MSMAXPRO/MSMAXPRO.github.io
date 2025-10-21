@@ -1,1 +1,482 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Projects - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css"> 
+
+    <style>
+        /* --- Page-Specific Highlight Color --- */
+        .highlight {
+            background: linear-gradient(90deg, #fb923c, #f97316); /* Orange Gradient for Projects */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li> 
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container"> <!-- This container is 800px wide via style.css -->
+                <article class="content-body">
+                    <div class="content-header">
+                        <h1>Chapter 7: Build <span class="highlight">Frontend Projects</span></h1>
+                        <p class="content-meta">Frontend Developer Roadmap</p>
+                    </div>
+
+                    <p>Theory is important, but building projects is where you truly learn. This chapter provides a list of 10 classic frontend projects you can build using only **HTML, CSS, and JavaScript**. Each project will help you solidify different skills, from DOM manipulation and handling events to fetching data from APIs and storing information in the browser.</p>
+                    <p>For each project, we'll explain the core logic and provide a complete, runnable code snippet for a basic version. You can copy this code, save it as an `.html` file, and see it work instantly. Your challenge is to then expand and improve upon it!</p>
+
+                    <!-- ==================== PROJECT 1: TO-DO LIST APP ==================== -->
+                    <h2>1. To-Do List App</h2>
+                    <p>A classic beginner project. This app allows users to add tasks to a list, mark them as complete, and delete them.</p>
+                    <ul>
+                        <li><strong>Skills Practiced:</strong> DOM Manipulation (creating, adding, deleting elements), Event Handling (`click`, `submit`), basic state management in the UI.</li>
+                    </ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Listen for the form submission to get the new task text from the input field.</li>
+                        <li>When a task is submitted, create a new list item (`<li>`) element in JavaScript.</li>
+                        <li>Add the task text and a "Delete" button inside the `<li>`.</li>
+                        <li>Append the new `<li>` to the main task list (`<ul>`).</li>
+                        <li>Add event listeners to the `<li>` (for marking as complete) and the "Delete" button (for removing the item).</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;To-Do List&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background: #222; color: #eee; }
+        .container { max-width: 500px; margin: 20px auto; padding: 20px; background: #333; border-radius: 8px; }
+        input { width: 70%; padding: 8px; }
+        button { padding: 8px; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
+        .completed { text-decoration: line-through; color: #888; }
+        .delete-btn { background: #e74c3c; color: white; border: none; cursor: pointer; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;My To-Do List&lt;/h1&gt;
+        &lt;form id="todo-form"&gt;
+            &lt;input type="text" id="todo-input" placeholder="Add a new task..." required&gt;
+            &lt;button type="submit"&gt;Add Task&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;ul id="todo-list"&gt;&lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const form = document.getElementById('todo-form');
+        const input = document.getElementById('todo-input');
+        const list = document.getElementById('todo-list');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent page reload
+            const taskText = input.value;
+            
+            // Create list item
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            // Create delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.classList.add('delete-btn');
+            
+            li.appendChild(deleteBtn);
+            list.appendChild(li);
+
+            input.value = ''; // Clear input field
+
+            // Add event listener to mark as complete
+            li.addEventListener('click', function() {
+                li.classList.toggle('completed');
+            });
+
+            // Add event listener to delete button
+            deleteBtn.addEventListener('click', function() {
+                list.removeChild(li);
+            });
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+                    <!-- ==================== PROJECT 2: WEATHER APP ==================== -->
+                    <h2>2. Weather App</h2>
+                    <p>An application where a user can enter a city name and get the current weather information.</p>
+                    <ul>
+                        <li><strong>Skills Practiced:</strong> Fetching data from a third-party API (`fetch`), handling Promises (`async/await`), working with JSON data, DOM manipulation to display results.</li>
+                    </ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Sign up for a free weather API key (e.g., from OpenWeatherMap or WeatherAPI).</li>
+                        <li>Listen for the form submission to get the city name.</li>
+                        <li>Use the `fetch()` function to make a request to the weather API URL, including the city name and your API key.</li>
+                        <li>Use `await` to wait for the response and parse the JSON data.</li>
+                        <li>Extract the relevant information (temperature, weather description, icon) from the JSON object.</li>
+                        <li>Update the DOM to display the weather information on the page.</li>
+                        <li>Handle potential errors (e.g., city not found, network issues).</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Weather App&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background: #2c3e50; color: #ecf0f1; text-align: center; }
+        .container { max-width: 400px; margin: 50px auto; padding: 20px; background: #34495e; border-radius: 8px; }
+        input { padding: 10px; }
+        button { padding: 10px; }
+        #weather-result { margin-top: 20px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;Weather App&lt;/h1&gt;
+        &lt;input type="text" id="city-input" placeholder="Enter city name..."&gt;
+        &lt;button id="get-weather-btn"&gt;Get Weather&lt;/button&gt;
+        &lt;div id="weather-result"&gt;&lt;p&gt;Enter a city to get the weather.&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const cityInput = document.getElementById('city-input');
+        const getWeatherBtn = document.getElementById('get-weather-btn');
+        const weatherResult = document.getElementById('weather-result');
+        
+        // IMPORTANT: Replace with your own free API key from OpenWeatherMap
+        const apiKey = 'YOUR_API_KEY_HERE'; 
+
+        getWeatherBtn.addEventListener('click', async () => {
+            const city = cityInput.value;
+            if (!city) {
+                alert('Please enter a city name.');
+                return;
+            }
+
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+            try {
+                weatherResult.innerHTML = '&lt;p&gt;Fetching weather...&lt;/p&gt;';
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error('City not found. Please try again.');
+                }
+                
+                const data = await response.json();
+                
+                const temperature = data.main.temp;
+                const description = data.weather[0].description;
+                const icon = data.weather[0].icon;
+
+                weatherResult.innerHTML = `
+                    &lt;h2&gt;${data.name}&lt;/h2&gt;
+                    &lt;p&gt;Temperature: ${temperature}°C&lt;/p&gt;
+                    &lt;p&gt;Condition: ${description}&lt;/p&gt;
+                    &lt;img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="Weather icon"&gt;
+                `;
+            } catch (error) {
+                weatherResult.innerHTML = `&lt;p style="color: red;"&gt;${error.message}&lt;/p&gt;`;
+            }
+        });
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                    <div class="note"><strong>Safe Practice:</strong> Never commit your real API keys to a public GitHub repository. For frontend-only projects, this is tricky. For a real application, you would have a backend server to securely store and use the key, and your frontend would call your backend, not the weather API directly.</div>
+                    
+                    <!-- ==================== PROJECT 3: QUIZ APP ==================== -->
+                    <h2>3. Quiz App</h2>
+                    <p>A simple multiple-choice quiz that shows the user their final score at the end.</p>
+                    <ul>
+                        <li><strong>Skills Practiced:</strong> JavaScript logic (loops, conditionals), handling user interaction (radio buttons), managing state (current question, score), DOM manipulation.</li>
+                    </ul>
+                    <h3>Core Logic:</h3>
+                    <ol>
+                        <li>Create an array of objects, where each object represents a question and contains the question text, a list of options, and the correct answer.</li>
+                        <li>Display the current question and its options on the page.</li>
+                        <li>Listen for the user to submit their answer.</li>
+                        <li>Check if the selected answer is correct and update the score.</li>
+                        <li>Move to the next question in the array and repeat, or show the final score if it's the last question.</li>
+                    </ol>
+                     <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Quiz App&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background: #222; color: #eee; }
+        .quiz-container { max-width: 600px; margin: 50px auto; background: #333; padding: 20px; border-radius: 8px; }
+        #question { font-size: 1.2rem; }
+        #options-container li { list-style-type: none; margin: 10px 0; padding: 10px; background: #444; cursor: pointer; }
+        #feedback { margin-top: 15px; font-weight: bold; }
+        #score-container { text-align: center; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="quiz-container"&gt;
+        &lt;div id="quiz-view"&gt;
+            &lt;h2 id="question"&gt;Question text goes here&lt;/h2&gt;
+            &lt;ul id="options-container"&gt;&lt;/ul&gt;
+            &lt;button id="next-btn"&gt;Next&lt;/button&gt;
+            &lt;div id="feedback"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div id="score-view" style="display: none;"&gt;
+            &lt;h2 id="score-text"&gt;You scored 0 out of 0&lt;/h2&gt;
+            &lt;button id="restart-btn"&gt;Restart Quiz&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const questions = [
+            { question: "What is the capital of France?", options: ["Berlin", "Madrid", "Paris", "Rome"], answer: "Paris" },
+            { question: "Which language runs in a web browser?", options: ["Java", "C++", "Python", "JavaScript"], answer: "JavaScript" },
+            { question: "What does CSS stand for?", options: ["Central Style Sheets", "Cascading Style Sheets", "Computer Style Sheets", "Creative Style Sheets"], answer: "Cascading Style Sheets" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        const questionEl = document.getElementById('question');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackEl = document.getElementById('feedback');
+        const quizView = document.getElementById('quiz-view');
+        const scoreView = document.getElementById('score-view');
+        const scoreText = document.getElementById('score-text');
+        const restartBtn = document.getElementById('restart-btn');
+
+        function loadQuestion() {
+            feedbackEl.textContent = '';
+            nextBtn.style.display = 'none';
+            const currentQuestion = questions[currentQuestionIndex];
+            questionEl.textContent = currentQuestion.question;
+            optionsContainer.innerHTML = '';
+
+            currentQuestion.options.forEach(option => {
+                const li = document.createElement('li');
+                li.textContent = option;
+                li.addEventListener('click', () => selectAnswer(option, currentQuestion.answer, li));
+                optionsContainer.appendChild(li);
+            });
+        }
+
+        function selectAnswer(selectedOption, correctAnswer, li) {
+            if (selectedOption === correctAnswer) {
+                feedbackEl.textContent = "Correct!";
+                feedbackEl.style.color = 'lightgreen';
+                score++;
+            } else {
+                feedbackEl.textContent = `Wrong! The correct answer was ${correctAnswer}`;
+                feedbackEl.style.color = 'salmon';
+            }
+            nextBtn.style.display = 'block';
+            // Disable further clicks
+            optionsContainer.querySelectorAll('li').forEach(item => item.style.pointerEvents = 'none');
+        }
+        
+        nextBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showScore();
+            }
+        });
+        
+        restartBtn.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            quizView.style.display = 'block';
+            scoreView.style.display = 'none';
+            loadQuestion();
+        });
+
+        function showScore() {
+            quizView.style.display = 'none';
+            scoreView.style.display = 'block';
+            scoreText.textContent = `You scored ${score} out of ${questions.length}!`;
+        }
+
+        loadQuestion(); // Start the quiz
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                    
+                    <!-- ==================== PROJECT 4: NOTE TAKING APP ==================== -->
+                    <h2>4. Note-Taking App with Local Storage</h2>
+                    <p>A simple app to write and save notes that persist even after the browser is closed.</p>
+                    <ul>
+                        <li><strong>Skills Practiced:</strong> Local Storage API, DOM Manipulation, handling arrays of objects in JavaScript.</li>
+                    </ul>
+                     <h3>Core Logic:</h3>
+                    <ol>
+                        <li>When the page loads, check if there are any notes saved in Local Storage. If so, parse the data and display them.</li>
+                        <li>When a user saves a new note, add it to an array of notes.</li>
+                        <li>Convert the entire array to a JSON string using `JSON.stringify()`.</li>
+                        <li>Save this string to Local Storage using `localStorage.setItem('notes', jsonString)`.</li>
+                        <li>When deleting a note, remove it from the array, then re-save the updated array to Local Storage.</li>
+                    </ol>
+                    <h3>Example Code:</h3>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Note Taking App&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: sans-serif; background: #333; color: #eee; display: flex; gap: 20px; padding: 20px; }
+        .editor, .notes-display { background: #444; padding: 20px; border-radius: 8px; width: 50%; }
+        textarea { width: 100%; height: 150px; }
+        .note { background: #555; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="editor"&gt;
+        &lt;h2&gt;Add a Note&lt;/h2&gt;
+        &lt;textarea id="note-input" placeholder="Write your note here..."&gt;&lt;/textarea&gt;
+        &lt;button id="save-btn"&gt;Save Note&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="notes-display"&gt;
+        &lt;h2&gt;Saved Notes&lt;/h2&gt;
+        &lt;div id="notes-container"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        const noteInput = document.getElementById('note-input');
+        const saveBtn = document.getElementById('save-btn');
+        const notesContainer = document.getElementById('notes-container');
+
+        function getNotes() {
+            // Get notes from local storage or return an empty array
+            return JSON.parse(localStorage.getItem('notes') || '[]');
+        }
+
+        function saveNotes(notes) {
+            localStorage.setItem('notes', JSON.stringify(notes));
+        }
+
+        function displayNotes() {
+            const notes = getNotes();
+            notesContainer.innerHTML = ''; // Clear current display
+            notes.forEach((noteText, index) => {
+                const noteDiv = document.createElement('div');
+                noteDiv.classList.add('note');
+                noteDiv.textContent = noteText;
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = () => {
+                    notes.splice(index, 1); // Remove the note from array
+                    saveNotes(notes);
+                    displayNotes();
+                };
+                
+                noteDiv.appendChild(deleteBtn);
+                notesContainer.appendChild(noteDiv);
+            });
+        }
+
+        saveBtn.addEventListener('click', () => {
+            const notes = getNotes();
+            const newNote = noteInput.value;
+            if (newNote) {
+                notes.push(newNote);
+                saveNotes(notes);
+                noteInput.value = '';
+                displayNotes();
+            }
+        });
+
+        displayNotes(); // Initial display of notes on page load
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+                    <!-- Other Projects (Descriptions Only for Brevity) -->
+                    <h2>5. Tip Calculator</h2>
+                    <p>A simple calculator where a user inputs the bill amount and a tip percentage to calculate the total.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Math operations, handling form inputs (`input` events), updating the UI in real-time.</li></ul>
+                    
+                    <h2>6. Movie Info App (using an API)</h2>
+                    <p>An app where users can search for a movie and get details like its poster, plot, and rating.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Fetching data from a public API (like OMDB or TMDB), dynamically creating and displaying elements based on API data.</li></ul>
+
+                    <h2>7. Simple Drawing App</h2>
+                    <p>A canvas where users can draw with their mouse.</p>
+                    <ul><li><strong>Skills Practiced:</strong> HTML Canvas API, mouse event listeners (`mousedown`, `mousemove`, `mouseup`).</li></ul>
+
+                    <h2>8. Countdown Timer</h2>
+                    <p>A timer that counts down to a specific date (e.g., New Year's Eve).</p>
+                    <ul><li><strong>Skills Practiced:</strong> JavaScript `Date` object, `setInterval()` for periodic updates, calculating time differences.</li></ul>
+
+                    <h2>9. Rock, Paper, Scissors Game</h2>
+                    <p>The classic game against the computer.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Game logic, generating random choices for the computer, comparing user vs. computer choices, updating scores.</li></ul>
+                    
+                    <h2>10. Recipe Finder App (using an API)</h2>
+                    <p>An app where users can search for recipes based on ingredients.</p>
+                    <ul><li><strong>Skills Practiced:</strong> Fetching data from a public API (like TheMealDB), handling complex JSON data, displaying results in a grid/card layout.</li></ul>
+
+                    <h2>Conclusion: Keep Building! 🚀</h2>
+                    <p>Completing these projects will give you a strong, practical foundation in frontend development. The key is not just to build them, but to **customize and expand** them. Add new features, improve the styling, and make them your own. This is the best way to learn and build a portfolio to showcase your skills.</p>
+                </article>
+
+                <!-- START: Add Back Link -->
+                <div class="next-step-link" style="text-align: center; margin-top: 50px;">
+                    <a href="Frontend-roadmaps.html" class="cta-button">&larr; Back to Frontend Roadmap</a>
+                </div>
+                <!-- END: Add Back Link -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <!-- Link to the external JS file -->
+    <script src="app.js"></script> 
+
+</body>
+</html>
