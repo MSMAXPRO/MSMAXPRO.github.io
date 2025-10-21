@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Projects - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Highlight Color --- */
+        .highlight {
+            background: linear-gradient(90deg, #a78bfa, #f472b6); /* Purple/Pink Gradient */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-container">
+            <div class="container"> <!-- This container is 800px wide via style.css -->
+                <article class="content-body">
+                    <div class="content-header">
+                        <h1>Full Stack <span class="highlight">Projects</span></h1>
+                        <p class="content-meta">Apply Your Frontend & Backend Skills</p>
+                    </div>
+
+                    <p>You've completed the roadmaps, now it's time to connect the frontend and backend to build complete, impressive applications. These projects will challenge you to use the MERN stack (MongoDB, Express, React, Node.js) to create dynamic, data-driven websites. For each project, we'll outline the features, the tech stack, and the logic you'll need to implement.</p>
+
+                    <!-- ==================== PROJECT 1: MERN Blog Platform ==================== -->
+                    <h2>1. Full Stack Blog Platform</h2>
+                    <p>A complete blog where users can register, log in, create their own posts, and view posts from others. This is a fantastic portfolio project that demonstrates all the core full-stack skills.</p>
+                    <ul>
+                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), JWT for authentication.</li>
+                        <li><strong>Skills Practiced:</strong> Full CRUD API, User Authentication, Password Hashing, Protected Routes, State Management in React, Fetching Data.</li>
+                    </ul>
+
+                    <h3>Backend Features (The API):</h3>
+                    <ol>
+                        <li><strong>User Model:</strong> Create a Mongoose schema for `User` with `username`, `email`, and `password`.</li>
+                        <li><strong>Post Model:</strong> Create a Mongoose schema for `Post` with `title`, `content`, `author` (linking to a User ID), and `createdAt`.</li>
+                        <li><strong>Auth Routes:</strong>
+                            <ul>
+                                <li>`POST /api/auth/signup`: Hashes password with `bcrypt` and creates a new user.</li>
+                                <li>`POST /api/auth/login`: Checks credentials, compares hashed passwords, and returns a JWT on success.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Post Routes (CRUD):</strong>
+                            <ul>
+                                <li>`GET /api/posts`: Fetches all blog posts.</li>
+                                <li>`GET /api/posts/:id`: Fetches a single post by its ID.</li>
+                                <li>`POST /api/posts`: A **protected route**. Creates a new post. The user ID from the JWT should be saved as the `author`.</li>
+                                <li>`PATCH /api/posts/:id`: A **protected route**. Updates a post. Add logic to ensure only the original author can edit their own post.</li>
+                                <li>`DELETE /api/posts/:id`: A **protected route**. Deletes a post. Add logic to ensure only the author can delete it.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Middleware:</strong> Create an `authenticateToken` middleware to protect the POST, PATCH, and DELETE routes by verifying the JWT.</li>
+                    </ol>
+                    
+
+                    <h3>Frontend Features (The React App):</h3>
+                    <ol>
+                        <li><strong>Components:</strong> Create components like `Navbar`, `PostList`, `PostDetail`, `CreatePostForm`, `LoginForm`, `SignupForm`.</li>
+                        <li><strong>Routing:</strong> Use a library like `React Router` to create different pages (`/`, `/posts/:id`, `/login`, `/signup`, `/create-post`).</li>
+                        <li><strong>State Management:</strong> Use `useState` and `useEffect` hooks. For managing login status across the app, consider using `useContext`.</li>
+                        <li><strong>API Calls:</strong> Use `fetch()` or `axios` to make requests to your backend API.
+                            <ul>
+                                <li>Fetch all posts on the homepage.</li>
+                                <li>Send user details to `/signup` or `/login`.</li>
+                                <li>When a user logs in, save the received JWT to `localStorage`.</li>
+                                <li>For every request to a protected API route, include the JWT in the `Authorization` header.</li>
+                            </ul>
+                        </li>
+                        <li>**Protected Routes:** In React, create a component that checks if a user is logged in (by checking for the JWT in `localStorage`). If not, redirect them to the login page.</li>
+                    </ol>
+
+                    <!-- ==================== PROJECT 2: Simple Task Manager ==================== -->
+                    <h2>2. Simple Task Manager (Trello Clone)</h2>
+                    <p>A web application where authenticated users can manage their tasks in different columns (e.g., "To Do", "In Progress", "Done").</p>
+                    <ul>
+                        <li><strong>Tech Stack:</strong> React (with a drag-and-drop library like `react-beautiful-dnd`), Express, MongoDB, JWT.</li>
+                        <li><strong>Skills Practiced:</strong> Data Modeling (relationships), Complex CRUD, User Authentication, advanced frontend state management.</li>
+                    </ul>
+
+                    <h3>Backend Features:</h3>
+                    <ol>
+                        <li><strong>User Model:</strong> Standard user schema with `email`, `password`.</li>
+                        <li><strong>Task Model:</strong> A Mongoose schema for `Task` with `title`, `description`, `status` (e.g., 'todo', 'inprogress', 'done'), and `owner` (linking to the User ID).</li>
+                        <li><strong>Auth Routes:</strong> Standard `/signup` and `/login` routes returning a JWT.</li>
+                        <li><strong>Task Routes (Protected):</strong>
+                            <ul>
+                                <li>`GET /api/tasks`: Fetches all tasks belonging *only* to the logged-in user (use the ID from the JWT).</li>
+                                <li>`POST /api/tasks`: Creates a new task for the logged-in user.</li>
+                                <li>`PATCH /api/tasks/:id`: Updates a task (e.g., changing its `status` when moved to a new column, or editing its text).</li>
+                                <li>`DELETE /api/tasks/:id`: Deletes a task.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Frontend Features:</h3>
+                    <ol>
+                        <li><strong>UI/Layout:</strong> Create a three-column layout for "To Do", "In Progress", and "Done".</li>
+                        <li><strong>State Management:</strong> The frontend state will be an object or map where keys are the column names and values are arrays of task objects.</li>
+                        <li><strong>Drag and Drop:</strong> Implement a library like `react-beautiful-dnd` to allow users to drag task cards between columns.</li>
+                        <li><strong>API Calls:</strong>
+                            <ul>
+                                <li>On page load, `fetch` all tasks for the logged-in user and organize them into the correct columns in your state.</li>
+                                <li>When a task is dropped into a new column, update the frontend state immediately for a smooth UX, then send a `PATCH` request to your backend to update the task's `status` in the database.</li>
+                                <li>When creating or deleting a task, send the appropriate request and then update the local state to reflect the change.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <!-- ==================== PROJECT 3: URL Shortener Full Stack ==================== -->
+                    <h2>3. URL Shortener Full Stack</h2>
+                    <p>A full application based on the backend-only project. Users can (optionally) log in to see a history of all the URLs they have shortened.</p>
+                     <ul>
+                        <li><strong>Tech Stack:</strong> React, Express, MongoDB. (Authentication is optional but a great addition).</li>
+                        <li><strong>Skills Practiced:</strong> API design, frontend-backend integration, handling redirects.</li>
+                    </ul>
+                    
+                    <h3>Backend Features:</h3>
+                     <ol>
+                        <li><strong>URL Model:</strong> Schema with `originalUrl`, `shortCode`, and an optional `creator` field (if you add user accounts).</li>
+                        <li><strong>API Routes:</strong>
+                            <ul>
+                                <li>`POST /shorten`: Takes `originalUrl`, generates a `shortCode`, saves it, and returns the shortened link.</li>
+                                <li>`GET /:shortCode`: Finds the code in the database and `res.redirect()`s to the `originalUrl`.</li>
+                                <li>(Optional) `GET /api/my-urls`: A protected route that returns all URLs created by the logged-in user.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h3>Frontend Features:</h3>
+                    <ol>
+                        <li><strong>UI:</strong> A simple input field for the long URL and a button.</li>
+                        <li><strong>API Calls:</strong>
+                            <ul>
+                                <li>When the user submits a URL, send a `POST` request to your `/shorten` API.</li>
+                                <li>Display the shortened URL returned by the backend.</li>
+                                <li>Add a "copy to clipboard" button for user convenience.</li>
+                            </ul>
+                        </li>
+                        <li>(Optional) Add Login/Signup pages and a "My URLs" page that fetches and displays the user's link history.</li>
+                    </ol>
+
+                </article>
+
+                <!-- START: Add Back Link -->
+                <div class="next-step-link" style="text-align: center; margin-top: 50px;">
+                    <a href="roadmaps.html" class="cta-button">&larr; Back to All Roadmaps</a>
+                </div>
+                <!-- END: Add Back Link -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="app.js"></script> 
+
+</body>
+</html>
