@@ -1,4 +1,4 @@
-# Yeh zaroori libraries hain
+# --- Required Libraries ---
 import logging
 import os
 import google.generativeai as genai
@@ -6,36 +6,51 @@ from datetime import date
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-# --- YAHAN APNI TELEGRAM ID DAALO ---
-# Yeh ID aapko @userinfobot se milegi
-ADMIN_ID = 1584806105 
-# ------------------------------------
+# --- Configuration Loaded Securely from Environment Variables ---
 
-# --- SECRET KEYS (Yeh Railway se aayengi) ---
+# Secrets for APIs, loaded from your hosting environment (e.g., Azure App Service settings)
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
-# ------------------------------------
 
-# User tracking ke liye ek simple dictionary
+# Admin User ID, also loaded from environment for flexibility and security
+try:
+    # os.environ.get() returns a string, so we must convert it to an integer for comparison
+    ADMIN_ID = int(os.environ.get('ADMIN_ID'))
+except (ValueError, TypeError):
+    logging.warning("ADMIN_ID environment variable not found or is not a valid number. Admin commands will be disabled.")
+    ADMIN_ID = None # Disable admin commands if the ID is not set
+
+# --- End of Configuration ---
+
+
+# --- Bot Setup ---
+
+# User tracking dictionary
 daily_users = {}
 
-# Google AI (Gemini) ko configure karna
+# Configure Google AI (Gemini)
+# This will fail gracefully if keys are not set, and the bot won't start.
+if not TELEGRAM_TOKEN or not GEMINI_API_KEY:
+    logging.critical("CRITICAL ERROR: TELEGRAM_TOKEN or GEMINI_API_KEY environment variables not set. Bot cannot start.")
+    exit()
+
 try:
     genai.configure(api_key=GEMINI_API_KEY)
     model = genai.GenerativeModel('gemini-pro')
 except Exception as e:
-    # Agar keys set nahi hain, to bot shuru nahi hoga
-    logging.error(f"Error configuring Google AI: {e}. Make sure API keys are set in Railway.")
+    logging.error(f"Error configuring Google AI: {e}. Check if the API key is valid.")
     exit()
 
-# Logging set up karna
+# Set up logging to monitor the bot's activity
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
-# Har user ko track karne ke liye function
+# --- Helper Functions ---
+
 def track_user(user_id: int):
+    """Tracks unique daily active users."""
     today = date.today()
     if today not in daily_users:
         daily_users[today] = set()
@@ -43,10 +58,10 @@ def track_user(user_id: int):
     logging.info(f"Today's unique users: {len(daily_users[today])}")
 
 
-# --- COMMAND FUNCTIONS ---
+# --- Command Handlers ---
 
-# /start command ke liye
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sends a welcome message when the /start command is issued."""
     track_user(update.effective_user.id)
     user_name = update.effective_user.first_name
     welcome_message = (
@@ -56,8 +71,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     )
     await update.message.reply_text(welcome_message)
 
-# /help command ke liye
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sends a list of available commands."""
     track_user(update.effective_user.id)
     help_text = (
         "Here are the available commands:\n\n"
@@ -75,35 +90,32 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     )
     await update.message.reply_text(help_text)
 
-# /website command ke liye
 async def website(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sends a button to the main website."""
     track_user(update.effective_user.id)
     website_url = "https://codewithmsmaxpro.me"
-    reply_text = "Click the button below to visit our official website for detailed roadmaps, blog posts, and more resources!"
     keyboard = [[InlineKeyboardButton("Visit Website", url=website_url)]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(reply_text, reply_markup=reply_markup)
+    await update.message.reply_text("Click the button below to visit our official website!", reply_markup=reply_markup)
 
-# /roadmaps command ke liye
 async def roadmaps(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sends a button to the roadmaps page."""
     track_user(update.effective_user.id)
     roadmaps_url = "https://codewithmsmaxpro.me/roadmaps.html"
-    reply_text = "Click the button below to explore all the career roadmaps and choose your path!"
     keyboard = [[InlineKeyboardButton("View Roadmaps", url=roadmaps_url)]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(reply_text, reply_markup=reply_markup)
+    await update.message.reply_text("Click the button below to explore all the career roadmaps!", reply_markup=reply_markup)
 
-# /blog command ke liye
 async def blog(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sends a button to the blog page."""
     track_user(update.effective_user.id)
     blog_url = "https://codewithmsmaxpro.me/blog.html"
-    reply_text = "Click the button below to read our latest blog posts and tutorials."
     keyboard = [[InlineKeyboardButton("Read Blog", url=blog_url)]]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(reply_text, reply_markup=reply_markup)
+    await update.message.reply_text("Click the button below to read our latest blog posts.", reply_markup=reply_markup)
 
-# /dsa command ke liye
 async def dsa(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Fetches a DSA problem from the AI."""
     track_user(update.effective_user.id)
     await update.message.reply_text("Finding a good DSA problem for you...")
     try:
@@ -111,23 +123,23 @@ async def dsa(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = model.generate_content(prompt)
         await update.message.reply_text(response.text)
     except Exception as e:
+        logging.error(f"Error fetching DSA problem: {e}")
         await update.message.reply_text("Sorry, I couldn't find a problem right now. Please try again later.")
         
-# /connect command ke liye
 async def connect(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Sends social media links."""
     track_user(update.effective_user.id)
     github_url = "https://github.com/MSMAXPRO"
-    linkedin_url = "https://linkedin.com/in/your-linkedin-username" # <-- Isko apne asli LinkedIn URL se badalna
-    reply_text = "You can connect with me on these platforms. I'd love to hear from you!"
+    linkedin_url = "https://linkedin.com/in/your-linkedin-username" # <-- IMPORTANT: Update this URL
     keyboard = [
         [InlineKeyboardButton("GitHub", url=github_url)],
         [InlineKeyboardButton("LinkedIn", url=linkedin_url)]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text(reply_text, reply_markup=reply_markup)
+    await update.message.reply_text("You can connect with me on these platforms:", reply_markup=reply_markup)
 
-# /idea command ke liye
 async def idea(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Fetches a project idea from the AI."""
     track_user(update.effective_user.id)
     await update.message.reply_text("Thinking of a new idea for you...")
     try:
@@ -135,10 +147,11 @@ async def idea(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = model.generate_content(prompt)
         await update.message.reply_text(response.text)
     except Exception as e:
+        logging.error(f"Error fetching project idea: {e}")
         await update.message.reply_text("Sorry, I couldn't think of an idea right now. Please try again later.")
 
-# /explain command ke liye
 async def explain(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Explains a concept using the AI."""
     track_user(update.effective_user.id)
     if not context.args:
         await update.message.reply_text("Please provide a concept to explain. Example: /explain Python lists")
@@ -151,16 +164,17 @@ async def explain(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         response = model.generate_content(prompt)
         await update.message.reply_text(response.text)
     except Exception as e:
+        logging.error(f"Error explaining concept '{concept}': {e}")
         await update.message.reply_text(f"Sorry, I couldn't explain '{concept}' right now. Please try again later.")
 
-# /clear command ke liye
 async def clear_chat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Informs the user on how to clear chat history."""
     track_user(update.effective_user.id)
     info_text = "For your privacy, a Telegram bot cannot clear your chat history.\n\nTo clear the chat, please tap the three dots (⋮) at the top right of this chat and select 'Clear history'."
     await update.message.reply_text(info_text)
 
-# /feedback command ke liye
 async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Receives feedback from a user."""
     track_user(update.effective_user.id)
     if not context.args:
         await update.message.reply_text("Please write your feedback after the command. Example: /feedback This is a great bot!")
@@ -171,30 +185,36 @@ async def feedback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     logging.info(f"FEEDBACK Received from {user_name}: {feedback_message}")
     await update.message.reply_text("Thank you for your feedback! It has been sent to the developer.")
 
-# ADMIN ONLY: /stats command ke liye
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if update.effective_user.id == ADMIN_ID:
+    """Admin-only command to get daily user stats."""
+    # Check if ADMIN_ID is configured and if the user is the admin
+    if ADMIN_ID and update.effective_user.id == ADMIN_ID:
         today = date.today()
         user_count = len(daily_users.get(today, set()))
         await update.message.reply_text(f"📊 Today's unique active users: {user_count}")
-    # Agar admin nahi hai, to bot kuch bhi nahi karega
+    else:
+        logging.warning(f"Unauthorized access attempt for /stats command by user {update.effective_user.id}")
+        # Optionally, you can send a message back, but it's often better to just ignore it.
+        # await update.message.reply_text("You are not authorized to use this command.")
 
-# Normal text message ke liye
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handles general text messages by sending them to the AI."""
     track_user(update.effective_user.id)
     user_message = update.message.text
     try:
         response = model.generate_content(user_message)
         await update.message.reply_text(response.text)
     except Exception as e:
-        logging.error(f"AI se jawab laane mein error aaya: {e}")
+        logging.error(f"Error getting AI response: {e}")
         await update.message.reply_text("Sorry, I'm having some trouble right now. Please try again in a moment.")
 
-# Bot ka main function
+# --- Main Bot Function ---
+
 def main() -> None:
+    """Starts the bot."""
     application = Application.builder().token(TELEGRAM_TOKEN).build()
     
-    # Saare commands ko add karna
+    # Register all command handlers
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("website", website))
@@ -208,9 +228,11 @@ def main() -> None:
     application.add_handler(CommandHandler("feedback", feedback))
     application.add_handler(CommandHandler("stats", stats)) # Admin command
     
+    # Register a handler for all non-command text messages
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     
-    logging.info("Bot ne kaam karna shuru kar diya hai...")
+    logging.info("Bot is starting...")
+    # Start polling for updates
     application.run_polling()
 
 if __name__ == '__main__':
