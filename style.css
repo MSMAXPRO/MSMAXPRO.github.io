@@ -266,8 +266,6 @@ will-change: transform;
 .toggle .line2 { opacity: 0; }
 .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
 
-/* ... (Baaki saare styles jaise keyframes, highlights) ... */
-@keyframes navLinkFade { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
 
 
 /* === START: NAYA PORTFOLIO PAGE KA STYLE === */
