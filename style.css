@@ -382,3 +382,32 @@ will-change: transform;
     cursor: not-allowed;
 }
 /* === END: NAYA PORTFOLIO PAGE KA STYLE === */
+/* --- START: PROJECT IDEAS PAGE STYLES --- */
+
+.idea-card {
+    /* Yeh .project-card jaisa hai, bas bina image ke */
+    background-color: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Card content ko vertical rakhega */
+}
+
+.idea-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+
+/* Hum .project-content, .project-tags, .project-btn styles ko reuse kar rahe hain */
+/* Isliye naya CSS likhne ki zaroorat nahi hai */
+
+/* Yeh button ko poori width dega, kyunki ek hi button hai */
+.idea-card .project-links {
+    display: grid;
+}
+
+/* --- END: PROJECT IDEAS PAGE STYLES --- */
+
