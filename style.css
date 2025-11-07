@@ -10,14 +10,11 @@ html, body {
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
-    /* (Yahan se overflow-x aur width: 100% hata diya) */
     background-color: #0f172a;
     background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
     color: #cbd5e1;
     line-height: 1.8;
 }
-
-
 
 .container {
     max-width: 1100px;
@@ -31,16 +28,14 @@ section {
 
 /* --- Header / Navigation Bar (Sticky Update) --- */
 header {
-    position: sticky; /* Sticky Nav */
+    position: sticky;
     top: 0;
     z-index: 100;
-    background-color: rgba(15, 23, 42, 0.85); /* Glass effect */
+    background-color: rgba(15, 23, 42, 0.85);
     backdrop-filter: blur(10px);
-    
     padding: 1.5rem 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 nav {
     display: flex;
     justify-content: space-between;
@@ -99,16 +94,13 @@ nav {
 .hero {
     text-align: center;
     padding: 100px 0;
-    
-    background-image: url('images/hero-bg.jpg'); /* Hero Image */
+    background-image: url('images/hero-bg.jpg');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     position: relative;
     z-index: 1; 
 }
-
-/* Hero Image Overlay */
 .hero::before {
     content: '';
     position: absolute;
@@ -119,12 +111,10 @@ nav {
     background-color: rgba(15, 23, 42, 0.6); 
     z-index: 1;
 }
-
 .hero .container {
-    position: relative; /* Taki text overlay ke UPAR rahe */
+    position: relative;
     z-index: 2;
 }
-
 .hero h1 {
     font-size: 3.8rem;
     margin-bottom: 15px;
@@ -173,7 +163,7 @@ h2 {
 .features-grid {
     display: flex;
     justify-content: center;
-    gap: 25px;
+    gap: 30px; /* Updated to 30px */
     flex-wrap: wrap; 
 }
 .features-grid > a {
@@ -188,133 +178,353 @@ h2 {
     text-align: center; 
 }
 
-.feature-card {
-    background-color: rgba(30, 41, 59, 0.5);
-    padding: 35px;
-    border-radius: 16px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-.feature-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(167, 139, 250, 0.5);
-}
-.feature-card h3 {
-    margin-top: 15px;
-    font-size: 1.5rem;
-    color: #ffffff;
-    font-weight: 700;
-}
-.feature-card p {
-    flex-grow: 1;
-}
-.feature-card img {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    margin: 0 auto 25px auto;
-}
-
-/* ... (Aapke baaki saare styles jaise .roadmap-card, .blog-post-card, etc. yahan rahenge) ... */
-/* ... ... */
-/* (Main unhe short kar raha hoon, lekin aapke file mein poore hone chahiye) */
-
-/* --- Roadmap Card Styles (Roadmaps Page) --- */
+/* ================================================================
+=== NEW COMBINED CARD STYLES (Roadmap & Feature Cards) ===
+================================================================
+*/
 .roadmaps-grid {
-    display: grid; /* Using grid for roadmap cards */
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px; /* Gap ko 30px kar diya portfolio jaisa */
+    gap: 30px;
 }
-.roadmap-card {
+
+/* COMBINED RULE: Dono card ab ek jaise dikhenge */
+.roadmap-card, .feature-card {
     background-color: rgba(30, 41, 59, 0.5);
-    /* padding: 35px; */ /* <-- PADDING HATA DIYA */
     border-radius: 16px;
-    /* text-align: center; */ /* <-- TEXT-ALIGN HATA DIYA */
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
     text-decoration: none;
     color: #cbd5e1;
-    overflow: hidden; /* <-- Naya (like portfolio) */
-    display: flex; /* <-- Naya (like portfolio) */
-    flex-direction: column; /* <-- Naya (like portfolio) */
+    overflow: hidden; /* Important */
+    display: flex;
+    flex-direction: column;
 }
-.roadmap-card:hover {
+
+/* COMBINED RULE */
+.roadmap-card:hover, .feature-card:hover {
     transform: translateY(-5px);
     border-color: rgba(167, 139, 250, 0.5);
 }
-.roadmap-card h3 {
-    /* margin-top: 15px; */ /* Hata diya */
-    font-size: 1.6rem; /* Portfolio jaisa */
+
+/* COMBINED RULE */
+.roadmap-card h3, .feature-card h3 {
+    font-size: 1.6rem;
     color: #ffffff;
     font-weight: 700;
-    margin: 0 0 10px 0; /* Portfolio jaisa */
+    margin: 0 0 10px 0;
 }
-/* Naya P tag add kiya portfolio jaisa */
-.roadmap-card p {
+
+/* COMBINED RULE */
+.roadmap-card p, .feature-card p {
     color: #94a3b8;
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 20px;
     flex-grow: 1;
 }
-.roadmap-card img {
+
+/* COMBINED RULE */
+.roadmap-card img, .feature-card img {
     width: 100%;
     height: 180px; 
-    border-radius: 0; /* Ab image par radius nahi, card par hai */
+    border-radius: 0; /* No radius on image */
     object-fit: cover;
-    /* margin-bottom: 15px; */ /* Hata diya */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Portfolio jaisa */
-    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); */ /* Hata diya */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-
+/* === END COMBINED CARD STYLES === */
 
 
 /* --- Blog Post Card Styles (Blog Page) --- */
-.blog-section .container, .interview-prep-section .container, .resources-page-section .container { max-width: 900px; }
-.blog-post-card { background-color: rgba(30, 41, 59, 0.5); padding: 30px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); margin-bottom: 30px; transition: all 0.3s ease; }
-.blog-post-card:hover { transform: translateY(-5px); border-color: rgba(167, 139, 250, 0.5); }
-.blog-post-card h3 { margin: 0 0 10px 0; font-size: 1.8rem; color: #ffffff; font-weight: 700; }
-.blog-post-card p { margin: 0 0 20px 0; color: #94a3b8; }
-.read-more-btn { display: inline-block; color: #a78bfa; text-decoration: none; font-weight: 700; }
+.blog-section .container, 
+.interview-prep-section .container, 
+.resources-page-section .container {
+    max-width: 900px;
+}
+.blog-post-card {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+.blog-post-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+.blog-post-card h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.8rem;
+    color: #ffffff;
+    font-weight: 700;
+}
+.blog-post-card p {
+    margin: 0 0 20px 0;
+    color: #94a3b8;
+}
+.read-more-btn {
+    display: inline-block;
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 700;
+}
 
-/* ... (Baaki saare styles) ... */
+/* --- Interview/Resources Page Styles --- */
+.prep-section, .resource-section {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 30px;
+}
+.prep-section h2, .resource-section h2 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-top: 0;
+    text-align: left;
+    border-bottom: none;
+}
+.prep-section ul {
+    padding-left: 20px;
+    font-size: 1.1rem;
+}
+.resource-section ul {
+    padding-left: 0;
+    list-style: none;
+}
+.resource-section ul li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.resource-section ul li:last-child {
+    border-bottom: none;
+}
+.resource-section ul li a {
+    font-size: 1.1rem;
+    color: #a78bfa;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* --- Roadmap Step Styles (Tutorial Pages) --- */
+.roadmap-step {
+    background-color: rgba(30, 41, 59, 0.5);
+    padding: 25px 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    transition: all 0.3s ease;
+}
+.roadmap-step:hover {
+    transform: translateY(-3px);
+    border-color: rgba(167, 139, 250, 0.5);
+}
+.step-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #38bdf8, #8b5cf6);
+    color: #fff;
+    min-width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.step-content h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+.step-content p {
+    margin: 0;
+    color: #94a3b8;
+}
+
+/* --- Content/Article Page Styles (Tutorials & Posts) --- */
+.content-container .container,
+.about-section .container {
+    max-width: 800px;
+}
+
+.content-header h1, .post-header h1 {
+    font-size: 2.8rem;
+    color: #ffffff;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.content-meta, .post-meta {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 40px;
+}
+.content-body h2, .post-content h2, .about-content h2 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-top: 60px;
+    text-align: left;
+    border-bottom: 2px solid #38bdf8;
+    padding-bottom: 10px;
+}
+.content-body h3, .post-content h3, .about-content h3 {
+    font-size: 1.7rem;
+    color: #e0e0e0;
+    margin-top: 40px;
+    border-left: 3px solid #8b5cf6;
+    padding-left: 15px;
+}
+.content-body p, .post-content p, .about-content p,
+.content-body ul, .post-content ul, .about-content ul,
+.content-body ol {
+    font-size: 1.1rem;
+}
+.content-body ul, .post-content ul, .about-content ul,
+.content-body ol {
+    padding-left: 25px;
+}
+.content-body li, .post-content li, .about-content li {
+    margin-bottom: 10px;
+}
+.content-body code, .post-content code, .about-content code {
+    background-color: #1e293b;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    border: 1px solid #334155;
+    color: #f8fafc;
+}
+pre {
+    background-color: #1e293b;
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid #334155;
+    overflow-x: auto;
+}
+pre code {
+    display: block;
+    padding: 0;
+    white-space: pre-wrap;
+    background-color: transparent;
+    border: none;
+}
+.note {
+    background-color: rgba(30, 41, 59, 0.7);
+    border-left: 4px solid #facc15;
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 8px;
+}
+.note strong {
+    color: #facc15;
+}
+
+/* --- Page-Specific: Language Comparison --- */
+.language-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 40px;
+}
+.language-card {
+    background-color: rgba(30, 41, 59, 0.7);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #334155;
+}
+.language-card h3 {
+    font-size: 1.7rem;
+    color: #ffffff;
+    margin-top: 0;
+    border-bottom: 2px solid;
+    padding-bottom: 10px;
+    border-left: none;
+    padding-left: 0;
+}
+.python-card h3 { border-color: #fde047; }
+.node-card h3 { border-color: #86efac; }
 
 /* --- Responsive Design (Media Queries) --- */
 @media (max-width: 768px) {
-    .logo span { display: none; }
-    .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%);
-will-change: transform;
- z-index: 999; }
-    .nav-links li { margin-left: 0; opacity: 0; }
-    .hamburger { display: block; }
-    .hero h1 { font-size: 2.8rem; }
-    h2 { font-size: 2.2rem; }
-    .content-header h1, .post-header h1 { font-size: 2.2rem; }
-    .features-grid { flex-direction: column; }
-    .language-comparison { grid-template-columns: 1fr; }
+    .logo span {
+        display: none;
+    }
+    .nav-links {
+        position: fixed;
+        right: 0px;
+        height: 100vh;
+        top: 0;
+        background-color: #1e293b;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 60%;
+        transform: translateX(100%);
+        /* === HANGING FIX: transition line deleted === */
+        z-index: 999;
+    }
+    .nav-links li {
+        margin-left: 0;
+        opacity: 1; /* Changed from 0 to 1 */
+    }
+    .hamburger {
+        display: block;
+    }
+    
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+    h2 {
+        font-size: 2.2rem;
+    }
+    .content-header h1, .post-header h1 {
+        font-size: 2.2rem;
+    }
+    .features-grid {
+        flex-direction: column;
+    }
+    .language-comparison {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* --- JS-Toggled Classes for Mobile Menu --- */
-.nav-active { transform: translateX(0%); }
-.nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
-.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
-.toggle .line2 { opacity: 0; }
-.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+.nav-active {
+    transform: translateX(0%);
+}
+/* nav-active li animation removed */
+.toggle .line1 {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+.toggle .line2 {
+    opacity: 0;
+}
+.toggle .line3 {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* --- Page-Specific Highlight Colors --- */
+.js-highlight { background: linear-gradient(90deg, #fde047, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.react-highlight { background: linear-gradient(90deg, #61DAFB, #00C8FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.git-highlight { background: linear-gradient(90deg, #F05033, #f97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.node-highlight { background: linear-gradient(90deg, #86efac, #22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+/* Keyframes for Nav Link Animation (DELETED) */
 
 
-
-/* === START: NAYA PORTFOLIO PAGE KA STYLE === */
-/* === (Yeh code sabse neeche add kijiye) === */
-
+/* ================================================================
+=== PORTFOLIO & PROJECT IDEA CARD STYLES ===
+================================================================
+*/
 .project-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -323,6 +533,7 @@ will-change: transform;
     margin: 0 auto;
 }
 
+/* --- Portfolio Card (with Image) --- */
 .project-card {
     background-color: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -333,34 +544,30 @@ will-change: transform;
     display: flex;
     flex-direction: column;
 }
-
 .project-card:hover {
     transform: translateY(-5px);
     border-color: rgba(167, 139, 250, 0.5);
 }
-
 .project-image {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: #334155; /* Taaki image load na hone par bura na dikhe */
+    background-color: #334155;
 }
-
+/* This div provides padding for text content */
 .project-content {
     padding: 25px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
-
 .project-title {
     font-size: 1.6rem;
     color: #ffffff;
     font-weight: 700;
     margin: 0 0 10px 0;
 }
-
 .project-description {
     color: #94a3b8;
     font-size: 1rem;
@@ -368,14 +575,12 @@ will-change: transform;
     margin-bottom: 20px;
     flex-grow: 1;
 }
-
 .project-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-bottom: 25px;
 }
-
 .project-tags span {
     background-color: #334155;
     color: #cbd5e1;
@@ -384,12 +589,10 @@ will-change: transform;
     padding: 5px 12px;
     border-radius: 20px;
 }
-
 .project-links {
     display: flex;
     gap: 15px;
 }
-
 .project-btn {
     display: inline-block;
     padding: 10px 20px;
@@ -403,33 +606,27 @@ will-change: transform;
     color: #fff;
     border: none;
 }
-
 .project-btn.github {
     background: transparent;
     color: #cbd5e1;
     border: 2px solid #334155;
 }
-
 .project-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
-
 .project-btn.github:hover {
     background: #334155;
     color: #fff;
 }
-
 .project-btn.disabled {
     background: #475569;
     opacity: 0.7;
     cursor: not-allowed;
 }
-/* === END: NAYA PORTFOLIO PAGE KA STYLE === */
-/* --- START: PROJECT IDEAS PAGE STYLES --- */
 
+/* --- Project Idea Card (no Image) --- */
 .idea-card {
-    /* Yeh .project-card jaisa hai, bas bina image ke */
     background-color: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 16px;
@@ -437,21 +634,12 @@ will-change: transform;
     overflow: hidden;
     transition: all 0.3s ease;
     display: flex;
-    flex-direction: column; /* Card content ko vertical rakhega */
+    flex-direction: column;
 }
-
 .idea-card:hover {
     transform: translateY(-5px);
     border-color: rgba(167, 139, 250, 0.5);
 }
-
-/* Hum .project-content, .project-tags, .project-btn styles ko reuse kar rahe hain */
-/* Isliye naya CSS likhne ki zaroorat nahi hai */
-
-/* Yeh button ko poori width dega, kyunki ek hi button hai */
 .idea-card .project-links {
     display: grid;
 }
-
-/* --- END: PROJECT IDEAS PAGE STYLES --- */
-
