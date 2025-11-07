@@ -705,4 +705,73 @@ pre code {
 }
 
 /* --- END: Homepage Extra Content Styles --- */
+/* --- START: Homepage Philosophy Section --- */
+
+.philosophy-section {
+    /* (Yeh section 'about-snippet' jaisa hai, bas layout alag hai) */
+    background-color: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 50px;
+}
+
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 column layout */
+    gap: 40px;
+    align-items: center;
+}
+
+.philosophy-image img {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.philosophy-content h2 {
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.philosophy-content p {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.philosophy-content ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 1.1rem;
+}
+
+.philosophy-content ul li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 15px;
+}
+
+/* Green checkmark icon */
+.philosophy-content ul li::before {
+    content: '✔';
+    color: #22c55e; /* Green color */
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-weight: 700;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .philosophy-grid {
+        grid-template-columns: 1fr; /* Stack columns on mobile */
+    }
+    .philosophy-content h2 {
+        text-align: center;
+    }
+}
+
+/* --- END: Homepage Philosophy Section --- */
 
