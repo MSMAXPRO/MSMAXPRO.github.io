@@ -11,24 +11,35 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* --- Page-Specific Highlight Color --- */
+        .highlight {
+            /* Using a new gradient for Resources */
+            background: linear-gradient(90deg, #f97316, #fde047); /* Orange/Yellow */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 <body>
 
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">
+                <a href="index.html" class="logo">
                     <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
                 
                 <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
+                    <li><a href="projects.html">Project Ideas</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
                     <li><a href="about.html">About</a></li>
-<li><a href="contact.html">Contact</a></li>
-
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
                 
                 <div class="hamburger">
@@ -39,86 +50,157 @@
             </nav>
         </div>
     </header>
-
     <main>
         <section class="resources-page-section">
             <div class="container">
                 <h2><span class="highlight">Free</span> Resources</h2>
                 
                 <div class="resource-section">
-                    <h2>Free Hosting for Students</h2>
+                    <h2>🚀 AI Tools for Developers</h2>
                     <ul>
-                        <li><a href="https://pages.github.com/" target="_blank">GitHub Pages</a> - Perfect for static websites like this one.</li>
-                        <li><a href="https://vercel.com/student" target="_blank">Vercel</a> - Great for modern frontend projects.</li>
-                        <li><a href="https://www.netlify.com/" target="_blank">Netlify</a> - Another excellent option for easy deployment.</li>
+                        <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a> - AI pair programmer. Free for verified students.</li>
+                        <li><a href="https://chat.openai.com/" target="_blank">ChatGPT</a> - Debugging code, explaining concepts, and generating boilerplate.</li>
+                        <li><a href="https://gemini.google.com/" target="_blank">Google Gemini</a> - Powerful AI assistant for brainstorming, coding help, and learning.</li>
+                        <li><a href="https://phind.com/" target="_blank">Phind</a> - An AI search engine specifically for developers.</li>
+                        <li><a href="https://www.blackbox.ai/" target="_blank">Blackbox AI</a> - Find code snippets for any question.</li>
                     </ul>
                 </div>
 
                 <div class="resource-section">
-                    <h2>Design Tools for Developers</h2>
+                    <h2>🌐 Free Hosting for Your Projects</h2>
                     <ul>
-                        <li><a href="https://www.canva.com/education/" target="_blank">Canva for Education</a> - Free pro access for students to create presentations, resumes, etc.</li>
-                        <li><a href="https://www.figma.com/education/" target="_blank">Figma for Students</a> - A professional UI/UX design tool, free for students.</li>
+                        <li><a href="https://pages.github.com/" target="_blank">GitHub Pages</a> - Perfect for static websites (like your portfolio).</li>
+                        <li><a href="https://vercel.com/student" target="_blank">Vercel</a> - Great for modern frontend projects (React, Next.js).</li>
+                        <li><a href="https://www.netlify.com/" target="_blank">Netlify</a> - Another excellent option for easy deployment.</li>
+                        <li><a href="https://render.com/" target="_blank">Render</a> - Free tier includes services for backends (Node.js) and databases.</li>
+                        <li><a href="https://firebase.google.com/products/hosting" target="_blank">Firebase Hosting</a> - Fast and secure hosting from Google.</li>
+                    </ul>
+                </div>
+
+                <div class="resource-section">
+                    <h2>📺 Top YouTube Channels</h2>
+                    <ul>
+                        <li><a href="https://www.youtube.com/c/freecodecamp" target="_blank">freeCodeCamp.org</a> - Full-length courses on every topic.</li>
+                        <li><a href="https://www.youtube.com/c/TheNetNinja" target="_blank">The Net Ninja</a> - High-quality playlists for modern web dev.</li>
+                        <li><a href="https://www.youtube.com/c/TraversyMedia" target="_blank">Traversy Media</a> - Practical, project-based tutorials.</li>
+                        <li><a href="https://www.youtube.com/c/Fireship" target="_blank">Fireship</a> - "100 Seconds Of" videos explaining complex topics fast.</li>
+                        <li><a href="https://www.youtube.com/@WebDevSimplified" target="_blank">Web Dev Simplified</a> - Breaks down complex topics into simple terms.</li>
+                        <li><a href="https://www.youtube.com/@CodeWithHarry" target="_blank">CodeWithHarry</a> - (Hinglish) Excellent, detailed courses for Hindi-speaking students.</li>
+                    </ul>
+                </div>
+
+                <div class="resource-section">
+                    <h2>🎨 Design Tools for Developers</h2>
+                    <ul>
+                        <li><a href="https://www.figma.com/education/" target="_blank">Figma for Students</a> - Professional UI/UX design tool, free for students.</li>
+                        <li><a href="https://www.canva.com/education/" target="_blank">Canva for Education</a> - Free pro access for students (resumes, presentations).</li>
                         <li><a href="https://undraw.co/illustrations" target="_blank">unDraw</a> - Free illustrations for your projects.</li>
+                        <li><a href="https://coolors.co/" target="_blank">Coolors.co</a> - The best tool for generating color palettes.</li>
+                        <li><a href="https://excalidraw.com/" target="_blank">Excalidraw</a> - A free, hand-drawn look for making diagrams.</li>
+                    </ul>
+                </div>
+
+                <div class="resource-section">
+                    <h2>💻 Coding Practice Platforms</h2>
+                    <ul>
+                        <li><a href="https://www.freecodecamp.org/" target="_blank">freeCodeCamp</a> - Learn to code for free with interactive lessons.</li>
+                        <li><a href="https://leetcode.com/" target="_blank">LeetCode</a> - The #1 platform for practicing DSA questions.</li>
+                        <li><a href="https://www.hackerrank.com/" target="_blank">HackerRank</a> - Practice coding and prepare for interviews.</li>
+                        <li><a href="https://www.codewars.com/" target="_blank">Codewars</a> - Challenge-based learning ("kata") to improve skills.</li>
+                        <li><a href="https://www.frontendmentor.io/" target="_blank">Frontend Mentor</a> - Build real-world frontend projects from designs.</li>
+                    </ul>
+                </div>
+
+                <div class="resource-section">
+                    <h2>📚 Developer Documentation</h2>
+                    <ul>
+                        <li><a href="https://developer.mozilla.org/en-US/" target="_blank">MDN Web Docs</a> - The "Bible" for web developers. The best resource for HTML, CSS, & JS.</li>
+                        <li><a href="https://www.w3schools.com/" target="_blank">W3Schools</a> - Great for quick lookups and simple examples.</li>
+                        <li><a href="https://react.dev/" target="_blank">React.dev</a> - The new, official documentation for React.</li>
+                        <li><a href="https://devdocs.io/" target="_blank">DevDocs</a> - Combines documentation from dozens of sources in one fast, searchable interface.</li>
+                    </ul>
+                </div>
+
+                <div class="resource-section">
+                    <h2>📷 Free Stock Photos, Icons & Fonts</h2>
+                    <ul>
+                        <li><a href="https://fonts.google.com/" target="_blank">Google Fonts</a> - Thousands of free, high-quality fonts for your website.</li>
+                        <li><a href="https://www.pexels.com/" target="_blank">Pexels</a> - Free, high-quality stock photos and videos.</li>
+                        <li><a href="https://unsplash.com/" target="_blank">Unsplash</a> - Another excellent source for beautiful stock photos.</li>
+                        <li><a href="https://www.flaticon.com/" target="_blank">Flaticon</a> - The largest database of free icons available in PNG, SVG, etc.</li>
+                        <li><a href="https://fontawesome.com/" target="_blank">Font Awesome</a> - The most popular icon toolkit for the web.</li>
                     </ul>
                 </div>
                 
                 <div class="resource-section">
-                    <h2>Coding Practice Platforms</h2>
+                    <h2>🎓 Free Certificate Courses</h2>
                     <ul>
-                        <li><a href="https://www.freecodecamp.org/" target="_blank">freeCodeCamp</a> - Learn to code for free with interactive lessons.</li>
-                        <li><a href="https://leetcode.com/" target="_blank">LeetCode</a> - The best platform for practicing DSA questions for interviews.</li>
-                        <li><a href="https://www.hackerrank.com/" target="_blank">HackerRank</a> - Practice coding, prepare for interviews, and get hired.</li>
+                        <li><a href="https://www.freecodecamp.org/learn/" target="_blank">freeCodeCamp Certifications</a> - Free, project-based certifications (e.g., Responsive Web Design).</li>
+                        <li><a href="https://www.coursera.org/campus/responses" target="_blank">Coursera for Students</a> - Check if your university provides free access.</li>
+                        <li><a href="https://learn.microsoft.com/en-us/training/" target="_blank">Microsoft Learn</a> - Free courses and learning paths on Azure, C#, etc.</li>
+                        <li><a href="https://www.sololearn.com/" target="_blank">Sololearn</a> - Mobile-friendly courses to learn the basics and get a certificate.</li>
                     </ul>
                 </div>
-
-                <!-- NEW SECTION: AI Tools -->
+                
                 <div class="resource-section">
-                    <h2>AI Tools for Developers</h2>
+                    <h2>📡 API & Backend Practice</h2>
                     <ul>
-                        <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a> - An AI pair programmer that helps you write code faster. Free for verified students.</li>
-                        <li><a href="https://chat.openai.com/" target="_blank">ChatGPT</a> - Excellent for debugging code, explaining concepts, and generating boilerplate.</li>
-                        <li><a href="https://gemini.google.com/" target="_blank">Google Gemini</a> - Another powerful AI assistant for brainstorming, coding help, and learning.</li>
+                        <li><a href="https://dummyjson.com/" target="_blank">DummyJSON</a> - Get fake JSON data (products, users, posts) for your projects.</li>
+                        <li><a href="https://github.com/public-apis/public-apis" target="_blank">Public APIs Repo</a> - A huge list of free APIs to use in your applications.</li>
+                        <li><a href="https://www.postman.com/" target="_blank">Postman</a> - The essential tool for testing and developing APIs.</li>
                     </ul>
                 </div>
 
-                <!-- NEW SECTION: YouTube Channels -->
-                <div class="resource-section">
-                    <h2>Top YouTube Channels</h2>
-                    <ul>
-                        <li><a href="https://www.youtube.com/c/freecodecamp" target="_blank">freeCodeCamp.org</a> - Full-length courses on almost every programming topic imaginable.</li>
-                        <li><a href="https://www.youtube.com/c/TheNetNinja" target="_blank">The Net Ninja</a> - High-quality, playlist-based tutorials on modern web development (React, Node, etc.).</li>
-                        <li><a href="https://www.youtube.com/c/TraversyMedia" target="_blank">Traversy Media</a> - Practical, project-based tutorials for web development and programming.</li>
-                        <li><a href="https://www.youtube.com/c/Fireship" target="_blank">Fireship</a> - High-intensity code tutorials and "100 Seconds Of" videos explaining complex topics quickly.</li>
-                    </ul>
                 </div>
-
-                <!-- NEW SECTION: Free Certificates -->
-                <div class="resource-section">
-                    <h2>Free Certificate Courses</h2>
-                    <ul>
-                        <li><a href="https://www.freecodecamp.org/learn/" target="_blank">freeCodeCamp Certifications</a> - Offers several free, project-based certifications (e.g., Responsive Web Design, JavaScript Algorithms).</li>
-                        <li><a href="https://www.coursera.org/campus/responses" target="_blank">Coursera for Students</a> - Many universities provide free access to Coursera courses and certificates for their students.</li>
-                        <li><a href="https://learn.microsoft.com/en-us/training/" target="_blank">Microsoft Learn</a> - Free courses and learning paths on Azure, C#, Power BI, and other Microsoft technologies.</li>
-                    </ul>
-                </div>
-
-            </div>
-        </section>
-    </main>
-            </div>
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+    <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container" style="max-width: 1100px;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
+                
+                <div class="footer-column">
+                    <a href="index.html" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
+                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                        <span>CodeWithMSMAXPRO</span>
+                    </a>
+                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
+                        <li style="margin-bottom: 10px;"><a href="blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
+                        <li style="margin-bottom: 10px;"><a href="projects.html" style="color: #94a3b8; text-decoration: none;">Project Ideas</a></li>
+                        <li style="margin-bottom: 10px;"><a href="portfolio.html" style="color: #94a3b8; text-decoration: none;">Portfolio</a></li>
+                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
+                    <div class="social-links" style="display: flex; gap: 15px;">
+                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </a>
+                        <a href="#" target="_blank" title="LinkedIn"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        </a>
+                        <a href="#" target="_blank" title="Twitter/X"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                        </a>
+                        <a href="#" target="_blank" title="Telegram"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
+                <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+            </div>
         </div>
     </footer>
-    
     <script src="app.js"></script>
 
 </body>
 </html>
-
-
