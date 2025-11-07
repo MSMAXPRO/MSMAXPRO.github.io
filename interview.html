@@ -7,25 +7,35 @@
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .highlight {
+            background: linear-gradient(90deg, #22c55e, #38bdf8); /* Green/Blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
 </head>
 <body>
 
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">
+                <a href="index.html" class="logo">
                     <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
                 
                 <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
+                    <li><a href="projects.html">Project Ideas</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
@@ -38,7 +48,6 @@
             </nav>
         </div>
     </header>
-
     <main>
         <section class="interview-prep-section">
             <div class="container">
@@ -46,62 +55,130 @@
                 
                 <div class="prep-section">
                     <h2>Data Structures & Algorithms (DSA)</h2>
-                    <p>DSA is the foundation of technical interviews at product-based companies. Master these key topics. The best place to practice is <a href="https://leetcode.com/problem-list/top-interview-questions/" target="_blank" style="color: #a78bfa;">LeetCode's Top Interview Questions</a> list.</p>
+                    <p>DSA is the foundation of technical interviews. Master these key topics. The best place to practice is <a href="https://leetcode.com/problem-list/top-interview-questions/" target="_blank" style="color: #a78bfa;">LeetCode's Top Interview Questions</a> list.</p>
                     <ul>
                         <li><strong>Arrays & Strings:</strong> Two Pointers, Sliding Window, String Manipulation.</li>
                         <li><strong>Linked Lists:</strong> Traversal, Reversal, Cycle Detection.</li>
                         <li><strong>Stacks & Queues:</strong> LIFO/FIFO principles, usage for parentheses validation, etc.</li>
                         <li><strong>Trees & Graphs:</strong> Traversals (BFS, DFS), basic properties of binary search trees.</li>
-                        <li><strong>Sorting & Searching Algorithms:</strong> Understand Big O complexity of common sorts (Merge Sort, Quick Sort), Binary Search.</li>
+                        <li><strong>Sorting & Searching Algorithms:</strong> Big O complexity (Merge Sort, Quick Sort), Binary Search.</li>
                         <li><strong>Hashing:</strong> Using HashMaps (Objects/Dictionaries) for efficient lookups.</li>
                     </ul>
-                </div>
+                    <h3 style="color: white; margin-top: 20px;">Must-Do DSA Questions:</h3>
+                    <ul>
+                        <li><strong>Two Sum</strong> (Arrays/Hashing)</li>
+                        <li><strong>Valid Parentheses</strong> (Stacks)</li>
+                        <li><strong>Reverse a Linked List</strong> (Linked Lists)</li>
+                        <li><strong>Merge Two Sorted Lists</strong> (Linked Lists)</li>
+                        <li><strong>Binary Tree Inorder Traversal</strong> (Trees)</li>
+                    </ul>
+                    </div>
 
-                <!-- NEW SECTION: STAR Method -->
+                <div class="prep-section">
+                    <h2>JavaScript Deep Dive (Most Important)</h2>
+                    <p>For any web developer, JavaScript is the most critical topic. Be ready to explain these concepts.</p>
+                    <ul>
+                        <li><strong>What is the difference between `==` and `===`?</strong>
+                            <br><em>Tip: `==` checks for value (with type coercion), `===` checks for both value AND type. Always use `===`.</em>
+                        </li>
+                        <li><strong>Explain Hoisting in JavaScript.</strong>
+                            <br><em>Tip: `var` declarations are "hoisted" (moved to the top of their scope) and initialized with `undefined`. `let` and `const` are also hoisted but are in a "Temporal Dead Zone" and cannot be accessed before declaration.</em>
+                        </li>
+                        <li><strong>What is a Closure? Give a practical example.</strong>
+                            <br><em>Tip: A function's ability to remember and access variables from its outer (lexical) scope, even after that outer function has finished running. (e.g., a function returning another function).</em>
+                        </li>
+                        <li><strong>Explain the 'this' keyword. How does it work differently with arrow functions?</strong>
+                            <br><em>Tip: `this` refers to the object that is *calling* the function. Arrow functions (`=>`) do not have their own `this`; they inherit it from their parent's scope.</em>
+                        </li>
+                        <li><strong>What is the Event Loop? Explain Call Stack, and Callback Queue.</strong>
+                            <br><em>Tip: This explains how JS handles asynchronous code. Call Stack (for function calls), Web API (for async tasks like `setTimeout`), Callback Queue (for completed tasks), Event Loop (moves tasks from queue to stack when stack is empty).</em>
+                        </li>
+                        <li><strong>Explain `Promise`, `async/await`, and how they handle asynchronous code.</strong>
+                            <br><em>Tip: Promises are objects representing the eventual completion (or failure) of an async operation. `async/await` is modern "syntactic sugar" that makes promise-based code look synchronous and easier to read.</em>
+                        </li>
+                    </ul>
+                </div>
+                <div class="prep-section">
+                    <h2>React & Frontend Questions</h2>
+                    <p>If you're applying for a MERN stack or frontend role, these are essential.</p>
+                    <ul>
+                        <li><strong>What is the Virtual DOM (VDOM)?</strong>
+                            <br><em>Tip: It's a lightweight JavaScript copy of the real DOM. React makes changes to the VDOM first, then calculates the *minimum* necessary changes to update the real DOM (this process is called "reconciliation"). This is faster than updating the real DOM directly.</em>
+                        </li>
+                        <li><strong>What is the difference between State and Props?</strong>
+                            <br><em>Tip: **Props** (properties) are passed *down* from a parent component (they are read-only). **State** is data managed *inside* a component (it can be changed using `useState`).</em>
+                        </li>
+                        <li><strong>Explain React Hooks (e.g., `useState`, `useEffect`).</strong>
+                            <br><em>Tip: `useState` lets you add state to functional components. `useEffect` lets you perform "side effects" (like fetching data, timers, or manually changing the DOM) after the component renders.</em>
+                        </li>
+                        <li><strong>What is the CSS Box Model?</strong>
+                            <br><em>Tip: The four parts of an element's space: Content, Padding, Border, Margin.</em>
+                        </li>
+                    </ul>
+                </div>
+                <div class="prep-section">
+                    <h2>Node.js & Backend (MERN)</h2>
+                    <p>For backend or full-stack roles.</p>
+                    <ul>
+                        <li><strong>What is Node.js and how is it different from JavaScript in the browser?</strong>
+                            <br><em>Tip: Node.js is a runtime that lets you run JS *outside* the browser (on a server). It has access to server-side features (like the file system, databases) but does *not* have browser-specific APIs (like the `document` or `window` objects).</em>
+                        </li>
+                        <li><strong>What is middleware in Express.js?</strong>
+                            <br><em>Tip: Functions that have access to the `request` (req), `response` (res), and the `next` function in the request-response cycle. They are used for logging, authentication (JWT), error handling, etc.</em>
+                        </li>
+                        <li><strong>What is the difference between SQL and NoSQL databases?</strong>
+                            <br><em>Tip: **SQL** (like MySQL) uses structured data (tables, rows) with predefined schemas. **NoSQL** (like MongoDB) uses unstructured data (collections, documents) with flexible schemas. MongoDB is great for MERN stack.</em>
+                        </li>
+                        <li><strong>What is REST? Explain the common HTTP methods.</strong>
+                            <br><em>Tip: REST is an architectural style for APIs. Common methods: `GET` (read data), `POST` (create new data), `PUT`/`PATCH` (update data), `DELETE` (delete data).</em>
+                        </li>
+                    </ul>
+                </div>
                 <div class="prep-section">
                     <h2>The STAR Method for Behavioral Questions</h2>
-                    <p>For questions like "Tell me about a time you faced a challenge," don't just give a general answer. Use the STAR method to structure your response clearly and effectively.</p>
+                    <p>For questions like "Tell me about a time you faced a challenge," use the STAR method.</p>
                     <ul>
-                        <li><strong>S (Situation):</strong> Briefly describe the context. What was the project or situation? (1-2 sentences)</li>
-                        <li><strong>T (Task):</strong> What was your specific role or task? What was the goal? (1 sentence)</li>
-                        <li><strong>A (Action):</strong> Describe the specific steps *you* took to address the task or challenge. This is the most important part. Use "I" statements (e.g., "I analyzed...", "I implemented..."). (3-4 sentences)</li>
-                        <li><strong>R (Result):</strong> What was the outcome of your actions? Quantify it if possible (e.g., "This reduced the error rate by 15%," "It improved performance and was praised by the team lead"). (1-2 sentences)</li>
+                        <li><strong>S (Situation):</strong> Briefly describe the context. (1-2 sentences)</li>
+                        <li><strong>T (Task):</strong> What was your specific role or task? (1 sentence)</li>
+                        <li><strong>A (Action):</strong> Describe the specific steps *you* took. Use "I" statements. (3-4 sentences)</li>
+                        <li><strong>R (Result):</strong> What was the outcome? Quantify it if possible. (1-2 sentences)</li>
                     </ul>
                 </div>
                 
-                <!-- NEW SECTION: Common HR Questions -->
                 <div class="prep-section">
                     <h2>Common HR Questions</h2>
                     <p>Be prepared for these common non-technical questions.</p>
                     <ul>
                         <li><strong>"Tell me about yourself."</strong>
-                            <br><em>Tip: Don't just list your resume. Use a "Present-Past-Future" formula. e.g., "Currently, I'm a final year Computer Science student focusing on web development. In the past, I've built several projects using the MERN stack, like a blog API, which taught me a lot about databases and REST principles. In the future, I'm excited to apply these skills to solve real-world problems in a professional environment."</em>
+                            <br><em>Tip: Use a "Present-Past-Future" formula.</em>
                         </li>
                         <li><strong>"What are your strengths and weaknesses?"</strong>
-                            <br><em>Tip: For strengths, pick relevant skills (e.g., "quick learner," "problem-solver") and give a brief example. For weaknesses, choose a real but manageable weakness and show how you are working to improve it (e.g., "I used to struggle with public speaking, so I've started actively presenting in my college tech club to improve my confidence.").</em>
+                            <br><em>Tip: For weaknesses, choose a real weakness and show how you are improving it.</em>
                         </li>
                          <li><strong>"Why do you want to work for this company?"</strong>
-                            <br><em>Tip: Do your research! Mention something specific about their products, technology, culture, or mission that genuinely interests you. Show that you've put in the effort.</em>
+                            <br><em>Tip: Do your research! Mention something specific about their products or culture.</em>
                         </li>
                     </ul>
                 </div>
 
-                <!-- NEW SECTION: Common Technical Questions -->
                 <div class="prep-section">
-                    <h2>Common Technical Questions (for Freshers)</h2>
+                    <h2>Core CS Fundamentals (OOP, DBMS, OS)</h2>
                     <p>For service-based companies and entry-level roles, be ready for these fundamental questions.</p>
                     <ul>
                         <li><strong>Explain the 4 pillars of Object-Oriented Programming (OOP).</strong>
                             <br><em>Answer: Encapsulation, Abstraction, Inheritance, and Polymorphism. Be ready to briefly explain each.</em>
                         </li>
                         <li><strong>What is the difference between a `PRIMARY KEY` and a `UNIQUE KEY` in SQL?</strong>
-                            <br><em>Answer: A table can have only one Primary Key, which cannot have NULL values. A table can have multiple Unique Keys, which can have one NULL value.</em>
+                            <br><em>Answer: A table can have only one Primary Key (cannot be NULL). A table can have multiple Unique Keys (can have one NULL).</em>
                         </li>
-                        <li><strong>What is the difference between `let`, `const`, and `var` in JavaScript?</strong>
-                            <br><em>Answer: `var` is function-scoped and hoisted. `let` and `const` are block-scoped. `const` cannot be reassigned, while `let` can.</em>
+                        <li><strong>What is a Process vs. a Thread?</strong>
+                            <br><em>Tip: A **Process** is a program in execution (e.g., opening Chrome). **Threads** are lightweight paths of execution *within* a process. A Chrome tab could be a thread.</em>
+                        </li>
+                        <li><strong>What is a Deadlock in Operating Systems?</strong>
+                            <br><em>Tip: A situation where two or more processes are blocked forever, each waiting for a resource held by the other.</em>
                         </li>
                          <li><strong>Explain your final year project.</strong>
-                            <br><em>Tip: Be passionate! Explain the problem it solves, the technology stack you used, your specific role, and the challenges you faced and overcame.</em>
+                            <br><em>Tip: Be passionate! Explain the problem it solves, the tech stack, your role, and the challenges you overcame.</em>
                         </li>
                     </ul>
                 </div>
@@ -110,11 +187,11 @@
                     <h2>Resume Building Tips</h2>
                     <p>Your resume is your first impression. Make it count.</p>
                     <ul>
-                        <li>Use a clean, single-page template (e.g., from Canva or a LaTeX template).</li>
-                        <li>Highlight 2-3 of your best projects with clear, bullet-pointed descriptions of what they do and the tech used. Quantify results if possible.</li>
+                        <li>Use a clean, single-page template.</li>
+                        <li>Highlight 2-3 of your best projects with clear, bullet-pointed descriptions.</li>
                         <li>List your skills clearly (Languages, Frameworks, Databases, Tools).</li>
                         <li>Include links to your GitHub, LinkedIn, and live project demos.</li>
-                        <li>Proofread multiple times to eliminate any typos or grammatical errors.</li>
+                        <li>Proofread multiple times to eliminate typos.</li>
                     </ul>
                 </div>
 
@@ -122,12 +199,51 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+    <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container" style="max-width: 1100px;">
+            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
+                
+                <div class="footer-column">
+                    <a href="index.html" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
+                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                        <span>CodeWithMSMAXPRO</span>
+                    </a>
+                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
+                </div>
+
+                <div class="footer-column">
+                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
+                        <li style="margin-bottom: 10px;"><a href="blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
+                        <li style="margin-bottom: 10px;"><a href="projects.html" style="color: #94a3b8; text-decoration: none;">Project Ideas</a></li>
+                        <li style="margin-bottom: 10px;"><a href="portfolio.html" style="color: #94a3b8; text-decoration: none;">Portfolio</a></li>
+                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
+                    <div class="social-links" style="display: flex; gap: 15px;">
+                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        </a>
+                        <a href="#" target="_blank" title="LinkedIn"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        </a>
+                        <a href="#" target="_blank" title="Twitter/X"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                        </a>
+                        <a href="#" target="_blank" title="Telegram"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
+                <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+            </div>
         </div>
     </footer>
-    
     <script src="app.js"></script>
 
 </body>
