@@ -1,21 +1,22 @@
 /* --- General Styles --- */
-html {
-    overflow-x: hidden; /* <-- YEH SABSE ZAROORI FIX HAI */
-}
 
+/* === START SLIDING FIX === */
 html, body {
-    /* (yahan se overflow-x hata diya) */
+    max-width: 100%;
+    overflow-x: hidden;
 }
+/* === END SLIDING FIX === */
 
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
-    /* (Yahan se bhi overflow-x aur width: 100% hata diya) */
+    /* (Yahan se overflow-x aur width: 100% hata diya) */
     background-color: #0f172a;
     background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
     color: #cbd5e1;
     line-height: 1.8;
 }
+
 
 
 .container {
@@ -246,7 +247,7 @@ h2 {
 /* --- Responsive Design (Media Queries) --- */
 @media (max-width: 768px) {
     .logo span { display: none; }
-    .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in;
+    .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%);
 will-change: transform;
  z-index: 999; }
     .nav-links li { margin-left: 0; opacity: 0; }
