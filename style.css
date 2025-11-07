@@ -90,11 +90,40 @@ nav {
     transition: all 0.3s ease;
 }
 
+/* --- Hero Section (Homepage) --- *
 /* --- Hero Section (Homepage) --- */
 .hero {
     text-align: center;
     padding: 100px 0;
+    
+    /* === START NEW CODE === */
+    background-image: url('images/hero-bg.jpg'); /* Make sure path is correct! */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative; /* Yeh overlay ke liye zaroori hai */
+    z-index: 1; 
+    /* === END NEW CODE === */
 }
+/* === START NEW CODE FOR OVERLAY === */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* Yeh aapka site ka main background color hai, 60% opacity ke saath */
+    background-color: rgba(15, 23, 42, 0.6); 
+    z-index: 1;
+}
+
+.hero .container {
+    position: relative; /* Taki text overlay ke UPAR rahe */
+    z-index: 2;
+}
+/* === END NEW CODE FOR OVERLAY === */
+
 .hero h1 {
     font-size: 3.8rem;
     margin-bottom: 15px;
