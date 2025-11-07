@@ -521,6 +521,13 @@ pre code {
         text-align: center;
     }
     /* === END: NAYA MOBILE PADDING FIX === */
+
+    /* === START: Mobile Button Gap Fix === */
+    .hero .cta-button.secondary {
+        margin-top: 15px; /* Adds space above the second button on mobile */
+        margin-left: 0; /* Removes side margin on mobile */
+    }
+    /* === END: Mobile Button Gap Fix === */
 }
 
 /* --- JS-Toggled Classes for Mobile Menu --- */
@@ -664,9 +671,6 @@ pre code {
 }
 
 /* --- START: Homepage 5 New Updates CSS --- */
-/* (Yeh code pichle step se hai, bas confirm kar raha hoon ki yeh yahan hai) */
-
-/* --- Homepage: About Snippet --- */
 .about-snippet {
     background-color: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -693,19 +697,15 @@ pre code {
     color: #fff;
     box-shadow: none;
 }
-
-/* --- Homepage: Latest Posts Grid (Update) --- */
 #latest-posts-container.blog-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 25px;
-    max-width: 1100px; /* Full width */
+    max-width: 1100px; 
 }
 #latest-posts-container .blog-post-card {
-    margin-bottom: 0; /* Grid 'gap' handle karega */
+    margin-bottom: 0; 
 }
-
-/* --- Homepage: Community CTA (Replaces AI Bot) --- */
 .community-cta {
     text-align: center;
     background-color: rgba(30, 41, 59, 0.5);
@@ -722,8 +722,6 @@ pre code {
     color: #94a3b8;
     margin-bottom: 30px;
 }
-
-/* --- START: Homepage Philosophy Section --- */
 .philosophy-section {
     background-color: rgba(30, 41, 59, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -732,17 +730,17 @@ pre code {
 }
 .philosophy-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 2 column layout */
+    grid-template-columns: 1fr 1fr; 
     gap: 40px;
     align-items: center;
 }
 .philosophy-image img {
     width: 100%;
-    max-width: 100%; /* Ensures it never overflows */
-    height: auto; /* Maintains aspect ratio automatically */
+    max-width: 100%; 
+    height: auto; 
     border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    display: block; /* Fixes potential inline spacing issues */
+    display: block; 
 }
 .philosophy-content h2 {
     text-align: left;
@@ -767,14 +765,12 @@ pre code {
 }
 .philosophy-content ul li::before {
     content: '✔';
-    color: #22c55e; /* Green color */
+    color: #22c55e; 
     position: absolute;
     left: 0;
     top: 2px;
     font-weight: 700;
 }
-
-/* --- Update 3: Tech Stack Logos --- */
 .tech-stack-section {
     padding-top: 40px;
     padding-bottom: 40px;
@@ -800,7 +796,7 @@ pre code {
     border-color: rgba(167, 139, 250, 0.5);
 }
 .tech-logo img {
-    height: 40px; /* Fixed height for all logos */
+    height: 40px; 
     width: auto;
 }
 .tech-logo p {
@@ -808,8 +804,6 @@ pre code {
     font-weight: 500;
     color: #cbd5e1;
 }
-
-/* --- Update 4: "View All" Button Container --- */
 .text-center-container {
     text-align: center;
     margin-top: 40px;
@@ -824,8 +818,6 @@ pre code {
     background: #334155;
     color: #fff;
 }
-
-/* --- Update 5: FAQ Section --- */
 .faq-section {
     max-width: 800px;
     margin: 0 auto;
@@ -855,7 +847,7 @@ pre code {
     transition: transform 0.3s ease;
 }
 .faq-answer {
-    max-height: 0; /* Hidden by default */
+    max-height: 0; 
     overflow: hidden;
     transition: max-height 0.4s ease, padding 0.4s ease;
 }
@@ -867,10 +859,10 @@ pre code {
     line-height: 1.7;
 }
 .faq-item.active .faq-question::after {
-    transform: rotate(45deg); /* Rotates '+' to 'x' */
+    transform: rotate(45deg); 
 }
 .faq-item.active .faq-answer {
-    max-height: 200px; /* Reveals the answer */
+    max-height: 200px; 
     padding-top: 0;
 }
 
