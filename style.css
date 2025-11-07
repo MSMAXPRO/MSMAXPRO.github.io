@@ -643,3 +643,66 @@ pre code {
 .idea-card .project-links {
     display: grid;
 }
+/* --- START: Homepage Extra Content Styles --- */
+
+/* --- Homepage: About Snippet --- */
+.about-snippet {
+    background-color: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 50px;
+    text-align: center;
+}
+.about-snippet h2 {
+    margin-top: 0;
+}
+.about-snippet p {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+}
+/* This gives the 'About' button a secondary style */
+.about-snippet .cta-button {
+    background: transparent;
+    border: 2px solid #334155;
+    color: #cbd5e1;
+}
+.about-snippet .cta-button:hover {
+    background: #334155;
+    color: #fff;
+    box-shadow: none;
+}
+
+/* --- Homepage: Latest Posts Grid (Update) --- */
+/* This will turn your blog links into a visual grid */
+#latest-posts-container.blog-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1100px; /* Full width */
+}
+#latest-posts-container .blog-post-card {
+    margin-bottom: 0; /* The grid 'gap' will handle spacing */
+}
+
+/* --- Homepage: Community CTA (Replaces AI Bot) --- */
+.community-cta {
+    text-align: center;
+    background-color: rgba(30, 41, 59, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 50px;
+}
+.community-cta h2 {
+    margin-top: 0;
+    font-size: 2.5rem;
+}
+.community-cta p {
+    font-size: 1.1rem;
+    color: #94a3b8;
+    margin-bottom: 30px;
+}
+
+/* --- END: Homepage Extra Content Styles --- */
+
