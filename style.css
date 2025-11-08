@@ -23,7 +23,7 @@ body {
 }
 
 section {
-    padding: 60px 0;
+    padding: 0; /* <-- YAHAN CHANGE KIYA HAI: Default top/bottom padding hata di hai */
 }
 
 /* --- Header / Navigation Bar (Sticky Update) --- */
@@ -93,7 +93,7 @@ nav {
 /* --- Hero Section (Homepage) (Hero Image Update) --- */
 .hero {
     text-align: center;
-    padding: 100px 0;
+    padding: 100px 0; /* <-- Iski padding zaroori hai design ke liye */
     background-image: url('images/hero-bg.jpg');
     background-size: cover;
     background-position: center center;
@@ -166,6 +166,11 @@ nav {
 
 
 /* --- Features Section (Homepage) --- */
+/* (NOTE: Is section ko ab padding nahi milegi, isliye humein content ke liye margin add karna padega) */
+.features {
+    padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
+    padding-bottom: 60px;
+}
 h2 {
     text-align: center;
     font-size: 2.8rem;
@@ -479,7 +484,7 @@ pre code {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly;
+        justify-content: space-evenly; /* <-- YEH AAPKA PURANA CODE HAI */
         width: 60%;
         transform: translateX(100%);
         z-index: 999;
@@ -697,6 +702,10 @@ pre code {
     color: #fff;
     box-shadow: none;
 }
+.latest-posts {
+    padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
+    padding-bottom: 60px;
+}
 #latest-posts-container.blog-section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -821,6 +830,8 @@ pre code {
 .faq-section {
     max-width: 800px;
     margin: 0 auto;
+    padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
+    padding-bottom: 60px;
 }
 .faq-item {
     background-color: rgba(30, 41, 59, 0.5);
@@ -865,64 +876,20 @@ pre code {
     max-height: 200px; 
     padding-top: 0;
 }
-
 /* --- END: Homepage 5 New Updates CSS --- */
-*(You can change the numbers like "50+", "10+", "500+" to match your actual content.)*
 
----
 
-### 2. CSS Code (New Styling)
-
-This CSS will make the new section match your professional dark theme. Copy this code and paste it at the **very end** of your `style.css` file.
-
-```css
 /* ================================== */
-/* === Stats Bar Section CSS === */
+/* === NAYE UPDATES YAHAN HAIN === */
 /* ================================== */
 
-.stats-bar {
-    padding: 60px 0;
-    /* Use a slightly different background to make it stand out */
-    background-color: var(--dark-bg-secondary, #1C2333); 
-    border-top: 1px solid var(--dark-border, #3A404D);
-    border-bottom: 1px solid var(--dark-border, #3A404D);
-}
-
-.stats-grid {
-    display: grid;
-    /* Creates 4 columns on desktop, 2 on tablet, 1 on mobile */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-}
-
-.stat-item {
-    text-align: center;
-    background-color: var(--dark-bg-primary, #0B1120); /* Darker inner bg */
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid var(--dark-border, #3A404D);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    /* Uses your theme's highlight color */
-    color: var(--brand-highlight, #4F46E5); 
-    margin: 0 0 5px 0;
-}
-
-.stat-label {
-    font-size: 1rem;
-    /* Uses your theme's secondary text color */
-    color: var(--text-secondary, #94A3B8); 
-    margin: 0;
-}
 /* === BUG FIX: Mobile Menu Body Scroll Lock (v3) === */
 body.body-no-scroll {
     position: fixed;
     width: 100%;
     /* 'top' position will be set by JavaScript */
 }
+
 /* ================================== */
 /* === Mobile Menu Spacing & Font Fix === */
 /* ================================== */
