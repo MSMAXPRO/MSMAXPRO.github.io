@@ -23,7 +23,7 @@ body {
 }
 
 section {
-    padding: 0; /* Default top/bottom padding hata di hai */
+    padding: 60px 0; /* <-- YAHAN CHANGE KIYA HAI: Waapas original padding laga di hai */
 }
 
 /* --- Header / Navigation Bar (Sticky Update) --- */
@@ -93,7 +93,7 @@ nav {
 /* --- Hero Section (Homepage) (Hero Image Update) --- */
 .hero {
     text-align: center;
-    padding: 100px 0; /* Iski padding zaroori hai design ke liye */
+    padding: 100px 0; /* Iski padding alag se rehti hai */
     background-image: url('images/hero-bg.jpg');
     background-size: cover;
     background-position: center center;
@@ -166,10 +166,6 @@ nav {
 
 
 /* --- Features Section (Homepage) --- */
-.features {
-    padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
-    padding-bottom: 60px;
-}
 h2 {
     text-align: center;
     font-size: 2.8rem;
@@ -697,7 +693,7 @@ pre code {
     font-size: 1.1rem;
     color: #94a3b8;
     max-width: 700px;
-    margin: 0 auto 30px auto.
+    margin: 0 auto 30px auto;
 }
 .about-snippet .cta-button {
     background: transparent;
@@ -708,10 +704,6 @@ pre code {
     background: #334155;
     color: #fff;
     box-shadow: none;
-}
-.latest-posts {
-    padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
-    padding-bottom: 60px;
 }
 #latest-posts-container.blog-section {
     display: grid;
@@ -837,8 +829,6 @@ pre code {
 .faq-section {
     max-width: 800px;
     margin: 0 auto;
-    padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
-    padding-bottom: 60px;
 }
 .faq-item {
     background-color: rgba(30, 41, 59, 0.5);
