@@ -5,236 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - CodeWithMSMAXPRO</title>
     
-    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <style>
-        /* --- General Styles --- */
-        html, body {
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: #0f172a;
-            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
-            color: #cbd5e1;
-            line-height: 1.8; 
-        }
-
-        .container {
-            max-width: 1100px; 
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        section {
-            padding: 60px 0;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px 0;
-            margin-top: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-        }
-
-        /* --- Header / Navigation Bar --- */
-        header {
-            background-color: transparent;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-weight: 700;
-            font-size: 1.6rem;
-            color: #ffffff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-        }
-        .logo img {
-            height: 40px;
-            margin-right: 10px;
-        }
-        .logo span {
-            display: block;
-        }
-        .nav-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        .nav-links li {
-            margin-left: 30px;
-        }
-        .nav-links li a {
-            text-decoration: none;
-            color: #cbd5e1;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        .nav-links li a:hover {
-            color: #7c3aed;
-        }
-
-        /* --- Hamburger Menu Icon --- */
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            z-index: 1000;
-        }
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background-color: #ffffff;
-            margin: 5px;
-            transition: all 0.3s ease;
-        }
-        
-        /* --- Contact Page Specific Styles --- */
-        .contact-section .container {
-            max-width: 700px; /* Make container smaller for the form */
-        }
-        
-        .contact-section h1 {
-            font-size: 2.8rem;
-            color: #ffffff;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        .contact-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #e2e8f0;
-        }
-        
-        .contact-form input[type="text"],
-        .contact-form input[type="email"],
-        .contact-form textarea {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 20px;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            background-color: #1e293b;
-            color: #cbd5e1;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            box-sizing: border-box; /* Include padding in width */
-        }
-        
-        .contact-form textarea {
-            min-height: 150px;
-            resize: vertical; /* Allow vertical resize */
-        }
-        
-        .contact-form button {
-            display: inline-block;
-            background: linear-gradient(90deg, #38bdf8, #8b5cf6);
-            color: #fff;
-            padding: 16px 40px;
-            text-decoration: none;
-            font-weight: 700;
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            border: none;
-            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
-            cursor: pointer;
-            font-size: 1.1rem;
-            width: 100%; /* Make button full width */
-            margin-top: 10px;
-        }
-        
-        .contact-form button:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .logo span {
-                display: none; 
-            }
-            .nav-links {
-                position: fixed; right: 0px; height: 100vh; top: 0;
-                background-color: #1e293b; display: flex; flex-direction: column;
-                align-items: center; justify-content: space-evenly; width: 60%;
-                transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999;
-            }
-            .nav-links li { margin-left: 0; opacity: 0; }
-            .hamburger { display: block; }
-            .contact-section h1 { font-size: 2.2rem; }
-        }
-
-        /* --- JS-Toggled Classes for Mobile Menu --- */
-        .nav-active { transform: translateX(0%); }
-        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
-        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
-        .toggle .line2 { opacity: 0; }
-        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
-        
-        /* --- Keyframes for Nav Link Animation --- */
-        @keyframes navLinkFade {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* --- Add these styles for the rating --- */
-        .rating-group {
-            display: flex; /* Arrange items horizontally */
-            align-items: center; /* Vertically align items */
-            gap: 5px; /* Space between number labels */
-            margin-bottom: 20px; /* Space below the rating */
-            margin-top: 5px;  /* Space above the rating */
-        }
-
-        .rating-group input[type="radio"] {
-            margin-right: 2px; /* Small space between radio button and its label */
-        }
-        
-        .rating-group label {
-            margin-bottom: 0; /* Override default label margin */
-            margin-right: 15px; /* Space between each radio/label pair */
-            cursor: pointer;
-        }
-        /* --- End of rating styles --- */
-
-        /* --- Responsive Design --- */
-    </style>
+    <!-- CSS file ko cache-busting ke saath link kiya hai -->
+    <link rel="stylesheet" href="style.css?v=1.2"> 
 </head>
 <body>
 
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
                 
                 <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
+                    <li><a href="projects.html">Project Ideas</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
                     <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li> 
-                    <li><a href="projects.html">Projects</a></li> <!-- Add this line -->
-
+                    <li><a href="contact.html">Contact</a></li>
                 </ul>
                 
                 <div class="hamburger">
@@ -247,125 +41,77 @@
     </header>
 
     <main>
-        <section class="contact-section">
+        <section class="contact-form-section">
             <div class="container">
-                <h1>Get In Touch</h1>
-                <p style="text-align: center; margin-bottom: 40px; color: #94a3b8;">Have questions, feedback, or ideas? We'd love to hear from you!</p>
-                
-                <form class="contact-form" action="#" method="POST"> 
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                    
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" required>
-                    
-                    <label for="subject">Subject:</label>
-                    <input type="text" id="subject" name="subject" required>
-                    
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" required></textarea>
+                <h2>Get In Touch</h2>
+                <p class="section-subtitle">Have questions, feedback, or ideas? We'd love to hear from you!</p>
 
-                    <label>Rate your experience :</label>
-                    <div class="rating-group">
-                        <input type="radio" id="star1" name="rating" value="1" required>
-                        <label for="star1">1</label>
-                        <input type="radio" id="star2" name="rating" value="2">
-                        <label for="star2">2</label>
-                        <input type="radio" id="star3" name="rating" value="3">
-                        <label for="star3">3</label>
-                        <input type="radio" id="star4" name="rating" value="4">
-                        <label for="star4">4</label>
-                        <input type="radio" id="star5" name="rating" value="5">
-                        <label for="star5">5</label>
+                <!-- === YAHAN APNA FORMSPARK URL PASTE KAREIN === -->
+                <form action="https://submit-form.com/LPB7BuS9H" method="POST" class="contact-form">
+                    
+                    <!-- Honeypot for spam protection -->
+                    <input type="checkbox" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
                     </div>
-                    <button type="submit">Send Message</button>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" id="subject" name="subject" class="form-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message" class="form-input" rows="6" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Rate your experience:</label>
+                        <div class="form-rating">
+                            <input type="radio" id="star5" name="rating" value="5"><label for="star5" title="5 stars">★</label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" title="4 stars">★</label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" title="3 stars">★</label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" title="2 stars">★</label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" title="1 star">★</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="cta-button">Send Message</button>
+                    <div id="form-status" class="form-status-message"></div>
+
                 </form>
-                
             </div>
         </section>
     </main>
 
-    <footer>
-        <!-- ==================== NEW FOOTER START ==================== -->
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <!-- (Aapka poora footer code yahan copy paste karein... maine use chhota kar diya hai) -->
         <div class="container" style="max-width: 1100px;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
-                
-                <!-- Column 1: Brand -->
-                <div class="footer-column">
-                    <a href="/" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
-                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                        <span>CodeWithMSMAXPRO</span>
-                    </a>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
-                </div>
-
-                <!-- Column 2: Quick Links -->
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="/roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/projects.html" style="color: #94a3b8; text-decoration: none;">Projects</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Connect with Me -->
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
-                    <div class="social-links" style="display: flex; gap: 15px;">
-                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
-                            <!-- GitHub SVG Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </a>
-                        <a href="https://linkedin.com/in/your-linkedin-username" target="_blank" title="LinkedIn"> <!-- IMPORTANT: Update your LinkedIn URL -->
-                            <!-- LinkedIn SVG Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="https://twitter.com/your-twitter-username" target="_blank" title="Twitter/X"> <!-- IMPORTANT: Update your Twitter/X URL -->
-                            <!-- Twitter/X SVG Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Copyright line -->
             <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
                 <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
             </div>
         </div>
     </footer>
-    <!-- ==================== NEW FOOTER END ==================== -->
-    </footer>
     
+    <!-- Yeh script 'app.js' ko bhi include karegi taaki mobile menu kaam kare -->
+    <script src="app.js"></script>
     <script>
-        /* --- Mobile Navigation Toggle --- */
-        const navSlide = () => {
-            const hamburger = document.querySelector('.hamburger');
-            const nav = document.querySelector('.nav-links');
+        // Form submission status ke liye chhota sa script
+        const form = document.querySelector('.contact-form');
+        const formStatus = document.getElementById('form-status');
 
-            if (hamburger && nav) {
-                hamburger.addEventListener('click', () => {
-                    nav.classList.toggle('nav-active');
-                    
-                    // Animate Links
-                    const navLinks = document.querySelectorAll('.nav-links li');
-                    navLinks.forEach((link, index) => {
-                        if (link.style.animation) {
-                            link.style.animation = '';
-                        } else {
-                            link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
-                        }
-                    });
-
-                    hamburger.classList.toggle('toggle');
-                });
-            }
-        }
-        navSlide();
+        form.addEventListener('submit', function(e) {
+            formStatus.innerHTML = 'Sending...';
+            formStatus.style.color = '#cbd5e1';
+            formStatus.style.display = 'block';
+        });
     </script>
 
 </body>
