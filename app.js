@@ -1,4 +1,3 @@
-/* --- Wait for the document to be ready --- */
 document.addEventListener('DOMContentLoaded', () => {
 
     /* --- Mobile Navigation Toggle --- */
@@ -9,13 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hamburger && nav) {
             hamburger.addEventListener('click', () => {
                 nav.classList.toggle('nav-active');
-                
-            
-
                 hamburger.classList.toggle('toggle');
+
+                // --- BUG FIX: YEH NAYI LINE ADD KAREIN ---
+                document.body.classList.toggle('body-no-scroll');
             });
         }
     }
+//... baaki code
+
 
     /* --- Load Latest Blog Posts --- */
     const loadLatestPosts = () => {
