@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
             hamburger.addEventListener('click', () => {
                 nav.classList.toggle('nav-active');
                 hamburger.classList.toggle('toggle');
-
-                // --- BUG FIX: YEH NAYI LINE ADD KAREIN ---
-                document.body.classList.toggle('body-no-scroll');
+// --- BUG FIX: YEH NAYI LINE ADD KAREIN ---
+document.documentElement.classList.toggle('body-no-scroll'); // For <html>
+document.body.classList.toggle('body-no-scroll');        
             });
         }
     }
