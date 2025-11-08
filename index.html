@@ -1,276 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeWithMSMAXPRO - Your Coding Companion</title>
-    <meta name="title" content="CodeWithMSMAXPRO - Your Coding Companion">
-    <meta name="description" content="Your journey to a tech career starts here. Get free roadmaps, resources, portfolio projects, and community support.">
-    <meta name="keywords" content="codewithmsmaxpro, msmaxpro, coding, roadmaps, web development, frontend, backend, tech career">
+  <!-- Basic SEO -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MS MAX PRO — Developer Portfolio</title>
+  <meta name="description" content="Full-stack developer. I build practical projects, roadmaps, and tutorials for students and beginners." />
+  <link rel="canonical" href="https://codewithmsmaxpro.me/projects/portfolio-starter/" />
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://codewithmsmaxpro.me/">
-    <meta property="og:title" content="CodeWithMSMAXPRO - Your Coding Companion">
-    <meta property="og:description" content="Your journey to a tech career starts here. Get free roadmaps, resources, portfolio projects, and community support.">
-    <meta property="og:image" content="https://codewithmsmaxpro.me/images/social-share-image.jpg">
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="CodeWithMSMAXPRO" />
+  <meta property="og:url" content="https://codewithmsmaxpro.me/projects/portfolio-starter/" />
+  <meta property="og:title" content="MS MAX PRO — Developer Portfolio" />
+  <meta property="og:description" content="Full-stack developer. I build practical projects, roadmaps, and tutorials for students and beginners." />
+  <meta property="og:image" content="https://codewithmsmaxpro.me/assets/meta/og-default.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0ea5e9" />
 
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://codewithmsmaxpro.me/">
-    <meta property="twitter:title" content="CodeWithMSMAXPRO - Your Coding Companion">
-    <meta property="twitter:description" content="Your journey to a tech career starts here. Get free roadmaps, resources, portfolio projects, and community support.">
-    <meta property="twitter:image" content="https://codewithmsmaxpro.me/images/social-share-image.jpg">
+  <link rel="icon" href="/assets/icons/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
 
-    
-  <link rel="apple-touch-icon" href="images/logo.png">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f172a;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --accent:#0ea5e9;
+      --ring:#1f2937;
+      --maxw:1050px;
+    }
+    [data-theme="light"]{
+      --bg:#ffffff; --card:#f8fafc; --text:#0b1220; --muted:#475569; --ring:#e5e7eb;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+    a{color:var(--accent);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:var(--maxw);margin:auto;padding:18px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;position:sticky;top:0;background:var(--bg);z-index:20;border-bottom:1px solid var(--ring)}
+    .brand{font-weight:700;letter-spacing:.4px}
+    .links a{margin:0 8px;color:var(--muted)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--accent);color:#001018;font-weight:600;border:0}
+    .btn-outline{background:transparent;color:var(--text);border:1px solid var(--ring)}
+    .grid{display:grid;gap:18px}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center;padding:28px 0}
+    .hero h1{font-size:clamp(28px,4vw,46px);line-height:1.15;margin:.2em 0}
+    .hero p{color:var(--muted);font-size:clamp(15px,1.6vw,18px)}
+    .card{background:var(--card);border:1px solid var(--ring);border-radius:16px;padding:16px}
+    .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .kpi{background:var(--card);border:1px solid var(--ring);border-radius:14px;padding:14px;text-align:center}
+    .kpi b{font-size:22px}
+    h2.section{margin:8px 0 6px;font-size:clamp(20px,2.4vw,28px)}
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid var(--ring);background:transparent;color:var(--text);font-size:14px}
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .project{display:flex;flex-direction:column;gap:10px}
+    .project img{width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid var(--ring);background:#0a0a0a}
+    .project h3{margin:.1em 0;font-size:18px}
+    .meta{color:var(--muted);font-size:14px}
+    .filters{display:flex;gap:8px;flex-wrap:wrap}
+    .filters button{padding:6px 10px;border-radius:10px;border:1px solid var(--ring);background:transparent;color:var(--text);cursor:pointer}
+    .filters button.active{background:var(--accent);color:#001018;border-color:transparent}
+    .about{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .contact form{display:grid;gap:10px}
+    input,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--ring);background:transparent;color:var(--text)}
+    footer{margin:28px 0;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--ring);padding-top:16px}
+    .sr-only{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .projects{grid-template-columns:1fr 1fr}
+      .about{grid-template-columns:1fr}
+    }
+    @media (max-width: 620px){
+      .projects{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
+  <header class="nav wrap">
+    <div class="brand">MS MAX PRO</div>
+    <nav class="links" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
+      <a href="/roadmaps/">Roadmaps</a>
+      <a href="/portfolio/">Portfolio</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+    <button id="theme" class="btn-outline" aria-label="Toggle theme">🌙</button>
+  </header>
 
-    <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
+  <main>
+    <!-- HERO -->
+    <section class="wrap hero">
+      <div>
+        <span class="chip">Developer & Trainer</span>
+        <h1>Learn Coding The Practical Way 🚀</h1>
+        <p>I build <b>real projects</b>, write <b>clear roadmaps</b>, and share <b>no-nonsense guides</b> for students & beginners.</p>
+        <div class="grid" style="grid-template-columns:auto auto;align-items:center;gap:10px;margin-top:12px">
+          <a class="btn" href="/roadmaps/">Start Learning →</a>
+          <a class="btn btn-outline" href="/blog/">Read the Blog</a>
         </div>
-    </header>
-
-                <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Your Journey to a <span class="highlight">Tech Career</span> Starts Here</h1>
-                <p>From learning to code to landing your first job, we provide the resources, roadmaps, and support you need to succeed.</p>
-                <a href="roadmaps.html" class="cta-button">Explore Roadmaps</a>
-                <a href="portfolio.html" class="cta-button secondary">View My Portfolio</a>
-            </div>
-        </section>
-
-        <section class="features">
-            <div class="container">
-                <h2>Everything You Need, All in One Place</h2>
-                <p class="section-subtitle">All the key areas you need to succeed, perfectly organized for you.</p>
-                
-                <div class="features-grid">
-                    <a href="roadmaps.html">
-                        <div class="feature-card">
-                            <img src="images/roadmap.jpg" alt="Career Roadmaps Icon">
-                            <div class="project-content">
-                                <h3>Career Roadmaps</h3>
-                                <p>Step-by-step guides for roles like Frontend, Backend, and Data Science.</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="interview.html">
-                        <div class="feature-card">
-                            <img src="images/interview.png" alt="Interview Ready Icon">
-                            <div class="project-content">
-                                <h3>Interview Ready</h3>
-                                <p>DSA, resume tips, and questions asked in top companies.</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="resources.html">
-                        <div class="feature-card">
-                            <img src="images/resources.png" alt="Free Resources Icon">
-                            <div class="project-content">
-                                <h3>Free Resources</h3>
-                                <p>A curated list of the best tools, platforms, and channels for students.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="tech-stack-section">
-            <div class="container">
-                <h2>Technologies We <span class="highlight">Cover</span></h2>
-                <p class="section-subtitle">We focus on the most in-demand technologies in the industry today.</p>
-                
-                <div class="tech-logos-grid">
-                    <div class="tech-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript">
-                        <p>JavaScript</p>
-                    </div>
-                    <div class="tech-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React">
-                        <p>React</p>
-                    </div>
-                    <div class="tech-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js">
-                        <p>Node.js</p>
-                    </div>
-                    <div class="tech-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python">
-                        <p>Python</p>
-                    </div>
-                    <div class="tech-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB">
-                        <p>MongoDB</p>
-                    </div>
-                    <div class="tech-logo">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" alt="SQL">
-                        <p>SQL</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="about-snippet">
-            <div class="container">
-                <h2>Your Mentor, <span class="highlight">MSMAXPRO</span></h2>
-                <p class="section-subtitle">Why learn from me? Because I'm on the same journey as you.</p>
-                <p>I'm a Computer Science student, just like you. I built this website to share all the resources and knowledge I've gathered. No complex theory, just practical, to-the-point guidance.</p>
-                <a href="about.html" class="cta-button">Read My Full Story</a>
-            </div>
-        </section>
-
-        <section class="latest-posts">
-            <div class="container">
-                <h2>Featured from the <span class="highlight">Blog</span></h2>
-                <p class="section-subtitle">My latest articles, guides, and project tutorials.</p>
-                
-                <div id="latest-posts-container" class="blog-section">
-                    </div>
-
-                <div class="text-center-container">
-                    <a href="blog.html" class="cta-button">View All Posts</a>
-                </div>
-            </div>
-        </section>
-        
-                    
-                </div>
-            </div>
-        </section>
-
-        <section class="faq-section">
-            <div class="container">
-                <h2>Frequently Asked <span class="highlight">Questions</span></h2>
-                <p class="section-subtitle">A few common questions you might have.</p>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Is all the content on this site really free?
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, absolutely. All roadmaps, guides, and resources on this website are 100% free. My goal is to build a community, not to sell a course.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Who is this website for?
-                    </div>
-                    <div class="faq-answer">
-                        <p>This site is built for Computer Science and IT students, or anyone who wants to become a web developer. It's especially for those who are tired of scattered tutorials and want a clear, step-by-step path.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        Can I use your projects in my portfolio?
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes! You are encouraged to build the projects from the "Project Ideas" section. I highly recommend adding your own unique features to them to make them stand out, and then add them to your own portfolio.</p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
+        <div class="kpis" style="margin-top:16px">
+          <div class="kpi"><b id="k1">50+</b><div class="meta">Project Ideas</div></div>
+          <div class="kpi"><b id="k2">15</b><div class="meta">Guides</div></div>
+          <div class="kpi"><b id="k3">3</b><div class="meta">Open Source</div></div>
         </div>
+      </div>
+      <div class="card">
+        <h2 class="section">Featured Project</h2>
+        <div class="project">
+          <img src="https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop" alt="3D web scene preview" loading="lazy" />
+          <h3>Three.js Solar System</h3>
+          <p class="meta">3D, WebGL, Three.js</p>
+          <div class="grid" style="grid-template-columns:auto auto;gap:8px">
+            <a class="btn btn-outline" href="https://github.com/your-username/threejs-solar" target="_blank" rel="noopener">View Code</a>
+            <a class="btn" href="https://your-demo-link.example" target="_blank" rel="noopener">Live Demo</a>
+          </div>
+        </div>
+      </div>
     </section>
 
-    
+    <!-- SKILLS + FILTERS -->
+    <section class="wrap card">
+      <h2 class="section">Skills</h2>
+      <div class="skills" id="skills">
+        <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+        <span class="chip">React</span><span class="chip">Node.js</span><span class="chip">MongoDB</span>
+        <span class="chip">Three.js</span><span class="chip">Git/GitHub</span>
+      </div>
+    </section>
 
-
-        <section class="community-cta">
-            <div class="container">
-                <h2>Join our Community!</h2>
-                <p class="section-subtitle">You've seen the content. Now join the conversation.</p>
-                <p>Coding alone can be boring. Join our Telegram channel to ask questions, stay motivated, and connect with fellow learners.</p>
-                <a href="https://t.me/CodeWithMSMAXPRO" target="_blank" class="cta-button">Join Telegram Channel</a> 
-            </div>
-        </section>
-    </main>
-
-
-
-
-    <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-        <div class="container" style="max-width: 1100px;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
-                
-                <div class="footer-column">
-                    <a href="index.html" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                        <span>CodeWithMSMAXPRO</span>
-                    </a>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
-                        <li style="margin-bottom: 10px;"><a href="blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
-                        <li style="margin-bottom: 10px;"><a href="projects.html" style="color: #94a3b8; text-decoration: none;">Project Ideas</a></li>
-                        <li style="margin-bottom: 10px;"><a href="portfolio.html" style="color: #94a3b8; text-decoration: none;">Portfolio</a></li>
-                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
-                    <div class="social-links" style="display: flex; gap: 15px;">
-                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </a>
-                        <a href="#" target="_blank" title="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="#" target="_blank" title="Twitter/X">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        </a>
-<a href="https://t.me/CodeWithMSMAXPRO" target="_blank" title="Telegram"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
-                        </a>
-        
-            
-            
-                    </div>
-                </div>
-
-            </div>
-            
-            <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
-                <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
-            </div>
+    <!-- PROJECTS -->
+    <section class="wrap">
+      <div class="grid" style="grid-template-columns:auto auto;align-items:end">
+        <h2 class="section">Projects</h2>
+        <div class="filters" id="filters" role="tablist" aria-label="Project filters">
+          <button class="active" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button data-filter="js" role="tab">JavaScript</button>
+          <button data-filter="react" role="tab">React</button>
+          <button data-filter="three" role="tab">Three.js</button>
         </div>
-    </footer>
-    
-    <script src="blog_data.js"></script>
-    <script src="app.js"></script>
+      </div>
 
+      <div class="projects" id="projectGrid" aria-live="polite"></div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="wrap about">
+      <div class="card">
+        <h2 class="section">About Me</h2>
+        <p>Hi! I’m <b>MS MAX PRO</b>. I help students learn coding by building practical, portfolio-ready projects.
+        I love JavaScript, React, and Three.js — and I share everything I learn.</p>
+        <p class="meta">Open for collaborations, workshops, and mentoring.</p>
+        <a class="btn" href="/about/">More About Me</a>
+      </div>
+      <div class="card">
+        <h2 class="section">Get My Project List</h2>
+        <p>Download a curated list of 30+ beginner projects with short briefs.</p>
+        <a class="btn btn-outline" href="/assets/downloads/project-ideas.pdf" target="_blank" rel="noopener">Download PDF</a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="wrap card contact" id="contact">
+      <h2 class="section">Contact</h2>
+      <form action="https://formspree.io/f/your-form-id" method="POST">
+        <label class="sr-only" for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Your name" required />
+        <label class="sr-only" for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="Your email" required />
+        <label class="sr-only" for="msg">Message</label>
+        <textarea id="msg" name="message" rows="5" placeholder="Tell me about your idea…" required></textarea>
+        <button class="btn" type="submit">Send Message</button>
+      </form>
+      <p class="meta" style="margin-top:8px">Prefer DMs? <a href="https://t.me/your-handle" target="_blank" rel="noopener">Telegram</a></p>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <div>© <span id="y"></span> CodeWithMSMAXPRO</div>
+    <div>
+      <a href="https://github.com/your-username" target="_blank" rel="noopener">GitHub</a> ·
+      <a href="https://x.com/your-handle" target="_blank" rel="noopener">X</a> ·
+      <a href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    // Year + Theme toggle
+    document.getElementById('y').textContent = new Date().getFullYear();
+    const root = document.documentElement;
+    const key = 'cwms_theme';
+    const btn = document.getElementById('theme');
+    const setTheme = t => { root.setAttribute('data-theme', t); localStorage.setItem(key, t); btn.textContent = (t==='light'?'🌙':'☀️'); };
+    setTheme(localStorage.getItem(key) || 'dark');
+    btn.addEventListener('click', () => setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark'));
+
+    // Demo project data (replace with your real ones)
+    const projects = [
+      {
+        title: "To-Do App (LocalStorage)",
+        img: "https://images.unsplash.com/photo-1494173853739-c21f58b16055?q=80&w=1200&auto=format&fit=crop",
+        tags: ["js"],
+        desc: "Vanilla JS CRUD app with filters and persistence.",
+        code: "https://github.com/your-username/todo-localstorage",
+        demo: "https://your-username.github.io/todo-localstorage/"
+      },
+      {
+        title: "Movie Search (OMDB API)",
+        img: "https://images.unsplash.com/photo-1517602302552-471fe67acf66?q=80&w=1200&auto=format&fit=crop",
+        tags: ["js"],
+        desc: "Fetch movies from OMDB and render cards with pagination.",
+        code: "https://github.com/your-username/movie-search",
+        demo: "https://your-username.github.io/movie-search/"
+      },
+      {
+        title: "React Expense Tracker",
+        img: "https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=1200&auto=format&fit=crop",
+        tags: ["react"],
+        desc: "Track income/expenses; charts & local storage.",
+        code: "https://github.com/your-username/react-expense-tracker",
+        demo: "https://your-username.github.io/react-expense-tracker/"
+      },
+      {
+        title: "Three.js Solar System",
+        img: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop",
+        tags: ["three","js"],
+        desc: "Animated planets with orbits and lighting.",
+        code: "https://github.com/your-username/threejs-solar",
+        demo: "https://your-username.github.io/threejs-solar/"
+      },
+      {
+        title: "Markdown Previewer",
+        img: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop",
+        tags: ["js","react"],
+        desc: "Edit markdown on the left, preview on the right.",
+        code: "https://github.com/your-username/markdown-previewer",
+        demo: "https://your-username.github.io/markdown-previewer/"
+      },
+      {
+        title: "Image Gallery (Filter + Lightbox)",
+        img: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop",
+        tags: ["js"],
+        desc: "Responsive gallery with category filters.",
+        code: "https://github.com/your-username/image-gallery",
+        demo: "https://your-username.github.io/image-gallery/"
+      }
+    ];
+
+    const grid = document.getElementById('projectGrid');
+    const filters = document.getElementById('filters');
+    function render(list){ 
+      grid.innerHTML = list.map(p=>`
+        <article class="project card" data-tags="${p.tags.join(' ')}">
+          <img src="${p.img}" alt="${p.title}" loading="lazy" />
+          <h3>${p.title}</h3>
+          <p class="meta">${p.desc}</p>
+          <div class="grid" style="grid-template-columns:auto auto;gap:8px">
+            <a class="btn btn-outline" href="${p.code}" target="_blank" rel="noopener">Code</a>
+            <a class="btn" href="${p.demo}" target="_blank" rel="noopener">Live</a>
+          </div>
+        </article>
+      `).join('');
+    }
+    render(projects);
+
+    filters.addEventListener('click', (e)=>{
+      const b = e.target.closest('button'); if(!b) return;
+      [...filters.querySelectorAll('button')].forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      const f = b.dataset.filter;
+      if (f==='all') return render(projects);
+      render(projects.filter(p=>p.tags.includes(f)));
+    });
+  </script>
 </body>
 </html>
