@@ -11,6 +11,87 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
+
+    <!-- Added styles for the new 'About Me' content -->
+    <style>
+        /* Additional styles for the enhanced about page */
+        .about-flex-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* Gap between pic and text on mobile */
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .about-profile-pic img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Assuming .highlight uses a color like this, linking it visually */
+            border: 4px solid #6366f1; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .about-intro-text {
+            flex: 1;
+            text-align: center; /* Center text on mobile */
+        }
+        
+        .about-content h2 {
+            margin-top: 2.5rem; /* Add more space before new sections */
+            font-size: 1.75rem; /* Make headings a bit bigger */
+            /* Assuming a dark theme, lighter text */
+            color: #f1f5f9; 
+            border-bottom: 2px solid #6366f1;
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .about-content p, .about-content ul {
+            font-size: 1.1rem; /* Slightly larger text for readability */
+            line-height: 1.7;
+            /* Assuming a dark theme, lighter paragraph text */
+            color: #cbd5e1; 
+        }
+
+        .about-content ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin-top: 1rem;
+        }
+
+        .skills-list {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            background-color: #334155;
+            color: #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* On desktop, show pic and text side-by-side */
+        @media (min-width: 768px) {
+            .about-flex-container {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 2.5rem; /* Wider gap on desktop */
+            }
+            
+            .about-intro-text {
+                text-align: left; /* Align text to the left on desktop */
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -29,8 +110,6 @@
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="projects.html">Projects</a></li> <!-- Add this line -->
-
-
                 </ul>
                 
                 <div class="hamburger">
@@ -47,16 +126,61 @@
             <div class="container">
                 <h1>About <span class="highlight">Me</span></h1>
                 
+                <!-- ==================== NEW ABOUT CONTENT START ==================== -->
                 <div class="about-content">
-                    <h2>Hello, I'm MSMAXPRO</h2>
-                    <p>I'm a computer science student, a developer, and a lifelong learner, just like you. I started this website with a simple mission: to help other students navigate the often-confusing journey of becoming a tech professional. I believe that with the right guidance and resources, anyone can achieve their dream of landing a great job in the tech industry.</p>
+    
+                    <div class="about-flex-container">
+                        <div class="about-profile-pic">
+                            <!-- IMPORTANT: Replace this placeholder with your actual photo! -->
+                            <img src="https://placehold.co/150x150/6366f1/ffffff?text=You!" alt="A picture of MSMAXPRO">
+                        </div>
+                        <div class="about-intro-text">
+                            <h2>Hello! I'm <span class="highlight">MSMAXPRO</span>.</h2>
+                            <p>I'm not just a computer science student; I'm a passionate builder, a relentless problem-solver, and your guide on this crazy, exciting journey into the world of tech. I believe that code is the ultimate creative tool, and I'm obsessed with using it to build cool things and help others do the same.</p>
+                        </div>
+                    </div>
 
-                    <h2>Why I Started This Website</h2>
-                    <p>When I began my own coding journey, I often felt lost. Finding a clear path, preparing for interviews, and getting access to the right tools was a challenge. I created CodeWithMSMAXPRO to be the resource I wished I had when I was starting out. This is not just a website; it's a community where we learn and grow together.</p>
+                    <h2>My Journey So Far</h2>
+                    <p>Like many of you, I started my coding journey feeling both excited and completely overwhelmed. I spent countless nights staring at error messages, wondering if I was smart enough, and scouring the internet for a clear path forward. I bounced between tutorials, felt lost in a sea of documentation, and wished I had a mentor to point me in the right direction.</p>
+                    <p>I created <strong>CodeWithMSMAXPRO</strong> to be the resource I never had. This isn't just a website; it's my personal playbook, built from the ground up to help you cut through the noise, avoid the common pitfalls, and land that dream tech job, faster.</p>
+
+                    <h2>My Mission: Your Tech Launchpad</h2>
+                    <p>My goal is simple: to provide you with the most practical, no-fluff, and actionable content to accelerate your career. Here's what I'm focused on:</p>
+                    <ul>
+                        <li><strong>Clear Roadmaps:</strong> Step-by-step guides that show you exactly what to learn and in what order.</li>
+                        <li><strong>Real-World Projects:</strong> Forget "todo" apps. We'll talk about projects that impress recruiters.</li>
+                        <li><strong>Honest Career Advice:</strong> My unfiltered thoughts on internships, interviews, building a resume, and navigating the tech industry.</li>
+                        <li><strong>Essential Tools & Resources:</strong> A curated list of the best tools and resources that I personally use and recommend.</li>
+                    </ul>
+
+                    <h2>My Core Skills</h2>
+                    <p>Here's a peek at the technologies I love working with:</p>
+                    <ul class="skills-list">
+                        <li class="skill-tag">JavaScript (ES6+)</li>
+                        <li class="skill-tag">React.js</li>
+                        <li class="skill-tag">Node.js</li>
+                        <li class="skill-tag">Python</li>
+                        <li class="skill-tag">SQL & NoSQL</li>
+                        <li class="skill-tag">HTML5 & CSS3</li>
+                        <li class="skill-tag">Git & GitHub</li>
+                        <li class="skill-tag">Firebase</li>
+                        <li class="skill-tag">Tailwind CSS</li>
+                    </ul>
+
+                    <h2>Beyond the Code</h2>
+                    <p>When I'm not debugging (or... creating new bugs), you can usually find me:
+                        <ul>
+                            <li>Exploring new sci-fi novels or movies.</li>
+                            <li>Trying to find the best biryani in town.</li>
+                            <li>Contributing to open-source projects.</li>
+                            <li>Learning about the latest in AI and machine learning.</li>
+                        </ul>
+                    </p>
                     
-                    <h2>What You'll Find Here</h2>
-                    <p>My goal is to provide clear, concise, and practical content. You'll find step-by-step career roadmaps, honest advice in my blog posts, and a curated list of the best resources to help you succeed. Let's build our future in tech, together!</p>
+                    <h2>Let's Connect & Build Together!</h2>
+                    <p>This journey is 100x better when we do it together. I'm always here to chat, answer questions, or collaborate on a project. Don't be a stranger—<a href="contact.html" style="color: #818cf8; text-decoration: underline;">reach out and say hi!</a> Let's build our future in tech, one line of code at a time.</p>
                 </div>
+                <!-- ==================== NEW ABOUT CONTENT END ==================== -->
                 
             </div>
         </section>
@@ -122,5 +246,4 @@
 
 </body>
 </html>
-
 
