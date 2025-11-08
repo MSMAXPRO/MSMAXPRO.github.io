@@ -917,10 +917,9 @@ This CSS will make the new section match your professional dark theme. Copy this
     color: var(--text-secondary, #94A3B8); 
     margin: 0;
 }
-/* === BUG FIX: Mobile Menu Body Scroll Lock === */
-html.body-no-scroll,
+/* === BUG FIX: Mobile Menu Body Scroll Lock (v3) === */
 body.body-no-scroll {
-    overflow: hidden;
-    position: fixed; /* Extra protection for some mobile browsers */
-    width: 100%;     /* Prevent content from shifting */
+    position: fixed;
+    width: 100%;
+    /* 'top' position will be set by JavaScript */
 }
