@@ -217,56 +217,7 @@
     <section class="tech-stack-section">
     ```
 
-*(You can change the numbers like "50+", "10+", "500+" to match your actual content.)*
 
----
-
-### 2. CSS Code (New Styling)
-
-This CSS will make the new section match your professional dark theme. Copy this code and paste it at the **very end** of your `style.css` file.
-
-```css
-/* ================================== */
-/* === Stats Bar Section CSS === */
-/* ================================== */
-
-.stats-bar {
-    padding: 60px 0;
-    /* Use a slightly different background to make it stand out */
-    background-color: var(--dark-bg-secondary, #1C2333); 
-    border-top: 1px solid var(--dark-border, #3A404D);
-    border-bottom: 1px solid var(--dark-border, #3A404D);
-}
-
-.stats-grid {
-    display: grid;
-    /* Creates 4 columns on desktop, 2 on tablet, 1 on mobile */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-}
-
-.stat-item {
-    text-align: center;
-    background-color: var(--dark-bg-primary, #0B1120); /* Darker inner bg */
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid var(--dark-border, #3A404D);
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    /* Uses your theme's highlight color */
-    color: var(--brand-highlight, #4F46E5); 
-    margin: 0 0 5px 0;
-}
-
-.stat-label {
-    font-size: 1rem;
-    /* Uses your theme's secondary text color */
-    color: var(--text-secondary, #94A3B8); 
-    margin: 0;
-}
 
         <section class="community-cta">
             <div class="container">
