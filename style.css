@@ -23,7 +23,7 @@ body {
 }
 
 section {
-    padding: 0; /* <-- YAHAN CHANGE KIYA HAI: Default top/bottom padding hata di hai */
+    padding: 0; /* Default top/bottom padding hata di hai */
 }
 
 /* --- Header / Navigation Bar (Sticky Update) --- */
@@ -93,7 +93,7 @@ nav {
 /* --- Hero Section (Homepage) (Hero Image Update) --- */
 .hero {
     text-align: center;
-    padding: 100px 0; /* <-- Iski padding zaroori hai design ke liye */
+    padding: 100px 0; /* Iski padding zaroori hai design ke liye */
     background-image: url('images/hero-bg.jpg');
     background-size: cover;
     background-position: center center;
@@ -166,7 +166,6 @@ nav {
 
 
 /* --- Features Section (Homepage) --- */
-/* (NOTE: Is section ko ab padding nahi milegi, isliye humein content ke liye margin add karna padega) */
 .features {
     padding-top: 60px; /* Gap hatane ke baad, section ke andar space add kar rahe hain */
     padding-bottom: 60px;
@@ -475,6 +474,8 @@ pre code {
     .logo span {
         display: none;
     }
+    
+    /* === YAHAN EDIT KIYA GAYA HAI === */
     .nav-links {
         position: fixed;
         right: 0px;
@@ -484,7 +485,7 @@ pre code {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-evenly; /* <-- YEH AAPKA PURANA CODE HAI */
+        justify-content: center; /* 'space-evenly' se 'center' kiya */
         width: 60%;
         transform: translateX(100%);
         z-index: 999;
@@ -492,7 +493,13 @@ pre code {
     .nav-links li {
         margin-left: 0;
         opacity: 1; 
+        margin: 25px 0; /* Naya margin add kiya */
     }
+    .nav-links li a { /* Naya rule add kiya */
+        font-size: 1.3rem;
+    }
+    /* === EDIT KHATAM === */
+
     .hamburger {
         display: block;
     }
@@ -690,7 +697,7 @@ pre code {
     font-size: 1.1rem;
     color: #94a3b8;
     max-width: 700px;
-    margin: 0 auto 30px auto;
+    margin: 0 auto 30px auto.
 }
 .about-snippet .cta-button {
     background: transparent;
@@ -890,23 +897,6 @@ body.body-no-scroll {
     /* 'top' position will be set by JavaScript */
 }
 
-/* ================================== */
-/* === Mobile Menu Spacing & Font Fix === */
-/* ================================== */
-@media (max-width: 768px) {
-    
-    .nav-links {
-        /* Links ko screen par failane ki jagah center mein rakhega */
-        justify-content: center; 
-    }
-
-    .nav-links li {
-        /* Links ke beech mein controllable margin dega */
-        margin: 25px 0; /* Upar-neeche 25px, left-right 0 */
-    }
-
-    .nav-links li a {
-        /* Link ka font size bada karega */
-        font-size: 1.3rem; /* Aap ise 1.2rem ya 1.4rem bhi try kar sakte hain */
-    }
-}
+/* Pichla mobile menu fix yahan se hata diya gaya hai
+kyunki use direct upar edit kar diya hai.
+*/
