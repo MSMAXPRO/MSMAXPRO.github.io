@@ -23,7 +23,7 @@ body {
 }
 
 section {
-    padding: 60px 0; /* <-- YAHAN CHANGE KIYA HAI: Waapas original padding laga di hai */
+    padding: 60px 0; /* <-- Waapas original padding par hai */
 }
 
 /* --- Header / Navigation Bar (Sticky Update) --- */
@@ -146,6 +146,7 @@ nav {
     transition: all 0.3s ease;
     border: none;
     box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
+    cursor: pointer; /* Buttons ke liye cursor add kiya */
 }
 .cta-button:hover {
     transform: translateY(-4px);
@@ -877,16 +878,112 @@ pre code {
 
 
 /* ================================== */
-/* === NAYE UPDATES YAHAN HAIN === */
+/* === SCROLL & MENU FIXES === */
 /* ================================== */
 
-/* === BUG FIX: Mobile Menu Body Scroll Lock (v3) === */
 body.body-no-scroll {
     position: fixed;
     width: 100%;
     /* 'top' position will be set by JavaScript */
 }
 
-/* Pichla mobile menu fix yahan se hata diya gaya hai
-kyunki use direct upar edit kar diya hai.
-*/
+@media (max-width: 768px) {
+    .nav-links {
+        justify-content: center; 
+    }
+    .nav-links li {
+        margin: 25px 0;
+    }
+    .nav-links li a {
+        font-size: 1.3rem;
+    }
+}
+
+
+/* ================================== */
+/* === NAYA CODE: CONTACT PAGE STYLES === */
+/* ================================== */
+
+.contact-form-section .container {
+    max-width: 700px; /* Form ko chhota rakhega */
+}
+
+.contact-form-section h2 {
+    text-align: center;
+}
+
+.contact-form-section .section-subtitle {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 500;
+    color: #e2e8f0;
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 18px;
+    background-color: rgba(30, 41, 59, 0.7);
+    border: 1px solid #334155;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-sizing: border-box; /* Yeh layout ko fix karega */
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-form .cta-button {
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+.form-status-message {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: 500;
+    display: none; /* Default hidden */
+}
+
+/* --- Rating Stars Style --- */
+.form-rating {
+    display: flex;
+    flex-direction: row-reverse; /* Stars ko right se left karega */
+    justify-content: flex-end; /* Left mein align karega */
+}
+
+.form-rating input[type="radio"] {
+    display: none; /* Radio buttons ko chupa do */
+}
+
+.form-rating label {
+    font-size: 2rem;
+    color: #475569; /* Empty star color */
+    cursor: pointer;
+    margin: 0 3px;
+    transition: color 0.2s ease;
+}
+
+.form-rating input[type="radio"]:hover ~ label,
+.form-rating input[type="radio"]:checked ~ label {
+    color: #facc15; /* Filled star color */
+}
