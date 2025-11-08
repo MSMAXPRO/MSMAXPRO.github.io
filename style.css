@@ -79,7 +79,7 @@ nav {
 
 /* === NAYA CODE: NAVBAR RATING === */
 .nav-rating {
-    margin-left: 30px;
+    /* margin-left: 30px; <-- YEH LINE HATA DI GAYI HAI */
     padding: 8px 12px;
     background-color: rgba(30, 41, 59, 0.7);
     border: 1px solid #334155;
@@ -521,10 +521,11 @@ pre code {
         font-size: 1.3rem;
     }
 
-    /* NAYA: Mobile par rating chupayega */
+    /* YEH BLOCK HATA DIYA GAYA HAI
     .nav-rating {
-        display: none;
+        display: none; 
     }
+    */
 
     .hamburger {
         display: block;
