@@ -923,3 +923,23 @@ body.body-no-scroll {
     width: 100%;
     /* 'top' position will be set by JavaScript */
 }
+/* ================================== */
+/* === Mobile Menu Spacing & Font Fix === */
+/* ================================== */
+@media (max-width: 768px) {
+    
+    .nav-links {
+        /* Links ko screen par failane ki jagah center mein rakhega */
+        justify-content: center; 
+    }
+
+    .nav-links li {
+        /* Links ke beech mein controllable margin dega */
+        margin: 25px 0; /* Upar-neeche 25px, left-right 0 */
+    }
+
+    .nav-links li a {
+        /* Link ka font size bada karega */
+        font-size: 1.3rem; /* Aap ise 1.2rem ya 1.4rem bhi try kar sakte hain */
+    }
+}
