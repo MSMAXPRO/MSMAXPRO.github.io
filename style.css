@@ -918,6 +918,9 @@ This CSS will make the new section match your professional dark theme. Copy this
     margin: 0;
 }
 /* === BUG FIX: Mobile Menu Body Scroll Lock === */
+html.body-no-scroll,
 body.body-no-scroll {
     overflow: hidden;
+    position: fixed; /* Extra protection for some mobile browsers */
+    width: 100%;     /* Prevent content from shifting */
 }
