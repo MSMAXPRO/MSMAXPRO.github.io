@@ -1,5 +1,3 @@
-document.addEventListener('DOMContentLoaded', () => {
-
     /* --- Mobile Navigation Toggle --- */
     const navSlide = () => {
         const hamburger = document.querySelector('.hamburger');
@@ -9,13 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
             hamburger.addEventListener('click', () => {
                 nav.classList.toggle('nav-active');
                 hamburger.classList.toggle('toggle');
-// --- BUG FIX: YEH NAYI LINE ADD KAREIN ---
-document.documentElement.classList.toggle('body-no-scroll'); // For <html>
-document.body.classList.toggle('body-no-scroll');        
+
+                // --- BUG FIX: YEH NAYA CODE HAI ---
+                document.documentElement.classList.toggle('body-no-scroll'); // For <html>
+                document.body.classList.toggle('body-no-scroll');         // For <body>
             });
         }
     }
-//... baaki code
 
 
     /* --- Load Latest Blog Posts --- */
