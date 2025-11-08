@@ -1,20 +1,37 @@
-    /* --- Mobile Navigation Toggle --- */
+/* --- Wait for the document to be ready --- */
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* --- Mobile Navigation Toggle (v3 - Scroll Lock Fix) --- */
     const navSlide = () => {
         const hamburger = document.querySelector('.hamburger');
         const nav = document.querySelector('.nav-links');
+        let scrollPosition = 0; // Ye scroll position save karega
 
         if (hamburger && nav) {
             hamburger.addEventListener('click', () => {
+                
+                // Check karo ki menu khul raha hai ya band ho raha hai
+                const isMenuOpen = nav.classList.contains('nav-active');
+
+                if (isMenuOpen) {
+                    // === MENU AB BAND HO RAHA HAI ===
+                    document.body.classList.remove('body-no-scroll');
+                    document.body.style.top = ''; // Inline style hatao
+                    window.scrollTo(0, scrollPosition); // Wapas wahin scroll karo jahan user tha
+                
+                } else {
+                    // === MENU AB KHUL RAHA HAI ===
+                    scrollPosition = window.pageYOffset || document.documentElement.scrollTop; // Save karo user kahan par hai
+                    document.body.style.top = `-${scrollPosition}px`; // Page ko upar 'pull' karke freeze karo
+                    document.body.classList.add('body-no-scroll');
+                }
+                
+                // Aakhir mein menu aur icon ko toggle karo
                 nav.classList.toggle('nav-active');
                 hamburger.classList.toggle('toggle');
-
-                // --- BUG FIX: YEH NAYA CODE HAI ---
-                document.documentElement.classList.toggle('body-no-scroll'); // For <html>
-                document.body.classList.toggle('body-no-scroll');         // For <body>
             });
         }
-    }
-
+    } // End of navSlide
 
     /* --- Load Latest Blog Posts --- */
     const loadLatestPosts = () => {
@@ -29,10 +46,6 @@
             return;
         }
 
-        // UPDATE: Latest post waala fix
-        // .slice() -> copy banata hai
-        // .reverse() -> copy ko ulta karta hai (taaki naye post pehle aaye)
-        // .slice(0, 3) -> ulte list se pehle 3 uthata hai
         const latestPosts = allBlogPosts.slice().reverse().slice(0, 3);
 
         latestPosts.forEach(post => {
@@ -45,22 +58,26 @@
             `;
             postsContainer.insertAdjacentHTML('beforeend', postHTML);
         });
-    }
+    } // End of loadLatestPosts
+
+    /* --- FAQ Accordion Logic --- */
+    const initFaq = () => {
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            if (question) { // Safety check
+                question.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            }
+        });
+    } // End of initFaq
 
     // --- Call all functions ---
     navSlide();
     loadLatestPosts();
+    initFaq(); // FAQ logic ko bhi call karo
 
 });
-/* --- START: NAYA FAQ Accordion Logic --- */
-const faqItems = document.querySelectorAll('.faq-item');
-
-faqItems.forEach(item => {
-    const question = item.querySelector('.faq-question');
-    
-    question.addEventListener('click', () => {
-        // Toggle the 'active' class on the clicked item
-        item.classList.toggle('active');
-    });
-});
-/* --- END: NAYA FAQ Accordion Logic --- */
