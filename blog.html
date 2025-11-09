@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
-        <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
     <style>
         /* --- Blog Page Styles --- */
@@ -22,24 +22,81 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- 1. Blog List Section --- */
-        .blog-list-section {
-            padding: 60px 0 80px 0; /* Added padding-top */
+        /* --- 1. Featured Post Section --- */
+        .blog-featured {
+            padding-bottom: 60px;
+            background-color: #0f172a; /* Card background */
+            border-bottom: 1px solid #1e293b;
         }
 
-        .blog-grid {
+        .featured-card {
             display: grid;
-            grid-template-columns: 1fr; /* 1 column on mobile */
+            grid-template-columns: 1fr; /* Stacked on mobile */
+            gap: 30px;
+            align-items: center;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+
+        /* Specific rule to override style.css */
+        section.blog-featured .featured-content .tag {
+            display: inline-block;
+            background-color: #a78bfa30;
+            color: #c4b5fd;
+            padding: 5px 15px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .featured-content h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 0 0 15px 0;
+        }
+
+        .featured-content p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        /* --- 2. Blog List Section --- */
+        .blog-list-section {
+            padding: 60px 0 80px 0;
+        }
+
+        .blog-list-header {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .blog-list-header h2 {
+            font-size: 2.5rem;
+            color: #fff;
+        }
+
+        /* === CSS FIX: Layout ko specific banaya === */
+        section.blog-list-section .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* 1 column on mobile (Default) */
             gap: 30px;
         }
 
-        /* --- 2. Upgraded Blog Card --- */
-        /* Specific rule to override style.css */
+        /* --- 3. Upgraded Blog Card --- */
         section.blog-list-section .blog-post-card {
             background-color: #0f172a;
             border: 1px solid #1e293b;
             border-radius: 12px;
-            overflow: hidden; /* To contain the image */
+            overflow: hidden;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -64,7 +121,6 @@
             gap: 10px;
         }
 
-        /* Specific rule to override style.css */
         section.blog-list-section .blog-card-tags .tag {
             display: inline-block;
             background-color: #334155;
@@ -99,22 +155,10 @@
             text-decoration: underline;
         }
 
-        /* --- Media Queries for Grid --- */
-        @media (min-width: 768px) {
-            .blog-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .blog-grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
-            }
-        }
         /* --- Search Bar Style --- */
         .search-bar-container {
-            max-width: 800px; /* Taaki yeh header ke width se match kare */
-            margin: -20px auto 50px auto; /* Header ke neeche aur grid ke upar */
+            max-width: 800px;
+            margin: -20px auto 50px auto;
         }
 
         .blog-search {
@@ -125,7 +169,7 @@
             border: 1px solid #334155;
             background-color: #1e293b;
             color: #fff;
-            box-sizing: border-box; /* Padding ko width mein include karne ke liye */
+            box-sizing: border-box;
         }
 
         .blog-search::placeholder {
@@ -138,9 +182,24 @@
             box-shadow: 0 0 0 3px #a78bfa30;
         }
 
-    </style>
-    </head>
 
+        /* --- Media Queries for Grid (Ab yeh 768px se upar hi apply hoga) --- */
+        @media (min-width: 768px) {
+            .featured-card {
+                grid-template-columns: 1.5fr 1fr;
+            }
+            
+            section.blog-list-section .blog-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            section.blog-list-section .blog-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+            }
+        }
+    </style>
     </head>
 <body>
 
@@ -171,18 +230,7 @@
         </div>
     </header>
 
-        <main>
-        
-        <section class="blog-list-section">
-            <div class="container">
-                
-                <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
-                    <h1>All <span class="highlight">Posts</span></h1>
-                    <p class="content-meta" style="font-size: 1.15rem; line-height: 1.7;">
-                        Welcome to my personal blog. Here I share my learnings, step-by-step guides, and thoughts on web development, from React to Python.
-                    </p>
-                </div>
- <main>
+    <main>
         
         <section class="blog-list-section">
             <div class="container">
@@ -198,9 +246,6 @@
                     <input type="text" id="blogSearchInput" class="blog-search" placeholder="Search for posts by title...">
                 </div>
 
-                <div class="blog-grid">
-                    
-                    <div class="blog-post-card">
                 <div class="blog-grid">
                     
                     <div class="blog-post-card">
@@ -265,48 +310,7 @@
         </section>
     </main>
 
-
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-        <div class="container" style="max-width: 1100px;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
-                
-                <div class="footer-column">
-                    <a href="/" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
-                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                        <span>CodeWithMSMAXPRO</span>
-                    </a>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="/roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/projects.html" style="color: #94a3b8; text-decoration: none;">Projects</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
-                    <div class="social-links" style="display: flex; gap: 15px;">
-                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </a>
-                        <a href="https://linkedin.com/in/your-linkedin-username" target="_blank" title="LinkedIn"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="https://twitter.com/your-twitter-username" target="_blank" title="Twitter/X"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-            
-            <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
-                <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
-            </div>
-        </div>
         </footer>
     
     <script src="app.js"></script>
@@ -315,26 +319,28 @@
         // 1. Saare zaroori elements ko select karo
         const searchInput = document.getElementById('blogSearchInput');
         const blogGrid = document.querySelector('.blog-grid');
-        // Saare blog cards ko select karo
         const allPosts = blogGrid.querySelectorAll('.blog-post-card');
 
         // 2. Search input par 'input' event listener lagao
         searchInput.addEventListener('input', function(e) {
             
-            // User jo type kar raha hai, use lowercase mein le lo
+            // 3. Search term ko words mein todo (Google jaisa search)
             const searchTerm = e.target.value.toLowerCase();
+            const searchWords = searchTerm.split(' ').filter(word => word.length > 0);
 
-            // 3. Har ek post card par loop chalao
+            // 4. Har ek post card par loop chalao
             allPosts.forEach(post => {
                 
-                // 4. Har card ka 'h3' title dhoondo
                 const titleElement = post.querySelector('h3');
                 
                 if (titleElement) {
                     const title = titleElement.textContent.toLowerCase();
 
-                    // 5. Check karo ki title mein search term hai ya nahi
-                    if (title.includes(searchTerm)) {
+                    // 5. Check karo ki title mein "saare" search words hain ya nahi
+                    // .every() check karta hai ki array ke sabhi items true hain
+                    const isMatch = searchWords.every(word => title.includes(word));
+
+                    if (isMatch) {
                         post.style.display = 'block'; // Agar hai, toh card ko dikhao
                     } else {
                         post.style.display = 'none'; // Agar nahi hai, toh hide kar do
