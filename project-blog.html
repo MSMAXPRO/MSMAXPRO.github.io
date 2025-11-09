@@ -100,34 +100,37 @@
             width: 50px;
             object-fit: contain;
         }
+        /* --- Code Block Styles --- */
+        .content-body pre {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .content-body code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .content-body .code-filename {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: -15px;
+            padding: 8px 15px;
+            background: #334155;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <main>
         <section class="content-container">
@@ -140,22 +143,22 @@
 
                     <p>A complete blog where users can register, log in, create their own posts, and view posts from others. This is a fantastic portfolio project that demonstrates all the core full-stack skills: authentication, database relationships, and full CRUD operations.</p>
                     
+                    
                     <h2>✨ Key Features</h2>
                     <ul>
                         <li>Secure user registration and login with JWT (JSON Web Tokens).</li>
                         <li>Full Create, Read, Update, Delete (CRUD) functionality for blog posts.</li>
                         <li>Protected routes: Only logged-in users can create posts.</li>
-                        <li>Authorization: Only the author of a post can edit or delete it.</li>
+                        <li><strong>Authorization:</strong> Only the original author of a post can edit or delete it.</li>
                         <li>A public homepage to read all posts.</li>
                     </ul>
 
                     <h2>💻 Tech Stack & Skills</h2>
                     <ul>
-                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), JWT for authentication.</li>
-                        <li><strong>Skills Practiced:</strong> Full CRUD API, User Authentication, Password Hashing (`bcrypt`), Protected Routes (Middleware), State Management (Context API), Relational Data (linking posts to users).</li>
+                        <li><strong>Tech Stack:</strong> MERN (MongoDB, Express, React, Node.js), `bcryptjs` (Password Hashing), `jsonwebtoken` (Auth Tokens), `react-router-dom`.</li>
+                        <li><strong>Skills Practiced:</strong> Full-stack CRUD API, User Authentication (AuthN), User Authorization (AuthZ), Password Hashing, JWT handling, Mongoose Relationships (`ref`), React Context API (for Auth).</li>
                     </ul>
 
-                    
                     <div class="tech-stack-icons">
                         <div class="tech-icon">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB">
@@ -175,55 +178,418 @@
                         </div>
                     </div>
 
+                    <h2>🛠️ Full Step-by-Step Tutorial</h2>
+                    <p>This is a large project. We will build the backend API first, then the frontend React app.</p>
 
-                    <h3>Backend Features (The API)</h3>
+                    <h3>Part 1: The Backend API (Node.js & Express)</h3>
+
+                    <p><strong>Step 1.1: Setup Project</strong></p>
                     <ol>
-                        <li><strong>User Model:</strong> Create a Mongoose schema for `User` with `username`, `email`, and `password`.</li>
-                        <li><strong>Post Model:</strong> Create a Mongoose schema for `Post` with `title`, `content`, `author` (linking to a User ID using `mongoose.Schema.Types.ObjectId`), and `createdAt`.</li>
-                        <li><strong>Auth Routes:</strong>
-                            <ul>
-                                <li>`POST /api/auth/signup`: Hashes password with `bcrypt` and creates a new user.</li>
-                                <li>`POST /api/auth/login`: Checks credentials, compares hashed passwords, and returns a JWT on success.</li>
-                            </ul>
+                        <li>Create a <code>backend</code> folder, run <code>npm init -y</code>.</li>
+                        <li>Install all dependencies: <br>
+                            <code>npm install express mongoose cors dotenv bcryptjs jsonwebtoken</code>
                         </li>
-                        <li><strong>Post Routes (CRUD):</strong>
-                            <ul>
-                                <li>`GET /api/posts`: Fetches all blog posts (and populate author info).</li>
-                                <li>`GET /api/posts/:id`: Fetches a single post by its ID.</li>
-                                <li>`POST /api/posts`: A <strong>protected route</strong>. Creates a new post. The user ID from the JWT should be saved as the `author`.</li>
-                                <li>`PATCH /api/posts/:id`: A <strong>protected route</strong>. Updates a post. Add logic to ensure only the original author can edit their own post.</li>
-                                <li>`DELETE /api/posts/:id`: A <strong>protected route</strong>. Deletes a post. Add logic to ensure only the author can delete it.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Middleware:</strong> Create an `authenticateToken` middleware to protect the POST, PATCH, and DELETE routes by verifying the JWT.</li>
+                        <li>Install dev dependency: <code>npm install -D nodemon</code></li>
                     </ol>
+
+                    <p><strong>Step 1.2: Create Models (User & Post)</strong></p>
+                    <p>This is crucial. We need to link posts to users.</p>
+
+                    <span class="code-filename">backend/models/User.js</span>
+                    <pre><code>const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+});
+
+module.exports = mongoose.model('User', userSchema);
+</code></pre>
+
+                    <span class="code-filename">backend/models/Post.js</span>
+                    <pre><code>const mongoose = require('mongoose');
+
+const postSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    author: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', // This creates the link!
+        required: true 
+    },
+    createdAt: { type: Date, default: Date.now },
+});
+
+module.exports = mongoose.model('Post', postSchema);
+</code></pre>
+
+                    <p><strong>Step 1.3: Create Auth Routes (Signup/Login)</strong></p>
+                    <p>Create <code>backend/routes/auth.js</code>. This handles user accounts.</p>
                     
-                    <h3>Frontend Features (The React App)</h3>
+
+                    <span class="code-filename">backend/routes/auth.js</span>
+                    <pre><code>const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+// SIGNUP
+router.post('/signup', async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        // Hash the password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        // Create new user
+        const newUser = new User({ username, email, password: hashedPassword });
+        await newUser.save();
+        res.status(201).json("User created successfully");
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+// LOGIN
+router.post('/login', async (req, res) => {
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        if (!user) {
+            return res.status(404).json("User not found");
+        }
+        
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (!isMatch) {
+            return res.status(400).json("Wrong credentials");
+        }
+        
+        // Create JWT
+        const token = jwt.sign(
+            { id: user._id, username: user.username }, 
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+        
+        // Send token and user data (except password)
+        const { password, ...others } = user._doc;
+        res.json({ ...others, token });
+        
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+module.exports = router;
+</code></pre>
+
+                    <p><strong>Step 1.4: Create Auth Middleware (The Gatekeeper)</strong></p>
+                    <p>Create <code>backend/middleware/auth.js</code>. This function will protect our routes.</p>
+
+                    <span class="code-filename">backend/middleware/auth.js</span>
+                    <pre><code>const jwt = require('jsonwebtoken');
+
+const auth = (req, res, next) => {
+    const authHeader = req.header('Authorization');
+    if (!authHeader) {
+        return res.status(401).json("Access denied. No token provided.");
+    }
+
+    // Token format is "Bearer <token>"
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+        return res.status(401).json("Access denied. No token provided.");
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded; // Add user payload (id, username) to request
+        next(); // Move to the next function
+    } catch (err) {
+        res.status(400).json("Invalid token.");
+    }
+};
+
+module.exports = auth;
+</code></pre>
+
+                    <p><strong>Step 1.5: Create Post Routes (CRUD)</strong></p>
+                    <p>Create <code>backend/routes/posts.js</code>. Notice how we use the <code>auth</code> middleware.</p>
+                    
+                    <span class="code-filename">backend/routes/posts.js</span>
+                    <pre><code>const express = require('express');
+const router = express.Router();
+const Post = require('../models/Post');
+const auth = require('../middleware/auth'); // Our auth middleware
+
+// GET ALL POSTS (Public)
+router.get('/', async (req, res) => {
+    try {
+        const posts = await Post.find().populate('author', 'username').sort({ createdAt: -1 });
+        res.json(posts);
+    } catch (err) { res.status(500).json(err); }
+});
+
+// GET SINGLE POST (Public)
+router.get('/:id', async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id).populate('author', 'username');
+        res.json(post);
+    } catch (err) { res.status(500).json(err); }
+});
+
+// CREATE NEW POST (Protected)
+router.post('/', auth, async (req, res) => {
+    const newPost = new Post({
+        title: req.body.title,
+        content: req.body.content,
+        author: req.user.id, // From auth middleware
+    });
+    try {
+        const savedPost = await newPost.save();
+        res.status(201).json(savedPost);
+    } catch (err) { res.status(500).json(err); }
+});
+
+// UPDATE POST (Protected & Authorized)
+router.patch('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) return res.status(404).json("Post not found");
+
+        // Authorization check: Is this user the author?
+        if (post.author.toString() !== req.user.id) {
+            return res.status(403).json("You can only update your own posts");
+        }
+
+        const updatedPost = await Post.findByIdAndUpdate(
+            req.params.id, 
+            { $set: req.body }, 
+            { new: true }
+        );
+        res.json(updatedPost);
+    } catch (err) { res.status(500).json(err); }
+});
+
+// DELETE POST (Protected & Authorized)
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) return res.status(404).json("Post not found");
+
+        // Authorization check
+        if (post.author.toString() !== req.user.id) {
+            return res.status(403).json("You can only delete your own posts");
+        }
+
+        await post.delete();
+        res.json("Post has been deleted");
+    } catch (err) { res.status(500).json(err); }
+});
+
+module.exports = router;
+</code></pre>
+
+                    <p><strong>Step 1.6: Server (`index.js`)</strong></p>
+                    <p>Finally, tie it all together in <code>backend/index.js</code>.</p>
+                    
+                    <span class="code-filename">backend/index.js</span>
+                    <pre><code>require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+// DB Connect
+mongoose.connect(process.env.MONGO_URI, { /* ... options ... */ })
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+
+// Use Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/posts', require('./routes/posts'));
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+</code></pre>
+                    <p>Don't forget to add <code>MONGO_URI</code> and <code>JWT_SECRET</code> to your <code>.env</code> file!</p>
+
+                    <h3>Part 2: The Frontend (React)</h3>
+                    <p><strong>Step 2.1: Setup Project</strong></p>
                     <ol>
-                        <li><strong>Components:</strong> Create components like `Navbar`, `PostList`, `PostDetail`, `CreatePostForm`, `LoginForm`, `SignupForm`.</li>
-                        <li><strong>Routing:</strong> Use a library like `React Router` to create different pages (`/`, `/posts/:id`, `/login`, `/signup`, `/create-post`).</li>
-                        <li><strong>State Management:</strong> Use `useState` and `useEffect` hooks. For managing login status across the app, consider using `useContext` to create an `AuthContext`.</li>
-                        <li><strong>API Calls:</strong> Use `fetch()` or `axios` to make requests to your backend API.
-                            <ul>
-                                <li>Fetch all posts on the homepage.</li>
-                                <li>Send user details to `/signup` or `/login`.</li>
-                                <li>When a user logs in, save the received JWT to `localStorage` and update the `AuthContext`.</li>
-                                <li>For every request to a protected API route, include the JWT in the `Authorization` header (e.g., `Bearer ${token}`).</li>
-                            </ul>
+                        <li>Create <code>frontend</code> app with <code>npx create-react-app frontend</code>.</li>
+                        <li>Install libraries: <br>
+                            <code>npm install axios react-router-dom</code>
                         </li>
-                        <li><strong>Protected Routes:</strong> In React, create a component (e.g., `<ProtectedRoute>`) that checks if a user is logged in (via `AuthContext`). If not, redirect them to the login page using `<Navigate>`.</li>
                     </ol>
+
+                    <p><strong>Step 2.2: Create `AuthContext.js`</strong></p>
+                    <p>This is vital for managing login state. Create <code>frontend/src/context/AuthContext.js</code>.</p>
+
+                    <span class="code-filename">frontend/src/context/AuthContext.js</span>
+                    <pre><code>import React, { createContext, useContext, useState, useEffect } from 'react';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem('token'));
+
+    useEffect(() => {
+        // Persist user on page reload
+        const storedUser = localStorage.getItem('user');
+        if (storedUser && token) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, [token]);
+
+    const loginAction = (data) => {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data)); // Save user data
+        setToken(data.token);
+        setUser(data);
+    };
+
+    const logoutAction = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setToken(null);
+        setUser(null);
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, token, loginAction, logoutAction }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
+
+export const useAuth = () => {
+    return useContext(AuthContext);
+};
+</code></pre>
+
+                    <p><strong>Step 2.3: Wrap App in Providers</strong></p>
+                    <p>In <code>frontend/src/index.js</code>, wrap <code>App</code>.</p>
+
+                    <span class="code-filename">frontend/src/index.js</span>
+                    <pre><code>import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter } from 'react-router-dom';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+</code></pre>
+
+                    <p><strong>Step 2.4: Create an API helper (Best Practice)</strong></p>
+                    <p>Create <code>frontend/src/api.js</code> to automatically add our token to requests.</p>
+                    
+                    <span class="code-filename">frontend/src/api.js</span>
+                    <pre><code>import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost:5000/api', // Your backend URL
+});
+
+// Add a request interceptor to include the token
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+export default api;
+</code></pre>
+                    
+                    <p><strong>Step 2.5: Create Components & Routing</strong></p>
+                    <p>Now just create your components (`HomePage`, `LoginPage`, `CreatePostPage`, etc.) and use `useAuth()` hook and the `api` helper.</p>
+                    
+                    <span class="code-filename">Example: frontend/src/components/LoginPage.js</span>
+                    <pre><code>import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import api from '../api'; // Our custom axios instance
+import { useNavigate } from 'react-router-dom';
+
+function LoginPage() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const { loginAction } = useAuth();
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await api.post('/auth/login', { email, password });
+            loginAction(response.data); // This saves token and user
+            navigate('/'); // Redirect to homepage
+        } catch (err) {
+            setError("Failed to login. Check credentials.");
+        }
+    };
+    
+    // ... return a form JSX here ...
+}
+</code></pre>
+
+                    <span class="code-filename">Example: frontend/src/components/CreatePostPage.js</span>
+                    <pre><code>import React, { useState } from 'react';
+import api from '../api'; // This API helper automatically sends the token
+import { useNavigate } from 'react-router-dom';
+
+function CreatePostPage() {
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            // The auth token is sent automatically by our api helper
+            const response = await api.post('/posts', { title, content });
+            navigate(`/posts/${response.data._id}`); // Go to new post
+        } catch (err) {
+            console.error("Failed to create post", err);
+        }
+    };
+    
+    // ... return a form JSX here ...
+}
+</code></pre>
+
 
                     <h2>🔥 Next Steps & Challenges</h2>
                     <p>After completing the base project, challenge yourself with these features:</p>
                     <ul>
-                        <li>**Comment System:** Allow logged-in users to comment on posts.</li>
+                        <li>**Comment System:** Allow logged-in users to comment on posts (this requires a new `Comment` model in the backend).</li>
                         <li>**Rich Text Editor:** Replace the simple `textarea` with a rich text editor like `React Quill` or `TipTap` to allow bold, italics, and lists.</li>
-                        <li>**File Uploads:** Allow authors to upload a "cover image" for their blog post.</li>
+                        <li>**File Uploads:** Allow authors to upload a "cover image" for their blog post (this requires using `multer` on the backend).</li>
                         <li>**Categories & Tags:** Add the ability to categorize posts and filter by tag.</li>
                     </ul>
 
-                    <div class="next-step-link" style="text-align: center; margin-top: 50px;">
+                    <div class="next-step-link">
                         <a href="projects.html" class="cta-button">&larr; Back to All Project Ideas</a>
                     </div>
                 </article>
