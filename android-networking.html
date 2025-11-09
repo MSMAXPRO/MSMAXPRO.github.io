@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6: Networking (APIs) - The Ultimate Guide - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (NETWORKING/API) --- */
+        .highlight {
+            background: linear-gradient(90deg, #38bdf8, #6366f1); /* Blue/Indigo */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles (Aapke html-basics.html se) --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #38bdf8; /* Blue highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        .content-section pre code .tag { color: #f472b6; }
+        .content-section pre code .attr { color: #38bdf8; }
+        .content-section pre code .annotation { color: #eab308; } /* @GET, @POST */
+
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 6: <span class="highlight">Networking (APIs) - The Ultimate Guide</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The Big Picture: What is Networking?</h2>
+                <p>Modern mobile apps are rarely "offline." Your app needs to be dynamic. It needs to fetch the latest news, get user profile data, upload photos, and check the weather. This process of communicating with a "server" over the internet is called **Networking**.</p>
+                <p>The "server" is just another computer (or a fleet of computers) whose job is to store data and provide it to clients (like your Android app, a website, or an iOS app). This communication doesn't happen randomly; it follows a strict set of rules, or a **protocol**. The most common protocol for the web is **HTTP (Hypertext Transfer Protocol)**.</p>
+                
+                <h3>The Client-Server Model</h3>
+                <p>All networking is based on this model.
+                    <ul>
+                        <li><strong>Client:</strong> The device *requesting* data (your Android app).</li>
+                        <li><strong>Server:</strong> The device *serving* data (the backend, e.g., <code>https://api.google.com</code>).</li>
+                    </ul>
+                Your app is a client. It sends a **Request** to the server, and the server sends back a **Response**.</p>
+                
+                <h3>Synchronous vs. Asynchronous (The "Why" of Coroutines)</h3>
+                <p>This is a critical concept. Imagine you (the UI Thread) are taking an order at a drive-thru.</p>
+                <ul>
+                    <li><strong>Synchronous (Bad):</strong> You take an order, walk to the kitchen, *wait* there for 10 minutes for the food to be cooked, then walk back. While you are "blocked" waiting, **no one else can place an order**. The entire line of cars is stuck. This is what happens if you do networking on the UI thread. Your app *freezes* and crashes (an "ANR" - Application Not Responding).</li>
+                    <li><strong>Asynchronous (Good):</strong> You take an order, *give it to the kitchen*, and immediately go back to the window to take the next order. When the food is ready, the kitchen *notifies* you, and you just deliver it. This is **non-blocking**.</li>
+                </ul>
+                <p>In Android, you **must** perform all network requests asynchronously (on a background thread). In Chapter 1, we learned about **Kotlin Coroutines**. Coroutines, along with <code>suspend</code> functions, are the modern, easy way to manage this background work without the "callback hell" of older methods.</p>
+
+                <h3>The API: Your App's "Waiter"</h3>
+                <p>How does your app talk to the server? It uses an **API (Application Programming Interface)**. We covered this in the blog, but let's review the "Restaurant Analogy" in detail.</p>
+                [attachment_0](attachment)
+                <ul>
+                    <li><strong>You (The Customer):</strong> You are the "client" (your Android app). You know what you *want* (e.g., "I want all posts from this blog").</li>
+                    <li><strong>The Kitchen (The Server/Database):</strong> This is where all the data (the food) is stored and prepared. The kitchen is complex, and you can't just walk in.</li>
+                    <li><strong>The Waiter (The API):</strong> The API is the messenger that your app talks to. You give your request to the waiter (API) in a specific format (an "HTTP Request"). The waiter takes this request to the kitchen (server), gets the data (food), and brings it back to you in a neat package (a "JSON Response").</li>
+                </ul>
+                
+                <h3>HTTP & REST: The Rules of Communication</h3>
+                <p>Your app (client) and the server talk to each other using **HTTP Requests**. An HTTP request has two main parts:</p>
+                <ol>
+                    <li><strong>An HTTP Method (Verb):</strong> This tells the server *what kind* of action you want to perform.</li>
+                    <li><strong>An Endpoint (URL):</strong> This tells the server *what* data you want to act upon.</li>
+                </ol>
+                <p>This set of rules, using HTTP verbs and URLs to manage data, is called **REST (REpresentational State Transfer)**. An API that follows these rules is called a **RESTful API**.</p>
+
+                <h4>The Main HTTP Verbs (CRUD)</h4>
+                <p>CRUD stands for **Create, Read, Update, Delete**. These are the four basic operations of data storage.</p>
+                <ul>
+                    <li><strong>GET (Read):</strong> Used to **retrieve** data. This is safe and can be called many times without changing data (it is "idempotent").
+                        <ul><li><code>GET /api/users</code> (Get a list of all users)</li></ul>
+                        <ul><li><code>GET /api/users/123</code> (Get details for user 123)</li></ul>
+                    </li>
+                    <li><strong>POST (Create):</strong> Used to **create** a new resource. You send data (like a new user's info) in the "body" of the request. This is *not* idempotent (calling it twice will create two users).
+                        <ul><li><code>POST /api/users</code> (Create a new user)</li></ul>
+                    </li>
+                    <li><strong>PUT (Update/Replace):</strong> Used to **update** an existing resource by *completely replacing* it. This is idempotent (calling it twice with the same data has the same result).
+                        <ul><li><code>PUT /api/users/123</code> (Replace user 123 with new info)</li></ul>
+                    </li>
+                    <li><strong>PATCH (Update/Modify):</strong> Used to **update** an existing resource by *partially modifying* it. You only send the fields you want to change (e.g., just the email).
+                        <ul><li><code>PATCH /api/users/123</code> (Update only the email for user 123)</li></ul>
+                    </li>
+                    <li><strong>DELETE (Delete):</strong> Used to **delete** a resource.
+                        <ul><li><code>DELETE /api/users/123</code> (Delete user 123)</li></ul>
+                    </li>
+                    <li><strong>HEAD:</strong> Same as <code>GET</code>, but it *only* requests the headers, not the actual data. Useful for checking if a resource exists or has changed.</li>
+                </ul>
+                
+                <h3>JSON: The Language of APIs</h3>
+                <p>When the server sends data back, it needs to be in a format your app can understand. It can't just send a raw database file. The most popular format by far is **JSON (JavaScript Object Notation)**.</p>
+                <p>It's a lightweight, human-readable format that looks very similar to a Kotlin Map or Data Class. Your job as a developer is to **parse** this JSON text into native Kotlin objects that your app can use.</p>
+                
+                <h4>Example JSON Response:</h4>
+                <pre><code><span class="comment">// Server sends this block of text</span>
+{
+  <span class="string">"id"</span>: <span class="number">1</span>,
+  <span class="string">"name"</span>: <span class="string">"MSMAXPRO"</span>,
+  <span class="string">"email"</span>: <span class="string">"contact@msmaxpro.me"</span>,
+  <span class="string">"address"</span>: {
+    <span class="string">"street"</span>: <span class="string">"123 Main St"</span>,
+    <span class="string">"city"</span>: <span class="string">"Tech City"</span>
+  },
+  <span class="string">"skills"</span>: [ <span class="string">"Kotlin"</span>, <span class="string">"React"</span>, <span class="string">"Node.js"</span> ]
+}
+</code></pre>
+                
+                <h3>HTTP Status Codes</h3>
+                <p>When the server responds, it *always* includes a status code to tell you if your request was successful.</p>
+                <ul>
+                    <li><strong>1xx (Informational):</strong> Request received, processing. (You rarely see this).</li>
+                    <li><strong>2xx (Success)</strong>
+                        <ul><li><code>200 OK</code>: The request was successful (e.g., <code>GET</code>, <code>PUT</code>).</li></ul>
+                        <ul><li><code>201 Created</code>: A new resource was successfully created (e.g., <code>POST</code>).</li></ul>
+                        <ul><li><code>204 No Content</code>: Success, but there's no data to send back (e.g., <code>DELETE</code>).</li></ul>
+                    </li>
+                    <li><strong>3xx (Redirection)</strong>
+                        <ul><li><code>301 Moved Permanently</code>: The resource has a new URL.</li></ul>
+                    </li>
+                    <li><strong>4xx (Client Error)</strong> - **Your** app did something wrong.
+                        <ul><li><code>400 Bad Request</code>: You sent invalid data (e.g., a missing email).</li></ul>
+                        <ul><li><code>401 Unauthorized</code>: You are not logged in (missing or invalid API key/token).</li></ul>
+                        <ul><li><code>403 Forbidden</code>: You are logged in, but you don't have *permission* to see this data.</li></ul>
+                        <ul><li><code>404 Not Found</code>: The endpoint (URL) you asked for doesn't exist.</li></ul>
+                    </li>
+                    <li><strong>5xx (Server Error)</strong> - The **server** did something wrong.
+                        <ul><li><code>500 Internal Server Error</code>: The server's code crashed. There is nothing you can do but report the bug.</li></ul>
+                        <ul><li><code>503 Service Unavailable</code>: The server is down for maintenance or is overloaded.</li></ul>
+                    </li>
+                </ul>
+                
+                <h3>Beyond REST: GraphQL and gRPC</h3>
+                <p>While REST is the most common, you should be aware of two other major paradigms.</p>
+                
+                <ul>
+                    <li><strong>GraphQL:</strong> Developed by Facebook. With REST, you always get the *full* data (over-fetching) or you have to make *multiple* requests (under-fetching). With GraphQL, the **client** specifies *exactly* which fields it wants in a single request (e.g., "just give me the `name` and `email` for user 123, and also their first 3 `posts`"). This is very efficient.</li>
+                    <li><strong>gRPC:</strong> Developed by Google. This is a high-performance protocol that uses HTTP/2 and "Protocol Buffers" (which we saw in DataStore) instead of JSON. It's not human-readable but is *extremely* fast. It's used for high-performance microservices and real-time communication.</li>
+                </ul>
+                <p>For most public APIs you'll consume, you will be using **REST with JSON**. We will focus on this.</p>
+                
+                <!-- =================================== -->
+                <!-- SECTION 2: The Networking "Stack"   -->
+                <!-- =================================== -->
+
+                <h2>The Android Networking "Stack"</h2>
+                <p>To make HTTP requests in Android, you need a "networking client."</p>
+
+                <h4>The Old Way: `HttpURLConnection`</h4>
+                <p>This is the original, low-level library built into Java. You *can* use it, but you should *never* use it directly. It's verbose (requires tons of boilerplate code), hard to use, and doesn't support modern features easily. Most importantly, it's **synchronous**, meaning you have to manage threading yourself, which is a common source of bugs.</p>
+                
+                <h4>The Foundation: OkHttp</h4>
+                <p><strong>OkHttp</strong> is a third-party library by Square that has become the *de-facto* foundation for all modern networking in Android. It's an incredibly efficient, fast, and robust HTTP client. It automatically handles complex things like:
+                    <ul>
+                        <li>HTTP/2 support</li>
+                        <li>Connection pooling (re-using connections to save time)</li>
+                        <li>Gzip compression (making requests smaller)</li>
+                        <li>Caching responses</li>
+                        <li>Handling network failures and retries</li>
+                    </ul>
+                </p>
+                <p>You can use OkHttp directly, but it's still a bit low-level. The *best* way is to use it implicitly with Retrofit.</p>
+
+                <h4>The King: Retrofit</h4>
+                <p><strong>Retrofit** is the *industry standard* networking library for Android. It is also made by Square. Retrofit is a "type-safe REST client" that sits *on top* of OkHttp.
+                <br>
+                Its magic is that it lets you define your API as a simple **Kotlin interface**, and then Retrofit **writes all the networking code for you** at runtime. You just call a Kotlin function, and Retrofit handles the rest.</p>
+                
+
+                <h4>The Challenger: Ktor</h4>
+                <p><strong>Ktor Client</strong> is the modern, Kotlin-native alternative from JetBrains (creators of Kotlin). It's built from the ground up with coroutines and is designed for Kotlin Multiplatform. It's an excellent choice for new projects, but Retrofit is still more widely used in the industry.</p>
+                <p>We will cover **Retrofit (the standard)** first, then **Ktor (the modern alternative)**.</p>
+                
+                <!-- =================================== -->
+                <!-- SECTION 3: Deep Dive: Retrofit -->
+                <!-- =================================== -->
+                
+                <h2>Deep Dive: Retrofit (The Standard Library)</h2>
+                <p>Let's build a complete example of fetching data from a free public API. We will use **JSONPlaceholder** (<code>https://jsonplaceholder.typicode.com/</code>), which provides fake API data for testing.</p>
+                <p>Our goal: Fetch a list of <code>User</code> objects from <code>/users</code>, and create a new <code>Post</code>.</p>
+
+                <h3>Step 1: Add Gradle Dependencies</h3>
+                <p>We need three libraries:</p>
+                <ol>
+                    <li><strong>Retrofit:</strong> The main library.</li>
+                    <li><strong>OkHttp:</strong> We add this for its `HttpLoggingInterceptor`.</li>
+                    <li><strong>A JSON Converter:</strong> Retrofit fetches raw JSON text. We need a library to "parse" that JSON into our Kotlin data classes. We'll use **Moshi**, which is the modern, Kotlin-first choice.</li>
+                </ol>
+                
+                <p>In your <code>build.gradle.kts (Module: :app)</code> file:</p>
+                <pre><code><span class="comment">// We'll use KSP for Moshi's code generation</span>
+<span class="keyword">plugins</span> {
+    <span class="comment">// ...</span>
+    <span class="function">id</span>(<span class="string">"com.google.devtools.ksp"</span>)
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="comment">// ... other dependencies</span>
+    
+    <span class="comment">// --- Networking: Retrofit & OkHttp ---</span>
+    <span class="function">implementation</span>(<span class="string">"com.squareup.retrofit2:retrofit:2.9.0"</span>)
+    <span class="function">implementation</span>(<span class="string">"com.squareup.okhttp3:okhttp:4.12.0"</span>)
+    <span class="function">implementation</span>(<span class="string">"com.squareup.okhttp3:logging-interceptor:4.12.0"</span>) <span class="comment">// For logging</span>
+
+    <span class="comment">// --- JSON Parser: Moshi (Recommended) ---</span>
+    <span class="function">implementation</span>(<span class="string">"com.squareup.retrofit2:converter-moshi:2.9.0"</span>)
+    <span class="function">implementation</span>(<span class="string">"com.squareup.moshi:moshi-kotlin:1.15.0"</span>)
+    <span class="function">ksp</span>(<span class="string">"com.squareup.moshi:moshi-kotlin-codegen:1.15.0"</span>)
+}
+</code></pre>
+                <p>Click **"Sync Now"**.</p>
+                
+                <h3>Step 2: Define your Data Classes (Models)</h3>
+                <p>First, we need to look at the JSON response from the API. A single user from <code>/users</code> looks like this:</p>
+                <pre><code>{
+  <span class="string">"id"</span>: <span class="number">1</span>,
+  <span class="string">"name"</span>: <span class="string">"Leanne Graham"</span>,
+  <span class="string">"username"</span>: <span class="string">"Bret"</span>,
+  <span class="string">"email"</span>: <span class="string">"Sincere@april.biz"</span>
+}
+</code></pre>
+                <p>Now, we create a Kotlin <code>data class</code> that **exactly matches** these keys. We also add the Moshi annotation for code generation.</p>
+                
+                <span class="code-filename">data/models/User.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">com.squareup.moshi.Json</span>
+<span class="keyword">import</span> <span class="type">com.squareup.moshi.JsonClass</span>
+
+<span class="comment">// This tells Moshi to generate an adapter for this class</span>
+@JsonClass(<span class="attr">generateAdapter</span> <span class="operator">=</span> <span class="keyword">true</span>)
+<span class="keyword">data class</span> <span class="type">User</span>(
+    <span class="comment">// @Json tells Moshi to match this property with the JSON key</span>
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"id"</span>) <span class="keyword">val</span> <span class="attr">id</span><span class="operator">:</span> <span class="type">Int</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"name"</span>) <span class="keyword">val</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"username"</span>) <span class="keyword">val</span> <span class="attr">username</span><span class="operator">:</span> <span class="type">String</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"email"</span>) <span class="keyword">val</span> <span class="attr">email</span><span class="operator">:</span> <span class="type">String</span>
+)
+
+<span class="comment">// We'll also create a class for POST-ing a new post</span>
+@JsonClass(<span class="attr">generateAdapter</span> <span class="operator">=</span> <span class="keyword">true</span>)
+<span class="keyword">data class</span> <span class="type">PostRequest</span>(
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"userId"</span>) <span class="keyword">val</span> <span class="attr">userId</span><span class="operator">:</span> <span class="type">Int</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"title"</span>) <span class="keyword">val</span> <span class="attr">title</span><span class="operator">:</span> <span class="type">String</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"body"</span>) <span class="keyword">val</span> <span class="attr">body</span><span class="operator">:</span> <span class="type">String</span>
+)
+
+<span class="comment">// And a class for the server's response</span>
+@JsonClass(<span class="attr">generateAdapter</span> <span class="operator">=</span> <span class="keyword">true</span>)
+<span class="keyword">data class</span> <span class="type">PostResponse</span>(
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"id"</span>) <span class="keyword">val</span> <span class="attr">id</span><span class="operator">:</span> <span class="type">Int</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"userId"</span>) <span class="keyword">val</span> <span class="attr">userId</span><span class="operator">:</span> <span class="type">Int</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"title"</span>) <span class="keyword">val</span> <span class="attr">title</span><span class="operator">:</span> <span class="type">String</span>,
+    @Json(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"body"</span>) <span class="keyword">val</span> <span class="attr">body</span><span class="operator">:</span> <span class="type">String</span>
+)
+</code></pre>
+                
+                <h3>Step 3: Create the API Interface (`ApiService.kt`)</h3>
+                <p>This is the magic of Retrofit. You create a Kotlin <code>interface</code> and use **annotations** to describe your API endpoints. Retrofit will write the code for these functions *for you*.</p>
+                
+                <span class="code-filename">data/network/ApiService.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">retrofit2.Response</span>
+<span class="keyword">import</span> <span class="type">retrofit2.http.*</span>
+<span class="keyword">import</span> <span class="type">okhttp3.MultipartBody</span>
+<span class="keyword">import</span> <span class="type">okhttp3.RequestBody</span>
+
+<span class="keyword">interface</span> <span class="type">ApiService</span> {
+
+    <span class="comment">// --- GET Requests ---</span>
+    <span class="annotation">@GET</span>(<span class="string">"users"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">getUsers</span>()<span class="operator">:</span> <span class="type">List</span><span class="operator">&lt;</span><span class="type">User</span><span class="operator">&gt;</span>
+
+    <span class="annotation">@GET</span>(<span class="string">"users/{id}"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">getUserById</span>(
+        <span class="annotation">@Path</span>(<span class="string">"id"</span>) <span class="attr">userId</span><span class="operator">:</span> <span class="type">Int</span>
+    )<span class="operator">:</span> <span class="type">User</span>
+
+    <span class="annotation">@GET</span>(<span class="string">"posts"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">getPostsByUser</span>(
+        <span class="annotation">@Query</span>(<span class="string">"userId"</span>) <span class="attr">userId</span><span class="operator">:</span> <span class="type">Int</span>
+    )<span class="operator">:</span> <span class="type">List</span><span class="operator">&lt;</span><span class="type">PostResponse</span><span class="operator">&gt;</span>
+
+    <span class="comment">// --- POST Request (sends JSON) ---</span>
+    <span class="annotation">@POST</span>(<span class="string">"posts"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">createPost</span>(
+        <span class="annotation">@Body</span> <span class="attr">postRequest</span><span class="operator">:</span> <span class="type">PostRequest</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">PostResponse</span><span class="operator">&gt;</span> <span class="comment">// Returns 201 Created</span>
+
+    <span class="comment">// --- POST Request (sends Form data) ---</span>
+    <span class="annotation">@FormUrlEncoded</span>
+    <span class="annotation">@POST</span>(<span class="string">"posts"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">createPostWithFields</span>(
+        <span class="annotation">@Field</span>(<span class="string">"userId"</span>) <span class="attr">userId</span><span class="operator">:</span> <span class="type">Int</span>,
+        <span class="annotation">@Field</span>(<span class="string">"title"</span>) <span class="attr">title</span><span class="operator">:</span> <span class="type">String</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">PostResponse</span><span class="operator">&gt;</span>
+
+    <span class="comment">// --- PUT Request (Full Update) ---</span>
+    <span class="annotation">@PUT</span>(<span class="string">"posts/{id}"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">updatePost</span>(
+        <span class="annotation">@Path</span>(<span class="string">"id"</span>) <span class="attr">postId</span><span class="operator">:</span> <span class="type">Int</span>,
+        <span class="annotation">@Body</span> <span class="attr">postRequest</span><span class="operator">:</span> <span class="type">PostRequest</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">PostResponse</span><span class="operator">&gt;</span>
+    
+    <span class="comment">// --- PATCH Request (Partial Update) ---</span>
+    <span class="annotation">@PATCH</span>(<span class="string">"posts/{id}"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">patchPost</span>(
+        <span class="annotation">@Path</span>(<span class="string">"id"</span>) <span class="attr">postId</span><span class="operator">:</span> <span class="type">Int</span>,
+        <span class="annotation">@Body</span> <span class="attr">body</span><span class="operator">:</span> <span class="type">Map</span><span class="operator">&lt;</span><span class="type">String</span>, <span class="type">Any</span><span class="operator">&gt;</span> <span class="comment">// e.g., mapOf("title" to "New Title")</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">PostResponse</span><span class="operator">&gt;</span>
+
+    <span class="comment">// --- DELETE Request ---</span>
+    <span class="annotation">@DELETE</span>(<span class="string">"posts/{id}"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">deletePost</span>(
+        <span class="annotation">@Path</span>(<span class="string">"id"</span>) <span class="attr">postId</span><span class="operator">:</span> <span class="type">Int</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">Unit</span><span class="operator">&gt;</span> <span class="comment">// No content in response</span>
+
+    <span class="comment">// --- File Upload Request ---</span>
+    <span class="annotation">@Multipart</span>
+    <span class="annotation">@POST</span>(<span class="string">"upload"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">uploadProfilePicture</span>(
+        <span class="comment">// This is the file itself</span>
+        <span class="annotation">@Part</span> <span class="attr">image</span><span class="operator">:</span> <span class="type">MultipartBody</span>.<span class="type">Part</span>,
+        
+        <span class="comment">// This is other data, like a user ID</span>
+        <span class="annotation">@Part</span>(<span class="string">"userId"</span>) <span class="attr">userId</span><span class="operator">:</span> <span class="type">RequestBody</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">Unit</span><span class="operator">&gt;</span>
+}
+</code></pre>
+                
+                <h3>Step 4: Create the Retrofit Instance (Singleton)</h3>
+                <p>Now we build the Retrofit object that implements our <code>ApiService</code> interface. We do this once and share it across the entire app.</p>
+                
+                <span class="code-filename">data/network/RetrofitInstance.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">com.squareup.moshi.Moshi</span>
+<span class="keyword">import</span> <span class="type">com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory</span>
+<span class="keyword">import</span> <span class="type">retrofit2.Retrofit</span>
+<span class="keyword">import</span> <span class="type">retrofit2.converter.moshi.MoshiConverterFactory</span>
+<span class="keyword">import</span> <span class="type">okhttp3.OkHttpClient</span>
+<span class="keyword">import</span> <span class="type">okhttp3.logging.HttpLoggingInterceptor</span>
+<span class="keyword">import</span> <span class="type">java.util.concurrent.TimeUnit</span>
+<span class="keyword">import</span> <span class="type">com.codewithmsmaxpro.BuildConfig</span> <span class="comment">// Auto-generated</span>
+
+<span class="comment">// A singleton object</span>
+<span class="keyword">object</span> <span class="type">RetrofitInstance</span> {
+
+    <span class="keyword">private const val</span> <span class="attr">BASE_URL</span> <span class="operator">=</span> <span class="string">"https://jsonplaceholder.typicode.com/"</span>
+
+    <span class="comment">// Create a Moshi instance for JSON parsing</span>
+    <span class="keyword">private val</span> <span class="attr">moshi</span> <span class="operator">=</span> <span class="type">Moshi</span>.<span class="function">Builder</span>()
+        .<span class="function">add</span>(<span class="type">KotlinJsonAdapterFactory</span>())
+        .<span class="function">build</span>()
+        
+    <span class="comment">// Create an OkHttp Logging Interceptor</span>
+    <span class="keyword">private val</span> <span class="attr">loggingInterceptor</span> <span class="operator">=</span> <span class="type">HttpLoggingInterceptor</span>().<span class="function">apply</span> {
+        <span class="comment">// Only log in debug builds to avoid leaking data in production</span>
+        <span class="attr">level</span> <span class="operator">=</span> <span class="keyword">if</span> (<span class="type">BuildConfig</span>.<span class="attr">DEBUG</span>) {
+            <span class="type">HttpLoggingInterceptor</span>.<span class="type">Level</span>.<span class="attr">BODY</span>
+        } <span class="keyword">else</span> {
+            <span class="type">HttpLoggingInterceptor</span>.<span class="type">Level</span>.<span class="attr">NONE</span>
+        }
+    }
+    
+    <span class="comment">// Create an OkHttp client and add the interceptor</span>
+    <span class="keyword">private val</span> <span class="attr">httpClient</span> <span class="operator">=</span> <span class="type">OkHttpClient</span>.<span class="function">Builder</span>()
+        .<span>addInterceptor</span>(<span class="attr">loggingInterceptor</span>) 
+        <span class="comment">// .addInterceptor(AuthInterceptor()) // (Add your auth interceptor here)</span>
+        .<span class="function">connectTimeout</span>(<span class="number">30</span>, <span class="type">TimeUnit</span>.<span class="attr">SECONDS</span>) <span class="comment">// Set connect timeout</span>
+        .<span class="function">readTimeout</span>(<span class="number">30</span>, <span class="type">TimeUnit</span>.<span class="attr">SECONDS</span>) <span class="comment">// Set read timeout</span>
+        .<span class="function">writeTimeout</span>(<span class="number">30</span>, <span class="type">TimeUnit</span>.<span class="attr">SECONDS</span>) <span class="comment">// Set write timeout</span>
+        .<span class="function">build</span>()
+
+    <span class="comment">// Create the Retrofit instance using the Builder</span>
+    <span class="keyword">private val</span> <span class="attr">retrofit</span> <span class="operator">=</span> <span class="type">Retrofit</span>.<span class="function">Builder</span>()
+        .<span class="function">baseUrl</span>(<span class="attr">BASE_URL</span>) <span class="comment">// 1. Set the base URL</span>
+        .<span class="function">client</span>(<span class="attr">httpClient</span>) <span class="comment">// 2. Set the custom OkHttp client</span>
+        .<span class="function">addConverterFactory</span>(<span class="type">MoshiConverterFactory</span>.<span class="function">create</span>(<span class="attr">moshi</span>)) <span class="comment">// 3. Add Moshi</span>
+        .<span class="function">build</span>()
+
+    <span class="comment">// This is the magic: create an implementation of our ApiService interface</span>
+    <span class="keyword">val</span> <span class="attr">api</span><span class="operator">:</span> <span class="type">ApiService</span> <span class="keyword">by</span> <span class="function">lazy</span> {
+        <span class="attr">retrofit</span>.<span class="function">create</span>(<span class="type">ApiService</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+    }
+}
+</code></pre>
+                
+                <h3>Step 5: Making the API Call (in a ViewModel)</h3>
+                <p>Now, from our <code>ViewModel</code>, we can finally make the network call. It's clean, safe, and easy to read. We use <code>viewModelScope.launch</code> to call the <code>suspend</code> function on a background thread.</p>
+                
+                <span class="code-filename">ui/MyViewModel.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.lifecycle.ViewModel</span>
+<span class="keyword">import</span> <span class="type">androidx.lifecycle.viewModelScope</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.launch</span>
+<span class="keyword">import</span> <span class="type">android.util.Log</span>
+<span class="keyword">import</span> <span class="type">java.io.IOException</span>
+<span class="keyword">import</span> <span class="type">retrofit2.HttpException</span>
+
+<span class="keyword">class</span> <span class="type">MyViewModel</span> <span class="operator">:</span> <span class="type">ViewModel</span>() {
+    
+    <span class="keyword">private val</span> <span class="attr">apiService</span> <span class="operator">=</span> <span class="type">RetrofitInstance</span>.<span class="attr">api</span>
+
+    <span class="keyword">fun</span> <span class="function">fetchAllUsers</span>() {
+        <span class="function">viewModelScope</span>.<span class="function">launch</span> {
+            <span class="keyword">try</span> {
+                <span class="keyword">val</span> <span class="attr">userList</span> <span class="operator">=</span> <span class="attr">apiService</span>.<span class="function">getUsers</span>()
+                <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Success! Fetched ${userList.size} users."</span>)
+                <span class="function">println</span>(<span class="attr">userList</span>)
+            } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">HttpException</span>) {
+                <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"API Error (HTTP): ${e.code()} - ${e.message()}"</span>)
+            } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">IOException</span>) {
+                <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Network Error (No Internet?): ${e.message}"</span>)
+            } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+                <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Unknown Error: ${e.message}"</span>)
+            }
+        }
+    }
+    
+    <span class="keyword">fun</span> <span class="function">createNewPost</span>() {
+        <span class="function">viewModelScope</span>.<span class="function">launch</span> {
+            <span class="keyword">try</span> {
+                <span class="keyword">val</span> <span class="attr">newPost</span> <span class="operator">=</span> <span class="type">PostRequest</span>(
+                    <span class="attr">userId</span> <span class="operator">=</span> <span class="number">1</span>, 
+                    <span class="attr">title</span> <span class="operator">=</span> <span class="string">"My New Post"</span>, 
+                    <span class="attr">body</span> <span class="operator">=</span> <span class="string">"This is the content."</span>
+                )
+                <span class="keyword">val</span> <span class="attr">response</span> <span class="operator">=</span> <span class="attr">apiService</span>.<span class="function">createPost</span>(<span class="attr">newPost</span>)
+                
+                <span class="keyword">if</span> (<span class="attr">response</span>.<span class="function">isSuccessful</span>() <span class="operator">&amp;&amp;</span> <span class="attr">response</span>.<span class="function">code</span>() <span class="operator">==</span> <span class="number">201</span>) {
+                    <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Post created! ID: ${response.body()?.id}"</span>)
+                } <span class="keyword">else</span> {
+                    <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Error creating post: ${response.code()}"</span>)
+                }
+            } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+                <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Network error: ${e.message}"</span>)
+            }
+        }
+    }
+}
+</code></pre>
+                
+                <!-- =================================== -->
+                <!-- SECTION 4: JSON Parsers -->
+                <!-- =================================== -->
+
+                <h2>Deep Dive: JSON Parsers (Moshi vs. Gson vs. Kotlinx)</h2>
+                <p>Retrofit only downloads the raw JSON text. A "Converter" is responsible for parsing that text into Kotlin objects. This is a critical step, and you have three main choices.</p>
+
+                <h4>Option 1: Gson (The Old Standard)</h4>
+                <p>Gson (by Google) was the standard for years. It's easy to set up (<code>converter-gson</code>) and works *okay*.</p>
+                <p><strong>How it works:</strong> Gson uses **reflection** at runtime. It "inspects" your Kotlin class (<code>User</code>) and the JSON text and tries to match them up.
+                <br>
+                <strong>The Problem:</strong> Reflection is *slow* and can be unsafe with Kotlin's nullability. If the API sends <code>"email": null</code> but your <code>User</code> class has <code>val email: String</code> (non-nullable), Gson might crash your app with a <code>NullPointerException</code> or (worse) assign <code>null</code> to a non-null variable, which causes a crash later.</p>
+
+                <h4>Option 2: Moshi (The Modern Standard)</h4>
+                <p>Moshi (by Square, same as Retrofit) is the recommended parser for Kotlin projects.</p>
+                <p><strong>How it works:</strong> Moshi uses **code generation** (via KSP). When you "Build" your project, KSP runs and *writes* a <code>UserJsonAdapter.kt</code> file for you. This adapter is a hard-coded, optimized parser specifically for your <code>User</code> class.
+                <br>
+                <strong>The Benefits:</strong>
+                <ul>
+                    <li><strong>Fast:</strong> No reflection at runtime. It uses fast, pre-generated code.</li>
+                    <li><strong>Kotlin-Aware:</strong> It understands Kotlin's non-null types. If the API sends <code>"email": null</code> for a non-null <code>String</code>, Moshi will throw a clear <code>JsonDataException</code>, which you can catch, instead of crashing your app with an NPE later.</li>
+                    <li><strong>Adapter Support:</strong> Easy to add custom adapters (e.g., for parsing <code>Date</code> objects).</li>
+                </ul>
+                <p>**Conclusion: Always use Moshi for new projects.**</p>
+
+                <h4>Option 3: Kotlinx.serialization (The Native Way)</h4>
+                <p>This is the "official" serialization library from JetBrains (creators of Kotlin). It's also excellent, fast, and uses a compiler plugin instead of KSP. It's the standard for Kotlin Multiplatform. Its only downside is that it's slightly more complex to set up with Retrofit, but it's a fantastic choice.</p>
+                <p>To use it, you replace Moshi with these dependencies:</p>
+                <pre><code><span class="keyword">plugins</span> {
+    <span class_comment">// ...</span>
+    <span class_function>id</span>(<span class="string">"org.jetbrains.kotlin.plugin.serialization"</span>)
+}
+<span class_keyword">dependencies</span> {
+    <span class_function>implementation</span>(<span class="string">"org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"</span>)
+    <span class_function>implementation</span>(<span class="string">"com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0"</span>)
+}
+</code></pre>
+                <p>And your data class changes to use <code>@Serializable</code>:</p>
+                <pre><code><span class="keyword">import</span> <span class="type">kotlinx.serialization.Serializable</span>
+<span class="keyword">import</span> <span class="type">kotlinx.serialization.SerialName</span>
+
+@Serializable
+<span class="keyword">data class</span> <span class="type">User</span>(
+    @SerialName(<span class="string">"id"</span>) <span class="keyword">val</span> <span class="attr">id</span><span class="operator">:</span> <span class="type">Int</span>,
+    @SerialName(<span class="string">"name"</span>) <span class="keyword">val</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String</span>,
+    @SerialName(<span class="string">"email"</span>) <span class="keyword">val</span> <span class="attr">email</span><span class="operator">:</span> <span class="type">String</span>
+)
+</code></pre>
+
+                <!-- =================================== -->
+                <!-- SECTION 5: Advanced Networking -->
+                <!-- =================================== -->
+                
+                <h2>Advanced Networking: Interceptors, Auth & File Uploads</h2>
+                
+                <h3>1. OkHttp Interceptors (Deep Dive)</h3>
+                <p>An Interceptor is a "man-in-the-middle" that "intercepts" every single request *before* it goes to the internet. You can use them to modify requests, log data, or handle errors. There are two types:</p>
+                
+                <ul>
+                    <li><strong>Application Interceptors:</strong> Added with <code>.addInterceptor()</code>. These run *first*. They operate on your "logical" request. They are best for adding headers (like Auth) or logging.</li>
+                    <li><strong>Network Interceptors:</strong> Added with <code>.addNetworkInterceptor()</code>. These run *last*, right before the request goes to the network. They are more powerful and can see "real" network data like redirects (status 3xx).</li>
+                </ul>
+
+                <h4>Example: Logging Interceptor (What we already built)</h4>
+                <p>The <code>HttpLoggingInterceptor</code> is a pre-built interceptor. It logs the entire request (headers, body) and response (headers, body, time taken) to Logcat. This is *essential* for debugging.</p>
+                <pre><code><span class="keyword">private val</span> <span class="attr">loggingInterceptor</span> <span class="operator">=</span> <span class="type">HttpLoggingInterceptor</span>().<span class="function">apply</span> {
+    <span class="attr">level</span> <span class="operator">=</span> <span class="keyword">if</span> (<span class="type">BuildConfig</span>.<span class="attr">DEBUG</span>) {
+        <span class="type">HttpLoggingInterceptor</span>.<span class="type">Level</span>.<span class="attr">BODY</span>
+    } <span class="keyword">else</span> {
+        <span class="type">HttpLoggingInterceptor</span>.<span class_type">Level</span>.<span class="attr">NONE</span>
+    }
+}
+</code></pre>
+
+                <h4>Example: Authentication Interceptor (`AuthInterceptor.kt`)</h4>
+                <p>This is the *best* way to add an API Key or Auth Token to every request.</p>
+                <span class="code-filename">data/network/AuthInterceptor.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">okhttp3.Interceptor</span>
+<span class="keyword">import</span> <span class="type">okhttp3.Response</span>
+
+<span class="comment">// (In a real app, you would inject your DataStore/AuthManager)</span>
+<span class="keyword">class</span> <span class="type">AuthInterceptor</span>(<span class="keyword">private val</span> <span class="attr">tokenProvider</span><span class="operator">:</span> <span class="type">TokenProvider</span>) <span class="operator">:</span> <span class="type">Interceptor</span> {
+    
+    <span class="keyword">override fun</span> <span class="function">intercept</span>(<span class="attr">chain</span><span class="operator">:</span> <span class="type">Interceptor</span>.<span class="type">Chain</span>)<span class="operator">:</span> <span class="type">Response</span> {
+        <span class="keyword">val</span> <span class="attr">token</span> <span class="operator">=</span> <span class="attr">tokenProvider</span>.<span class="function">getToken</span>() <span class="comment">// Get the latest token</span>
+        
+        <span class="keyword">val</span> <span class="attr">originalRequest</span> <span class="operator">=</span> <span class="attr">chain</span>.<span class="function">request</span>()
+        
+        <span class="keyword">val</span> <span class="attr">requestBuilder</span> <span class="operator">=</span> <span class="attr">originalRequest</span>.<span class="function">newBuilder</span>()
+        
+        <span class="keyword">if</span> (<span class="attr">token</span> <span class="operator">!=</span> <span class="keyword">null</span>) {
+            <span class="attr">requestBuilder</span>.<span class="function">header</span>(<span class="string">"Authorization"</span>, <span class="string">"Bearer $token"</span>)
+        }
+        
+        <span class="keyword">val</span> <span class="attr">request</span> <span class="operator">=</span> <span class="attr">requestBuilder</span>.<span class="function">build</span>()
+        <span class="keyword">return</span> <span class="attr">chain</span>.<span class="function">proceed</span>(<span class="attr">request</span>)
+    }
+}
+</code></pre>
+                
+                <h3>2. Handling Token Refresh with `Authenticator`</h3>
+                <p>What happens if your JWT (Auth Token) expires? The server will send a <code>401 Unauthorized</code> error. Your app will fail.</p>
+                <p>OkHttp has a powerful feature called <code>Authenticator</code>. This is a special interceptor that *only* runs *after* the server sends a 401 error. Its job is to try and "fix" the authentication and retry the request automatically.</p>
+                
+                
+                <span class="code-filename">data/network/TokenAuthenticator.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">okhttp3.Authenticator</span>
+<span class="keyword">import</span> <span class="type">okhttp3.Request</span>
+<span class="keyword">import</span> <span class="type">okhttp3.Response</span>
+<span class="keyword">import</span> <span class="type">okhttp3.Route</span>
+
+<span class="keyword">class</span> <span class="type">TokenAuthenticator</span>(<span class="keyword">private val</span> <span class="attr">tokenProvider</span><span class="operator">:</span> <span class="type">TokenProvider</span>) <span class="operator">:</span> <span class="type">Authenticator</span> {
+    
+    <span class="keyword">override fun</span> <span class="function">authenticate</span>(<span class="attr">route</span><span class="operator">:</span> <span class="type">Route?</span>, <span class="attr">response</span><span class="operator">:</span> <span class="type">Response</span>)<span class="operator">:</span> <span class="type">Request?</span> {
+        <span class="comment">// 1. Check if we've already tried to refresh</span>
+        <span class="keyword">if</span> (<span class="attr">response</span>.<span class="function">request</span>.<span class="function">header</span>(<span class="string">"Authorization"</span>) <span class="operator">!=</span> <span class="keyword">null</span>) {
+            <span class="keyword">return</span> <span class="keyword">null</span> <span class="comment">// We already tried, give up</span>
+        }
+
+        <span class="comment">// 2. Use the refresh token to get a new auth token (This must be a *synchronous* call)</span>
+        <span class="keyword">val</span> <span class="attr">newToken</span> <span class="operator">=</span> <span class="attr">tokenProvider</span>.<span class="function">refreshTokenSynchronously</span>()
+
+        <span class="keyword">return</span> <span class="keyword">if</span> (<span class="attr">newToken</span> <span class="operator">!=</span> <span class="keyword">null</span>) {
+            <span class="comment">// 3. Build a new request with the *new* token</span>
+            <span class="attr">response</span>.<span class="function">request</span>.<span class="function">newBuilder</span>()
+                .<span class="function">header</span>(<span class="string">"Authorization"</span>, <span class="string">"Bearer $newToken"</span>)
+                .<span class="function">build</span>()
+        } <span class="keyword">else</span> {
+            <span class="keyword">null</span> <span class="comment">// No new token, give up</span>
+        }
+    }
+}
+</code></pre>
+                <p>Then, you add this to your `OkHttpClient`:</p>
+                <pre><code><span class="keyword">private val</span> <span class="attr">httpClient</span> <span class="operator">=</span> <span class="type">OkHttpClient</span>.<span class="function">Builder</span>()
+    <span class="comment">//...</span>
+    .<span class="function">authenticator</span>(<span class="type">TokenAuthenticator</span>(<span class="attr">myTokenProvider</span>)) <span class="comment">// <-- ADD THIS LINE</span>
+    .<span class="function">build</span>()
+</code></pre>
+
+                <h3>3. Uploading Files with `@Multipart` (Deep Dive)</h3>
+                <p>How do you upload an image (like a profile picture) along with other data (like a username)? You can't just put it in a JSON. The standard way is using a `multipart/form-data` request.</p>
+                
+                <span class="code-filename">ApiService.kt (Added function)</span>
+                <pre><code><span class="keyword">import</span> <span class="type">okhttp3.MultipartBody</span>
+<span class="keyword">import</span> <span class="type">okhttp3.RequestBody</span>
+
+<span class="keyword">interface</span> <span class="type">ApiService</span> {
+    <span class="comment">// ... other functions ...</span>
+    
+    <span class="annotation">@Multipart</span>
+    <span class="annotation">@POST</span>(<span class="string">"user/avatar"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">uploadProfilePicture</span>(
+        <span class="comment">// This is the file itself</span>
+        <span class="annotation">@Part</span> <span class="attr">image</span><span class="operator">:</span> <span class="type">MultipartBody</span>.<span class="type">Part</span>,
+        
+        <span class="comment">// This is other data, like a user ID</span>
+        <span class="annotation">@Part</span>(<span class="string">"userId"</span>) <span class="attr">userId</span><span class="operator">:</span> <span class="type">RequestBody</span>
+    )<span class="operator">:</span> <span class="type">Response</span><span class="operator">&lt;</span><span class="type">Unit</span><span class="operator">&gt;</span>
+}
+</code></pre>
+                
+                <p>To call this, you need to convert your <code>File</code> or <code>Uri</code> into <code>RequestBody</code> and <code>MultipartBody.Part</code> objects. This is complex boilerplate code.</p>
+
+                <span class="code-filename">MyViewModel.kt (Helper function)</span>
+                <pre><code><span class="keyword">import</span> <span class="type">okhttp3.MediaType.Companion.toMediaTypeOrNull</span>
+<span class="keyword">import</span> <span class="type">okhttp3.MultipartBody</span>
+<span class="keyword">import</span> <span class="type">okhttp3.RequestBody.Companion.asRequestBody</span>
+<span class="keyword">import</span> <span class="type">okhttp3.RequestBody.Companion.toRequestBody</span>
+<span class="keyword">import</span> <span class="type">java.io.File</span>
+<span class="keyword">import</span> <span class="type">android.content.Context</span>
+<span class="keyword">import</span> <span class="type">android.net.Uri</span>
+
+<span class="keyword">fun</span> <span class="function">uploadImage</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span>, <span class="attr">imageUri</span><span class="operator">:</span> <span class="type">Uri</span>, <span class="attr">userId</span><span class="operator">:</span> <span class="type">Int</span>) {
+    <span class="function">viewModelScope</span>.<span class="function">launch</span> {
+        <span class="keyword">try</span> {
+            <span class="comment">// 1. Create the RequestBody for the user ID (text data)</span>
+            <span class="keyword">val</span> <span class="attr">userIdBody</span> <span class="operator">=</span> <span class="attr">userId</span>.<span class="function">toString</span>().<span class="function">toRequestBody</span>(<span class="string">"text/plain"</span>.<span class="function">toMediaTypeOrNull</span>())
+
+            <span class="comment">// 2. Create the RequestBody for the image file</span>
+            <span class="comment">// We need to get the actual file content from the Uri</span>
+            <span class="keyword">val</span> <span class="attr">inputStream</span> <span class="operator">=</span> <span class="attr">context</span>.<span class="attr">contentResolver</span>.<span class="function">openInputStream</span>(<span class="attr">imageUri</span>)
+            <span class="keyword">val</span> <span class="attr">fileBytes</span> <span class="operator">=</span> <span class="attr">inputStream</span><span class="operator">?</span>.<span class="function">readBytes</span>()
+            
+            <span class="keyword">if</span> (<span class="attr">fileBytes</span> <span class="operator">==</span> <span class="keyword">null</span>) {
+                <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Upload"</span>, <span class="string">"Cannot read file"</span>)
+                <span class="keyword">return@launch</span>
+            }
+            
+            <span class="keyword">val</span> <span class="attr">imageRequestBody</span> <span class="operator">=</span> <span class="attr">fileBytes</span>.<span class="function">toRequestBody</span>(
+                <span class="attr">context</span>.<span class="attr">contentResolver</span>.<span class="function">getType</span>(<span class="attr">imageUri</span>)<span class="operator">?</span>.<span class="function">toMediaTypeOrNull</span>()
+            )
+            
+            <span class="comment">// 3. Create the "Part" for the file</span>
+            <span class="keyword">val</span> <span class="attr">imagePart</span> <span class="operator">=</span> <span class="type">MultipartBody</span>.<span class="type">Part</span>.<span class="function">createFormData</span>(
+                <span class="string">"profile_picture"</span>, <span class="comment">// This is the "name" the server expects</span>
+                <span class="string">"user_image.jpg"</span>, <span class="comment">// The filename the server will see</span>
+                <span class="attr">imageRequestBody</span>
+            )
+
+            <span class="comment">// 4. Make the call</span>
+            <span class="attr">apiService</span>.<span class="function">uploadProfilePicture</span>(<span class="attr">imagePart</span>, <span class="attr">userIdBody</span>)
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"MyViewModel"</span>, <span class="string">"File uploaded successfully!"</span>)
+            
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+            <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"File upload failed: ${e.message}"</span>)
+        }
+    }
+}
+</code></pre>
+                
+                <!-- =================================== -->
+                <!-- SECTION 6: Ktor Client -->
+                <!-- =================================== -->
+                
+                <h2>Part 6: The Modern Alternative: Ktor Client</h2>
+                <p>Retrofit is fantastic, but it was built for Java first. **Ktor** is a networking library built by JetBrains from the ground up, *for Kotlin*. It's 100% Kotlin, uses coroutines natively, and is the standard for Kotlin Multiplatform (KMP) apps.</p>
+                
+                <h3>Step 1: Add Ktor Dependencies</h3>
+                <p>To use Ktor, you need the core client, an "engine" (we'll use OkHttp as the engine for its reliability), and serialization plugins.</p>
+                <pre><code><span class="keyword">plugins</span> {
+    <span class="comment">// ...</span>
+    <span class="function">id</span>(<span class="string">"org.jetbrains.kotlin.plugin.serialization"</span>)
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="keyword">val</span> <span class="attr">ktor_version</span> <span class="operator">=</span> <span class="string">"2.3.6"</span>
+    
+    <span class="comment">// Ktor Core</span>
+    <span class="function">implementation</span>(<span class="string">"io.ktor:ktor-client-core:$ktor_version"</span>)
+    <span class="comment">// The "engine" - we use OkHttp for its power</span>
+    <span class="function">implementation</span>(<span class="string">"io.ktor:ktor-client-okhttp:$ktor_version"</span>)
+    <span class="comment">// Content negotiation (for JSON)</span>
+    <span class="function">implementation</span>(<span class="string">"io.ktor:ktor-client-content-negotiation:$ktor_version"</span>)
+    <span class="comment">// The JSON parser (using kotlinx.serialization)</span>
+    <span class="function">implementation</span>(<span class="string">"io.ktor:ktor-serialization-kotlinx-json:$ktor_version"</span>)
+    <span class="comment">// Logging</span>
+    <span class="function">implementation</span>(<span class="string">"io.ktor:ktor-client-logging:$ktor_version"</span>)
+}
+</code></pre>
+                
+                <h3>Step 2: Create the Ktor Client (Singleton)</h3>
+                <p>Ktor's setup is programmatic. You build a client and "install" features (plugins) into it.</p>
+                
+                <span class="code-filename">data/network/KtorInstance.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">io.ktor.client.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.client.engine.okhttp.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.client.plugins.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.client.plugins.contentnegotiation.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.client.plugins.logging.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.client.request.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.http.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.serialization.kotlinx.json.*</span>
+<span class="keyword">import</span> <span class="type">kotlinx.serialization.json.Json</span>
+
+<span class="keyword">object</span> <span class="type">KtorInstance</span> {
+    
+    <span class="keyword">val</span> <span class="attr">client</span> <span class="operator">=</span> <span class="type">HttpClient</span>(<span class="type">OkHttp</span>) {
+        
+        <span class="comment">// 1. Configure JSON (ContentNegotiation)</span>
+        <span class="function">install</span>(<span class="type">ContentNegotiation</span>) {
+            <span class="function">json</span>(<span class="type">Json</span> {
+                <span class="attr">prettyPrint</span> <span class="operator">=</span> <span class="keyword">true</span>
+                <span class="attr">isLenient</span> <span class="operator">=</span> <span class="keyword">true</span>
+                <span class="attr">ignoreUnknownKeys</span> <span class="operator">=</span> <span class="keyword">true</span> <span class="comment">// Very useful!</span>
+            })
+        }
+        
+        <span class="comment">// 2. Configure Logging</span>
+        <span class="function">install</span>(<span class="type">Logging</span>) {
+            <span class="attr">logger</span> <span class="operator">=</span> <span class="type">Logger</span>.<span class="attr">DEFAULT</span>
+            <span class="attr">level</span> <span class="operator">=</span> <span class="type">LogLevel</span>.<span class="attr">BODY</span>
+        }
+        
+        <span class="comment">// 3. Default request settings (like an interceptor)</span>
+        <span class="function">defaultRequest</span> {
+            <span class="function">url</span>(<span class="string">"https://jsonplaceholder.typicode.com/"</span>)
+            <span class="function">header</span>(<span class="type">HttpHeaders</span>.<span class="attr">ContentType</span>, <span class="type">ContentType</span>.<span class="attr">Application</span>.<span class="attr">Json</span>)
+            <span class="comment">// header(HttpHeaders.Authorization, "Bearer $myToken")</span>
+        }
+    }
+}
+</code></pre>
+                
+                <h3>Step 3: Make API call with Ktor</h3>
+                <p>Ktor doesn't use interfaces. You call functions directly on the client. It feels more "Kotlin-native" and uses <code>suspend</code> functions for everything.</p>
+                <span class="code-filename">ui/MyViewModel.kt (Ktor Example)</span>
+                <pre><code><span class="keyword">import</span> <span class="type">io.ktor.client.call.*</span>
+<span class="keyword">import</span> <span class="type">io.ktor.client.request.*</span>
+
+<span class="keyword">class</span> <span class="type">MyViewModel</span> <span class="operator">:</span> <span class="type">ViewModel</span>() {
+    
+    <span class="keyword">private val</span> <span class="attr">client</span> <span class="operator">=</span> <span class="type">KtorInstance</span>.<span class="attr">client</span>
+
+    <span class="keyword">fun</span> <span class="function">fetchUsersWithKtor</span>() {
+        <span class="function">viewModelScope</span>.<span class="function">launch</span> {
+            <span class="keyword">try</span> {
+                <span class="comment">// 1. Make the GET request</span>
+                <span class="keyword">val</span> <span class="attr">userList</span> <span class="operator">=</span> <span class="attr">client</span>.<span class="function">get</span>(<span class="string">"users"</span>).<span class="function">body</span><span class="operator">&lt;</span><span class="type">List</span><span class="operator">&lt;</span><span class="type">User</span><span class="operator">&gt;&gt;</span>()
+                <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Ktor: Fetched ${userList.size} users."</span>)
+                
+                <span class="comment">// 2. Make a POST request</span>
+                <span class="keyword">val</span> <span class="attr">newPost</span> <span class="operator">=</span> <span class="type">PostRequest</span>(<span class="number">1</span>, <span class="string">"Ktor Post"</span>, <span class="string">"This is cool."</span>)
+                <span class="keyword">val</span> <span class="attr">response</span> <span class="operator">=</span> <span class="attr">client</span>.<span class="function">post</span>(<span class="string">"posts"</span>) {
+                    <span class="function">setBody</span>(<span class="attr">newPost</span>)
+                }
+                <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Ktor: Post status: ${response.status}"</span>)
+
+            } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+                <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"MyViewModel"</span>, <span class="string">"Ktor Error: ${e.message}"</span>)
+            }
+        }
+    }
+}
+</code></pre>
+
+                <!-- =================================== -->
+                <!-- SECTION 7: Image Loading -->
+                <!-- =================================== -->
+                
+                <h2>Part 7: Loading Images from the Network</h2>
+                <p>Retrofit and Ktor are only for fetching text/JSON. To load an *image* from a URL (e.g., <code>https://example.com/image.png</code>) and display it in your app, you need a dedicated **Image Loading Library**.</p>
+                <p>These libraries are highly optimized. They handle caching (on disk and in memory), transformations (like cropping to a circle), and placeholders automatically.</p>
+                
+                <h3>Option 1: Coil (The Modern Standard for Compose)</h3>
+                <p>**Coil (Coroutine Image Loader)** is the recommended library for Jetpack Compose. It's Kotlin-first, built on coroutines, and very easy to use.</p>
+                <p><strong>Step 1: Add Dependency</strong></p>
+                <pre><code><span class="function">implementation</span>(<span class="string">"io.coil-kt:coil-compose:2.5.0"</span>)
+</code></pre>
+                <p><strong>Step 2: Use the `AsyncImage` Composable</strong></p>
+                <pre><code><span class="keyword">import</span> <span class="type">coil.compose.AsyncImage</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.Modifier</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.draw.clip</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.foundation.shape.CircleShape</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.layout.ContentScale</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyNetworkImage</span>(<span class="attr">imageUrl</span><span class="operator">:</span> <span class="type">String</span>) {
+    <span class="function">AsyncImage</span>(
+        <span class="attr">model</span> <span class="operator">=</span> <span class="attr">imageUrl</span>,
+        <span class="attr">contentDescription</span> <span class="operator">=</span> <span class="string">"User Profile Picture"</span>,
+        <span class="attr">modifier</span> <span class="operator">=</span> <span class="type">Modifier</span>
+            .<span class="function">size</span>(<span class="number">100</span>.<span class="attr">dp</span>)
+            .<span class="function">clip</span>(<span class="type">CircleShape</span>),
+        <span class="attr">contentScale</span> <span class="operator">=</span> <span class="type">ContentScale</span>.<span class="attr">Crop</span>,
+        <span class="comment">// Show a placeholder while loading</span>
+        <span class="attr">placeholder</span> <span class="operator">=</span> <span class="function">painterResource</span>(<span class="type">R</span>.<span class="attr">drawable</span>.<span class="attr">placeholder_avatar</span>),
+        <span class="comment">// Show an error image if it fails to load</span>
+        <span class="attr">error</span> <span class="operator">=</span> <span class="function">painterResource</span>(<span class="type">R</span>.<span class="attr">drawable</span>.<span class="attr">error_avatar</span>)
+    )
+}
+</code></pre>
+                <a href="https://coil-kt.github.io/coil/" target="_blank" class="read-more-link">Read More about Coil &rarr;</a>
+                
+                <h3>Option 2: Glide (The Classic Standard for XML/Views)</h3>
+                <p>Glide is the most popular and battle-tested image loading library for Android. It is extremely fast and reliable, especially for the XML View system.</p>
+                <p><strong>Step 1: Add Dependencies</strong> (Glide also uses an annotation processor)</p>
+                <pre><code><span class="function">implementation</span>(<span class="string">"com.github.bumptech.glide:glide:4.16.0"</span>)
+<span class="function">ksp</span>(<span class="string">"com.github.bumptech.glide:ksp:4.16.0"</span>)
+</code></pre>
+                <p><strong>Step 2: Use Glide (in XML/View system)</strong></p>
+                <p>To use Glide, you just need an <code>&lt;ImageView&gt;</code> in your XML and a single line of Kotlin.</p>
+                <pre><code><span class="comment">// In your XML layout:</span>
+<span class="tag">&lt;ImageView</span>
+    <span class="attr">android:id=</span><span class="string">"@+id/my_image_view"</span>
+    <span class="attr">android:layout_width=</span><span class="string">"100dp"</span>
+    <span class="attr">android:layout_height=</span><span class="string">"100dp"</span> <span class="tag">/&gt;</span>
+    
+<span class="comment">// In your MainActivity.kt (inside onCreate)</span>
+<span class="keyword">import</span> <span class="type">com.bumptech.glide.Glide</span>
+<span class="keyword">import</span> <span class="type">com.bumptech.glide.load.resource.bitmap.CircleCrop</span>
+
+<span class="keyword">val</span> <span class="attr">imageView</span> <span class="operator">=</span> <span class="function">findViewById</span><span class="operator">&lt;</span><span class="type">ImageView</span><span class="operator">&gt;</span>(<span class="type">R</span>.<span class="attr">id</span>.<span class="attr">my_image_view</span>)
+<span class="keyword">val</span> <span class="attr">imageUrl</span> <span class="operator">=</span> <span class="string">"https://example.com/api/image.png"</span>
+
+<span class="type">Glide</span>.<span class="function">with</span>(<span class="keyword">this</span>) <span class="comment">// 'this' is the Context</span>
+     .<span class="function">load</span>(<span class="attr">imageUrl</span>)
+     .<span class="function">placeholder</span>(<span class="type">R</span>.<span class="attr">drawable</span>.<span class="attr">placeholder</span>)
+     .<span class="function">error</span>(<span class="type">R</span>.<span class="attr">drawable</span>.<span class="attr">error_image</span>)
+     .<span class="function">transform</span>(<span class="type">CircleCrop</span>()) <span class="comment">// Apply a transformation</span>
+     .<span class="function">into</span>(<span class="attr">imageView</span>)
+</code></pre>
+                <a href="https://github.com/bumptech/glide" target="_blank" class="read-more-link">Read More about Glide &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-data-storage.html" class="cta-button prev">&larr; Chapter 5: Data Storage</a>
+                    <a href="android-architecture.html" class="cta-button">Next Chapter: Modern Architecture &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
+
+
