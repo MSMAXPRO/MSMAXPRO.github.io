@@ -53,7 +53,6 @@
             font-size: 1.1rem;
             margin-bottom: 15px;
         }
-        /* Using h2 for subheadings now */
         .content-body h2 {
             color: #fff;
             font-size: 2rem;
@@ -62,7 +61,6 @@
             border-bottom: 2px solid #334155;
             padding-bottom: 10px;
         }
-        /* Using h3 for Backend/Frontend Features */
         .content-body h3 {
             color: #e2e8f0;
             font-size: 1.8rem;
@@ -102,35 +100,37 @@
             width: 50px;
             object-fit: contain;
         }
-
+        /* --- Code Block Styles --- */
+        .content-body pre {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .content-body code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .content-body .code-filename {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: -15px;
+            padding: 8px 15px;
+            background: #334155;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <main>
         <section class="content-container">
@@ -144,6 +144,7 @@
 
                     <p>This project moves beyond simple CRUD apps. You'll build a full-stack chat application, similar to Slack or Discord, where users can join different rooms and send messages that appear instantly for everyone else in the room—all without reloading the page. It's the perfect project to understand the magic of WebSockets.</p>
                     
+                    
                     <h2>✨ Key Features</h2>
                     <ul>
                         <li>Users can enter a username and a "Room ID".</li>
@@ -151,10 +152,10 @@
                         <li>Messages sent by one user are broadcasted instantly to all other users in that room.</li>
                         <li>A "User has joined" or "User has left" notification will be displayed.</li>
                     </ul>
-                    
+
                     <h2>💻 Tech Stack & Skills</h2>
                     <ul>
-                        <li><strong>Tech Stack:</strong> React (Frontend), Node.js/Express (Backend), Socket.io (WebSockets).</li>
+                        <li><strong>Tech Stack:</strong> React (Frontend), Node.js/Express (Backend), `socket.io` (for WebSockets), `socket.io-client` (React client).</li>
                         <li><strong>Skills Practiced:</strong> Real-time Communication, WebSocket Event Handling (joining rooms, broadcasting messages), Backend API setup, Frontend State Management (handling live data).</li>
                     </ul>
                     
@@ -177,54 +178,422 @@
                         </div>
                     </div>
 
+                    <h2>🛠️ Full Step-by-Step Tutorial</h2>
 
-                    <h3>Backend Features (The Socket.io Server)</h3>
+                    <h3>Part 1: The Backend (Node.js & Socket.io Server)</h3>
+
+                    <p><strong>Step 1.1: Setup Project</strong></p>
                     <ol>
-                        <li><strong>Server Setup:</strong> Initialize a standard Node.js & Express server.</li>
-                        <li><strong>Integrate Socket.io:</strong> Attach `socket.io` to your Express server.</li>
-                        <li><strong>Connection Event:</strong> Listen for the main `'connection'` event to know when a new user has opened the app.</li>
-                        <li><strong>Room Management:</strong>
-                            <ul>
-                                <li>Create a `'join_room'` event listener. When a user emits this event, use `socket.join(roomName)` to add them to a specific chat room.</li>
-                                <li>Broadcast a "User has joined" message to others in the room.</li>
-                            </ul>
+                        <li>Create a <code>backend</code> folder, run <code>npm init -y</code>.</li>
+                        <li>Install dependencies: <br>
+                            <code>npm install express socket.io cors nodemon</code>
                         </li>
-                        <li><strong>Message Broadcasting:</strong>
-                            <ul>
-                                <li>Create a `'send_message'` event listener.</li>
-                                <li>When a user sends a message, use `io.to(roomName).emit('receive_message', ...)` to send that message *only* to users in the same room.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Disconnect Event:</strong> Listen for the built-in `'disconnect'` event to broadcast "User has left" when someone closes the app.</li>
                     </ol>
                     
-                    <h3>Frontend Features (The React App)</h3>
+                    <p><strong>Step 1.2: Create the Server (`index.js`)</strong></p>
+                    <p>This is the only file we need for this simple backend. It creates an Express server, attaches Socket.io to it, and defines all the chat logic.</p>
+                    [attachment_0](attachment)
+
+                    <span class="code-filename">backend/index.js</span>
+                    <pre><code>const express = require('express');
+const http = require('http');
+const { Server } = require("socket.io");
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+
+const server = http.createServer(app);
+
+// Initialize Socket.io server
+const io = new Server(server, {
+    cors: {
+        origin: "http://localhost:3000", // Your React app's URL
+        methods: ["GET", "POST"],
+    },
+});
+
+// --- Socket.io Logic ---
+io.on('connection', (socket) => {
+    console.log(`User Connected: ${socket.id}`);
+
+    // 1. Logic to join a room
+    socket.on('join_room', (data) => {
+        socket.join(data.room);
+        console.log(`User ${socket.id} joined room ${data.room}`);
+        // Notify others in the room
+        socket.to(data.room).emit('user_joined', { username: data.username });
+    });
+
+    // 2. Logic to handle sending a message
+    socket.on('send_message', (data) => {
+        // Broadcast the received message to everyone in that room
+        io.to(data.room).emit('receive_message', data);
+    });
+
+    // 3. Logic for disconnection
+    socket.on('disconnect', () => {
+        console.log(`User Disconnected: ${socket.id}`);
+        // (We can add logic here to notify rooms if we store which user is in which room)
+    });
+});
+// --- End Socket.io Logic ---
+
+
+server.listen(5000, () => {
+    console.log('Server is running on port 5000');
+});
+</code></pre>
+                    <p>Your backend is now complete! Run it with <code>nodemon index.js</code>.</p>
+
+
+                    <h3>Part 2: The Frontend (React App)</h3>
+
+                    <p><strong>Step 2.1: Setup Project</strong></p>
                     <ol>
-                        <li><strong>Components:</strong> Create components like `JoinForm` (to ask for username and room ID) and `ChatPage` (which shows the chat messages and input).</li>
-                        <li><strong>Socket.io Client:</strong> Install `socket.io-client`. In your React app, establish a connection to your backend server.</li>
-                        <li><strong>Emitting Events:</strong>
-                            <ul>
-                                <li>When the user joins, `socket.emit('join_room', ...)` with the room name.</li>
-                                <li>When the user sends a message, `socket.emit('send_message', ...)` with the message content.</li>
-                            </ul>
+                        <li>Create a <code>frontend</code> app: <code>npx create-react-app frontend</code>.</li>
+                        <li>Install libraries: <br>
+                            <code>npm install socket.io-client react-router-dom</code>
                         </li>
-                        <li><strong>Listening for Events:</strong>
-                            <ul>
-                                <li>Use the `useEffect` hook to set up event listeners *once*.</li>
-                                <li>Listen for `'receive_message'` from the server. When a new message arrives, add it to a state array (e.g., `const [messages, setMessages] = useState([])`).</li>
-                                <li>This state array will automatically re-render the chat UI.</li>
-                            </ul>
-                        </li>
-                        <li><strong>State Management:</strong> Use `useState` to manage the list of all messages and the user's current typed message in the input box.</li>
                     </ol>
 
+                    <p><strong>Step 2.2: Create Socket.io Helper (`socket.js`)</strong></p>
+                    <p>It's good practice to create one single socket connection. Create <code>frontend/src/socket.js</code>.</p>
+                    
+                    <span class="code-filename">frontend/src/socket.js</span>
+                    <pre><code>import { io } from 'socket.io-client';
+
+// Connect to your backend server
+const socket = io('http://localhost:5000');
+
+export default socket;
+</code></pre>
+
+                    <p><strong>Step 2.3: Setup Routing (`App.js`)</strong></p>
+                    <p>We need two pages: a "Join" page and the "Chat" page.</p>
+                    
+                    <span class="code-filename">frontend/src/App.js</span>
+                    <pre><code>import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import JoinPage from './components/JoinPage';
+import ChatRoom from './components/ChatRoom';
+import './App.css'; // We'll create this
+
+function App() {
+    const [username, setUsername] = useState('');
+    const [room, setRoom] = useState('');
+
+    return (
+        <Router>
+            <div className="App">
+                <Routes>
+                    <Route 
+                        path="/" 
+                        element={<JoinPage 
+                                    setUsername={setUsername} 
+                                    setRoom={setRoom} 
+                                />} 
+                    />
+                    <Route 
+                        path="/chat" 
+                        element={<ChatRoom 
+                                    username={username} 
+                                    room={room} 
+                                />} 
+                    />
+                </Routes>
+            </div>
+        </Router>
+    );
+}
+
+export default App;
+</code></pre>
+
+                    <p><strong>Step 2.4: Create `JoinPage.js` Component</strong></p>
+                    <p>Create <code>frontend/src/components/JoinPage.js</code>.</p>
+                    
+                    <span class="code-filename">frontend/src/components/JoinPage.js</span>
+                    <pre><code>import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import socket from '../socket'; // Import our socket connection
+
+function JoinPage({ setUsername, setRoom }) {
+    const [nameInput, setNameInput] = useState('');
+    const [roomInput, setRoomInput] = useState('');
+    const navigate = useNavigate();
+
+    const joinChat = () => {
+        if (nameInput.trim() && roomInput.trim()) {
+            // Set username and room in App.js state
+            setUsername(nameInput);
+            setRoom(roomInput);
+            
+            // Emit "join_room" event to server
+            socket.emit('join_room', { username: nameInput, room: roomInput });
+            
+            // Navigate to the chat room
+            navigate('/chat');
+        }
+    };
+
+    return (
+        <div className="join-container content-body">
+            <div className="content-header" style={{border: 'none', padding: 0}}>
+                <h1>Join a <span className="highlight">Chat Room</span></h1>
+            </div>
+            <input
+                type="text"
+                placeholder="Enter your name..."
+                onChange={(e) => setNameInput(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="Enter room ID..."
+                onChange={(e) => setRoomInput(e.target.value)}
+            />
+            <button onClick={joinChat} className="cta-button">Join</button>
+        </div>
+    );
+}
+
+export default JoinPage;
+</code></pre>
+
+                    <p><strong>Step 2.5: Create `ChatRoom.js` Component</strong></p>
+                    <p>Create <code>frontend/src/components/ChatRoom.js</code>. This is where the main chat logic lives.</p>
+                    
+                    <span class="code-filename">frontend/src/components/ChatRoom.js</span>
+                    <pre><code>import React, { useState, useEffect, useRef } from 'react';
+import socket from '../socket'; // Import our socket connection
+
+function ChatRoom({ username, room }) {
+    const [currentMessage, setCurrentMessage] = useState('');
+    const [messageList, setMessageList] = useState([]);
+    const messagesEndRef = useRef(null); // To auto-scroll
+
+    const sendMessage = async () => {
+        if (currentMessage.trim()) {
+            const messageData = {
+                room: room,
+                author: username,
+                message: currentMessage,
+                time: new Date().toLocaleTimeString(),
+            };
+
+            await socket.emit('send_message', messageData);
+            // We'll receive this message back via 'receive_message'
+            setCurrentMessage('');
+        }
+    };
+
+    // This useEffect listens for incoming messages
+    useEffect(() => {
+        const messageListener = (data) => {
+            setMessageList((list) => [...list, data]);
+        };
+        const joinListener = (data) => {
+            const joinMessage = {
+                author: 'System',
+                message: `${data.username} has joined the room.`,
+                time: new Date().toLocaleTimeString(),
+            };
+            setMessageList((list) => [...list, joinMessage]);
+        };
+
+        socket.on('receive_message', messageListener);
+        socket.on('user_joined', joinListener);
+
+        // Cleanup function to remove listener
+        return () => {
+            socket.off('receive_message', messageListener);
+            socket.off('user_joined', joinListener);
+        };
+    }, []);
+
+    // This useEffect handles auto-scrolling
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messageList]);
+
+
+    return (
+        <div className="chat-window">
+            <div className="chat-header">
+                <h3>Live Chat: Room '{room}'</h3>
+            </div>
+            <div className="chat-body">
+                {messageList.map((msg, index) => (
+                    <div 
+                        key={index} 
+                        className="message"
+                        id={username === msg.author ? 'you' : 'other'}
+                    >
+                        <div className="message-content">
+                            <p>{msg.message}</p>
+                        </div>
+                        <div className="message-meta">
+                            <span>{msg.author}</span>
+                            <span>{msg.time}</span>
+                        </div>
+                    </div>
+                ))}
+                <div ref={messagesEndRef} />
+            </div>
+            <div className="chat-footer">
+                <input 
+                    type="text" 
+                    value={currentMessage}
+                    placeholder="Type a message..."
+                    onChange={(e) => setCurrentMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                />
+                <button onClick={sendMessage}>&#9658;</button>
+            </div>
+        </div>
+    );
+}
+
+export default ChatRoom;
+</code></pre>
+
+                    <p><strong>Step 2.6: Basic Styling (`App.css`)</strong></p>
+                    <p>Create <code>frontend/src/App.css</code> to make it look like a chat app.</p>
+                    
+                    <span class="code-filename">frontend/src/App.css</span>
+                    <pre><code>.App {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #020617;
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- Join Page --- */
+.join-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 350px;
+}
+.join-container input {
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #fff;
+}
+.join-container .cta-button {
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+/* --- Chat Window --- */
+.chat-window {
+    width: 500px;
+    height: 600px;
+    background-color: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+.chat-header {
+    background-color: #1e293b;
+    padding: 15px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.chat-header h3 {
+    margin: 0;
+    color: #fff;
+}
+.chat-body {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    color: #cbd5e1;
+}
+.message {
+    margin-bottom: 15px;
+    display: flex;
+}
+.message-content {
+    max-width: 70%;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+.message-meta {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 3px;
+}
+
+/* Message alignment */
+#you {
+    justify-content: flex-end;
+}
+#you .message-content {
+    background-color: #a78bfa;
+    color: #fff;
+}
+#you .message-meta {
+    text-align: right;
+}
+
+#other {
+    justify-content: flex-start;
+}
+#other .message-content {
+    background-color: #334155;
+    color: #e2e8f0;
+}
+
+/* System Message */
+#other .message-content p:first-child:contains("System") {
+    font-style: italic;
+    color: #94a3b8;
+}
+
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #1e293b;
+}
+.chat-footer input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #fff;
+    margin-right: 10px;
+}
+.chat-footer button {
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background: #a78bfa;
+    color: #fff;
+    cursor: pointer;
+}
+</code></pre>
+
+                    <p>Done! Ab aapke dono backend aur frontend servers ko chalaayein. Aap `localhost:3000` par jaakar ek room join kar sakte hain (aur kisi doosre browser tab mein bhi same room join karke) real-time chat kar sakte hain!</p>
+
                     <h2>🔥 Next Steps & Challenges</h2>
-                    <p>After completing the project, try these ideas to make it even better:</p>
+                    <p>After completing this tutorial, try these ideas:</p>
                     <ul>
-                        <li>**Typing Indicators:** Show when another user is typing.</li>
-                        <li>**User List:** Display a list of all active users in the room.</li>
-                        <li>**Private Messaging:** Add the ability for users to message each other one-to-one.</li>
-                        <li>**Database Integration:** Save messages in MongoDB to maintain chat history.</li>
+                        <li>**Typing Indicators:** Emit a "typing" event to the server to show when another user is typing.</li>
+                        <li>**User List:** Show a list of all active users currently in the room.</li>
+                        <li>**Disconnect Notification:** Logic to inform the room when a user (e.g., "MSMAXPRO") has disconnected.</li>
+                        <li>**Database Integration:** Save all messages to a MongoDB database so the chat history is persistent.</li>
                     </ul>
                     
                     <div class="next-step-link">
