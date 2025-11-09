@@ -19,6 +19,87 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        /* --- Styles from your project-blog.html template --- */
+        .content-container {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        .content-body {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #0f172a; /* Card background */
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            color: #cbd5e1; /* Default text color */
+        }
+        .content-header {
+            text-align: center;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .content-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .content-header .content-meta {
+            font-size: 1.25rem;
+            color: #94a3b8;
+        }
+        .content-body p, .content-body li {
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .content-body h2 {
+            color: #fff;
+            font-size: 2rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        .content-body h3 {
+            color: #e2e8f0;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .content-body ul, .content-body ol {
+            padding-left: 25px;
+        }
+        .content-body strong {
+            color: #e2e8f0;
+        }
+        .next-step-link {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Tech stack icons style */
+        .tech-stack-icons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .tech-stack-icons .tech-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .tech-stack-icons img {
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -30,7 +111,6 @@
                     <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
@@ -40,7 +120,6 @@
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
-                
                 <div class="hamburger">
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -52,22 +131,55 @@
 
     <main>
         <section class="content-container">
-            <div class="container"> <article class="content-body">
+            <div class="container"> 
+                <article class="content-body">
                     <div class="content-header">
                         <h1>Project Idea: <span class="highlight">Full Stack Blog</span></h1>
                         <p class="content-meta">Build a complete MERN stack blogging platform.</p>
                     </div>
 
-                    <p>A complete blog where users can register, log in, create their own posts, and view posts from others. This is a fantastic portfolio project that demonstrates all the core full-stack skills.</p>
+                    <p>A complete blog where users can register, log in, create their own posts, and view posts from others. This is a fantastic portfolio project that demonstrates all the core full-stack skills: authentication, database relationships, and full CRUD operations.</p>
+                    
+                    <h2>✨ Key Features</h2>
                     <ul>
-                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), JWT for authentication.</li>
-                        <li><strong>Skills Practiced:</strong> Full CRUD API, User Authentication, Password Hashing, Protected Routes, State Management in React, Fetching Data.</li>
+                        <li>Secure user registration and login with JWT (JSON Web Tokens).</li>
+                        <li>Full Create, Read, Update, Delete (CRUD) functionality for blog posts.</li>
+                        <li>Protected routes: Only logged-in users can create posts.</li>
+                        <li>Authorization: Only the author of a post can edit or delete it.</li>
+                        <li>A public homepage to read all posts.</li>
                     </ul>
 
-                    <h3>Backend Features (The API):</h3>
+                    <h2>💻 Tech Stack & Skills</h2>
+                    <ul>
+                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), JWT for authentication.</li>
+                        <li><strong>Skills Practiced:</strong> Full CRUD API, User Authentication, Password Hashing (`bcrypt`), Protected Routes (Middleware), State Management (Context API), Relational Data (linking posts to users).</li>
+                    </ul>
+
+                    
+                    <div class="tech-stack-icons">
+                        <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB">
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express">
+                            <span>Express</span>
+                        </div>
+                        <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React">
+                            <span>React</span>
+                        </div>
+                         <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js">
+                            <span>Node.js</span>
+                        </div>
+                    </div>
+
+
+                    <h3>Backend Features (The API)</h3>
                     <ol>
                         <li><strong>User Model:</strong> Create a Mongoose schema for `User` with `username`, `email`, and `password`.</li>
-                        <li><strong>Post Model:</strong> Create a Mongoose schema for `Post` with `title`, `content`, `author` (linking to a User ID), and `createdAt`.</li>
+                        <li><strong>Post Model:</strong> Create a Mongoose schema for `Post` with `title`, `content`, `author` (linking to a User ID using `mongoose.Schema.Types.ObjectId`), and `createdAt`.</li>
                         <li><strong>Auth Routes:</strong>
                             <ul>
                                 <li>`POST /api/auth/signup`: Hashes password with `bcrypt` and creates a new user.</li>
@@ -76,7 +188,7 @@
                         </li>
                         <li><strong>Post Routes (CRUD):</strong>
                             <ul>
-                                <li>`GET /api/posts`: Fetches all blog posts.</li>
+                                <li>`GET /api/posts`: Fetches all blog posts (and populate author info).</li>
                                 <li>`GET /api/posts/:id`: Fetches a single post by its ID.</li>
                                 <li>`POST /api/posts`: A <strong>protected route</strong>. Creates a new post. The user ID from the JWT should be saved as the `author`.</li>
                                 <li>`PATCH /api/posts/:id`: A <strong>protected route</strong>. Updates a post. Add logic to ensure only the original author can edit their own post.</li>
@@ -86,76 +198,41 @@
                         <li><strong>Middleware:</strong> Create an `authenticateToken` middleware to protect the POST, PATCH, and DELETE routes by verifying the JWT.</li>
                     </ol>
                     
-                    <h3>Frontend Features (The React App):</h3>
+                    <h3>Frontend Features (The React App)</h3>
                     <ol>
                         <li><strong>Components:</strong> Create components like `Navbar`, `PostList`, `PostDetail`, `CreatePostForm`, `LoginForm`, `SignupForm`.</li>
                         <li><strong>Routing:</strong> Use a library like `React Router` to create different pages (`/`, `/posts/:id`, `/login`, `/signup`, `/create-post`).</li>
-                        <li><strong>State Management:</strong> Use `useState` and `useEffect` hooks. For managing login status across the app, consider using `useContext`.</li>
+                        <li><strong>State Management:</strong> Use `useState` and `useEffect` hooks. For managing login status across the app, consider using `useContext` to create an `AuthContext`.</li>
                         <li><strong>API Calls:</strong> Use `fetch()` or `axios` to make requests to your backend API.
                             <ul>
                                 <li>Fetch all posts on the homepage.</li>
                                 <li>Send user details to `/signup` or `/login`.</li>
-                                <li>When a user logs in, save the received JWT to `localStorage`.</li>
-                                <li>For every request to a protected API route, include the JWT in the `Authorization` header.</li>
+                                <li>When a user logs in, save the received JWT to `localStorage` and update the `AuthContext`.</li>
+                                <li>For every request to a protected API route, include the JWT in the `Authorization` header (e.g., `Bearer ${token}`).</li>
                             </ul>
                         </li>
-                        <li><strong>Protected Routes:</strong> In React, create a component that checks if a user is logged in (by checking for the JWT in `localStorage`). If not, redirect them to the login page.</li>
+                        <li><strong>Protected Routes:</strong> In React, create a component (e.g., `<ProtectedRoute>`) that checks if a user is logged in (via `AuthContext`). If not, redirect them to the login page using `<Navigate>`.</li>
                     </ol>
+
+                    <h2>🔥 Next Steps & Challenges</h2>
+                    <p>After completing the base project, challenge yourself with these features:</p>
+                    <ul>
+                        <li>**Comment System:** Allow logged-in users to comment on posts.</li>
+                        <li>**Rich Text Editor:** Replace the simple `textarea` with a rich text editor like `React Quill` or `TipTap` to allow bold, italics, and lists.</li>
+                        <li>**File Uploads:** Allow authors to upload a "cover image" for their blog post.</li>
+                        <li>**Categories & Tags:** Add the ability to categorize posts and filter by tag.</li>
+                    </ul>
+
                     <div class="next-step-link" style="text-align: center; margin-top: 50px;">
                         <a href="projects.html" class="cta-button">&larr; Back to All Project Ideas</a>
                     </div>
                 </article>
             </div>
         </section>
-        </main>
+    </main>
 
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-        <div class="container" style="max-width: 1100px;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
-                
-                <div class="footer-column">
-                    <a href="index.html" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
-                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                        <span>CodeWithMSMAXPRO</span>
-                    </a>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
-                        <li style="margin-bottom: 10px;"><a href="blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
-                        <li style="margin-bottom: 10px;"><a href="projects.html" style="color: #94a3b8; text-decoration: none;">Project Ideas</a></li>
-                        <li style="margin-bottom: 10px;"><a href="portfolio.html" style="color: #94a3b8; text-decoration: none;">Portfolio</a></li>
-                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
-                    <div class="social-links" style="display: flex; gap: 15px;">
-                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </a>
-                        <a href="#" target="_blank" title="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="#" target="_blank" title="Twitter/X">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        </a>
-                        <a href="#" target="_blank" title="Telegram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
-                <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+        </footer>
     
     <script src="app.js"></script> 
 
