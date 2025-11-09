@@ -111,6 +111,33 @@
                 grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
             }
         }
+        /* --- Search Bar Style --- */
+        .search-bar-container {
+            max-width: 800px; /* Taaki yeh header ke width se match kare */
+            margin: -20px auto 50px auto; /* Header ke neeche aur grid ke upar */
+        }
+
+        .blog-search {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background-color: #1e293b;
+            color: #fff;
+            box-sizing: border-box; /* Padding ko width mein include karne ke liye */
+        }
+
+        .blog-search::placeholder {
+            color: #94a3b8;
+        }
+
+        .blog-search:focus {
+            outline: none;
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px #a78bfa30;
+        }
+
     </style>
     </head>
 
@@ -155,7 +182,25 @@
                         Welcome to my personal blog. Here I share my learnings, step-by-step guides, and thoughts on web development, from React to Python.
                     </p>
                 </div>
+ <main>
+        
+        <section class="blog-list-section">
+            <div class="container">
+                
+                <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
+                    <h1>All <span class="highlight">Posts</span></h1>
+                    <p class="content-meta" style="font-size: 1.15rem; line-height: 1.7;">
+                        Welcome to my personal blog. Here I share my learnings, step-by-step guides, and thoughts on web development, from React to Python.
+                    </p>
+                </div>
 
+                <div class="search-bar-container">
+                    <input type="text" id="blogSearchInput" class="blog-search" placeholder="Search for posts by title...">
+                </div>
+
+                <div class="blog-grid">
+                    
+                    <div class="blog-post-card">
                 <div class="blog-grid">
                     
                     <div class="blog-post-card">
@@ -262,9 +307,41 @@
                 <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
             </div>
         </div>
-    </footer>
+        </footer>
     
     <script src="app.js"></script>
 
-</body>
+    <script>
+        // 1. Saare zaroori elements ko select karo
+        const searchInput = document.getElementById('blogSearchInput');
+        const blogGrid = document.querySelector('.blog-grid');
+        // Saare blog cards ko select karo
+        const allPosts = blogGrid.querySelectorAll('.blog-post-card');
+
+        // 2. Search input par 'input' event listener lagao
+        searchInput.addEventListener('input', function(e) {
+            
+            // User jo type kar raha hai, use lowercase mein le lo
+            const searchTerm = e.target.value.toLowerCase();
+
+            // 3. Har ek post card par loop chalao
+            allPosts.forEach(post => {
+                
+                // 4. Har card ka 'h3' title dhoondo
+                const titleElement = post.querySelector('h3');
+                
+                if (titleElement) {
+                    const title = titleElement.textContent.toLowerCase();
+
+                    // 5. Check karo ki title mein search term hai ya nahi
+                    if (title.includes(searchTerm)) {
+                        post.style.display = 'block'; // Agar hai, toh card ko dikhao
+                    } else {
+                        post.style.display = 'none'; // Agar nahi hai, toh hide kar do
+                    }
+                }
+            });
+        });
+    </script>
+    </body>
 </html>
