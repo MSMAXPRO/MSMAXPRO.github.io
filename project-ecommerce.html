@@ -100,35 +100,38 @@
             width: 50px;
             object-fit: contain;
         }
-
+        
+        /* --- Code Block Styles --- */
+        .content-body pre {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .content-body code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .content-body .code-filename {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: -15px;
+            padding: 8px 15px;
+            background: #334155;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <main>
         <section class="content-container">
@@ -153,8 +156,8 @@
 
                     <h2>💻 Tech Stack & Skills</h2>
                     <ul>
-                        <li><strong>Tech Stack:</strong> React, React Router, Context API.</li>
-                        <li><strong>Skills Practiced:</strong> Global State Management, `useContext` hook, `useReducer` (optional), avoiding prop-drilling, React Router for navigation, managing complex app-wide state.</li>
+                        <li><strong>Tech Stack:</strong> React, React Router, Context API, `useReducer` hook.</li>
+                        <li><strong>Skills Practiced:</strong> Global State Management, `useContext` hook, `useReducer` hook, avoiding prop-drilling, React Router for navigation, managing complex app-wide state.</li>
                     </ul>
                     
                     <div class="tech-stack-icons">
@@ -171,44 +174,277 @@
                             <span>Context API</span>
                         </div>
                     </div>
-
-
-                    <h3>Frontend Features (The React App)</h3>
-                    <ol>
-                        <li><strong>Routing Setup:</strong> Use `react-router-dom` to create two main routes: `/` (ProductsPage) and `/cart` (CartPage). Create a `Navbar` component that links to both.</li>
-                        <li><strong>Context API Setup:</strong>
-                            <ul>
-                                <li>Create a `CartContext.js` file.</li>
-                                <li>Use `createContext()` to initialize a new context.</li>
-                                <li>Create a `CartProvider` component that will wrap your entire application.</li>
-                                <li>Inside the provider, use `useState` or `useReducer` to manage the `cartItems` state.</li>
-                                <li>Create functions like `addToCart`, `removeFromCart` and pass them in the context `value`.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Products Page Component:</strong>
-                            <ul>
-                                <li>Create a list of dummy product data (as an array of objects).</li>
-                                <li>Map over this array to display each product.</li>
-                                <li>Import the `useContext(CartContext)` hook and call the `addToCart` function on button click.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Cart Page Component:</strong>
-                            <ul>
-                                <li>Use `useContext(CartContext)` to access the `cartItems` state array.</li>
-                                <li>Map over the array to display the items in the cart.</li>
-                                <li>Add functionality to call `removeFromCart`.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Navbar Component:</strong> Use `useContext` again to access `cartItems.length` and display the number of items in the cart badge.</li>
-                    </ol>
                     
+                    <h2>🛠️ Full Step-by-Step Tutorial</h2>
+                    
+                    <p>Let's build this. This tutorial assumes you have a React app set up with `react-router-dom` installed (`npm i react-router-dom`).</p>
+
+                    <h3>Step 1: File Structure</h3>
+                    <p>In your <code>src</code> folder, create a structure like this:</p>
+                    <pre><code>/src
+  /components
+    - Navbar.js
+    - ProductList.js
+    - CartPage.js
+  /context
+    - CartContext.js
+  - App.js
+  - index.js
+  - style.css (Your main CSS)
+</code></pre>
+
+                    <h3>Step 2: Create the Cart Context (`CartContext.js`)</h3>
+                    <p>This is the heart of our app. We'll use `useReducer` because it's better for managing complex state (like a cart) than `useState`.</p>
+                    
+                    
+                    <span class="code-filename">src/context/CartContext.js</span>
+                    <pre><code>import React, { createContext, useContext, useReducer } from 'react';
+
+// 1. Define the initial state
+const initialState = {
+    items: [],
+};
+
+// 2. Create the reducer function
+const cartReducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TO_CART':
+            // (Add logic to handle duplicates if you want)
+            return {
+                ...state,
+                items: [...state.items, action.payload],
+            };
+        case 'REMOVE_FROM_CART':
+            return {
+                ...state,
+                items: state.items.filter(item => item.id !== action.payload.id),
+            };
+        default:
+            return state;
+    }
+};
+
+// 3. Create the Context
+export const CartContext = createContext();
+
+// 4. Create the Provider Component
+export const CartProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(cartReducer, initialState);
+
+    return (
+        <CartContext.Provider value={{ state, dispatch }}>
+            {children}
+        </CartContext.Provider>
+    );
+};
+
+// 5. Create a custom hook for easy access
+export const useCart = () => {
+    return useContext(CartContext);
+};
+</code></pre>
+
+                    <h3>Step 3: Wrap Your App (`index.js`)</h3>
+                    <p>Now we must "provide" this context to our entire app.</p>
+
+                    <span class="code-filename">src/index.js</span>
+                    <pre><code>import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { CartProvider } from './context/CartContext';
+import { BrowserRouter } from 'react-router-dom';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <CartProvider>
+        <App />
+      </CartProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+</code></pre>
+
+                    <h3>Step 4: Setup Routing (`App.js`)</h3>
+                    <p>Let's set up the pages for our app.</p>
+
+                    <span class="code-filename">src/App.js</span>
+                    <pre><code>import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import ProductList from './components/ProductList';
+import CartPage from './components/CartPage';
+import './style.css'; // Assuming you have main styles
+
+function App() {
+  return (
+    <div className="App">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<ProductList />} />
+        <Route path="/cart" element={<CartPage />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
+</code></pre>
+
+                    <h3>Step 5: Create the `ProductList.js` Component</h3>
+                    <p>This component will show our products and let users add them to the cart.</p>
+
+                    <span class="code-filename">src/components/ProductList.js</span>
+                    <pre><code>import React from 'react';
+import { useCart } from '../context/CartContext';
+
+// Dummy product data
+const dummyProducts = [
+    { id: 1, name: 'React T-Shirt', price: 25 },
+    { id: 2, name: 'Node.js Hoodie', price: 45 },
+    { id: 3, name: 'JavaScript Mug', price: 15 },
+];
+
+function ProductList() {
+    // Get the dispatch function from our context
+    const { dispatch } = useCart();
+
+    const handleAddToCart = (product) => {
+        dispatch({
+            type: 'ADD_TO_CART',
+            payload: product,
+        });
+    };
+
+    return (
+        <div className="container" style={{padding: '20px'}}>
+            <h2>Products</h2>
+            <div className="product-grid" style={{display: 'flex', gap: '20px'}}>
+                {dummyProducts.map(product => (
+                    <div key={product.id} className="idea-card" style={{width: '250px'}}>
+                        <div className="project-content">
+                            <h3 className="project-title">{product.name}</h3>
+                            <p>${product.price}</p>
+                            <button 
+                                className="cta-button" 
+                                onClick={() => handleAddToCart(product)}
+                            >
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+export default ProductList;
+</code></pre>
+
+                    <h3>Step 6: Create the `CartPage.js` Component</h3>
+                    <p>This page will show items in the cart and let users remove them.</p>
+                    
+                    <span class="code-filename">src/components/CartPage.js</span>
+                    <pre><code>import React from 'react';
+import { useCart } from '../context/CartContext';
+
+function CartPage() {
+    // Get both state and dispatch from our context
+    const { state, dispatch } = useCart();
+
+    const handleRemove = (item) => {
+        dispatch({
+            type: 'REMOVE_FROM_CART',
+            payload: item,
+        });
+    };
+
+    const totalPrice = state.items.reduce((total, item) => total + item.price, 0);
+
+    return (
+        <div className="container" style={{padding: '20px'}}>
+            <h2>My Cart</h2>
+            {state.items.length === 0 ? (
+                <p>Your cart is empty.</p>
+            ) : (
+                <div>
+                    {state.items.map(item => (
+                        <div key={item.id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px'}}>
+                            <span>{item.name} - ${item.price}</span>
+                            <button 
+                                onClick={() => handleRemove(item)}
+                                style={{background: '#f43f5e', color: 'white', border: 'none', padding: '5px 10px', borderRadius: '5px', cursor: 'pointer'}}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    ))}
+                    <hr />
+                    <h3 style={{color: 'white'}}>Total: ${totalPrice}</h3>
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default CartPage;
+</code></pre>
+
+                    <h3>Step 7: Update the `Navbar.js` Component</h3>
+                    <p>Finally, let's show the cart count in the navbar.</p>
+
+                    <span class="code-filename">src/components/Navbar.js</span>
+                    <pre><code>import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+
+function Navbar() {
+    // Get the cart state
+    const { state } = useCart();
+    const cartCount = state.items.length;
+
+    return (
+        <header>
+            <div className="container">
+                <nav>
+                    <Link to="/" className="logo">
+                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo" />
+                        <span>CodeWithMSMAXPRO</span>
+                    </Link>
+                    
+                    <ul className="nav-links">
+                        <li><Link to="/">Home</Link></li>
+                        {/* ... your other links ... */}
+                        <li><Link to="/contact">Contact</Link></li>
+                        <li style={{background: '#a78bfa', borderRadius: '8px'}}>
+                            <Link to="/cart" style={{color: 'white', fontWeight: 'bold'}}>
+                                Cart ({cartCount})
+                            </Link>
+                        </li>
+                    </ul>
+                    
+                    <div className="hamburger">
+                        {/* ... hamburger lines ... */}
+                    </div>
+                </nav>
+            </div>
+        </header>
+    );
+}
+
+export default Navbar;
+</code></pre>
+
+                    <p>Aur yeh ho gaya! Ab aapke paas ek fully functional cart system hai jo poori app mein kahin se bhi access ho sakta hai.</p>
+
                     <h2>🔥 Next Steps & Challenges</h2>
-                    <p>After completing the project, try these ideas:</p>
+                    <p>After completing this tutorial, try these ideas:</p>
                     <ul>
-                        <li><strong>Use `useReducer`:</strong> For more complex state, convert your `useState` logic in the context to a `useReducer` hook.</li>
-                        <li>**Quantity:** Add a feature to increase or decrease item quantity on the cart page.</li>
-                        <li>**Local Storage:** Save the cart items to `localStorage` so the cart isn't empty after a page reload.</li>
-                        <li>**Backend:** Fetch products from a fake API (like `fakestoreapi.com`) instead of using dummy data.</li>
+                        <li>**Handle Quantity:** Abhi humara cart sirf item add karta hai. Logic update karein taaki agar item pehle se cart mein hai, toh uski quantity badhe.</li>
+                        <li>**Local Storage:** Cart items ko `localStorage` mein save karein taaki page reload hone par bhi cart khali na ho.</li>
+                        <li>**Backend:** Ek fake API (like `fakestoreapi.com`) se products fetch karein instead of using dummy data.</li>
                     </ul>
                     
                     <div class="next-step-link">
