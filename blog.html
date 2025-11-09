@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style.css">
 
     <style>
         /* --- Blog Page Styles --- */
@@ -22,67 +22,9 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* --- 1. Featured Post Section --- */
-        .blog-featured {
-            /* padding: 60px 0; (Replaced by intro section's padding) */
-            padding-bottom: 60px;
-            background-color: #0f172a; /* Card background */
-            border-bottom: 1px solid #1e293b;
-        }
-
-        .featured-card {
-            display: grid;
-            grid-template-columns: 1fr; /* Stacked on mobile */
-            gap: 30px;
-            align-items: center;
-        }
-
-        .featured-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
-        }
-
-        /* Specific rule to override style.css */
-        section.blog-featured .featured-content .tag {
-            display: inline-block;
-            background-color: #a78bfa30;
-            color: #c4b5fd;
-            padding: 5px 15px;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .featured-content h2 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin: 0 0 15px 0;
-        }
-
-        .featured-content p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
-
-        /* --- 2. Blog List Section --- */
+        /* --- 1. Blog List Section --- */
         .blog-list-section {
-            padding: 80px 0;
-        }
-
-        .blog-list-header {
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        .blog-list-header h2 {
-            font-size: 2.5rem;
-            color: #fff;
+            padding: 60px 0 80px 0; /* Added padding-top */
         }
 
         .blog-grid {
@@ -91,7 +33,7 @@
             gap: 30px;
         }
 
-        /* --- 3. Upgraded Blog Card --- */
+        /* --- 2. Upgraded Blog Card --- */
         /* Specific rule to override style.css */
         section.blog-list-section .blog-post-card {
             background-color: #0f172a;
@@ -159,10 +101,6 @@
 
         /* --- Media Queries for Grid --- */
         @media (min-width: 768px) {
-            .featured-card {
-                grid-template-columns: 1.5fr 1fr; /* Image left, text right */
-            }
-            
             .blog-grid {
                 grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
             }
@@ -174,6 +112,8 @@
             }
         }
     </style>
+    </head>
+
     </head>
 <body>
 
@@ -204,45 +144,34 @@
         </div>
     </header>
 
-    <main>
+        <main>
         
-        <section class="blog-intro-section" style="padding-top: 60px;">
-            <div class="container">
-                <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
-                    <h1>The <span class="highlight">Blog</span></h1>
-                    <p class="content-meta" style="font-size: 1.15rem; line-height: 1.7;">
-                        Welcome to my personal blog. Here I share my learnings, step-by-step guides, and thoughts on web development, from React to Python. My goal is to break down complex topics into simple, easy-to-understand articles.
-                    </p>
-                </div>
-            </div>
-        </section>
-        
-        <section class="blog-featured">
-            <div class="container">
-                <div class="featured-card">
-                    
-                    <div class="featured-image">
-                        <img src="images/Blog/post-github-pack.jpg" alt="GitHub Student Developer Pack">
-                    </div>
-                    
-                    <div class="featured-content">
-                        <span class="tag">Guide</span>
-                        <h2>How to Get the GitHub Student Developer Pack? (Step-by-Step)</h2>
-                        <p>In this post, I'll share my personal experience and a detailed guide on how you can get thousands of dollars worth of developer tools for free.</p>
-                        <a href="post-github-pack.html" class="cta-button">Read Full Article</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section class="blog-list-section">
             <div class="container">
-                <div class="blog-list-header">
-                    <h2>All Posts</h2>
+                
+                <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
+                    <h1>All <span class="highlight">Posts</span></h1>
+                    <p class="content-meta" style="font-size: 1.15rem; line-height: 1.7;">
+                        Welcome to my personal blog. Here I share my learnings, step-by-step guides, and thoughts on web development, from React to Python.
+                    </p>
                 </div>
 
                 <div class="blog-grid">
                     
+                    <div class="blog-post-card">
+                        <div class="blog-card-image">
+                            <img src="images/Blog/post-github-pack.jpg" alt="GitHub Student Developer Pack">
+                        </div>
+                        <div class="blog-card-content">
+                            <div class="blog-card-tags">
+                                <span class="tag">Guide</span>
+                            </div>
+                            <h3>How to Get the GitHub Student Developer Pack?</h3>
+                            <p>A step-by-step guide on how you can get thousands of dollars worth of developer tools for free.</p>
+                            <a href="post-github-pack.html" class="read-more-btn">Read More &rarr;</a>
+                        </div>
+                    </div>
+
                     <div class="blog-post-card">
                         <div class="blog-card-image">
                             <img src="images/Blog/post-first-website.jpg" alt="My First Website">
@@ -286,10 +215,11 @@
                         </div>
                     </div>
 
-                    </div>
+                </div>
             </div>
         </section>
     </main>
+
 
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container" style="max-width: 1100px;">
