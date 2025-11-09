@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-time Chat App - CodeWithMSMAXPRO</title>
+    <title>Project: Real-time Chat App - CodeWithMSMAXPRO</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,32 +20,41 @@
             -webkit-text-fill-color: transparent;
         }
         
-        /* --- Project Detail Page Styles --- */
-        .project-detail-header {
-            text-align: center;
-            margin-bottom: 60px;
+        /* --- Styles from your project-blog.html template --- */
+        .content-container {
+            padding-top: 60px;
+            padding-bottom: 60px;
         }
-        .project-detail-header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-        }
-        .project-detail-header .content-meta {
-            font-size: 1.25rem;
-            color: #94a3b8;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .project-content-wrapper {
+        .content-body {
             max-width: 900px;
             margin: 0 auto;
             background: #0f172a; /* Card background */
             padding: 40px;
             border-radius: 12px;
             border: 1px solid #1e293b;
+            color: #cbd5e1; /* Default text color */
         }
-        
-        .project-content-wrapper h2 {
+        .content-header {
+            text-align: center;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .content-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .content-header .content-meta {
+            font-size: 1.25rem;
+            color: #94a3b8;
+        }
+        .content-body p, .content-body li {
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        /* Using h2 for subheadings now */
+        .content-body h2 {
             color: #fff;
             font-size: 2rem;
             margin-top: 40px;
@@ -53,27 +62,33 @@
             border-bottom: 2px solid #334155;
             padding-bottom: 10px;
         }
-        
-        .project-content-wrapper p, .project-content-wrapper li {
-            color: #cbd5e1;
-            line-height: 1.7;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+        /* Using h3 for Backend/Frontend Features */
+        .content-body h3 {
+            color: #e2e8f0;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
         }
-        
-        .project-content-wrapper ul, .project-content-wrapper ol {
-            list-style: disc;
+        .content-body ul, .content-body ol {
             padding-left: 25px;
         }
+        .content-body strong {
+            color: #e2e8f0;
+        }
+        .next-step-link {
+            text-align: center;
+            margin-top: 50px;
+        }
         
+        /* Tech stack icons style */
         .tech-stack-icons {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            margin-top: 10px;
+            margin-bottom: 20px;
             align-items: center;
         }
-        
         .tech-stack-icons .tech-icon {
             display: flex;
             flex-direction: column;
@@ -82,18 +97,12 @@
             font-size: 0.9rem;
             color: #94a3b8;
         }
-        
         .tech-stack-icons img {
             height: 50px;
             width: 50px;
             object-fit: contain;
         }
 
-        .project-links {
-            margin-top: 40px;
-            display: flex;
-            gap: 15px;
-        }
     </style>
 </head>
 <body>
@@ -124,26 +133,17 @@
     </header>
 
     <main>
-        <section class="portfolio-section" style="padding-top: 60px;">
+        <section class="content-container">
             <div class="container">
-                
-                <div class="project-detail-header">
-                    <h1>Real-time <span class="highlight">Chat App</span></h1>
-                    <p class="content-meta">
-                        Build a full-stack chat application where users can join rooms and send messages instantly using WebSockets.
-                    </p>
-                </div>
-
-                <div class="project-content-wrapper">
+                <article class="content-body">
                     
-                    <h2>🚀 The Project</h2>
-                    <p>
-                        You've built simple CRUD apps in tutorials, but now it's time to see the power of real-time communication! In this project, we'll build a chat app that works like Slack or Discord. Users will be able to join a room, and their messages will instantly appear for other users *without* a page reload.
-                    </p>
-                    <p>
-                        This project will introduce you to the magic of WebSockets and explain how modern web apps handle real-time data.
-                    </p>
+                    <div class="content-header">
+                        <h1>Project Idea: <span class="highlight">Real-time Chat App</span></h1>
+                        <p class="content-meta">Build a full-stack chat app with Node.js and React.</p>
+                    </div>
 
+                    <p>This project moves beyond simple CRUD apps. You'll build a full-stack chat application, similar to Slack or Discord, where users can join different rooms and send messages that appear instantly for everyone else in the room—all without reloading the page. It's the perfect project to understand the magic of WebSockets.</p>
+                    
                     <h2>✨ Key Features</h2>
                     <ul>
                         <li>Users can enter a username and a "Room ID".</li>
@@ -151,9 +151,12 @@
                         <li>Messages sent by one user are broadcasted instantly to all other users in that room.</li>
                         <li>A "User has joined" or "User has left" notification will be displayed.</li>
                     </ul>
-
-                    <h2>💻 Tech Stack</h2>
-                    <p>We will use these modern technologies:</p>
+                    
+                    <h2>💻 Tech Stack & Skills</h2>
+                    <ul>
+                        <li><strong>Tech Stack:</strong> React (Frontend), Node.js/Express (Backend), Socket.io (WebSockets).</li>
+                        <li><strong>Skills Practiced:</strong> Real-time Communication, WebSocket Event Handling (joining rooms, broadcasting messages), Backend API setup, Frontend State Management (handling live data).</li>
+                    </ul>
                     
                     <div class="tech-stack-icons">
                         <div class="tech-icon">
@@ -174,44 +177,60 @@
                         </div>
                     </div>
 
-                    <h2>🛠️ Step-by-Step Guide</h2>
-                    
-                    <h3>Part 1: Backend Setup (Node.js & Socket.io)</h3>
+
+                    <h3>Backend Features (The Socket.io Server)</h3>
                     <ol>
-                        <li>Set up a basic Node.js and Express server.</li>
-                        <li>Install and integrate the `socket.io` library.</li>
-                        <li>Listen for the Socket.io 'connection' event.</li>
-                        <li>Create a 'join_room' event. When a user joins, add them to the room using the `socket.join(room)` method.</li>
-                        <li>Create a 'send_message' event. When a message is received, send it to all users in that room using `io.to(room).emit('receive_message', ...)`</li>
-                        <li>Handle the 'disconnect' event to send notifications when users leave.</li>
+                        <li><strong>Server Setup:</strong> Initialize a standard Node.js & Express server.</li>
+                        <li><strong>Integrate Socket.io:</strong> Attach `socket.io` to your Express server.</li>
+                        <li><strong>Connection Event:</strong> Listen for the main `'connection'` event to know when a new user has opened the app.</li>
+                        <li><strong>Room Management:</strong>
+                            <ul>
+                                <li>Create a `'join_room'` event listener. When a user emits this event, use `socket.join(roomName)` to add them to a specific chat room.</li>
+                                <li>Broadcast a "User has joined" message to others in the room.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Message Broadcasting:</strong>
+                            <ul>
+                                <li>Create a `'send_message'` event listener.</li>
+                                <li>When a user sends a message, use `io.to(roomName).emit('receive_message', ...)` to send that message *only* to users in the same room.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Disconnect Event:</strong> Listen for the built-in `'disconnect'` event to broadcast "User has left" when someone closes the app.</li>
+                    </ol>
+                    
+                    <h3>Frontend Features (The React App)</h3>
+                    <ol>
+                        <li><strong>Components:</strong> Create components like `JoinForm` (to ask for username and room ID) and `ChatPage` (which shows the chat messages and input).</li>
+                        <li><strong>Socket.io Client:</strong> Install `socket.io-client`. In your React app, establish a connection to your backend server.</li>
+                        <li><strong>Emitting Events:</strong>
+                            <ul>
+                                <li>When the user joins, `socket.emit('join_room', ...)` with the room name.</li>
+                                <li>When the user sends a message, `socket.emit('send_message', ...)` with the message content.</li>
+                            </ul>
+                        </li>
+                        <li><strong>Listening for Events:</strong>
+                            <ul>
+                                <li>Use the `useEffect` hook to set up event listeners *once*.</li>
+                                <li>Listen for `'receive_message'` from the server. When a new message arrives, add it to a state array (e.g., `const [messages, setMessages] = useState([])`).</li>
+                                <li>This state array will automatically re-render the chat UI.</li>
+                            </ul>
+                        </li>
+                        <li><strong>State Management:</strong> Use `useState` to manage the list of all messages and the user's current typed message in the input box.</li>
                     </ol>
 
-                    <h3>Part 2: Frontend Setup (React)</h3>
-                    <ol>
-                        <li>Create a new React app.</li>
-                        <li>Install the `socket.io-client` library.</li>
-                        <li>Create a 'Home' component where the user will enter their name and room ID.</li>
-                        <li>Create a 'Chat' component that will connect to the backend using `socket.io-client`.</li>
-                        <li>Use the `useEffect` hook to listen for the 'receive_message' event and add new messages to a state array (`messages`).</li>
-                        <li>Create an input form that will emit the 'send_message' event when the user sends a message.</li>
-                        <li>Map over the messages array to render them on the screen.</li>
-                    </ol>
-                    
                     <h2>🔥 Next Steps & Challenges</h2>
-                    <p>After completing the project, try these ideas:</p>
+                    <p>After completing the project, try these ideas to make it even better:</p>
                     <ul>
                         <li>**Typing Indicators:** Show when another user is typing.</li>
-                        <li>**User List:** Display a list of active users in the room.</li>
+                        <li>**User List:** Display a list of all active users in the room.</li>
                         <li>**Private Messaging:** Add the ability for users to message each other one-to-one.</li>
                         <li>**Database Integration:** Save messages in MongoDB to maintain chat history.</li>
                     </ul>
-
-                    <div class="project-links">
-                        <a href="#" class="project-btn">Get the Code (GitHub)</a>
-                        <a href="#" class="project-btn" style="background-color: #555; cursor: not-allowed;">Live Demo (Soon)</a>
+                    
+                    <div class="next-step-link">
+                        <a href="projects.html" class="cta-button">&larr; Back to All Project Ideas</a>
                     </div>
-
-                </div>
+                </article>
             </div>
         </section>
     </main>
