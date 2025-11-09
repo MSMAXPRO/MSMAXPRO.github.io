@@ -13,12 +13,14 @@
     <link rel="stylesheet" href="style.css">
     
     <style>
+        /* --- Original Highlight --- */
         .highlight {
             background: linear-gradient(90deg, #10b981, #38bdf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* --- Hero Section Styles --- */
+
+        /* --- Hero Section Styles (Step 1) --- */
         .hero-section {
             padding: 100px 0 80px 0;
             background-color: #0f172a; /* Slightly lighter than main bg */
@@ -73,7 +75,7 @@
             flex-wrap: wrap; /* Buttons stack on small screens */
         }
 
-        /* === UPDATE 1: CONTACT ME BUTTON FIX === */
+        /* --- CONTACT ME BUTTON FIX --- */
         .cta-button.secondary {
             background: transparent; /* Remove background */
             color: #e2e8f0;
@@ -119,7 +121,7 @@
             }
         }
 
-        /* === UPDATE 2: MY SKILLS SECTION === */
+        /* --- My Skills Section Styles (Step 2) --- */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -164,6 +166,44 @@
             font-size: 0.9rem;
         }
 
+        /* --- Project Card Button Styles (Step 3) --- */
+        .project-btn.github {
+            background: #24292e; /* GitHub's dark color */
+            color: #fff;
+            border: 1px solid #444;
+        }
+        .project-btn.github:hover {
+            background: #1b1f23;
+        }
+
+        .project-btn.disabled {
+            background: #334155;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .project-btn.disabled:hover {
+            background: #334155;
+        }
+
+        /* --- Final CTA Section Styles (Step 4) --- */
+        .cta-final-section {
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid #1e293b;
+        }
+        .cta-final-section h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .cta-final-section p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            line-height: 1.7;
+        }
+
     </style>
 </head>
 <body>
@@ -194,7 +234,6 @@
             </nav>
         </div>
     </header>
-    </header>
 
     <section class="hero-section">
         <div class="container hero-content">
@@ -214,14 +253,13 @@
             </div>
 
             <div class="hero-image-container">
-                <img src="images/about-me.jpg" alt="MSMAXPRO" class="hero-image">
+                <img src="images/profile-placeholder.png" alt="MSMAXPRO" class="hero-image">
             </div>
 
         </div>
     </section>
- 
     <main>
-        <section class="portfolio-section">
+        <section class="portfolio-section" style="padding-top: 80px;">
             <div class="container">
                 <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
                     <h1>My <span class="highlight">Portfolio</span></h1>
@@ -235,7 +273,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Street Surf - 3D Game</h3>
                             <p class="project-description">
-                                A 3D endless runner game built with Three.js. This was a fun project to learn about 3D rendering. Project is still in progress so wait for major updates.
+                                A 3D endless runner game built with Three.js. This was a fun project to learn about 3D rendering and physics in the browser.
                             </p>
                             <div class="project-tags">
                                 <span>JavaScript</span>
@@ -250,32 +288,49 @@
                     </div>
 
                     <div class="project-card">
-                        <img src="images/my-next-big-project.jpg" alt="Tech Project" class="project-image">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Grafana_Dashboard_New.png/1200px-Grafana_Dashboard_New.png" alt="Python Data Dashboard" class="project-image">
                         <div class="project-content">
-                            <h3 class="project-title">My Next Big Project</h3>
+                            <h3 class="project-title">Python Data Dashboard</h3>
                             <p class="project-description">
-                                This is a placeholder for another cool project I'm working on. Stay tuned!
+                                A dynamic dashboard built with Python (Flask) that fetches live data from an API and visualizes it with interactive charts using Plotly.
                             </p>
+                            <div class="project-tags">
+                                <span>Python</span>
+                                <span>Flask</span>
+                                <span>Plotly</span>
+                                <span>API</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="httpsaxpro/python-dashboard-repo" class="project-btn github" target="_blank">GitHub</a>
+                                <a href="#" class="project-btn disabled">Live Demo (Soon)</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/A_screenshot_of_an_online_shop_running_on_PrestaShop_1.7.3.0.png/1200px-A_screenshot_of_an_online_shop_running_on_PrestaShop_1.7.3.0.png" alt="Full-Stack E-commerce Site" class="project-image">
+                        <div class="project-content">
+                            <h3 class="project-title">Full-Stack E-commerce Site</h3>
+                            <p class="project-description">
+                                A MERN stack e-commerce store with features like product listings, a shopping cart (Context API), and user authentication.
+                            </key>
                             <div class="project-tags">
                                 <span>React</span>
                                 <span>Node.js</span>
                                 <span>MongoDB</span>
+                                <span>MERN</span>
                             </div>
                             <div class="project-links">
-                                <a href="#" class="project-btn disabled">Coming Soon</a>
-                                <a href="#" class="project-btn github">GitHub</a>
+                                <a href="httpsaxpro/ecommerce-repo" class="project-btn github" target="_blank">GitHub</a>
+                                <a href="#" class="project-btn disabled">Live Demo (Soon)</a>
                             </div>
                         </div>
                     </div>
 
-                </div> 
-            </div>
-        </section>
-    </div> 
-            </div>
+                </div> </div>
         </section>
 
-        <section class="skills-section" style="padding-bottom: 80px;">
+        <section class="skills-section" style="padding: 80px 0;">
             <div class="container">
                 <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
                     <h2>My <span class="highlight">Skills</span></h2>
@@ -318,9 +373,16 @@
                 </div>
             </div>
         </section>
-        </main>
-
-    <footer style="background-color: #1e293b; ...">
+        
+        <section class="cta-final-section">
+            <div class="container">
+                <h2>Let's Build Something Together</h2>
+                <p>
+                    I'm always open to discussing new projects, freelance opportunities, or just to chat about tech.
+                </p>
+                <a href="contact.html" class="cta-button">Get in Touch</a>
+            </div>
+        </section>
 
     </main>
 
