@@ -165,6 +165,14 @@
             font-weight: 500;
             font-size: 0.9rem;
         }
+        
+        /* --- Project Button Text Center Fix --- */
+        .project-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: normal; /* Override any old line-height */
+        }
 
         /* --- Project Card Button Styles (Step 3) --- */
         .project-btn.github {
@@ -185,24 +193,6 @@
             background: #334155;
         }
 
-        /* --- Final CTA Section Styles (Step 4) --- */
-        .cta-final-section {
-            padding: 80px 0;
-            text-align: center;
-            border-top: 1px solid #1e293b;
-        }
-        .cta-final-section h2 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin-bottom: 15px;
-        }
-        .cta-final-section p {
-            font-size: 1.15rem;
-            color: #94a3b8;
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-            line-height: 1.7;
-        }
         /* --- Final CTA Section Styles (Step 4) --- */
         .cta-final-section {
             padding: 80px 0;
@@ -271,7 +261,7 @@
             </div>
 
             <div class="hero-image-container">
-                <img src="images/about-me.jpg" alt="MSMAXPRO" class="hero-image">
+                <img src="images/profile-placeholder.png" alt="MSMAXPRO" class="hero-image">
             </div>
 
         </div>
@@ -306,7 +296,7 @@
                     </div>
 
                     <div class="project-card">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Grafana_Dashboard_New.png/1200px-Grafana_Dashboard_New.png" alt="Python Data Dashboard" class="project-image">
+                        <img src="images/project-dashboard.png" alt="Python Data Dashboard" class="project-image">
                         <div class="project-content">
                             <h3 class="project-title">Python Data Dashboard</h3>
                             <p class="project-description">
@@ -326,7 +316,7 @@
                     </div>
                     
                     <div class="project-card">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/A_screenshot_of_an_online_shop_running_on_PrestaShop_1.7.3.0.png/1200px-A_screenshot_of_an_online_shop_running_on_PrestaShop_1.7.3.0.png" alt="Full-Stack E-commerce Site" class="project-image">
+                        <img src="images/project-ecommerce.png" alt="Full-Stack E-commerce Site" class="project-image">
                         <div class="project-content">
                             <h3 class="project-title">Full-Stack E-commerce Site</h3>
                             <p class="project-description">
@@ -392,8 +382,6 @@
             </div>
         </section>
         
-        
-
         <section class="cta-final-section">
             <div class="container">
                 <h2>Let's Build Something Together</h2>
@@ -403,9 +391,6 @@
                 <a href="contact.html" class="cta-button">Get in Touch</a>
             </div>
         </section>
-        </main>
-
-    <footer style="background-color: #1e293b; ...">
 
     </main>
 
