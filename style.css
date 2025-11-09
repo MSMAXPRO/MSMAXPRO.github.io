@@ -1017,13 +1017,16 @@ textarea.form-input {
 .form-rating input[type="radio"]:checked ~ label {
     color: #facc15; /* Filled star color */
 }
-/* --- Project Difficulty Tags --- */
+/* --- Project Difficulty Tags (FIXED) --- */
 .project-tags .tag-difficulty {
-    display: inline-block;
+    display: inline-flex;       /* Puraana: inline-block */
+    align-items: center;       /* NAYA: Yeh text ko vertical center karega */
+    justify-content: center;   /* NAYA: Yeh text ko horizontal center karega */
+    
     padding: 4px 12px;
     font-size: 0.75rem; /* 12px */
     font-weight: 700;
-    line-height: 1.25;
+    /* line-height: 1.25; <-- YEH LINE HATA DEIN */
     text-transform: uppercase;
     border-radius: 999px; /* Pill shape */
     margin-right: 6px;
@@ -1031,18 +1034,18 @@ textarea.form-input {
 
 /* Beginner - Green */
 .project-tags .tag-beginner {
-    background-color: #10b98130; /* Light Green Background */
-    color: #34d399; /* Green Text */
+    background-color: #10b98130; 
+    color: #34d399; 
 }
 
 /* Intermediate - Yellow/Orange */
 .project-tags .tag-intermediate {
-    background-color: #f59e0b30; /* Light Yellow Background */
-    color: #f59e0b; /* Yellow Text */
+    background-color: #f59e0b30; 
+    color: #f59e0b; 
 }
 
 /* Advanced - Red/Pink */
 .project-tags .tag-advanced {
-    background-color: #f43f5e30; /* Light Red Background */
-    color: #f43f5e; /* Red Text */
+    background-color: #f43f5e30; 
+    color: #f43f5e; 
 }
