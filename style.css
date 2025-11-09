@@ -1017,3 +1017,32 @@ textarea.form-input {
 .form-rating input[type="radio"]:checked ~ label {
     color: #facc15; /* Filled star color */
 }
+/* --- Project Difficulty Tags --- */
+.project-tags .tag-difficulty {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 0.75rem; /* 12px */
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: uppercase;
+    border-radius: 999px; /* Pill shape */
+    margin-right: 6px;
+}
+
+/* Beginner - Green */
+.project-tags .tag-beginner {
+    background-color: #10b98130; /* Light Green Background */
+    color: #34d399; /* Green Text */
+}
+
+/* Intermediate - Yellow/Orange */
+.project-tags .tag-intermediate {
+    background-color: #f59e0b30; /* Light Yellow Background */
+    color: #f59e0b; /* Yellow Text */
+}
+
+/* Advanced - Red/Pink */
+.project-tags .tag-advanced {
+    background-color: #f43f5e30; /* Light Red Background */
+    color: #f43f5e; /* Red Text */
+}
