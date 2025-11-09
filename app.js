@@ -46,8 +46,10 @@ if (postsContainer && typeof blogPosts !== 'undefined' && blogPosts.length > 0) 
     // Default text ko Hatao
     postsContainer.innerHTML = ""; 
 
-    // Sirf 3 latest posts lo
-    const latestPosts = blogPosts.slice(0, 3);
+    // === CODE FIX ===
+    // .slice(-3) -> Hamesha list ke AAKHIRI 3 items ko select karega.
+    // .reverse() -> Un 3 ko ulta kar dega, taaki sabse naya (last item) pehle dikhe.
+    const latestPosts = blogPosts.slice(-3).reverse();
 
     latestPosts.forEach(post => {
         const postCard = document.createElement('div');
