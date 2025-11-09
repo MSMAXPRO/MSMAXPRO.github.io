@@ -7,7 +7,7 @@
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
@@ -90,7 +90,7 @@
         .tech-stack-icons .tech-icon {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align: items-center;
             gap: 8px;
             font-size: 0.9rem;
             color: #94a3b8;
@@ -101,34 +101,37 @@
             object-fit: contain;
         }
 
+        /* --- Code Block Styles --- */
+        .content-body pre {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .content-body code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .content-body .code-filename {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: -15px;
+            padding: 8px 15px;
+            background: #334155;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <main>
         <section class="content-container">
@@ -142,20 +145,21 @@
 
                     <p>This is a classic full-stack utility project. You will build a tool that takes a very long URL from a user and gives them back a short, unique link (e.g., `mysite.com/a8f3H`). When anyone visits that short link, your app will automatically redirect them to the original long URL. This project is fantastic for understanding the full MERN stack flow.</p>
                     
+                    
                     <h2>✨ Key Features</h2>
                     <ul>
                         <li>An input field to paste a long URL.</li>
                         <li>A "Shorten" button that generates a unique short code.</li>
                         <li>Display the new, short link to the user.</li>
                         <li>When the short link is visited, it must redirect to the original long URL.</li>
+                        <li>(Bonus) Count how many times a link has been clicked.</li>
                     </ul>
 
                     <h2>💻 Tech Stack & Skills</h2>
                     <ul>
-                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), `shortid` or `nanoid` (for generating codes).</li>
-                        <li><strong>Skills Practiced:</strong> Full-stack CRUD API, Database schema design, Backend routing & redirection, Form handling in React, State Management.</li>
+                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), `nanoid` (for generating codes), `cors`.</li>
+                        <li><strong>Skills Practiced:</strong> Full-stack API, Database schema design, Backend routing & redirection, Form handling in React, State Management.</li>
                     </ul>
-                    
                     
                     <div class="tech-stack-icons">
                         <div class="tech-icon">
@@ -176,59 +180,326 @@
                         </div>
                     </div>
 
+                    <h2>🛠️ Full Step-by-Step Tutorial</h2>
+                    <p>This project has two parts: the **Backend API** (Node/Express) that handles the logic and database, and the **Frontend App** (React) that the user interacts with.</p>
 
-                    <h3>Backend Features (The API)</h3>
-                    <ol>
-                        <li><strong>URL Model:</strong> Create a Mongoose schema for `Url` with fields like `longUrl` (String), `shortCode` (String, unique), `clicks` (Number, default 0), and `createdAt`.</li>
-                        <li><strong>Shorten Route (`POST /api/shorten`):</strong>
-                            <ul>
-                                <li>Receives the `longUrl` from the React app.</li>
-                                <li>Validates if it's a real URL.</li>
-                                <li>Checks if this `longUrl` already exists in the database. If yes, return the existing short link.</li>
-                                <li>If not, generate a new unique `shortCode` using a library like `nanoid`.</li>
-                                <li>Save the new `Url` object (with `longUrl` and `shortCode`) to MongoDB.</li>
-                                <li>Send back the full short URL (e.g., `http://localhost:5000/a8f3H`) to the React app.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Redirect Route (`GET /:shortCode`):</strong>
-                            <ul>
-                                <li>This is the most important route. It's a top-level route, NOT under `/api`.</li>
-                                <li>It captures the short code from the URL (e.g., `a8f3H`).</li>
-                                <li>Finds the document in MongoDB with that `shortCode`.</li>
-                                <li>If not found, send a 404 error.</li>
-                                <li>If found, increment the `clicks` count.</li>
-                                <li>Finally, use `res.redirect(url.longUrl)` to send the user to the original long URL.</li>
-                            </ul>
-                        </li>
-                    </ol>
+                    <h3>Part 1: The Backend API (Node.js & Express)</h3>
                     
-                    <h3>Frontend Features (The React App)</h3>
+                    <p><strong>Step 1.1: Setup Project</strong></p>
                     <ol>
-                        <li><strong>Components:</strong> A simple UI with a `header`, a `URLInputForm` component, and a `ShortLinkDisplay` component.</li>
-                        <li><strong>State Management:</strong> Use `useState` to manage the long URL input (`longUrl`), the returned short link (`shortUrl`), loading, and error states.</li>
-                        <li><strong>Form Handling:</strong>
-                            <ul>
-                                <li>Create a form with an `input` and a `button`.</li>
-                                <li>On submit, prevent the default form action.</li>
-                                <li>Set `loading` to true.</li>
-                            </ul>
+                        <li>Create a new folder named <code>backend</code>.</li>
+                        <li>Open a terminal in that folder and run <code>npm init -y</code>.</li>
+                        <li>Install the necessary packages: <br>
+                            <code>npm install express mongoose nanoid cors dotenv</code>
                         </li>
-                        <li><strong>API Call:</strong>
-                            <ul>
-                                <li>Make a `POST` request to your backend (`/api/shorten`) using `fetch` or `axios`.</li>
-                                <li>Send the `longUrl` in the request body.</li>
-                                <li>When the response comes back, save the new short link to the `shortUrl` state.</li>
-                                <li>Display the `shortUrl` state on the screen for the user to copy.</li>
-                            </ul>
+                        <li>Install <code>nodemon</code> as a dev dependency: <br>
+                            <code>npm install -D nodemon</code>
                         </li>
                     </ol>
+
+                    <p><strong>Step 1.2: Create the Server Entrypoint</strong></p>
+                    <p>Create a file named <code>index.js</code>.</p>
+                    
+                    <span class="code-filename">backend/index.js</span>
+                    <pre><code>require('dotenv').config(); // Load .env variables
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middlewares
+app.use(cors());
+app.use(express.json()); // To parse JSON request bodies
+
+// Database Connection
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('Could not connect to MongoDB:', err));
+
+// (Routes will go here)
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+</code></pre>
+                    <p>You'll also need a <code>.env</code> file in the <code>backend</code> folder:</p>
+                    <span class="code-filename">backend/.env</span>
+                    <pre><code>MONGO_URI=your_mongodb_connection_string_here</code></pre>
+                    <p>(You can get a free string from <a href="https://www.mongodb.com/cloud/atlas" target="_blank">MongoDB Atlas</a>).</p>
+
+
+                    <p><strong>Step 1.3: Create the URL Model</strong></p>
+                    <p>Create a folder <code>models</code> and inside it, a file <code>Url.js</code>.</p>
+                    
+                    <span class="code-filename">backend/models/Url.js</span>
+                    <pre><code>const mongoose = require('mongoose');
+
+const urlSchema = new mongoose.Schema({
+    longUrl: {
+        type: String,
+        required: true,
+    },
+    shortCode: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    clicks: {
+        type: Number,
+        default: 0,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+});
+
+module.exports = mongoose.model('Url', urlSchema);
+</code></pre>
+
+                    <p><strong>Step 1.4: Create the Routes</strong></p>
+                    <p>This is the most important part. We need two routes:</p>
+                    <ol>
+                        <li><code>POST /api/shorten</code>: To create a new short URL.</li>
+                        <li><code>GET /:shortCode</code>: To redirect to the long URL.</li>
+                    </ol>
+                    <p>Create a folder <code>routes</code> and inside it, a file <code>url.js</code>.</p>
+
+                    <span class="code-filename">backend/routes/url.js</span>
+                    <pre><code>const express = require('express');
+const router = express.Router();
+const { nanoid } = require('nanoid');
+const Url = require('../models/Url');
+
+// --- 1. The "Shorten" Route ---
+router.post('/api/shorten', async (req, res) => {
+    const { longUrl } = req.body;
+    const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 5000}`;
+
+    try {
+        // Check if this long URL is already in the database
+        let url = await Url.findOne({ longUrl });
+
+        if (url) {
+            // If it exists, return the existing short URL
+            res.json({ shortUrl: `${baseUrl}/${url.shortCode}` });
+        } else {
+            // If not, create a new short code
+            const shortCode = nanoid(7);
+            
+            // Create a new Url document
+            url = new Url({
+                longUrl,
+                shortCode,
+            });
+
+            await url.save();
+            res.status(201).json({ shortUrl: `${baseUrl}/${url.shortCode}` });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json('Server error');
+    }
+});
+
+
+// --- 2. The "Redirect" Route ---
+// IMPORTANT: This must be a separate route handler
+router.get('/:shortCode', async (req, res) => {
+    try {
+        const url = await Url.findOne({ shortCode: req.params.shortCode });
+
+        if (url) {
+            // Increment click count
+            url.clicks++;
+            await url.save();
+
+            // Redirect to the original long URL
+            return res.redirect(url.longUrl);
+        } else {
+            return res.status(404).json('No URL found');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json('Server error');
+    }
+});
+
+module.exports = router;
+</code></pre>
+
+                    <p><strong>Step 1.5: Connect Routes in `index.js`</strong></p>
+                    <p>Add this line to your <code>backend/index.js</code> file (before <code>app.listen</code>):</p>
+                    
+                    <span class="code-filename">backend/index.js (Add this line)</span>
+                    <pre><code>// Routes will go here
+app.use('/', require('./routes/url'));
+</code></pre>
+                    <p>Your backend is now complete! You can run it with <code>nodemon index.js</code>.</p>
+
+
+                    <h3>Part 2: The Frontend (React)</h3>
+
+                    <p><strong>Step 2.1: Setup Project</strong></p>
+                    <ol>
+                        <li>In your main project folder (outside <code>backend</code>), run: <br>
+                            <code>npx create-react-app frontend</code>
+                        </li>
+                        <li><code>cd frontend</code></li>
+                        <li>Install Axios: <code>npm install axios</code></li>
+                    </ol>
+
+                    <p><strong>Step 2.2: The Main Component (`App.js`)</strong></p>
+                    <p>For this simple app, we can write all our logic in <code>App.js</code>.</p>
+                    
+                    <span class="code-filename">frontend/src/App.js</span>
+                    <pre><code>import React, { useState } from 'react';
+import axios from 'axios';
+import './App.css'; // We will create this file
+
+function App() {
+    const [longUrl, setLongUrl] = useState('');
+    const [shortUrl, setShortUrl] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        setShortUrl(null);
+
+        try {
+            // Make API request to our backend
+            const response = await axios.post('http://localhost:5000/api/shorten', {
+                longUrl: longUrl,
+            });
+            setShortUrl(response.data.shortUrl);
+        } catch (err) {
+            setError('Failed to shorten URL. Please try again.');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="app-container">
+            <div className="content-body" style={{maxWidth: '600px'}}>
+                <div className="content-header" style={{border: 'none', padding: 0, marginBottom: '20px'}}>
+                    <h1>URL <span className="highlight">Shortener</span></h1>
+                    <p className="content-meta">Enter a long URL to get a short link.</p>
+                </div>
+                
+                <form onSubmit={handleSubmit} className="url-form">
+                    <input 
+                        type="url"
+                        value={longUrl}
+                        onChange={(e) => setLongUrl(e.target.value)}
+                        placeholder="https://example.com/my-very-long-url"
+                        required
+                    />
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Shortening...' : 'Shorten'}
+                    </button>
+                </form>
+
+                <div className="result-display">
+                    {error && <p className="error-text">{error}</p>}
+                    {shortUrl && (
+                        <div className="short-url-result">
+                            <p>Your short URL:</p>
+                            <a href={shortUrl} target="_blank" rel="noopener noreferrer">
+                                {shortUrl}
+                            </a>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default App;
+</code></pre>
+
+                    <p><strong>Step 2.3: Basic Styling (`App.css`)</strong></p>
+                    <p>Create <code>frontend/src/App.css</code> to make it look good.</p>
+                    
+                    <span class="code-filename">frontend/src/App.css</span>
+                    <pre><code>.app-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    font-family: 'Inter', sans-serif;
+}
+/* We can re-use the .content-body and .highlight styles from the main site */
+.highlight {
+    background: linear-gradient(90deg, #f43f5e, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.url-form {
+    display: flex;
+    gap: 10px;
+}
+.url-form input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #fff;
+}
+.url-form button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #a78bfa, #f472b6);
+    color: #fff;
+    cursor: pointer;
+}
+.url-form button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.result-display {
+    margin-top: 30px;
+    text-align: center;
+}
+.error-text {
+    color: #f87171;
+}
+.short-url-result p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+.short-url-result a {
+    font-size: 1.2rem;
+    color: #38bdf8;
+    font-weight: bold;
+    word-break: break-all;
+}
+</code></pre>
+
+                    <p>Done! Now, run your backend (<code>nodemon index.js</code>) and your frontend (<code>npm start</code>) in two separate terminals. Your MERN URL shortener should be working!</p>
 
                     <h2>🔥 Next Steps & Challenges</h2>
-                    <p>After completing the project, try these ideas:</p>
+                    <p>After completing this tutorial, try these ideas:</p>
                     <ul>
-                        <li>**Click Tracking:** Show the user how many clicks their short link has received.</li>
-                        <li>**User Accounts:** Allow users to sign up and see a dashboard of all the links they have shortened.</li>
-                        <li>**Custom URLs:** Allow users to create custom short links (e.g., `mysite.com/my-portfolio`).</li>
+                        <li>**Click Tracking:** Create a new API route (`GET /api/stats/:shortCode`) that returns the `clicks` count for a link and display it on the frontend.</li>
+                        <li>**User Accounts:** Add MERN authentication so users can sign up, log in, and see a dashboard of *all* the links they have shortened.</li>
+                        <li>**Custom URLs:** Allow users to choose their own custom short code (e.g., `mysite.com/my-portfolio`) instead of a random one.</li>
+                        <li>**Copy to Clipboard:** Add a button that copies the new short URL to the user's clipboard.</li>
                     </ul>
                     
                     <div class="next-step-link">
