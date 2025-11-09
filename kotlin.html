@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 1: Learn Kotlin - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- NAYA HIGHLIGHT COLOR (ANDROID) --- */
+        .highlight {
+            background: linear-gradient(90deg, #22c55e, #84cc16); /* Green */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles (Aapke html-basics.html se) --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #84cc16; /* Green highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+        }
+        
+        /* Kotlin Code Syntax Highlighting */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 1: <span class="highlight">Learn the Language: Kotlin</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: What is Kotlin? -->
+                <!-- ========================== -->
+                
+                <h2>What is Kotlin?</h2>
+                <p>Kotlin ek modern, statically-typed programming language hai jise JetBrains (Android Studio banane waali company) ne banaya hai. 2017 mein, Google ne ise Android development ke liye **first-class, official language** ghoshit kar diya. Yeh Java Virtual Machine (JVM) par chalti hai aur ise Java ka ek behtar, naya version maana jaata hai.</p>
+                <p>Agar aap Android app banana chahte hain, toh Kotlin seekhna zaroori hai. Yeh aapke code ko chhota (concise), safe, aur padhne mein aasaan banati hai.</p>
+                
+                <h3>Why Kotlin over Java?</h3>
+                <p>Ho sakta hai aapne Java ka naam suna ho. Java 20 saal tak Android ki main language thi, lekin ab Google Kotlin ko prefer karta hai. Kyun?</p>
+                                <ul>
+                    <li><strong>Concise (Chhota Code):</strong> Jo kaam Java mein 40 line mein hota hai, Kotlin use 10 line mein kar sakti hai. Kam code ka matlab hai kam bugs.</li>
+                    <li><strong>Null Safety (Sabse Important):</strong> Kotlin ka sabse bada feature. Yeh `NullPointerException` (app crash) ko jad se khatam karne mein help karta hai. Hum ispar detail mein baat karenge.</li>
+                    <li><strong>100% Interoperable with Java:</strong> Aap apne Kotlin project mein Java code aur Java project mein Kotlin code, dono ek saath chala sakte hain.</li>
+                    <li><strong>Modern Features:</strong> Ismein data classes, extension functions, aur coroutines jaise modern features hain jo development ko fast banate hain.</li>
+                </ul>
+                
+                <h3>Environment Setup</h3>
+                <p>Kotlin seekhne ke liye aapko 2 cheezein chahiye:</p>
+                <ol>
+                    <li><strong>Android Studio:</strong> Yeh official IDE (Integrated Development Environment) hai Android apps banane ke liye. Ismein Kotlin pehle se installed aata hai. Hum ise agle chapter mein detail mein setup karenge.</li>
+                    <li><strong>Kotlin Playground:</strong> Abhi ke liye, aapko kuch bhi install karne ki zaroorat nahi hai. Aap seedha <a href="https://play.kotlinlang.org/" target="_blank">Kotlin Playground</a> par jaakar online hi saare code examples try kar sakte hain.</li>
+                </ol>
+
+                <!-- ========================== -->
+                <!-- SECTION 2: Kotlin Basics   -->
+                <!-- ========================== -->
+                
+                <h2>Kotlin Basics: Building Blocks</h2>
+
+                <h3>The "Hello, World!" Program</h3>
+                <p>Har language ki shuruaat "Hello, World!" se hoti hai. Yeh Kotlin ka basic structure hai.</p>
+                
+                <pre><code><span class="comment">// Yeh ek single-line comment hai</span>
+<span class="keyword">fun</span> <span class="function">main</span>() {
+    <span class="function">println</span>(<span class="string">"Hello, CodeWithMSMAXPRO!"</span>)
+}
+</code></pre>
+                
+                <ul>
+                    <li><code>fun</code>: Yeh "function" ka keyword hai. Function ek code ka block hota hai jise hum koi naam dete hain.</li>
+                    <li><code>main()</code>: Yeh ek special function hai. Jab bhi aap koi Kotlin program run karte hain, code yahaan se shuru hota hai.</li>
+                    <li><code>println(...)</code>: Yeh ek built-in function hai jo text ko console par print karta hai aur ek nayi line add kar deta hai.</li>
+                    <li><code>"Hello, ..."</code>: Yeh ek 'String' (text) hai. String hamesha double quotes (`" "`) ke andar likhi jaati hai.</li>
+                </ul>
+                
+                <h3>Variables: `val` vs `var`</h3>
+                <p>Variables data ko store karne ke liye containers hote hain. Kotlin mein 2 tarah ke variables hote hain, aur yeh bahut important hai.</p>
+
+                <h4>`val` (Value) - Read-Only</h4>
+                <p><code>val</code> ka istemaal un variables ke liye hota hai jinki value **change nahi ho sakti** (immutable). Ise aap ek "constant" (jaise <code>const</code> in JavaScript) samajh sakte hain. Hamesha `val` use karne ki koshish karein jab tak zaroori na ho.</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">name</span> <span class="operator">=</span> <span class="string">"MSMAXPRO"</span>  <span class="comment">// Ek String variable banaya</span>
+<span class="function">println</span>(<span class="attr">name</span>)
+
+<span class="comment">// name = "Aman"  // <-- YEH ERROR DEGA! (Val cannot be reassigned)</span>
+</code></pre>
+
+                <h4>`var` (Variable) - Mutable</h4>
+                <p><code>var</code> ka istemaal un variables ke liye hota hai jinki value ko aap **baad mein change kar sakte hain** (mutable). Ise aap (<code>let</code> in JavaScript) samajh sakte hain.</p>
+                <pre><code><span class="keyword">var</span> <span class="attr">score</span> <span class="operator">=</span> <span class="number">0</span>          <span class="comment">// Ek Integer (number) variable banaya</span>
+<span class="function">println</span>(<span class="attr">score</span>)  <span class="comment">// Output: 0</span>
+
+<span class="attr">score</span> <span class="operator">=</span> <span class="number">100</span>         <span class="comment">// Ise change karna allowed hai</span>
+<span class="function">println</span>(<span class="attr">score</span>)  <span class="comment">// Output: 100</span>
+</code></pre>
+
+                <h3>Basic Data Types & Type Inference</h3>
+                <p>Kotlin statically-typed hai, yaani har variable ka ek type (jaise Number ya Text) hota hai. Lekin Kotlin smart hai, yeh "Type Inference" ka use karta hai. Iska matlab hai ki aapko type batane ki zaroorat nahi hai, Kotlin khud samajh jaata hai.</p>
+                
+                <pre><code><span class="keyword">val</span> <span class="attr">myString</span> <span class="operator">=</span> <span class="string">"This is a String"</span>   <span class="comment">// Kotlin samajh gaya yeh String hai</span>
+<span class="keyword">val</span> <span class="attr">myInt</span> <span class="operator">=</span> <span class="number">25</span>                     <span class="comment">// Yeh ek Int (Integer) hai</span>
+<span class="keyword">val</span> <span class="attr">myDouble</span> <span class="operator">=</span> <span class="number">3.14</span>                 <span class="comment">// Yeh ek Double (decimal number) hai</span>
+<span class="keyword">val</span> <span class="attr">myBoolean</span> <span class="operator">=</span> <span class="keyword">true</span>               <span class="comment">// Yeh ek Boolean (true/false) hai</span>
+</code></pre>
+                
+                <p>Aap chahein toh type khud bhi bata sakte hain (explicitly), aise:</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">age</span><span class="operator">:</span> <span class="type">Int</span> <span class="operator">=</span> <span class="number">20</span>
+<span class="keyword">val</span> <span class="attr">pi</span><span class="operator">:</span> <span class="type">Double</span> <span class="operator">=</span> <span class="number">3.14</span>
+<span class="keyword">val</span> <span class="attr">username</span><span class="operator">:</span> <span class="type">String</span> <span class="operator">=</span> <span class="string">"msmaxpro"</span>
+</code></pre>
+
+                <h4>String Templates</h4>
+                <p>Yeh text ke andar variables daalne ka aasaan tareeka hai.</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">name</span> <span class="operator">=</span> <span class="string">"Aman"</span>
+<span class="keyword">val</span> <span class="attr">score</span> <span class="operator">=</span> <span class="number">100</span>
+
+<span class="comment">// Variable use karne ke liye $ ka istemaal karein</span>
+<span class="keyword">val</span> <span class="attr">greeting</span> <span class="operator">=</span> <span class="string">"Hello, $name! Welcome."</span>
+<span class="function">println</span>(<span class="attr">greeting</span>) <span class="comment">// Output: Hello, Aman! Welcome.</span>
+
+<span class="comment">// Calculation ke liye ${...} ka istemaal karein</span>
+<span class="keyword">val</span> <span class="attr">message</span> <span class="operator">=</span> <span class="string">"Your score is ${score + 50}"</span>
+<span class="function">println</span>(<span class="attr">message</span>)  <span class="comment">// Output: Your score is 150</span>
+</code></pre>
+                
+                <a href="https://kotlinlang.org/docs/basic-types.html" target="_blank" class="read-more-link">Read More about Basic Types on Kotlin Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 3: NULL SAFETY     -->
+                <!-- ========================== -->
+
+                <h2>The Most Important Feature: Null Safety</h2>
+                <p>Java (aur kai puraani languages) mein sabse bada problem `NullPointerException` (NPE) hai. Yeh tab hota hai jab aap kisi aise variable par kaam karne ki koshish karte hain jiski value `null` (khaali) hai. Isse aapki app **CRASH** ho jaati hai.</p>
+                <p>Kotlin is problem ko type system mein hi solve kar deta hai.</p>
+
+                <h4>Non-Nullable Types (Default)</h4>
+                <p>Kotlin mein, by default, koi bhi variable `null` nahi ho sakta.</p>
+                <pre><code><span class="keyword">var</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String</span> <span class="operator">=</span> <span class="string">"MSMAXPRO"</span>
+<span class="comment">// name = null  // <-- YEH ERROR DEGA! (Compilation Error)</span>
+<span class="comment">// Isse aapki app crash hone se bach gayi.</span>
+</code></pre>
+
+                <h4>Nullable Types (?)</h4>
+                <p>Agar aap chahte hain ki ek variable `null` ho sake, toh aapko Kotlin ko explicitly batana padega. Yeh `?` (question mark) laga kar kiya jaata hai.</p>
+                <pre><code><span class="keyword">var</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String?</span> <span class="operator">=</span> <span class="string">"MSMAXPRO"</span>
+<span class="attr">name</span> <span class="operator">=</span> <span class="keyword">null</span> <span class="comment">// Yeh ab allowed hai</span>
+<span class="function">println</span>(<span class="attr">name</span>) <span class="comment">// Output: null</span>
+</code></pre>
+                
+                <h4>Handling Nullable Types</h4>
+                <p>Ab jab `name` null ho sakta hai, toh aap `name.length` call nahi kar sakte, kyunki `null` ki koi length nahi hoti. Kotlin aapko aisa karne se rokega. Ise handle karne ke 3 tareeke hain:</p>
+
+                <h4>1. Safe Call Operator: `?.` (Best Method)</h4>
+                <p>Yeh kehta hai: "Agar variable null *nahi* hai, toh property access karo. Agar woh null hai, toh kuch mat karo (sirf `null` return karo)."</p>
+                <pre><code><span class="keyword">var</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String?</span> <span class="operator">=</span> <span class="keyword">null</span>
+<span class="keyword">val</span> <span class="attr">length</span> <span class="operator">=</span> <span class="attr">name</span><span class="operator">?.</span><span class="attr">length</span>
+<span class="function">println</span>(<span class="attr">length</span>) <span class="comment">// Output: null (App crash nahi hui!)</span>
+</code></pre>
+                
+                <h4>2. The Elvis Operator: `?:` (Default Value)</h4>
+                <p>Yeh Safe Call ke saath use hota hai. Yeh kehta hai: "Agar left waali cheez `null` hai, toh right waali default value use karo."</p>
+                <pre><code><span class="keyword">var</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String?</span> <span class="operator">=</span> <span class="keyword">null</span>
+<span class="keyword">val</span> <span class="attr">length</span> <span class="operator">=</span> <span class="attr">name</span><span class="operator">?.</span><span class="attr">length</span> <span class="operator">?:</span> <span class="number">0</span>
+
+<span class="function">println</span>(<span class="attr">length</span>) <span class="comment">// Output: 0 (Kyunki name null tha, default value 0 use hui)</span>
+</code></pre>
+
+                <h4>3. Non-Null Asserted Call: `!!` (Dangerous)</h4>
+                <p>Yeh operator (`!!`) Kotlin ko zabardasti kehta hai: "Main 100% sure hoon ki yeh variable null nahi hai, code ko run karo." Agar aap galat hue aur variable null nikla, toh aapki **app crash ho jaayegi** (`NullPointerException`). Ise avoid karein.</p>
+                <pre><code><span class="keyword">var</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String?</span> <span class="operator">=</span> <span class="keyword">null</span>
+<span class="keyword">val</span> <span class="attr">length</span> <span class="operator">=</span> <span class="attr">name</span><span class="operator">!!</span>.<span class="attr">length</span> <span class="comment">// <-- APP CRASH HOGI!</span>
+</code></pre>
+                
+                <a href="https://kotlinlang.org/docs/null-safety.html" target="_blank" class="read-more-link">Read More about Null Safety on Kotlin Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 4: Functions       -->
+                <!-- ========================== -->
+                
+                <h2>Functions in Kotlin</h2>
+                <p>Functions reusable code blocks hote hain. Humne `main` function pehle hi dekha hai. Ab dekhte hain ki apne functions kaise banayein.</p>
+
+                <h4>Defining and Calling Functions</h4>
+                <p>Functions `fun` keyword se shuru hote hain. `()` ke andar parameters (inputs) define kiye jaate hain.</p>
+                <pre><code><span class="comment">// 1. Ek simple function define karna</span>
+<span class="keyword">fun</span> <span class="function">greet</span>() {
+    <span class="function">println</span>(<span class="string">"Hello from my function!"</span>)
+}
+
+<span class="comment">// 2. Function ko call (run) karna</span>
+<span class="function">greet</span>() <span class="comment">// Output: Hello from my function!</span>
+</code></pre>
+
+                <h4>Parameters and Return Types</h4>
+                <p>Aap functions ko data (parameters) de sakte hain, aur unse data (return value) waapis le sakte hain.</p>
+                <pre><code><span class="comment">// Parameters: name (String type ka)</span>
+<span class="keyword">fun</span> <span class="function">greetUser</span>(<span class="attr">name</span><span class="operator">:</span> <span class="type">String</span>) {
+    <span class="function">println</span>(<span class="string">"Hello, $name!"</span>)
+}
+
+<span class="comment">// Return Type: Function ke baad : Int lagaya</span>
+<span class="keyword">fun</span> <span class="function">addNumbers</span>(<span class="attr">a</span><span class="operator">:</span> <span class="type">Int</span>, <span class="attr">b</span><span class="operator">:</span> <span class="type">Int</span>)<span class="operator">:</span> <span class="type">Int</span> {
+    <span class="keyword">return</span> <span class="attr">a</span> <span class="operator">+</span> <span class="attr">b</span>
+}
+
+<span class="comment">// Functions ko call karna</span>
+<span class="function">greetUser</span>(<span class="string">"Aman"</span>) <span class="comment">// Output: Hello, Aman!</span>
+<span class="keyword">val</span> <span class="attr">sum</span> <span class="operator">=</span> <span class="function">addNumbers</span>(<span class="number">5</span>, <span class="number">10</span>)
+<span class="function">println</span>(<span class="attr">sum</span>) <span class="comment">// Output: 15</span>
+</code></pre>
+
+                <h4>Single-Expression Functions</h4>
+                <p>Agar aapka function sirf ek line ka hai, toh aap use aur chhota kar sakte hain.</p>
+                <pre><code><span class="comment">// Poora function (Normal)</span>
+<span class="keyword">fun</span> <span class="function">add</span>(<span class="attr">a</span><span class="operator">:</span> <span class="type">Int</span>, <span class="attr">b</span><span class="operator">:</span> <span class="type">Int</span>)<span class="operator">:</span> <span class="type">Int</span> {
+    <span class="keyword">return</span> <span class="attr">a</span> <span class="operator">+</span> <span class="attr">b</span>
+}
+
+<span class="comment">// Single-Expression function (Short)</span>
+<span class="keyword">fun</span> <span class="function">addShort</span>(<span class="attr">a</span><span class="operator">:</span> <span class="type">Int</span>, <span class="attr">b</span><span class="operator">:</span> <span class="type">Int</span>) <span class="operator">=</span> <span class="attr">a</span> <span class="operator">+</span> <span class="attr">b</span>
+</code></pre>
+
+                <h4>Default Arguments</h4>
+                <p>Aap parameters ko ek default value de sakte hain. Isse function call karte waqt us parameter ko skip kar sakte hain.</p>
+                <pre><code><span class="keyword">fun</span> <span class="function">greetUser</span>(<span class="attr">name</span><span class="operator">:</span> <span class="type">String</span> <span class="operator">=</span> <span class="string">"Guest"</span>) {
+    <span class="function">println</span>(<span class="string">"Hello, $name!"</span>)
+}
+
+<span class="function">greetUser</span>(<span class="string">"MSMAXPRO"</span>) <span class="comment">// Output: Hello, MSMAXPRO!</span>
+<span class="function">greetUser</span>()            <span class="comment">// Output: Hello, Guest! (Default value use hui)</span>
+</code></pre>
+
+                <a href="https://kotlinlang.org/docs/functions.html" target="_blank" class="read-more-link">Read More about Functions on Kotlin Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: Control Flow    -->
+                <!-- ========================== -->
+
+                <h2>Control Flow: if, else, and when</h2>
+                <p>Control flow se aapka code "decisions" le sakta hai.</p>
+                
+                <h4>`if-else` Statements</h4>
+                <p>Yeh sabse basic condition hai. "Agar yeh sach hai, toh A karo, varna B karo."</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">age</span> <span class="operator">=</span> <span class="number">19</span>
+
+<span class="keyword">if</span> (<span class="attr">age</span> <span class="operator">></span> <span class="number">18</span>) {
+    <span class="function">println</span>(<span class="string">"You can vote."</span>)
+} <span class="keyword">else</span> {
+    <span class="function">println</span>(<span class="string">"You cannot vote yet."</span>)
+}
+</code></pre>
+
+                <h4>`if-else` as an Expression</h4>
+                <p>Kotlin mein `if-else` ek value bhi return kar sakta hai. Isse aapka code chhota ho jaata hai.</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">age</span> <span class="operator">=</span> <span class="number">19</span>
+<span class="keyword">val</span> <span class="attr">message</span> <span class="operator">=</span> <span class="keyword">if</span> (<span class="attr">age</span> <span class="operator">></span> <span class="number">18</span>) {
+    <span class="string">"You can vote."</span>
+} <span class="keyword">else</span> {
+    <span class="string">"You cannot vote yet."</span>
+}
+<span class="function">println</span>(<span class="attr">message</span>) <span class="comment">// Output: You can vote.</span>
+</code></pre>
+
+                <h4>`when` Statement (Kotlin's "super-switch")</h4>
+                <p>`when` statement Java ke `switch` se kahin zyada powerful hai.</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">day</span> <span class="operator">=</span> <span class="number">3</span>
+
+<span class="comment">// 'when' as a statement</span>
+<span class="keyword">when</span> (<span class="attr">day</span>) {
+    <span class="number">1</span> <span class="operator">-></span> <span class="function">println</span>(<span class="string">"Monday"</span>)
+    <span class="number">2</span> <span class="operator">-></span> <span class="function">println</span>(<span class="string">"Tuesday"</span>)
+    <span class="number">3</span> <span class="operator">-></span> <span class="function">println</span>(<span class="string">"Wednesday"</span>)
+    <span class="keyword">else</span> <span class="operator">-></span> <span class="function">println</span>(<span class="string">"Other day"</span>)
+}
+
+<span class="comment">// 'when' as an expression (aur bhi behtar)</span>
+<span class="keyword">val</span> <span class="attr">dayName</span> <span class="operator">=</span> <span class="keyword">when</span> (<span class="attr">day</span>) {
+    <span class="number">1</span> <span class="operator">-></span> <span class="string">"Monday"</span>
+    <span class="number">2</span> <span class="operator">-></span> <span class="string">"Tuesday"</span>
+    <span class="number">3</span> <span class="operator">-></span> <span class="string">"Wednesday"</span>
+    <span class="keyword">else</span> <span class="operator">-></span> <span class="string">"Other day"</span>
+}
+<span class="function">println</span>(<span class="attr">dayName</span>) <span class="comment">// Output: Wednesday</span>
+</code></pre>
+
+                <a href="https://kotlinlang.org/docs/control-flow.html" target="_blank" class="read-more-link">Read More about Control Flow on Kotlin Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 6: Collections & Loops -->
+                <!-- ========================== -->
+                
+                <h2>Collections and Loops</h2>
+                <p>Collections data ke groups ko store karne ke liye hote hain (jaise lists ya maps).</p>
+
+                <h4>Lists</h4>
+                <p>Lists items ka ek ordered group hota hai. Kotlin mein 2 tarah ki lists hain: read-only aur mutable.</p>
+                <pre><code><span class="comment">// 1. Read-only List (Aap ise change nahi kar sakte)</span>
+<span class="keyword">val</span> <span class="attr">web</span> <span class="operator">=</span> <span class="function">listOf</span>(<span class="string">"HTML"</span>, <span class="string">"CSS"</span>, <span class="string">"JS"</span>)
+<span class="function">println</span>(<span class="attr">web</span>[<span class="number">0</span>]) <span class="comment">// Output: HTML (index 0 se start hota hai)</span>
+<span class="comment">// web.add("React") // ERROR!</span>
+
+<span class="comment">// 2. Mutable List (Aap ise change kar sakte hain)</span>
+<span class="keyword">val</span> <span class="attr">mobile</span> <span class="operator">=</span> <span class="function">mutableListOf</span>(<span class="string">"Android"</span>, <span class="string">"iOS"</span>)
+<span class="attr">mobile</span>.<span class="function">add</span>(<span class="string">"Flutter"</span>)
+<span class="function">println</span>(<span class="attr">mobile</span>) <span class="comment">// Output: [Android, iOS, Flutter]</span>
+</code></pre>
+
+                <h4>`for` Loops</h4>
+                <p>`for` loop ka istemaal list (ya range) ke har item par code chalaane ke liye hota hai.</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">web</span> <span class="operator">=</span> <span class="function">listOf</span>(<span class="string">"HTML"</span>, <span class="string">"CSS"</span>, <span class="string">"JS"</span>)
+
+<span class="comment">// 'tech' variable har item ko ek-ek karke represent karega</span>
+<span class="keyword">for</span> (<span class="attr">tech</span> <span class="keyword">in</span> <span class="attr">web</span>) {
+    <span class="function">println</span>(<span class="string">"Learn $tech"</span>)
+}
+<span class="comment">// Output:</span>
+<span class="comment">// Learn HTML</span>
+<span class="comment">// Learn CSS</span>
+<span class="comment">// Learn JS</span>
+</code></pre>
+
+                <a href="https://kotlinlang.org/docs/collections-overview.html" target="_blank" class="read-more-link">Read More about Collections on Kotlin Docs &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 7: Classes (OOP)   -->
+                <!-- ========================== -->
+                
+                <h2>Introduction to Classes (OOP)</h2>
+                <p>Kotlin ek Object-Oriented Programming (OOP) language hai. Classes objects banane ke liye **blueprints** hote hain. Ek "User" class ek blueprint hai, aur *aap* (MSMAXPRO) us class ke ek object (ya instance) hain.</p>
+                
+                <h4>Defining a Class</h4>
+                <p>Yeh ek simple `User` class hai. `username` aur `age` iske "properties" hain. `greet` iska ek "method" (function) hai.</p>
+                <pre><code><span class="keyword">class</span> <span class="type">User</span>(<span class="keyword">val</span> <span class="attr">username</span><span class="operator">:</span> <span class="type">String</span>, <span class="keyword">val</span> <span class="attr">age</span><span class="operator">:</span> <span class="type">Int</span>) {
+    
+    <span class="comment">// Yeh ek member function (method) hai</span>
+    <span class="keyword">fun</span> <span class="function">greet</span>() {
+        <span class="function">println</span>(<span class="string">"Hello, my name is $username and I am $age years old."</span>)
+    }
+}
+</code></pre>
+
+                <h4>Creating Objects (Instances)</h4>
+                <p>Ek baar blueprint (class) taiyyar ho jaaye, toh aap usse objects bana sakte hain.</p>
+                <pre><code><span class="keyword">fun</span> <span class="function">main</span>() {
+    <span class="comment">// 'user1' ek User object (instance) hai</span>
+    <span class="keyword">val</span> <span class="attr">user1</span> <span class="operator">=</span> <span class="type">User</span>(<span class="string">"MSMAXPRO"</span>, <span class="number">20</span>)
+    
+    <span class="comment">// 'user2' ek doosra User object hai</span>
+    <span class="keyword">val</span> <span class="attr">user2</span> <span class="operator">=</span> <span class="type">User</span>(<span class="string">"Aman"</span>, <span class="number">22</span>)
+
+    <span class="comment">// Properties access karna</span>
+    <span class="function">println</span>(<span class="attr">user1</span>.<span class="attr">username</span>) <span class="comment">// Output: MSMAXPRO</span>
+
+    <span class="comment">// Methods call karna</span>
+    <span class="attr">user2</span>.<span class="function">greet</span>() <span class="comment">// Output: Hello, my name is Aman and I am 22 years old.</span>
+}
+</code></pre>
+
+                <h4>Data Classes</h4>
+                <p>Kotlin mein ek shortcut hai. Agar aapki class sirf data store karne ke liye hai, toh aap `data` keyword ka use kar sakte hain. Isse Kotlin aapke liye bahut saara code (jaise `.equals()`, `.toString()`) automatically bana deta hai.</p>
+                <pre><code><span class="comment">// Sirf 'data' keyword add kiya</span>
+<span class="keyword">data class</span> <span class="type">Book</span>(<span class="keyword">val</span> <span class="attr">title</span><span class="operator">:</span> <span class="type">String</span>, <span class="keyword">val</span> <span class="attr">author</span><span class="operator">:</span> <span class="type">String</span>)
+
+<span class="keyword">fun</span> <span class="function">main</span>() {
+    <span class="keyword">val</span> <span class="attr">book1</span> <span class="operator">=</span> <span class="type">Book</span>(<span class="string">"Atomic Habits"</span>, <span class="string">"James Clear"</span>)
+    
+    <span class="comment">// .toString() automatically mil gaya</span>
+    <span class="function">println</span>(<span class="attr">book1</span>) 
+    <span class="comment">// Output: Book(title=Atomic Habits, author=James Clear)</span>
+}
+</code></pre>
+
+                <a href="https://kotlinlang.org/docs/classes.html" target="_blank" class="read-more-link">Read More about Classes on Kotlin Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-roadmap.html" class="cta-button prev">&larr; Back to Roadmap</a>
+                    <a href="android-studio.html" class="cta-button">Next Chapter: Android Studio & SDK &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
