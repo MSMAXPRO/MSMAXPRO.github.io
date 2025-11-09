@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Stack Developer Roadmap - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* (Aapka saara header, footer, aur common styles yahan hain...) */
+        html, body { overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background-color: #0f172a; background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%); color: #cbd5e1; line-height: 1.7; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        header { background-color: transparent; padding: 1.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; text-decoration: none; display: flex; align-items: center; z-index: 1000; }
+        .logo img { height: 40px; margin-right: 10px; }
+        .nav-links { list-style: none; margin: 0; padding: 0; display: flex; }
+        .nav-links li { margin-left: 30px; }
+        .nav-links li a { text-decoration: none; color: #cbd5e1; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links li a:hover { color: #7c3aed; }
+        .hamburger { display: none; cursor: pointer; z-index: 1000; }
+        .hamburger div { width: 25px; height: 3px; background-color: #ffffff; margin: 5px; transition: all 0.3s ease; }
+        section { padding: 60px 0; }
+        h1 { text-align: center; font-size: 2.8rem; margin-bottom: 50px; font-weight: 700; color: #ffffff; }
+        footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
+
+        /* --- NAYA HIGHLIGHT COLOR --- */
+        .highlight {
+            background: linear-gradient(90deg, #10b981, #38bdf8); /* Green/Blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Roadmap Step Styles */
+        .roadmap-container { position: relative; }
+        .roadmap-container::before { content: ''; position: absolute; left: 50px; top: 25px; bottom: 25px; width: 4px; background-color: #1e293b; z-index: -1; }
+        .roadmap-step { background-color: rgba(30, 41, 59, 0.5); padding: 25px 30px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); margin-bottom: 25px; display: flex; align-items: center; gap: 25px; position: relative; transition: transform 0.2s ease; }
+        .roadmap-step:hover { transform: scale(1.03); }
+        .step-number { font-size: 1.8rem; font-weight: 700; background: linear-gradient(90deg, #10b981, #38bdf8); color: #fff; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .step-content h3 { margin: 0 0 5px 0; font-size: 1.5rem; color: #ffffff; }
+        .step-content p { margin: 0; color: #94a3b8; }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="projects.html">Project Ideas</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="roadmap-details">
+            <!-- === NAYE CHAPTERS YAHAN HAIN === -->
+            <div class="container roadmap-container">
+                <h1><span class="highlight">Full Stack Developer</span> Roadmap</h1>
+                
+                <a href="frontend-basics.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Frontend Foundation (HTML, CSS, JS)</h3>
+                            <p>Start with the building blocks of the web. Master HTML, CSS, and JavaScript.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="frontend-framework.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Learn a Frontend Framework</h3>
+                            <p>Pick one framework to build user interfaces. We recommend React.js.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="backend-framework.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Backend Language & Framework</h3>
+                            <p>Learn Node.js and the Express.js framework to build your server-side logic.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="databases.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Databases (MERN Stack)</h3>
+                            <p>Learn how to store data using MongoDB (NoSQL) for the MERN stack.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="api-basics.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3>APIs (REST)</h3>
+                            <p>Learn how to connect your Frontend (React) to your Backend (Node) using REST APIs.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="authentication.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h3>Authentication</h3>
+                            <p>Learn how to create user logins, signups, and protected routes using JWT.</p>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="deployment.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">7</div>
+                        <div class="step-content">
+                            <h3>Deployment</h3>
+                            <p>Learn to deploy your full-stack application (e.g., frontend on Vercel, backend on Heroku/Render).</p>
+                        </div>
+                    </div>
+                </a>
+                
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', () => {
+                nav.classList.toggle('nav-active');
+                hamburger.classList.toggle('toggle');
+            });
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
