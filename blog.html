@@ -10,7 +10,171 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Blog Page Styles --- */
+
+        /* Highlight color for this page */
+        .highlight {
+            background: linear-gradient(90deg, #f472b6, #a78bfa); /* Pink/Purple */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- 1. Featured Post Section --- */
+        .blog-featured {
+            padding: 60px 0;
+            background-color: #0f172a; /* Card background */
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .featured-card {
+            display: grid;
+            grid-template-columns: 1fr; /* Stacked on mobile */
+            gap: 30px;
+            align-items: center;
+        }
+
+        .featured-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+        }
+
+        /* ZYADA SPECIFIC RULE */
+        section.blog-featured .featured-content .tag {
+            display: inline-block;
+            background-color: #a78bfa30;
+            color: #c4b5fd;
+            padding: 5px 15px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .featured-content h2 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 0 0 15px 0;
+        }
+
+        .featured-content p {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        /* --- 2. Blog List Section --- */
+        .blog-list-section {
+            padding: 80px 0;
+        }
+
+        .blog-list-header {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .blog-list-header h2 {
+            font-size: 2.5rem;
+            color: #fff;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* 1 column on mobile */
+            gap: 30px;
+        }
+
+        /* --- 3. Upgraded Blog Card --- */
+        /* ZYADA SPECIFIC RULE */
+        section.blog-list-section .blog-post-card {
+            background-color: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 12px;
+            overflow: hidden; /* To contain the image */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        section.blog-list-section .blog-post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-card-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-card-content {
+            padding: 25px;
+        }
+
+        .blog-card-tags {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        /* ZYADA SPECIFIC RULE */
+        section.blog-list-section .blog-card-tags .tag {
+            display: inline-block;
+            background-color: #334155;
+            color: #94a3b8;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .blog-card-content h3 {
+            font-size: 1.5rem;
+            color: #fff;
+            margin: 0 0 10px 0;
+        }
+
+        .blog-card-content p {
+            font-size: 1rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .read-more-btn {
+            color: #c4b5fd;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .read-more-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Media Queries for Grid --- */
+        @media (min-width: 768px) {
+            .featured-card {
+                grid-template-columns: 1.5fr 1fr; /* Image left, text right */
+            }
+            
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .blog-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
+            }
+        }
+    </style>
+    </head>
+
 </head>
 <body>
 
