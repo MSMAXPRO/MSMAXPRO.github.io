@@ -101,34 +101,37 @@
             object-fit: contain;
         }
 
+        /* --- Code Block Styles --- */
+        .content-body pre {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .content-body code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .content-body .code-filename {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: -15px;
+            padding: 8px 15px;
+            background: #334155;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <main>
         <section class="content-container">
@@ -142,20 +145,21 @@
 
                     <p>This is a highly visual and interactive project. You will build a "Kanban" board, famously used by Trello, where users can create tasks and move them between columns like "To Do," "In Progress," and "Done." The core of this project is mastering a drag-and-drop library and managing the state of all columns and tasks.</p>
                     
+                    
                     <h2>✨ Key Features</h2>
                     <ul>
                         <li>Display multiple columns (e.g., "To Do", "In Progress", "Done").</li>
                         <li>Allow users to create new tasks (cards).</li>
                         <li>Implement drag-and-drop functionality to move tasks between columns.</li>
                         <li>Implement drag-and-drop to re-order tasks within the same column.</li>
+                        <li>Persist all changes to a database.</li>
                     </ul>
 
                     <h2>💻 Tech Stack & Skills</h2>
                     <ul>
-                        <li><strong>Tech Stack:</strong> React, React-beautiful-dnd (or similar), Express, Node.js, MongoDB.</li>
+                        <li><strong>Tech Stack:</strong> React, `react-beautiful-dnd` (Drag & Drop), Express, Node.js, MongoDB, `axios`.</li>
                         <li><strong>Skills Practiced:</strong> Complex State Management, UI interactivity, Using third-party libraries (Drag & Drop), Full-stack CRUD operations, API design for nested data.</li>
                     </ul>
-                    
                     
                     <div class="tech-stack-icons">
                         <div class="tech-icon">
@@ -177,46 +181,371 @@
                     </div>
 
 
-                    <h3>Backend Features (The API)</h3>
+                    <h2>🛠️ Full Step-by-Step Tutorial</h2>
+
+                    <h3>Part 1: The Backend API (Node.js & Express)</h3>
+                    <p>This will be a simple CRUD API to manage our tasks.</p>
+
+                    <p><strong>Step 1.1: Setup Project</strong></p>
                     <ol>
-                        <li><strong>Task Model:</strong> Create a Mongoose schema for `Task` with `title`, `description`, and `status` (e.g., 'todo', 'inprogress', 'done').</li>
-                        <li><strong>CRUD Routes:</strong>
-                            <ul>
-                                <li>`GET /api/tasks`: Fetches all tasks from the database.</li>
-                                <li>`POST /api/tasks`: Creates a new task (default status is 'todo').</li>
-                                <li>`PATCH /api/tasks/:id`: Updates a task. This is key for changing the `status` when a task is moved to a new column.</li>
-                                <li>`DELETE /api/tasks/:id`: Deletes a task.</li>
-                            </ul>
+                        <li>Create a <code>backend</code> folder.</li>
+                        <li>Run <code>npm init -y</code>.</li>
+                        <li>Run <code>npm install express mongoose cors dotenv nodemon</code>.</li>
+                    </ol>
+
+                    <p><strong>Step 1.2: Create the Task Model</strong></p>
+                    <p>Create <code>backend/models/Task.js</code>. The <code>status</code> field is key here.</p>
+                    
+                    <span class="code-filename">backend/models/Task.js</span>
+                    <pre><code>const mongoose = require('mongoose');
+
+const taskSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+    },
+    status: {
+        type: String,
+        enum: ['todo', 'inprogress', 'done'],
+        default: 'todo',
+    },
+    // We can add order/index later if needed
+});
+
+module.exports = mongoose.model('Task', taskSchema);
+</code></pre>
+
+                    <p><strong>Step 1.3: Create Routes</strong></p>
+                    <p>Create <code>backend/routes/tasks.js</code>. We need to GET all tasks, POST a new one, and PATCH (update) a task's status.</p>
+
+                    <span class="code-filename">backend/routes/tasks.js</span>
+                    <pre><code>const express = require('express');
+const router = express.Router();
+const Task = require('../models/Task');
+
+// GET all tasks
+router.get('/', async (req, res) => {
+    try {
+        const tasks = await Task.find();
+        res.json(tasks);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// POST a new task
+router.post('/', async (req, res) => {
+    const task = new Task({
+        title: req.body.title,
+        description: req.body.description,
+        status: 'todo', // Default to 'todo'
+    });
+    try {
+        const newTask = await task.save();
+        res.status(201).json(newTask);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// PATCH (Update) a task's status
+// This is the most important route for drag-and-drop
+router.patch('/:id/status', async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) return res.status(404).json({ message: 'Task not found' });
+
+        task.status = req.body.status;
+        const updatedTask = await task.save();
+        res.json(updatedTask);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
+module.exports = router;
+</code></pre>
+
+                    <p><strong>Step 1.4: Setup `index.js` (Server)</strong></p>
+                    <p>Create <code>backend/index.js</code>. This is similar to the URL Shortener project.</p>
+                    
+                    <span class="code-filename">backend/index.js</span>
+                    <pre><code>require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const mongoose = require('mongoose');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middlewares
+app.use(cors());
+app.use(express.json());
+
+// DB Connect
+mongoose.connect(process.env.MONGO_URI, { /* ... options ... */ })
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+
+// Use Routes
+app.use('/api/tasks', require('./routes/tasks'));
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+</code></pre>
+                    <p>Your backend is ready! (Don't forget your <code>.env</code> file with <code>MONGO_URI</code>).</p>
+
+                    
+                    <h3>Part 2: The Frontend (React & `react-beautiful-dnd`)</h3>
+                    <p>This part is complex. Pay close attention to the state management.</p>
+                    
+                    <p><strong>Step 2.1: Setup Project</strong></p>
+                    <ol>
+                        <li>Create a <code>frontend</code> folder with <code>npx create-react-app frontend</code>.</li>
+                        <li>Install libraries: <br>
+                            <code>npm install axios react-beautiful-dnd</code>
                         </li>
                     </ol>
                     
-                    <h3>Frontend Features (The React App)</h3>
-                    <ol>
-                        <li><strong>Library Setup:</strong> Install and configure `react-beautiful-dnd`.</li>
-                        <li><strong>State Management:</strong> Use `useState` to hold the state of all tasks, organized by columns. Example: `const [columns, setColumns] = useState({ 'todo': [], 'inprogress': [], 'done': [] });`</li>
-                        <li><strong>API Calls:</strong> On page load, `fetch` all tasks and organize them into the `columns` state.</li>
-                        <li><strong>DragDropContext:</strong> Wrap your entire board with the `<DragDropContext>` component.</li>
-                        <li><strong>Droppable & Draggable:</strong>
-                            <ul>
-                                <li>Create a `Column` component. Wrap it in `<Droppable>` to allow it to receive tasks.</li>
-                                <li>Create a `Task` component. Wrap it in `<Draggable>` to allow it to be moved.</li>
-                            </ul>
-                        </li>
-                        <li><strong>`onDragEnd` Function:</strong> This is the most important part. Create a function that:
-                            <ul>
-                                <li>Takes the `result` of the drag.</li>
-                                <li>Checks if the task was dropped in a new column or the same column.</li>
-                                <li>Updates the React `columns` state to reflect the change immediately (for a fast UI).</li>
-                                <li>Makes an `async` `PATCH` request to your API to update the task's `status` in the database.</li>
-                            </ul>
-                        </li>
-                    </ol>
+                    <p><strong>Step 2.2: `App.js` - State and Data Fetching</strong></p>
+                    <p>We will manage all state in `App.js`. We need to store tasks in a specific structure that `react-beautiful-dnd` understands: an object where keys are column IDs.</p>
+
+                    <span class="code-filename">frontend/src/App.js (Imports and State)</span>
+                    <pre><code>import React, { useState, useEffect } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import axios from 'axios';
+import './App.css'; // We'll create this
+
+const API_URL = 'http://localhost:5000/api/tasks';
+
+function App() {
+    const [columns, setColumns] = useState({
+        todo: {
+            id: 'todo',
+            title: 'To Do',
+            tasks: [],
+        },
+        inprogress: {
+            id: 'inprogress',
+            title: 'In Progress',
+            tasks: [],
+        },
+        done: {
+            id: 'done',
+            title: 'Done',
+            tasks: [],
+        },
+    });
+
+    // Fetch tasks from backend on component mount
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const response = await axios.get(API_URL);
+                const tasks = response.data;
+                
+                // Organize tasks into columns
+                const newColumns = { ...columns };
+                // Clear existing tasks first
+                newColumns.todo.tasks = [];
+                newColumns.inprogress.tasks = [];
+                newColumns.done.tasks = [];
+
+                tasks.forEach(task => {
+                    newColumns[task.status].tasks.push(task);
+                });
+                
+                setColumns(newColumns);
+            } catch (err) {
+                console.error("Failed to fetch tasks", err);
+            }
+        };
+        fetchTasks();
+    }, []); // Empty dependency array means this runs once
+
+    // ... (onDragEnd function will go here)
+    // ... (JSX will go here)
+}
+export default App;
+</code></pre>
+
+                    <p><strong>Step 2.3: `App.js` - The `onDragEnd` Function (The Magic)</strong></p>
+                    <p>This function runs *after* you drop a card. It handles all the logic.</p>
+
+                    <span class="code-filename">frontend/src/App.js (Add inside App component)</span>
+                    <pre><code>    const onDragEnd = async (result) => {
+        const { source, destination, draggableId } = result;
+
+        // 1. If dropped outside of any column
+        if (!destination) {
+            return;
+        }
+
+        // 2. If dropped in the same place
+        if (source.droppableId === destination.droppableId && source.index === destination.index) {
+            return;
+        }
+
+        const sourceColumn = columns[source.droppableId];
+        const destColumn = columns[destination.droppableId];
+        const task = sourceColumn.tasks.find(t => t._id === draggableId);
+
+        // 3. If moving within the same column
+        if (source.droppableId === destination.droppableId) {
+            const newTasks = Array.from(sourceColumn.tasks);
+            newTasks.splice(source.index, 1); // Remove item
+            newTasks.splice(destination.index, 0, task); // Add item
+
+            const newColumn = {
+                ...sourceColumn,
+                tasks: newTasks,
+            };
+
+            setColumns({
+                ...columns,
+                [newColumn.id]: newColumn,
+            });
+            // (Note: We are not persisting same-column order in this simple backend)
+        } else {
+            // 4. If moving to a different column
+            const sourceTasks = Array.from(sourceColumn.tasks);
+            sourceTasks.splice(source.index, 1); // Remove from source
+
+            const destTasks = Array.from(destColumn.tasks);
+            destTasks.splice(destination.index, 0, task); // Add to destination
+
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...sourceColumn,
+                    tasks: sourceTasks,
+                },
+                [destination.droppableId]: {
+                    ...destColumn,
+                    tasks: destTasks,
+                },
+            });
+
+            // 5. Update the backend
+            try {
+                await axios.patch(`${API_URL}/${task._id}/status`, { 
+                    status: destination.droppableId 
+                });
+            } catch (err) {
+                console.error("Failed to update task status", err);
+                // (Optional: revert state on error)
+            }
+        }
+    };
+</code></pre>
+                    
+                    <p><strong>Step 2.4: `App.js` - The JSX (HTML)</strong></p>
+                    <p>Finally, we render the board using `react-beautiful-dnd` components.</p>
+                    
+                    <span class="code-filename">frontend/src/App.js (Add inside App component, after onDragEnd)</span>
+                    <pre><code>    return (
+        <div className="app-container">
+            <DragDropContext onDragEnd={onDragEnd}>
+                <div className="board-container">
+                    {Object.values(columns).map(column => (
+                        <Droppable key={column.id} droppableId={column.id}>
+                            {(provided, snapshot) => (
+                                <div
+                                    className="column"
+                                    ref={provided.innerRef}
+                                    {...provided.droppableProps}
+                                    style={{
+                                        background: snapshot.isDraggingOver ? '#1e293b' : '#0f172a',
+                                    }}
+                                >
+                                    <h2 className="column-title">{column.title}</h2>
+                                    {column.tasks.map((task, index) => (
+                                        <Draggable key={task._id} draggableId={task._id} index={index}>
+                                            {(provided) => (
+                                                <div
+                                                    className="task-card"
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                >
+                                                    <h4>{task.title}</h4>
+                                                    <p>{task.description}</p>
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+                    ))}
+                </div>
+            </DragDropContext>
+        </div>
+    );
+}
+</code></pre>
+
+                    <p><strong>Step 2.5: Basic Styling (`App.css`)</strong></p>
+
+                    <span class="code-filename">frontend/src/App.css</span>
+                    <pre><code>body {
+    background-color: #020617; /* Dark background */
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+}
+
+.board-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
+}
+
+.column {
+    width: 300px;
+    background-color: #0f172a; /* Card background */
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 15px;
+    min-height: 500px;
+}
+
+.column-title {
+    color: #fff;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #334155;
+}
+
+.task-card {
+    background-color: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    color: #cbd5e1;
+}
+.task-card h4 {
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+.task-card p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+</code></pre>
+
+                    <p>Done! Run both backend (<code>nodemon index.js</code>) and frontend (<code>npm start</code>) and you'll have a fully persistent drag-and-drop board.</p>
 
                     <h2>🔥 Next Steps & Challenges</h2>
-                    <p>After completing the project, try these ideas:</p>
+                    <p>After completing this tutorial, try these ideas:</p>
                     <ul>
+                        <li>**Add a "Create Task" Form:** Add a form to the "To Do" column to create new tasks directly from the UI (and POST to <code>/api/tasks</code>).</li>
                         <li>**User Accounts:** Allow users to sign up and have their own private boards.</li>
-                        <li>**Persistence:** Save the *order* of tasks in each column to the database.</li>
+                        <li>**Persistence:** Save the *order* of tasks in each column to the database (you'd need to add an `order` field to your model).</li>
                         <li>**Rich Tasks:** Add features like due dates, labels, and descriptions to each task.</li>
                     </ul>
                     
