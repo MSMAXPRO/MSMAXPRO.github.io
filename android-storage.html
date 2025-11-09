@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: Data Storage - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (ANDROID) --- */
+        .highlight {
+            background: linear-gradient(90deg, #22c55e, #84cc16); /* Green */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles (Aapke html-basics.html se) --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #84cc16; /* Green highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        .content-section pre code .tag { color: #f472b6; }
+        .content-section pre code .attr { color: #38bdf8; }
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 5: <span class="highlight">Data Storage</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Introduction: Why Store Data?</h2>
+                <p>An app that forgets everything when you close it isn't very useful. **Data persistence** (saving data) is a fundamental part of almost every application. Whether it's saving the user's name, their high score in a game, a list of to-do items, or 1000s of chat messages, you need a way to store this data on the device.</p>
+                <p>Android provides several different ways to store data, each designed for a specific purpose. Choosing the *right* storage solution is a key skill for a developer. Storing a simple "true/false" setting in a complex database is inefficient, and storing a million database records in a simple text file is a recipe for disaster.</p>
+                
+                <p>This chapter will cover the three main categories of data storage on Android, focusing on the modern, **Jetpack-recommended** libraries:</p>
+                <ol>
+                    <li><strong>Key-Value Storage (Jetpack DataStore):</strong> For simple user settings (like "dark mode on/off", "user's auth token").</li>
+                    <li><strong>Structured Database (Room):</strong> For large amounts of complex, structured, and queryable data (like a list of users, products, or messages).</li>
+                    <li><strong>File Storage (Scoped Storage):</strong> For large, unstructured files (like photos, videos, PDFs, or log files).</li>
+                </ol>
+                
+                <!-- ===================================== -->
+                <!-- PART 1: Jetpack DataStore (for Settings) -->
+                <!-- ===================================== -->
+                
+                <h2>Part 1: Jetpack DataStore (for Settings)</h2>
+                <p>This is the modern, recommended way to store simple key-value pairs.</p>
+                
+                <h3>What is Jetpack DataStore?</h3>
+                <p>DataStore is a data storage solution that allows you to store key-value pairs (like user settings) or typed objects with protocol buffers. It is part of the Jetpack library suite and is the modern replacement for the old <code>SharedPreferences</code> API.</p>
+                <p>Crucially, DataStore uses **Kotlin Coroutines and Flow** to store data **asynchronously**. This is its biggest advantage.</p>
+
+                <h3>Why NOT `SharedPreferences`? (The Old Way)</h3>
+                <p>For over a decade, developers used <code>SharedPreferences</code> to save user settings. However, it has several major flaws that DataStore solves:</p>
+                <ul>
+                    <li><strong>It's Synchronous:</strong> <code>SharedPreferences.edit().commit()</code> runs on the **UI thread**. If the disk is slow, this can block the UI and cause your app to "freeze" or "jank" (ANR - Application Not Responding).</li>
+                    <li><strong>No Type Safety:</strong> You retrieve data with a key (e.g., <code>prefs.getInt("USER_SCORE", 0)</code>). If you accidentally type <code>prefs.getString("USER_SCORE", "")</code>, it will compile but will crash your app at runtime.</li>
+                    <li><strong>No Error Handling:</strong> If reading or writing fails, <code>SharedPreferences</code> doesn't provide an easy way to know.</li>
+                </ul>
+                
+
+                <h3>The Two Types of DataStore</h3>
+                <p>DataStore provides two different implementations:</p>
+                <ol>
+                    <li><strong>Preferences DataStore:</strong> This is the one you will use most often. It is the direct replacement for <code>SharedPreferences</code>. It stores simple key-value pairs (Int, String, Boolean). It is *not* type-safe but is fully asynchronous.</li>
+                    <li><strong>Proto DataStore:</strong> This is the advanced, type-safe version. It stores data as custom objects using **Protocol Buffers**. This requires you to define a schema (a <code>.proto</code> file), but in return, it guarantees that you can't read an <code>Int</code> as a <code>String</code>.</li>
+                </ol>
+                <p>We will cover Preferences DataStore in detail, as it's the most common.</p>
+                
+                <h3>Deep Dive: How to use Preferences DataStore</h3>
+                <p>Let's build a simple settings manager that saves a user's name and a "dark mode" preference.</p>
+                
+                <h4>Step 1: Add Gradle Dependencies</h4>
+                <p>In your <code>build.gradle.kts (Module: :app)</code> file, add the DataStore library:</p>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ... other dependencies</span>
+    <span class="function">implementation</span>(<span class="string">"androidx.datastore:datastore-preferences:1.0.0"</span>)
+    
+    <span class="comment">// (Optional but recommended: Lifecycle for CoroutineScope)</span>
+    <span class="function">implementation</span>(<span class="string">"androidx.lifecycle:lifecycle-runtime-ktx:2.6.2"</span>)
+}
+</code></pre>
+                <p>Don't forget to click **"Sync Now"** in Android Studio.</p>
+
+                <h4>Step 2: Create the DataStore</h4>
+                <p>You only need **one instance** of DataStore for your entire app. The easiest way to create it is as a top-level property in a new Kotlin file, e.g., <code>SettingsDataStore.kt</code>.</p>
+                
+                <span class="code-filename">SettingsDataStore.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">android.content.Context</span>
+<span class="keyword">import</span> <span class="type">androidx.datastore.core.DataStore</span>
+<span class="keyword">import</span> <span class="type">androidx.datastore.preferences.core.Preferences</span>
+<span class="keyword">import</span> <span class="type">androidx.datastore.preferences.preferencesDataStore</span>
+
+<span class="comment">// 1. Create a Context extension property for the DataStore</span>
+<span class="comment">// "settings" is the name of the .preferences_pb file that will be created.</span>
+<span class="keyword">val</span> <span class="type">Context</span>.<span class="attr">dataStore</span><span class="operator">:</span> <span class="type">DataStore</span><span class="operator">&lt;</span><span class="type">Preferences</span><span class="operator">&gt;</span> <span class="keyword">by</span> <span class="function">preferencesDataStore</span>(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"settings"</span>)
+</code></pre>
+
+                <h4>Step 3: Define the Keys</h4>
+                <p>To avoid typing <code>"user_name"</code> (a string) everywhere (which can lead to typos), we define typed keys. It's best to put these in a companion object or a separate <code>object</code>.</p>
+                
+                <span class="code-filename">SettingsDataStore.kt (continued)</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.datastore.preferences.core.booleanPreferencesKey</span>
+<span class="keyword">import</span> <span class="type">androidx.datastore.preferences.core.stringPreferencesKey</span>
+
+<span class="keyword">object</span> <span class="type">SettingsKeys</span> {
+    <span class="keyword">val</span> <span class="attr">USER_NAME</span> <span class="operator">=</span> <span class="function">stringPreferencesKey</span>(<span class="string">"user_name"</span>)
+    <span class="keyword">val</span> <span class="attr">IS_DARK_MODE</span> <span class="operator">=</span> <span class="function">booleanPreferencesKey</span>(<span class="string">"is_dark_mode"</span>)
+}
+</code></pre>
+
+                <h4>Step 4: Writing Data (Asynchronously)</h4>
+                <p>To write data, you must use a **Coroutine**. DataStore's <code>.edit()</code> function is a <code>suspend</code> function, which means it *must* be called from a coroutine (like <code>lifecycleScope.launch</code> in an Activity) to avoid blocking the UI thread.</p>
+                
+                <span class="code-filename">MainActivity.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.lifecycle.lifecycleScope</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.launch</span>
+<span class="keyword">import</span> <span class="type">androidx.datastore.preferences.core.edit</span>
+
+<span class="comment">// Inside your Activity or ViewModel</span>
+<span class="keyword">private suspend fun</span> <span class="function">saveSettings</span>(<span class="attr">name</span><span class="operator">:</span> <span class="type">String</span>, <span class="attr">isDark</span><span class="operator">:</span> <span class="type">Boolean</span>) {
+    <span class="comment">// 'this' refers to the Context (e.g., your Activity)</span>
+    <span class="attr">dataStore</span>.<span class="function">edit</span> { <span class="attr">settings</span> <span class="operator">-></span>
+        <span class="attr">settings</span>[<span class="type">SettingsKeys</span>.<span class="attr">USER_NAME</span>] <span class="operator">=</span> <span class="attr">name</span>
+        <span class="attr">settings</span>[<span class="type">SettingsKeys</span>.<span class="attr">IS_DARK_MODE</span>] <span class="operator">=</span> <span class="attr">isDark</span>
+    }
+}
+
+<span class="comment">// How to call it from your Activity (e.g., in a button click)</span>
+<span class="function">mySaveButton</span>.<span class="function">setOnClickListener</span> {
+    <span class="function">lifecycleScope</span>.<span class="function">launch</span> {
+        <span class="function">saveSettings</span>(<span class="string">"MSMAXPRO"</span>, <span class="keyword">true</span>)
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"DataStore"</span>, <span class="string">"Settings saved!"</span>)
+    }
+}
+</code></pre>
+
+                <h4>Step 5: Reading Data (Asynchronously with Flow)</h4>
+                <p>This is the most different part from <code>SharedPreferences</code>. DataStore doesn't just *give* you the data. It gives you a **Flow**. A Flow is a stream of data (from Kotlin Coroutines) that automatically emits the *newest* value whenever the data changes.</p>
+                <p>You "collect" this flow to get the values.</p>
+                
+                <span class="code-filename">MainActivity.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">kotlinx.coroutines.flow.Flow</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.flow.map</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.flow.collect</span>
+
+<span class="comment">// A class to hold our settings</span>
+<span class="keyword">data class</span> <span class="type">UserSettings</span>(<span class="keyword">val</span> <span class="attr">name</span><span class="operator">:</span> <span class="type">String</span>, <span class="keyword">val</span> <span class="attr">isDark</span><span class="operator">:</span> <span class="type">Boolean</span>)
+
+<span class="comment">// 1. Create a Flow that maps the preferences to our data class</span>
+<span class="keyword">val</span> <span class="attr">userSettingsFlow</span><span class="operator">:</span> <span class="type">Flow</span><span class="operator">&lt;</span><span class="type">UserSettings</span><span class="operator">&gt;</span> <span class="operator">=</span> <span class="attr">dataStore</span>.<span class="attr">data</span>
+    .<span class="function">map</span> { <span class="attr">preferences</span> <span class="operator">-></span>
+        <span class="comment">// Use the Elvis operator (?:) to provide default values</span>
+        <span class="keyword">val</span> <span class="attr">name</span> <span class="operator">=</span> <span class="attr">preferences</span>[<span class="type">SettingsKeys</span>.<span class="attr">USER_NAME</span>] <span class="operator">?:</span> <span class="string">"Guest"</span>
+        <span class="keyword">val</span> <span class="attr">isDark</span> <span class="operator">=</span> <span class="attr">preferences</span>[<span class="type">SettingsKeys</span>.<span class="attr">IS_DARK_MODE</span>] <span class="operator">?:</span> <span class="keyword">false</span>
+        <span class="type">UserSettings</span>(<span class="attr">name</span>, <span class="attr">isDark</span>)
+    }
+
+<span class="comment">// 2. In your Activity's onCreate, launch a coroutine to *collect* the flow</span>
+<span class="keyword">override fun</span> <span class="function">onCreate</span>(<span class="attr">savedInstanceState</span><span class="operator">:</span> <span class="type">Bundle?</span>) {
+    <span class="comment">// ...</span>
+    <span class="function">lifecycleScope</span>.<span class="function">launch</span> {
+        <span class="attr">userSettingsFlow</span>.<span class="function">collect</span> { <span class="attr">settings</span> <span class="operator">-></span>
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"DataStore"</span>, <span class="string">"Current name: ${settings.name}"</span>)
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"DataStore"</span>, <span class="string">"Is dark mode: ${settings.isDark}"</span>)
+            
+            <span class="comment">// Update your UI here</span>
+            <span class="attr">myTextView</span>.<span class="attr">text</span> <span class="operator">=</span> <span class="attr">settings</span>.<span class="attr">name</span>
+        }
+    }
+}
+</code></pre>
+                <p>The best part? If you call <code>saveSettings()</code> from somewhere else, this <code>collect</code> block will **automatically run again** and update your UI with the new name. This is called *reactive programming*.</p>
+                <a href="https://developer.android.com/topic/libraries/datastore" target="_blank" class="read-more-link">Read More about Jetpack DataStore &rarr;</a>
+                
+                <!-- ===================================== -->
+                <!-- PART 2: Room (for Databases)           -->
+                <!-- ===================================== -->
+                
+                <h2>Part 2: Room (for Structured Databases)</h2>
+                <p>When you need to store large amounts of *structured* data—data that has relationships, can be queried, or needs to be sorted and filtered—you need a database. DataStore is not for this; it's only for settings.</p>
+
+                <h3>What is SQLite?</h3>
+                <p>Every single Android phone (and iPhone) comes with a built-in, lightweight database engine called **SQLite**. It's a file-based database, meaning your entire database (all tables, rows, and data) is stored in a single file (<code>.db</code>) in your app's private storage.</p>
+                
+                <h3>What is Room? (The Modern Way)</h3>
+                <p>For years, developers had to write raw SQL queries (<code>"SELECT * FROM users WHERE id = ?"</code>) and manually parse the results (a <code>Cursor</code> object) to use SQLite. This was time-consuming, ugly, and error-prone. If you misspelled a column name in your SQL string, your app would compile fine but crash at runtime.</p>
+                <p>To fix this, Google created **Room**. Room is an **ORM (Object-Relational Mapper)**. It's an "abstraction layer" that sits *on top* of SQLite, making it incredibly easy to use.</p>
+                
+                
+                <h4>Why Room is Better than Raw SQLite:</h4>
+                <ul>
+                    <li><strong>Compile-Time Query Validation:</strong> Room checks your SQL queries *when you compile* your app. If you write <code>"SELECT * FROM usrs"</code> (typo), your code **will not compile**, saving you from runtime crashes.</li>
+                    <li><strong>No Boilerplate Code:</strong> You don't need to write code to convert a <code>Cursor</code> into a Kotlin <code>User</code> object. Room does this for you automatically.</li>
+                    <li><strong>Reactive (Returns Flow):** Just like DataStore, Room can return your data as a <code>Flow</code>. When you insert a new user, your UI (which is collecting the flow) will automatically update.</li>
+                    <li><strong>Easy Migrations:</strong> Room provides a simple system for "migrating" (upgrading) your database schema when you add or change columns.</li>
+                </ul>
+                
+                <h3>The 3 Core Components of Room</h3>
+                <p>To use Room, you must define 3 components:</p>
+                <ol>
+                    <li><strong>Entity (The Table):</strong> A Kotlin <code>data class</code> that defines a table and its columns.</li>
+                    <li><strong>DAO (Data Access Object):</strong> An <code>interface</code> that defines *how* you access the data (your SQL queries).</li>
+                    <li><strong>Database (The Main Class):</strong> An <code>abstract class</code> that holds the database instance and connects all the Entities and DAOs.</li>
+                </ol>
+
+                <h3>Deep Dive: How to use Room</h3>
+                <p>Let's build a simple database to store a list of <code>Note</code> objects.</p>
+                
+                <h4>Step 1: Add Gradle Dependencies</h4>
+                <p>Room uses **KSP (Kotlin Symbol Processing)** to generate code for you. You need to add three libraries to your <code>build.gradle.kts (Module: :app)</code> file.</p>
+                
+                <pre><code><span class="keyword">plugins</span> {
+    <span class="comment">// ...</span>
+    <span class="function">id</span>(<span class="string">"com.google.devtools.ksp"</span>) <span class="comment">// KSP plugin</span>
+}
+
+<span class="comment">// ...</span>
+
+<span class="keyword">dependencies</span> {
+    <span class="comment">// ... other dependencies</span>
+    <span class="keyword">val</span> <span class="attr">room_version</span> <span class="operator">=</span> <span class="string">"2.6.1"</span>
+    
+    <span class="function">implementation</span>(<span class="string">"androidx.room:room-runtime:$room_version"</span>)
+    <span class="function">implementation</span>(<span class="string">"androidx.room:room-ktx:$room_version"</span>) <span class="comment">// For Coroutines & Flow support</span>
+    <span class="function">ksp</span>(<span class="string">"androidx.room:room-compiler:$room_version"</span>) <span class="comment">// The code generator</span>
+}
+</code></pre>
+                <p>Click **"Sync Now"**. You may need to "Build > Rebuild Project" for KSP to generate the code.</p>
+
+                <h4>Step 2: Create the Entity (The Table)</h4>
+                <p>Create a new file, <code>Note.kt</code>. This is a <code>data class</code> annotated with <code>@Entity</code>.</p>
+                
+                <span class="code-filename">Note.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.room.Entity</span>
+<span class="keyword">import</span> <span class="type">androidx.room.PrimaryKey</span>
+<span class="keyword">import</span> <span class="type">androidx.room.ColumnInfo</span>
+
+@Entity(<span class="attr">tableName</span> <span class="operator">=</span> <span class="string">"notes_table"</span>)
+<span class="keyword">data class</span> <span class="type">Note</span>(
+    <span class="comment">// This will be the primary key (e.g., 1, 2, 3...)</span>
+    @PrimaryKey(<span class="attr">autoGenerate</span> <span class="operator">=</span> <span class="keyword">true</span>)
+    <span class="keyword">val</span> <span class="attr">id</span><span class="operator">:</span> <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span>,
+    
+    <span class="comment">// By default, the column name is the variable name (e.g., "title")</span>
+    <span class="keyword">val</span> <span class="attr">title</span><span class="operator">:</span> <span class="type">String</span>,
+    
+    @ColumnInfo(<span class="attr">name</span> <span class="operator">=</span> <span class="string">"note_content"</span>) <span class="comment">// Custom column name</span>
+    <span class="keyword">val</span> <span class="attr">content</span><span class="operator">:</span> <span class="type">String</span>,
+    
+    <span class="keyword">val</span> <span class="attr">timestamp</span><span class="operator">:</span> <span class="type">Long</span> <span class="operator">=</span> <span class="type">System</span>.<span class="function">currentTimeMillis</span>()
+)
+</code></pre>
+
+                <h4>Step 3: Create the DAO (The Queries)</h4>
+                <p>Create a new file, <code>NoteDao.kt</code>. This is an <code>interface</code> annotated with <code>@Dao</code>.</p>
+                
+                <span class="code-filename">NoteDao.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.room.*</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.flow.Flow</span>
+
+@Dao
+<span class="keyword">interface</span> <span class="type">NoteDao</span> {
+    
+    <span class="comment">// Insert a new note. If it conflicts (same id), replace it.</span>
+    @Insert(<span class="attr">onConflict</span> <span class="operator">=</span> <span class="type">OnConflictStrategy</span>.<span class="attr">REPLACE</span>)
+    <span class="keyword">suspend fun</span> <span class="function">insert</span>(<span class="attr">note</span><span class="operator">:</span> <span class="type">Note</span>)
+
+    @Update
+    <span class="keyword">suspend fun</span> <span class="function">update</span>(<span class="attr">note</span><span class="operator">:</span> <span class="type">Note</span>)
+
+    @Delete
+    <span class="keyword">suspend fun</span> <span class="function">delete</span>(<span class="attr">note</span><span class="operator">:</span> <span class="type">Note</span>)
+
+    <span class="comment">// A query to get all notes, ordered by timestamp</span>
+    <span class="comment">// It returns a Flow, so the UI will auto-update</span>
+    @Query(<span class="string">"SELECT * FROM notes_table ORDER BY timestamp DESC"</span>)
+    <span class="keyword">fun</span> <span class="function">getAllNotes</span>()<span class="operator">:</span> <span class="type">Flow</span><span class="operator">&lt;</span><span class="type">List</span><span class="operator">&lt;</span><span class="type">Note</span><span class="operator">&gt;&gt;</span>
+
+    <span class="comment">// A query to get a single note by its ID</span>
+    @Query(<span class="string">"SELECT * FROM notes_table WHERE id = :noteId"</span>)
+    <span class="keyword">suspend fun</span> <span class="function">getNoteById</span>(<span class="attr">noteId</span><span class="operator">:</span> <span class="type">Int</span>)<span class="operator">:</span> <span class="type">Note?</span>
+}
+</code></pre>
+                <ul>
+                    <li><strong><code>suspend</code>:</strong> We mark functions as <code>suspend</code> to tell Room they should be run on a background thread (using coroutines).</li>
+                    <li><strong><code>Flow</code>:</strong> By returning a <code>Flow</code>, we get a reactive data stream. We don't need to re-fetch data; Room will automatically send us the new list when a note is inserted or deleted.</li>
+                </ul>
+
+                <h4>Step 4: Create the Database Class</h4>
+                <p>Create <code>AppDatabase.kt</code>. This class ties everything together. We use a **Singleton pattern** here to ensure we only ever create *one* instance of the database for the entire app.</p>
+                
+                <span class="code-filename">AppDatabase.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.room.Database</span>
+<span class="keyword">import</span> <span class="type">androidx.room.Room</span>
+<span class="keyword">import</span> <span class="type">androidx.room.RoomDatabase</span>
+<span class="keyword">import</span> <span class="type">android.content.Context</span>
+
+@Database(<span class="attr">entities</span> <span class="operator">=</span> [<span class="type">Note</span><span class="operator">::</span><span class="keyword">class</span>], <span class="attr">version</span> <span class="operator">=</span> <span class="number">1</span>)
+<span class="keyword">abstract class</span> <span class="type">AppDatabase</span> <span class="operator">:</span> <span class="type">RoomDatabase</span>() {
+
+    <span class="comment">// Room will auto-generate the code for this function</span>
+    <span class="keyword">abstract fun</span> <span class="function">noteDao</span>()<span class="operator">:</span> <span class="type">NoteDao</span>
+
+    <span class="comment">// This is the Singleton pattern</span>
+    <span class="keyword">companion object</span> {
+        <span class="comment">// @Volatile ensures this variable is always up-to-date for all threads</span>
+        @Volatile
+        <span class="keyword">private var</span> <span class="attr">INSTANCE</span><span class="operator">:</span> <span class="type">AppDatabase?</span> <span class="operator">=</span> <span class="keyword">null</span>
+
+        <span class="keyword">fun</span> <span class="function">getDatabase</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span>)<span class="operator">:</span> <span class="type">AppDatabase</span> {
+            <span class="comment">// Return the instance if it exists</span>
+            <span class="keyword">return</span> <span class="attr">INSTANCE</span> <span class="operator">?:</span> <span class="function">synchronized</span>(<span class="keyword">this</span>) {
+                <span class="comment">// If not, create the database</span>
+                <span class="keyword">val</span> <span class="attr">instance</span> <span class="operator">=</span> <span class="type">Room</span>.<span class="function">databaseBuilder</span>(
+                    <span class="attr">context</span>.<span class="attr">applicationContext</span>,
+                    <span class="type">AppDatabase</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>,
+                    <span class="string">"notes_database"</span> <span class="comment">// Name of the .db file</span>
+                )
+                .<span class="function">build</span>()
+                
+                <span class="attr">INSTANCE</span> <span class="operator">=</span> <span class="attr">instance</span>
+                <span class="attr">instance</span>
+            }
+        }
+    }
+}
+</code></pre>
+                
+                <h4>Step 5: Using the Database</h4>
+                <p>Now, from your Activity or (even better) your ViewModel, you can get the database instance and call the DAO methods.</p>
+                <pre><code><span class="comment">// In your Activity or ViewModel</span>
+<span class="keyword">val</span> <span class="attr">db</span> <span class="operator">=</span> <span class="type">AppDatabase</span>.<span class="function">getDatabase</span>(<span class="attr">applicationContext</span>)
+<span class="keyword">val</span> <span class="attr">noteDao</span> <span class="operator">=</span> <span class="attr">db</span>.<span class="function">noteDao</span>()
+
+<span class="comment">// --- To READ data (Reactive) ---</span>
+<span class="comment">// This Flow will be collected in the UI</span>
+<span class="keyword">val</span> <span class="attr">allNotes</span><span class="operator">:</span> <span class="type">Flow</span><span class="operator">&lt;</span><span class="type">List</span><span class="operator">&lt;</span><span class="type">Note</span><span class="operator">&gt;&gt;</span> <span class="operator">=</span> <span class="attr">noteDao</span>.<span class="function">getAllNotes</span>()
+
+<span class="comment">// --- To WRITE data (in a Coroutine) ---</span>
+<span class="function">viewModelScope</span>.<span class="function">launch</span>(<span class="type">Dispatchers</span>.<span class="attr">IO</span>) { <span class="comment">// Use IO thread for disk access</span>
+    <span class="keyword">val</span> <span class="attr">newNote</span> <span class="operator">=</span> <span class="type">Note</span>(<span class="attr">title</span> <span class="operator">=</span> <span class="string">"Test"</span>, <span class="attr">content</span> <span class="operator">=</span> <span class="string">"This is a test note."</span>)
+    <span class="attr">noteDao</span>.<span class="function">insert</span>(<span class="attr">newNote</span>)
+}
+</code></pre>
+
+                <h3>Database Migrations (Critical for Updates)</h3>
+                <p>What happens when you release v1.0, and in v2.0 you want to add a new "priority" column to your <code>Note</code> table? If you just change the Entity class and increase the <code>@Database(version = 2)</code>, your app will **CRASH** for all existing users. Why? Because Room doesn't know *how* to update the old table to the new schema.</p>
+                <p>You must provide a <code>Migration</code> class.</p>
+                
+                <span class="code-filename">AppDatabase.kt (Updated)</span>
+                <pre><code><span class="comment">// 1. Define the Migration</span>
+<span class="keyword">val</span> <span class="attr">MIGRATION_1_2</span> <span class="operator">=</span> <span class="keyword">object</span> <span class="operator">:</span> <span class="type">Migration</span>(<span class="number">1</span>, <span class="number">2</span>) {
+    <span class="keyword">override fun</span> <span class="function">migrate</span>(<span class="attr">database</span><span class="operator">:</span> <span class="type">SupportSQLiteDatabase</span>) {
+        <span class="comment">// Run the SQL command to add the new column</span>
+        <span class="attr">database</span>.<span class="function">execSQL</span>(<span class="string">"ALTER TABLE notes_table ADD COLUMN priority INTEGER NOT NULL DEFAULT 0"</span>)
+    }
+}
+
+<span class="comment">// 2. Update the Database class</span>
+@Database(<span class="attr">entities</span> <span class="operator">=</span> [<span class="type">Note</span><span class="operator">::</span><span class="keyword">class</span>], <span class="attr">version</span> <span class="operator">=</span> <span class="number">2</span>) <span class="comment">// <-- Version incremented to 2</span>
+<span class="keyword">abstract class</span> <span class="type">AppDatabase</span> <span class="operator">:</span> <span class="type">RoomDatabase</span>() {
+    <span class="comment">// ...</span>
+    <span class="keyword">companion object</span> {
+        <span class="keyword">fun</span> <span class="function">getDatabase</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span>)<span class="operator">:</span> <span class="type">AppDatabase</span> {
+            <span class="keyword">return</span> <span class="attr">INSTANCE</span> <span class="operator">?:</span> <span class="function">synchronized</span>(<span class="keyword">this</span>) {
+                <span class="keyword">val</span> <span class="attr">instance</span> <span class="operator">=</span> <span class="type">Room</span>.<span class="function">databaseBuilder</span>(
+                    <span class="attr">context</span>.<span class="attr">applicationContext</span>,
+                    <span class="type">AppDatabase</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>,
+                    <span class="string">"notes_database"</span>
+                )
+                <span class="comment">// 3. Add the migration to the builder</span>
+                .<span class="function">addMigrations</span>(<span class="attr">MIGRATION_1_2</span>)
+                .<span class="function">build</span>()
+                <span class="attr">INSTANCE</span> <span class="operator">=</span> <span class="attr">instance</span>
+                <span class="attr">instance</span>
+            }
+        }
+    }
+}
+</code></pre>
+                
+                <a href="https://developer.android.com/training/data-storage/room" target="_blank" class="read-more-link">Read More about Room Database &rarr;</a>
+
+                <!-- ===================================== -->
+                <!-- PART 3: File Storage (Scoped Storage)  -->
+                <!-- ===================================== -->
+                
+                <h2>Part 3: File Storage & Scoped Storage</h2>
+                <p>What if your data isn't structured? What if it's just a file, like a photo, a video, a PDF, or a large JSON log? For this, you use File Storage.
+                <br>
+                **WARNING:** This is one of the most *confusing* parts of modern Android. Starting with **Android 10 (API 29)**, Google introduced **"Scoped Storage"**, which completely changed how apps access files. The old permissions (<code>READ_EXTERNAL_STORAGE</code>, <code>WRITE_EXTERNAL_STORAGE</code>) **no longer work** for most cases.</p>
+                
+
+                <h3>The Two Types of File Storage</h3>
+                
+                <h4>1. App-Specific Storage (Your App's "Sandbox")</h4>
+                <p>This is storage that is **private to your app**. No other app can access this data. When the user uninstalls your app, this data is **automatically deleted**. This is the **default and recommended** place to store any file that *only* your app needs.</p>
+                
+                <ul>
+                    <li><strong>Internal Storage:</strong> <code>context.filesDir</code>
+                        <ul>
+                            <li><strong>Theory:</strong> 100% private, always available, and *not* visible to the user.</li>
+                            <li><strong>Use Case:</strong> Storing sensitive data like session tokens, small encrypted files, or data you don't want the user to see.</li>
+                            <li><strong>Code:</strong>
+                            <pre><code><span class="keyword">val</span> <span class="attr">file</span> <span class="operator">=</span> <span class="type">File</span>(<span class="attr">context</span>.<span class="attr">filesDir</span>, <span class="string">"my_secret_data.txt"</span>)
+<span class="attr">file</span>.<span class="function">writeText</span>(<span class="string">"This is private data."</span>)
+<span class="keyword">val</span> <span class="attr">content</span> <span class="operator">=</span> <span class="attr">file</span>.<span class="function">readText</span>()
+</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>External Storage (App-specific):</strong> <code>context.getExternalFilesDir()</code>
+                        <ul>
+                            <li><strong>Theory:</strong> Also private to your app and deleted on uninstall, but it's on the "external" (shared) partition. It's *technically* accessible by other apps with special permissions, but this is rare.</li>
+                            <li><strong>Use Case:</strong> Storing large, non-sensitive files that your app needs, like downloaded images, audio files, or logs.</li>
+                            <li><strong>Code:</strong>
+                            <pre><code><span class="comment">// Pass in a type, like Pictures, to organize</span>
+<span class="keyword">val</span> <span class="attr">picturesDir</span> <span class="operator">=</span> <span class="attr">context</span>.<span class="function">getExternalFilesDir</span>(<span class="type">Environment</span>.<span class="attr">DIRECTORY_PICTURES</span>)
+<span class="keyword">val</span> <span class="attr">imageFile</span> <span class="operator">=</span> <span class="type">File</span>(<span class="attr">picturesDir</span>, <span class="string">"my_app_photo.jpg"</span>)
+</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>Cache:</strong> <code>context.cacheDir</code>
+                        <ul>
+                            <li><strong>Theory:</strong> For temporary files (e.g., image thumbnails from the network). The Android system can **delete** these files at any time if it's running low on storage. Never store critical data here.</li>
+                            <li><strong>Code:</strong> <code>val cacheFile = File(context.cacheDir, "temp_thumbnail.jpg")</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>2. Shared Storage (The Public Space)</h4>
+                <p>This is for files you want to *share* with other apps or save *permanently* (even if your app is uninstalled). This includes common collections like **"Downloads," "Pictures," "Music,"** and **"Documents."**</p>
+                <p>With Scoped Storage (Android 10+), you **cannot directly access these folders** with file paths anymore. You must use one of two modern APIs:</p>
+
+                <h4>A. The MediaStore (for Media)</h4>
+                <p>If your file is a Photo, Video, or Audio file, you *must* use the <code>MediaStore</code> API. This is a Content Provider (see Chapter 4) that acts as the "librarian" for all media on the device.</p>
+                <p><strong>Example: Saving a Downloaded Image to the "Pictures" Gallery</strong></p>
+                <pre><code><span class="keyword">import</span> <span class="type">android.content.ContentValues</span>
+<span class="keyword">import</span> <span class="type">android.provider.MediaStore</span>
+
+<span class="keyword">suspend fun</span> <span class="function">saveBitmapToGallery</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span>, <span class="attr">bitmap</span><span class="operator">:</span> <span class="type">Bitmap</span>) {
+    <span class="keyword">val</span> <span class="attr">resolver</span> <span class="operator">=</span> <span class="attr">context</span>.<span class="attr">contentResolver</span>
+    
+    <span class="comment">// 1. Define the file's metadata</span>
+    <span class="keyword">val</span> <span class="attr">imageDetails</span> <span class="operator">=</span> <span class="type">ContentValues</span>().<span class="function">apply</span> {
+        <span class="function">put</span>(<span class="type">MediaStore</span>.<span class="type">Images</span>.<span class="type">Media</span>.<span class="attr">DISPLAY_NAME</span>, <span class="string">"my_cool_photo.jpg"</span>)
+        <span class="function">put</span>(<span class="type">MediaStore</span>.<span class="type">Images</span>.<span class="type">Media</span>.<span class="attr">MIME_TYPE</span>, <span class="string">"image/jpeg"</span>)
+        <span class="function">put</span>(<span class="type">MediaStore</span>.<span class="type">Images</span>.<span class="type">Media</span>.<span class="attr">RELATIVE_PATH</span>, <span class="type">Environment</span>.<span class="attr">DIRECTORY_PICTURES</span>)
+    }
+
+    <span class="comment">// 2. Get a URI (a "placeholder" file path) from the MediaStore</span>
+    <span class="keyword">val</span> <span class="attr">imageUri</span> <span class="operator">=</span> <span class="attr">resolver</span>.<span class="function">insert</span>(<span class="type">MediaStore</span>.<span class="type">Images</span>.<span class="type">Media</span>.<span class="attr">EXTERNAL_CONTENT_URI</span>, <span class="attr">imageDetails</span>)
+    
+    <span class="comment">// 3. Write the image data into that placeholder</span>
+    <span class="attr">imageUri</span><span class="operator">?.</span><span class="function">let</span> { <span class="attr">uri</span> <span class="operator">-></span>
+        <span class_comment">// 'use' automatically closes the stream</span>
+        <span class="attr">resolver</span>.<span class="function">openOutputStream</span>(<span class="attr">uri</span>)<span class="operator">?.</span><span class="function">use</span> { <span class="attr">stream</span> <span class="operator">-></span>
+            <span class="attr">bitmap</span>.<span class="function">compress</span>(<span class="type">Bitmap</span>.<span class="type">CompressFormat</span>.<span class="attr">JPEG</span>, <span class="number">100</span>, <span class="attr">stream</span>)
+        }
+    }
+}
+</code></pre>
+
+                <h4>B. The Storage Access Framework (SAF) (for everything else)</h4>
+                <p>If your file is **not** media (e.g., a <code>.pdf</code>, <code>.txt</code>, <code>.zip</code>), you *must* use the Storage Access Framework (SAF). SAF does *not* give you file access. Instead, it opens a system **file picker** (like "Save As..." on a computer) and lets the *user* choose where to save the file. Your app then gets a temporary URI to write to.</p>
+                
+                
+                <p>This is complex, as it uses Activity Result APIs.</p>
+                <pre><code><span class="comment">// --- In your Activity or Fragment ---</span>
+
+<span class="comment">// 1. Register an "Activity Result Launcher" (do this in onCreate or as a property)</span>
+<span class="keyword">val</span> <span class="attr">createFileLauncher</span> <span class="operator">=</span> <span class="function">registerForActivityResult</span>(
+    <span class="type">ActivityResultContracts</span>.<span class="type">CreateDocument</span>(<span class="string">"application/pdf"</span>)
+) { <span class="attr">uri</span><span class="operator">:</span> <span class="type">Uri?</span> <span class="operator">-></span>
+    <span class="comment">// This lambda is called when the user picks a location</span>
+    <span class="attr">uri</span><span class="operator">?.</span><span class="function">let</span> {
+        <span class="function">writePdfToUri</span>(<span class="attr">it</span>)
+    }
+}
+
+<span class="comment">// 2. When the user clicks your "Save PDF" button:</span>
+<span class="function">mySaveButton</span>.<span class="function">setOnClickListener</span> {
+    <span class="comment">// This opens the system file picker</span>
+    <span class="attr">createFileLauncher</span>.<span class="function">launch</span>(<span class="string">"my_report.pdf"</span>)
+}
+
+<span class="comment">// 3. A helper function to write your data to the URI</span>
+<span class="keyword">private fun</span> <span class="function">writePdfToUri</span>(<span class="attr">uri</span><span class="operator">:</span> <span class="type">Uri</span>) {
+    <span class="keyword">try</span> {
+        <span class="attr">contentResolver</span>.<span class="function">openOutputStream</span>(<span class="attr">uri</span>)<span class="operator">?.</span><span class="function">use</span> { <span class="attr">stream</span> <span class="operator">-></span>
+            <span class="comment">// Your logic to get the PDF bytes</span>
+            <span class="keyword">val</span> <span class="attr">pdfBytes</span><span class="operator">:</span> <span class="type">ByteArray</span> <span class="operator">=</span> <span class="function">generateMyPdf</span>()
+            <span class="attr">stream</span>.<span class="function">write</span>(<span class="attr">pdfBytes</span>)
+        }
+    } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+        <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Storage"</span>, <span class="string">"Failed to save file"</span>, <span class="attr">e</span>)
+    }
+}
+</code></pre>
+                
+                <a href="https://developer.android.com/training/data-storage" target="_blank" class="read-more-link">Read More about Data and File Storage &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-core-components.html" class="cta-button prev">&larr; Chapter 4: Core Components</a>
+                    <a href="android-networking.html" class="cta-button">Next Chapter: Networking (APIs) &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
+
