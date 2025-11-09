@@ -13,11 +13,94 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* --- Page-Specific Highlight Color --- */
         .highlight {
-            background: linear-gradient(90deg, #a78bfa, #f472b6);
+            background: linear-gradient(90deg, #f43f5e, #ec4899); /* Rose/Pink */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        
+        /* --- Styles from your project-blog.html template --- */
+        .content-container {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+        .content-body {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #0f172a; /* Card background */
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            color: #cbd5e1; /* Default text color */
+        }
+        .content-header {
+            text-align: center;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .content-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .content-header .content-meta {
+            font-size: 1.25rem;
+            color: #94a3b8;
+        }
+        .content-body p, .content-body li {
+            line-height: 1.7;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .content-body h2 {
+            color: #fff;
+            font-size: 2rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        .content-body h3 {
+            color: #e2e8f0;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        .content-body ul, .content-body ol {
+            padding-left: 25px;
+        }
+        .content-body strong {
+            color: #e2e8f0;
+        }
+        .next-step-link {
+            text-align: center;
+            margin-top: 50px;
+        }
+        
+        /* Tech stack icons style */
+        .tech-stack-icons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .tech-stack-icons .tech-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+        .tech-stack-icons img {
+            height: 50px;
+            width: 50px;
+            object-fit: contain;
+        }
+
     </style>
 </head>
 <body>
@@ -29,7 +112,6 @@
                     <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
@@ -39,7 +121,6 @@
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
-                
                 <div class="hamburger">
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -53,96 +134,113 @@
         <section class="content-container">
             <div class="container">
                 <article class="content-body">
+                    
                     <div class="content-header">
                         <h1>Project Idea: <span class="highlight">URL Shortener</span></h1>
-                        <p class="content-meta">Build a full stack URL shortener service like bit.ly.</p>
+                        <p class="content-meta">Build a full-stack MERN tool like Bit.ly.</p>
                     </div>
 
-                    <p>A full application where users can (optionally) log in to see a history of all the URLs they have shortened.</p>
-                        <ul>
-                            <li><strong>Tech Stack:</strong> React, Express, MongoDB. (Authentication is optional but a great addition).</li>
-                            <li><strong>Skills Practiced:</strong> API design, frontend-backend integration, handling redirects.</li>
+                    <p>This is a classic full-stack utility project. You will build a tool that takes a very long URL from a user and gives them back a short, unique link (e.g., `mysite.com/a8f3H`). When anyone visits that short link, your app will automatically redirect them to the original long URL. This project is fantastic for understanding the full MERN stack flow.</p>
+                    
+                    <h2>✨ Key Features</h2>
+                    <ul>
+                        <li>An input field to paste a long URL.</li>
+                        <li>A "Shorten" button that generates a unique short code.</li>
+                        <li>Display the new, short link to the user.</li>
+                        <li>When the short link is visited, it must redirect to the original long URL.</li>
+                    </ul>
+
+                    <h2>💻 Tech Stack & Skills</h2>
+                    <ul>
+                        <li><strong>Tech Stack:</strong> React (Frontend), Express/Node.js (Backend), MongoDB (Database), `shortid` or `nanoid` (for generating codes).</li>
+                        <li><strong>Skills Practiced:</strong> Full-stack CRUD API, Database schema design, Backend routing & redirection, Form handling in React, State Management.</li>
                     </ul>
                     
-                    <h3>Backend Features:</h3>
-                        <ol>
-                            <li><strong>URL Model:</strong> Schema with `originalUrl`, `shortCode`, and an optional `creator` field (if you add user accounts).</li>
-                            <li><strong>API Routes:</strong>
-                                <ul>
-                                    <li>`POST /shorten`: Takes `originalUrl`, generates a `shortCode`, saves it, and returns the shortened link.</li>
-                                    <li>`GET /:shortCode`: Finds the code in the database and `res.redirect()`s to the `originalUrl`.</li>
-                                    <li>(Optional) `GET /api/my-urls`: A protected route that returns all URLs created by the logged-in user.</li>
-                                </ul>
-                            </li>
-                    </ol>
+                    
+                    <div class="tech-stack-icons">
+                        <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React">
+                            <span>React</span>
+                        </div>
+                         <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js">
+                            <span>Node.js</span>
+                        </div>
+                        <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MongoDB_Logo.svg" alt="MongoDB">
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="tech-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/Expressjs.png" alt="Express">
+                            <span>Express</span>
+                        </div>
+                    </div>
 
-                    <h3>Frontend Features:</h3>
+
+                    <h3>Backend Features (The API)</h3>
                     <ol>
-                        <li><strong>UI:</strong> A simple input field for the long URL and a button.</li>
-                        <li><strong>API Calls:</strong>
+                        <li><strong>URL Model:</strong> Create a Mongoose schema for `Url` with fields like `longUrl` (String), `shortCode` (String, unique), `clicks` (Number, default 0), and `createdAt`.</li>
+                        <li><strong>Shorten Route (`POST /api/shorten`):</strong>
                             <ul>
-                                <li>When the user submits a URL, send a `POST` request to your `/shorten` API.</li>
-                                <li>Display the shortened URL returned by the backend.</li>
-                                <li>Add a "copy to clipboard" button for user convenience.</li>
+                                <li>Receives the `longUrl` from the React app.</li>
+                                <li>Validates if it's a real URL.</li>
+                                <li>Checks if this `longUrl` already exists in the database. If yes, return the existing short link.</li>
+                                <li>If not, generate a new unique `shortCode` using a library like `nanoid`.</li>
+                                <li>Save the new `Url` object (with `longUrl` and `shortCode`) to MongoDB.</li>
+                                <li>Send back the full short URL (e.g., `http://localhost:5000/a8f3H`) to the React app.</li>
                             </ul>
                         </li>
-                        <li>(Optional) Add Login/Signup pages and a "My URLs" page that fetches and displays the user's link history.</li>
+                        <li><strong>Redirect Route (`GET /:shortCode`):</strong>
+                            <ul>
+                                <li>This is the most important route. It's a top-level route, NOT under `/api`.</li>
+                                <li>It captures the short code from the URL (e.g., `a8f3H`).</li>
+                                <li>Finds the document in MongoDB with that `shortCode`.</li>
+                                <li>If not found, send a 404 error.</li>
+                                <li>If found, increment the `clicks` count.</li>
+                                <li>Finally, use `res.redirect(url.longUrl)` to send the user to the original long URL.</li>
+                            </ul>
+                        </li>
                     </ol>
-                    <div class="next-step-link" style="text-align: center; margin-top: 50px;">
+                    
+                    <h3>Frontend Features (The React App)</h3>
+                    <ol>
+                        <li><strong>Components:</strong> A simple UI with a `header`, a `URLInputForm` component, and a `ShortLinkDisplay` component.</li>
+                        <li><strong>State Management:</strong> Use `useState` to manage the long URL input (`longUrl`), the returned short link (`shortUrl`), loading, and error states.</li>
+                        <li><strong>Form Handling:</strong>
+                            <ul>
+                                <li>Create a form with an `input` and a `button`.</li>
+                                <li>On submit, prevent the default form action.</li>
+                                <li>Set `loading` to true.</li>
+                            </ul>
+                        </li>
+                        <li><strong>API Call:</strong>
+                            <ul>
+                                <li>Make a `POST` request to your backend (`/api/shorten`) using `fetch` or `axios`.</li>
+                                <li>Send the `longUrl` in the request body.</li>
+                                <li>When the response comes back, save the new short link to the `shortUrl` state.</li>
+                                <li>Display the `shortUrl` state on the screen for the user to copy.</li>
+                            </ul>
+                        </li>
+                    </ol>
+
+                    <h2>🔥 Next Steps & Challenges</h2>
+                    <p>After completing the project, try these ideas:</p>
+                    <ul>
+                        <li>**Click Tracking:** Show the user how many clicks their short link has received.</li>
+                        <li>**User Accounts:** Allow users to sign up and see a dashboard of all the links they have shortened.</li>
+                        <li>**Custom URLs:** Allow users to create custom short links (e.g., `mysite.com/my-portfolio`).</li>
+                    </ul>
+                    
+                    <div class="next-step-link">
                         <a href="projects.html" class="cta-button">&larr; Back to All Project Ideas</a>
                     </div>
                 </article>
             </div>
         </section>
-        </main>
+    </main>
 
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-        <div class="container" style="max-width: 1100px;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
-                
-                <div class="footer-column">
-                    <a href="index.html" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
-                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                        <span>CodeWithMSMAXPRO</span>
-                    </a>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
-                        <li style="margin-bottom: 10px;"><a href="blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
-                        <li style="margin-bottom: 10px;"><a href="projects.html" style="color: #94a3b8; text-decoration: none;">Project Ideas</a></li>
-                        <li style="margin-bottom: 10px;"><a href="portfolio.html" style="color: #94a3b8; text-decoration: none;">Portfolio</a></li>
-                        <li style="margin-bottom: 10px;"><a href="contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
-                    <div class="social-links" style="display: flex; gap: 15px;">
-                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </a>
-                        <a href="#" target="_blank" title="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="#" target="_blank" title="Twitter/X">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        </a>
-                        <a href="#" target="_blank" title="Telegram">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-            <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
-                <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+        </footer>
     
     <script src="app.js"></script> 
 
