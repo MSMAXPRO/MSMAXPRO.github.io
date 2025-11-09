@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Android Developer Roadmap - CodeWithMSMAXPRO</title>
+    <title>Chapter 2: Android Studio & SDK - CodeWithMSMAXPRO</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,39 +13,222 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* (Aapka saara header, footer, aur common styles yahan hain...) */
-        html, body { overflow-x: hidden; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background-color: #0f172a; background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%); color: #cbd5e1; line-height: 1.7; }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-        header { background-color: transparent; padding: 1.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; text-decoration: none; display: flex; align-items: center; z-index: 1000; }
-        .logo img { height: 40px; margin-right: 10px; }
-        .nav-links { list-style: none; margin: 0; padding: 0; display: flex; }
-        .nav-links li { margin-left: 30px; }
-        .nav-links li a { text-decoration: none; color: #cbd5e1; font-weight: 500; transition: color 0.3s ease; }
-        .nav-links li a:hover { color: #7c3aed; }
-        .hamburger { display: none; cursor: pointer; z-index: 1000; }
-        .hamburger div { width: 25px; height: 3px; background-color: #ffffff; margin: 5px; transition: all 0.3s ease; }
-        section { padding: 60px 0; }
-        h1 { text-align: center; font-size: 2.8rem; margin-bottom: 50px; font-weight: 700; color: #ffffff; }
-        footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
 
-        /* --- NAYA HIGHLIGHT COLOR --- */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (ANDROID) --- */
         .highlight {
             background: linear-gradient(90deg, #22c55e, #84cc16); /* Green */
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
         
-        /* Roadmap Step Styles */
-        .roadmap-container { position: relative; }
-        .roadmap-container::before { content: ''; position: absolute; left: 50px; top: 25px; bottom: 25px; width: 4px; background-color: #1e293b; z-index: -1; }
-        .roadmap-step { background-color: rgba(30, 41, 59, 0.5); padding: 25px 30px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); margin-bottom: 25px; display: flex; align-items: center; gap: 25px; position: relative; transition: transform 0.2s ease; }
-        .roadmap-step:hover { transform: scale(1.03); }
-        .step-number { font-size: 1.8rem; font-weight: 700; background: linear-gradient(90deg, #22c55e, #84cc16); color: #fff; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .step-content h3 { margin: 0 0 5px 0; font-size: 1.5rem; color: #ffffff; }
-        .step-content p { margin: 0; color: #94a3b8; }
+        /* --- Content-Specific Styles (Aapke html-basics.html se) --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #84cc16; /* Green highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* plugins, android, defaultConfig */
+        .content-section pre code .function { color: #818cf8; } /* implementation, testImplementation */
+        .content-section pre code .string { color: #a78bfa; } /* "com.android.application" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int */
+        .content-section pre code .number { color: #f59e0b; } /* 34, 1 */
+        .content-section pre code .property { color: #e2e8f0; } /* compileSdk, targetSdk */
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
         
         /* Mobile Nav Styles */
         @media (max-width: 768px) {
@@ -75,7 +258,6 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
                     <li><a href="portfolio.html">Portfolio</a></li> 
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
@@ -91,81 +273,484 @@
     </header>
 
     <main>
-        <section class="roadmap-details">
-            <!-- === NAYE CHAPTERS YAHAN HAIN === -->
-            <div class="container roadmap-container">
-                <h1><span class="highlight">Android Developer</span> Roadmap</h1>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 2: <span class="highlight">Android Studio & SDK</span></h1>
                 
-                <a href="android-language.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Learn the Language: Kotlin</h3>
-                            <p>Kotlin is the modern, official language for Android. (Java is the older alternative).</p>
-                        </div>
-                    </div>
-                </a>
+                <!-- ========================== -->
+                <!-- SECTION 1: What is an IDE? -->
+                <!-- ========================== -->
+                
+                <h2>What is an IDE? (The Full Story)</h2>
+                <p>Before diving into Android Studio, we must first understand what an "IDE" is. You may have used simpler tools like VS Code, Sublime Text, or even Notepad++. These are known as **Code Editors**. A code editor is a lightweight tool primarily for writing, editing, navigating, and saving text (code) files. It's fast, flexible, and often extended with plugins.</p>
+                <p>An **IDE (Integrated Development Environment)**, on the other hand, is a much heavier, all-in-one software suite that provides a comprehensive set of tools for software development. It's not just an editor; it's a complete workshop. Think of a text editor as a simple, high-quality "hammer." An IDE is a massive, professional "toolbox" that includes the hammer, but also a full set of screwdrivers, wrenches, a power drill, a level, a measuring tape, and a blueprint table, all in one place.</p>
+                <p>For a complex task like building a mobile application for an entire operating system (Android), you need the full toolbox. Android Studio is that official, purpose-built toolbox.</p>
+                
+                <h4>Key Components of a Typical IDE:</h4>
+                <ul>
+                    <li><strong>Intelligent Code Editor:</strong> A text editor with advanced features like syntax highlighting, code completion (autocomplete), and real-time error checking (linting).</li>
+                    <li><strong>Compiler / Interpreter:</strong> The tool that translates your high-level code (Kotlin) into low-level machine code (bytecode for the JVM/ART) that the device can actually understand and execute.</li>
+                    <li><strong>Build Automation Tools:</strong> Tools (like Gradle in our case) that automate the entire process of compiling code, linking resources (images, fonts), and packaging everything into a single, installable file (like an <code>.apk</code>).</li>
+                    <li><strong>Debugger:</strong> An essential tool that allows you to pause your running application at specific points (breakpoints), inspect the values of your variables, and step through your code line-by-line to find and fix bugs.</li>
+                    <li><strong>UI/Layout Designer:</strong> A visual "drag-and-drop" editor that allows you to build your app's user interface without writing all the layout code by hand.</li>
+                    <li><strong>Version Control Integration:</strong> A built-in interface to manage Git and GitHub, allowing you to commit, push, pull, and manage branches directly from the IDE.</li>
+                    <li><strong>Testing Frameworks:</strong> Tools for writing and running unit tests (to check your logic) and instrumentation/UI tests (to check your app's interface).</li>
+                </ul>
+                <p>Android Studio provides all of these, specifically tailored for the Android platform.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: Android Studio  -->
+                <!-- ========================== -->
+                
+                <h2>What is Android Studio?</h2>
+                <p>Android Studio is the **official** IDE for Android app development, created and maintained by Google. It was first announced in 2013 and is built on top of JetBrains' powerful **IntelliJ IDEA** platform (JetBrains is the same company that created the Kotlin language).</p>
+                <p>It is 100% free, open-source, and available for Windows, macOS, and Linux. It replaced the older, more fragmented setup that involved using Eclipse with an ADT (Android Developer Tools) plugin. Today, 100% of modern, professional Android development happens in Android Studio.</p>
+                
+                
+                <h3>Installation Guide (Deep Dive)</h3>
+                <p>Installing Android Studio is straightforward, but it is a heavy and resource-intensive application. Your computer setup is the single most important factor in having a smooth development experience. A slow computer can make development extremely frustrating, as build times can take several minutes.</p>
+                
+                <h4>System Requirements (Recommended vs. Minimum)</h4>
+                <p>While Google provides "minimum" requirements, we strongly advise aiming for the "recommended" specs. The emulator and the build system (Gradle) are very RAM-hungry.</p>
+                <ul>
+                    <li><strong>OS:</strong> Windows 10/11 (64-bit), macOS 10.15 (Catalina) or higher (Apple Silicon recommended), or a modern 64-bit Linux distribution (GNOME, KDE, or Unity DE recommended).</li>
+                    <li><strong>RAM:</strong> 
+                        <ul>
+                            <li><strong>Minimum:</strong> 8 GB of RAM. (You will face slowdowns).</li>
+                            <li><strong>Recommended: 16 GB of RAM.</strong> (This is the sweet spot for most projects).</li>
+                            <li><strong>Pro-level:</strong> 32 GB of RAM (if you run multiple emulators or work on very large projects).</li>
+                        </ul>
+                    </li>
+                    <li><strong>CPU:</strong>
+                        <ul>
+                            <li><strong>x86_64 CPU:</strong> Intel Core i5 (or newer) or AMD Ryzen processor (or newer). Must support virtualization (Intel VT-x, AMD-V) for the emulator.</li>
+                            <li><strong>Apple Silicon:</strong> M1/M2/M3 chip (or newer) is highly recommended for Mac users.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Disk Space:</strong> 
+                        <ul>
+                            <li><strong>Minimum:</strong> 8 GB of free space (for IDE + SDK).</li>
+                            <li><strong>Recommended: 20 GB+ of free space.</strong> Remember, you will be downloading multiple SDK versions, build tools, and multiple emulator "system images" (which are 2-3 GB *each*). A fast **SSD (Solid State Drive)** is almost mandatory for fast build times.</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4>Step-by-Step Installation:</h4>
+                <ol>
+                    <li><strong>Download:** Go to the official <a href="https://developer.android.com/studio" target="_blank">Android Studio website</a>. The site will automatically detect your OS (Windows, Mac, etc.).</li>
+                    <li><strong>Run Installer:</strong> Click the "Download Android Studio [version_name]" button. This will download an installer file (<code>.exe</code> for Windows, <code>.dmg</code> for Mac).</li>
+                    <li><strong>Launch the Setup Wizard:</strong> Run the installer file you downloaded.
+                        <ul>
+                            <li><strong>Components:</strong> The wizard will ask you what components to install. Make sure **both "Android Studio" and "Android Virtual Device (AVD)"** are checked. The AVD is what allows you to create emulators.</li>
+                            <li><strong>Installation Path:</strong> It's highly recommended to keep the default installation path (e.g., <code>C:\Program Files\Android\Android Studio</code>).</li>
+                            <li><strong>Setup Type:</strong> When asked, choose the **"Standard"** setup. This is the easiest option. It will automatically download the latest stable Android SDK, build tools, and a default emulator system image for you. "Custom" is for advanced users who need to change SDK locations.</li>
+                        </ul>
+                    </li>
+                    <li><strong>First Launch & Component Download:</strong> The first time you launch Android Studio, it will run the "Android Studio Setup Wizard." This wizard will download all the necessary SDK components that weren't included in the installer. This step requires a **stable internet connection** and may take 10-30 minutes, as it can download 1-2 GB of data.</li>
+                    <li><strong>You're Ready:</strong> Once the wizard is finished, you will see the "Welcome to Android Studio" screen. You are now ready to create your first project.</li>
+                </ol>
 
-                <a href="android-studio.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Android Studio & SDK</h3>
-                            <p>Learn the official IDE, Android Studio. Understand Gradle and the Android SDK.</p>
-                        </div>
-                    </div>
-                </a>
+                <h4>Troubleshooting Common Installation Issues</h4>
+                <ul>
+                    <li><strong>Emulator (VT-x) Error:</strong> If your emulator fails to start and mentions "HAXM" or "VT-x," it means hardware virtualization is disabled on your computer. You must **reboot your computer** and enter the **BIOS/UEFI settings**. In the CPU or Security settings, find "Intel(R) Virtualization Technology (VT-x)" or "AMD-V" and **Enable** it. Save and exit.</li>
+                    <li><strong>Firewall/Antivirus:</strong> Sometimes, antivirus software can block Gradle from downloading dependencies or block the emulator from accessing the network. If you have issues, try temporarily disabling your firewall or adding an exception for Android Studio and its processes.</li>
+                </ul>
+                <a href="https://developer.android.com/studio/install" target="_blank" class="read-more-link">Read the Official Installation Guide &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Tour of the IDE -->
+                <!-- ========================== -->
+                
+                <h2>A Detailed Tour of the Android Studio UI</h2>
+                <p>When you create your first new project (e.g., "Empty Compose Activity"), the main IDE window will open. It can be overwhelming at first, but it's logically divided into several key areas.</p>
+                
 
-                <a href="android-ui.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>UI and Navigation</h3>
-                            <p>Learn Jetpack Compose (the new way) or XML Layouts (the old way). Master the Navigation Component.</p>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="android-components.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>Core App Components</h3>
-                            <p>Understand the pillars of an Android app: Activities, Services, and Broadcast Receivers.</p>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="android-storage.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h3>Data Storage</h3>
-                            <p>Learn to store data locally using Room Database (SQL) and DataStore/SharedPreferences.</p>
-                        </div>
-                    </div>
-                </a>
-                
-                <a href="android-networking.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">6</div>
-                        <div class="step-content">
-                            <h3>Networking (APIs)</h3>
-                            <p>Learn to fetch data from the internet using libraries like Retrofit or Ktor.</p>
-                        </div>
-                    </div>
-                </a>
+                <h3>1. The Project Panel (Left Side)</h3>
+                <p>This is your file explorer. It shows all the files and folders that make up your application. By default, it's set to the **"Android"** view. This is a clean, filtered view that organizes your files by *purpose* (e.g., grouping all layouts, all drawables). This is the view you will use 99% of the time.</p>
+                <p>You can also click the "Android" dropdown and select **"Project"** view. This shows you the *actual* physical folder structure on your disk. This is useful when you need to find files that the "Android" view hides, like <code>build.gradle.kts</code> or <code>.gitignore</code>.</p>
+                <p>We will explore the files inside this panel in the next section.</p>
 
-                <a href="android-architecture.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">7</div>
-                        <div class="step-content">
-                            <h3>Modern Architecture (MVVM)</h3>
-                            <p>Learn the MVVM (Model-View-ViewModel) architecture pattern, Coroutines, and Hilt (Dependency Injection).</p>
-                        </div>
-                    </div>
-                </a>
+                <h3>2. The Editor (Center)</h3>
+                <p>This is where you write your code. You'll spend most ofyour time here. Android Studio has a powerful tabbed editor.</p>
+                <ul>
+                    <li>If you open a Kotlin file (<code>.kt</code>), you'll see a standard text editor with advanced code completion, syntax highlighting, and error detection.</li>
+                    <li>If you are using **Jetpack Compose** (the modern UI kit), you'll see a "Split" view with your code on the left and a live, interactive **"Preview"** of your UI on the right.</li>
+                    <li>If you are using the traditional **XML layout** system, you'll see three tabs at the top-right:
+                        <ul>
+                            <li><strong>Code:</strong> The raw XML text.</li>
+                            <li><strong>Split:</strong> Code on one side, visual preview on the other (most useful).</li>
+                            <li><strong>Design:</strong> A full visual "drag-and-drop" editor.</li>
+                        </ul>
+                    </li>
+                </ul>
                 
+                <h4>The Magic Wand: Alt + Enter (or Opt + Return on Mac)</h4>
+                <p>This is the most important keyboard shortcut in Android Studio. When you see a red (error) or yellow (warning) underline, click on it and press <code>Alt + Enter</code>. Android Studio will show you a list of "Intentions" or "Quick Fixes." It can automatically import missing libraries, fix simple bugs, or wrap code in necessary blocks. Always try this first!</p>
+
+                <h3>3. The Toolbar (Top)</h3>
+                <p>This contains your main action buttons:</p>
+                <ul>
+                    <li><strong>Run 'app' (Green Play Button):</strong> Builds and runs your app on the selected device.</li>
+                    <li><strong>Debug 'app' (Green Bug Button):</strong> Runs your app in "debug mode," which lets you use breakpoints.</li>
+                    <li><strong>Device Selector:</strong> A dropdown menu that shows all your connected physical devices and running emulators (e.g., "Pixel 7 API 34"). This is where you choose *where* to run the app.</li>
+                    <li><strong>Sync Project with Gradle Files (Elephant Icon):</strong> This is a critical button. After you add a new library (dependency) to your <code>build.gradle.kts</code> file, you **must** click this button so Gradle can download and integrate it.</li>
+                    <li><strong>SDK Manager (Cube with arrow):</strong> Opens the SDK Manager window.</li>
+                    <li>**Device Manager (Phone icon):** Opens the AVD Manager to create/manage your emulators.</li>
+                </ul>
+
+                <h3>4. The Bottom Panels (Logcat, Build, Terminal)</h3>
+                <p>This bottom area contains several tabs for monitoring your app.</p>
+                <ul>
+                    <li><strong>Logcat:** This is your **Console**. It is the *most important* window for debugging. It shows all the system messages, <code>Log.d()</code> outputs, and **crash reports** from your app in real-time. We will cover this in its own section.</li>
+                    <li><strong>Build:** When you run your app, this tab opens and shows the output from Gradle. If your app fails to build (e.g., due to a syntax error or a dependency issue), the error message will be shown here.</li>
+                    <li><strong>Terminal:** A built-in command-line terminal, just like your computer's normal terminal (CMD, PowerShell, or Bash). You can use this to run Git or ADB commands.</li>
+                    <li><strong>Profiler:** An advanced tool to check your app's performance, including CPU usage, memory leaks, and network activity.</li>
+                </ul>
+                <a href="https://developer.android.com/studio/intro" target="_blank" class="read-more-link">Read More about the IDE Interface &rarr;</a>
+
+                <!-- =================================== -->
+                <!-- SECTION 4: Project Structure        -->
+                <!-- =================================== -->
+
+                <h2>Deep Dive: Understanding the Project Structure</h2>
+                <p>When you create a new project, Android Studio creates a specific folder structure. Understanding this is key to knowing where to put your files.</p>
+                
+                <h3>Top-Level Files (Project View)</h3>
+                <p>In the "Project" view, you'll see the root folder. Inside are a few key files/folders:</p>
+                <ul>
+                    <li><code>.gradle/</code> & <code>.idea/</code>: Folders for IDE and Gradle cache/settings. You should **never** edit these files.</li>
+                    <li><code>app/</code>: This is your main **module**. Your entire application lives inside this folder. (In large apps, you might have multiple modules, like <code>:core</code>, <code>:features</code>, etc.)</li>
+                    <li><code>gradle/</code>: Contains the Gradle Wrapper, which ensures everyone on your team uses the same Gradle version.</li>
+                    <li><code>build.gradle.kts</code> (Project-level): The "master" build file for the *entire* project.</li>
+                    <li><code>settings.gradle.kts</code>: Tells Gradle which modules to include in the build (e.g., <code>include(":app")</code>).</li>
+                    <li><code>libs.versions.toml</code>: (New in modern projects) The Version Catalog, for managing dependency versions.</li>
+                </ul>
+
+                <h3>The `app` Module (Android View)</h3>
+                <p>This is where you will do 99% of your work. The "Android" view simplifies this folder structure for you.</p>
+
+                <h4>1. `manifests/AndroidManifest.xml`</h4>
+                <p>This is the "passport" or "identity card" of your application. The Android Operating System reads this file *first* to understand what your app is, what it needs, and what it can do. It's a critical configuration file.</p>
+                <p>You must declare several key things here:</p>
+                <pre><code><span class="tag">&lt;manifest</span> 
+    <span class="attr">xmlns:android=</span><span class="string">"http://schemas.android.com/apk/res/android"</span>
+    <span class="attr">package=</span><span class="string">"com.codewithmsmaxpro.myapp"</span><span class="tag">&gt;</span>
+
+    <span class="comment">&lt;!-- 1. Permissions: What your app NEEDS to access --&gt;</span>
+    <span class="tag">&lt;uses-permission <span class="attr">android:name=</span><span class="string">"android.permission.INTERNET"</span> /&gt;</span>
+    <span class="tag">&lt;uses-permission <span class="attr">android:name=</span><span class="string">"android.permission.ACCESS_COARSE_LOCATION"</span> /&gt;</span>
+    
+    <span class="comment">&lt;!-- 2. Features: What hardware your app USES --&gt;</span>
+    <span class="tag">&lt;uses-feature 
+        <span class="attr">android:name=</span><span class="string">"android.hardware.camera"</span> 
+        <span class="attr">android:required=</span><span class="string">"false"</span> /&gt;</span>
+
+    <span class="comment">&lt;!-- 3. The Application Block --&gt;</span>
+    <span class="tag">&lt;application</span>
+        <span class="attr">android:allowBackup=</span><span class="string">"true"</span>
+        <span class="attr">android:icon=</span><span class="string">"@mipmap/ic_launcher"</span>
+        <span class="attr">android:label=</span><span class="string">"@string/app_name"</span>
+        <span class="attr">android:theme=</span><span class="string">"@style/Theme.MyApp"</span><span class="tag">&gt;</span>
+        
+        <span class="comment">&lt;!-- 4. Activities (Screens): All screens must be registered --&gt;</span>
+        <span class="tag">&lt;activity</span>
+            <span class="attr">android:name=</span><span class="string">".MainActivity"</span>
+            <span class="attr">android:exported=</span><span class="string">"true"</span><span class="tag">&gt;</span>
+            <span class="comment">&lt;!-- This Intent Filter marks this as the LAUNCHER activity --&gt;</span>
+            <span class="tag">&lt;intent-filter&gt;</span>
+                <span class="tag">&lt;action <span class="attr">android:name=</span><span class="string">"android.intent.action.MAIN"</span> /&gt;</span>
+                <span class="tag">&lt;category <span class="attr">android:name=</span><span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span>
+            <span class="tag">&lt;/intent-filter&gt;</span>
+        <span class="tag">&lt;/activity&gt;</span>
+        
+        <span class="comment">&lt;!-- Another screen, no intent filter, so not a launcher --&gt;</span>
+        <span class="tag">&lt;activity 
+            <span class="attr">android:name=</span><span class="string">".ProfileActivity"</span>
+            <span class="attr">android:parentActivityName=</span><span class="string">".MainActivity"</span> /&gt;</span>
+            
+        <span class="comment">&lt;!-- 5. Other Components (Services, Receivers) --&gt;</span>
+        <span class="tag">&lt;service <span class="attr">android:name=</span><span class="string">".MyMusicPlayerService"</span> /&gt;</span>
+        
+    <span class="tag">&lt;/application&gt;</span>
+<span class="tag">&lt;/manifest&gt;</span>
+</code></pre>
+                <ul>
+                    <li><strong>`package`</strong>: Your app's unique ID on the Play Store. You set this when you create the project and should *never* change it after publishing.</li>
+                    <li><strong>`&lt;uses-permission&gt;`</strong>: Declares what sensitive parts of the phone your app needs to access. If you need Internet, Camera, Location, or Contacts, you *must* add a permission tag here.</li>
+                    <li><strong>`&lt;uses-feature&gt;`</strong>: Tells the Play Store what hardware your app needs. <code>android:required="false"</code> means the app *can* use the camera, but will still run on phones without one.</li>
+                    <li><strong>`&lt;activity&gt;`</strong>: Every single "screen" (Activity) in your app must be registered here. If you create a new <code>ProfileActivity.kt</code> file but forget to add it to the manifest, your app will crash when you try to open it.</li>
+                    <li><strong>`&lt;intent-filter&gt;`</strong>: This block tells the Android OS what the component can do. The one with <code>MAIN</code> and <code>LAUNCHER</code> is special: it tells the OS, "This is the activity to open when the user taps the app icon."</li>
+                </ul>
+
+                <h4>2. `java` (Your Kotlin Code)</h4>
+                <p>This is where all your <code>.kt</code> (Kotlin) and <code>.java</code> (Java) files live. Despite the name, this is where your Kotlin code goes. It's split into three packages:</p>
+                <ul>
+                    <li><strong>`com.example.myapp`</strong>: Your main app logic (e.g., `MainActivity.kt`, `ProfileActivity.kt`, `User.kt`).</li>
+                    <li><strong>`com.example.myapp (androidTest)`</strong>: Your **Instrumentation Tests**. These are UI tests that run on a real device or emulator to simulate user behavior (e.g., "click the login button and check if the profile screen appears").</li>
+                    <li><strong>`com.example.myapp (test)`</strong>: Your **Local Unit Tests**. These are small, fast tests that run on your computer's JVM, not on a device. They are used to check small pieces of logic (e.g., "does the <code>addNumbers(2, 2)</code> function correctly return 4?").</li>
+                </ul>
+
+                <h4>3. `res` (The Resource System)</h4>
+                <p>This is the "Resources" folder. A fundamental rule of Android is to **separate your app's logic (code) from its presentation (resources)**. You should *never* write text or colors directly in your Kotlin code. Instead, you put them in the <code>res</code> folder, and your code references them by an ID.</p>
+                
+                <p>**Why?** This allows Android to automatically handle different device configurations. For example, you can provide:</p>
+                <ul>
+                    <li>A <code>values/strings.xml</code> file (in English)</li>
+                    <li>A <code>values-es/strings.xml</code> file (in Spanish)</li>
+                    <li>A <code>layout/activity_main.xml</code> file (for a phone)</li>
+                    <li>A <code>layout-large/activity_main.xml</code> file (for a tablet)</li>
+                </ul>
+                <p>Your Kotlin code (<code>MainActivity.kt</code>) remains *exactly the same*. The Android OS will automatically pick the *correct* resource file based on the user's device settings. This is the magic of the resource system.</p>
+
+                <h4>The `res` Subfolders Explained:</h4>
+                <ul>
+                    <li><strong>`drawable`</strong>: For all your images. This includes PNGs, JPGs, SVGs, and (importantly) **XML Drawables**. XML Drawables are XML files that define shapes, colors, and gradients. (e.g., you can create a <code>button_background.xml</code> that defines a button with rounded corners and a gradient, all in code).</li>
+                    <li><strong>`layout`</strong>: (For the XML UI system) This holds the XML files that define your app's screens. <code>activity_main.xml</code> defines the UI for <code>MainActivity.kt</code>.</li>
+                    <li><strong>`mipmap`</strong>: This folder is *only* for your **app launcher icons** (<code>ic_launcher.png</code>). The system uses this to pick the best-density icon for the user's home screen.</li>
+                    <li><strong>`values`</strong>: Holds all your "value" files:
+                        <ul>
+                            <li><strong>`strings.xml`</strong>: This is where all the text for your app lives.
+                            <pre><code><span class="tag">&lt;resources&gt;</span>
+    <span class="tag">&lt;string <span class="attr">name=</span><span class="string">"app_name"</span>&gt;</span>My App<span class="tag">&lt;/string&gt;</span>
+    <span class="tag">&lt;string <span class="attr">name=</span><span class="string">"welcome_message"</span>&gt;</span>Hello, %1$s!<span class="tag">&lt;/string&gt;</span>
+<span class="tag">&lt;/resources&gt;</span>
+</code></pre>
+                            <p>In your Kotlin code, you access this by its ID: <code>R.string.app_name</code> or <code>getString(R.string.welcome_message, "MSMAXPRO")</code>.</p>
+                            </li>
+                            <li><strong>`colors.xml`</strong>: Define your app's color palette here.
+                            <pre><code><span class="tag">&lt;resources&gt;</span>
+    <span class="tag">&lt;color <span class="attr">name=</span><span class="string">"black"</span>&gt;</span>#FF000000<span class="tag">&lt;/color&gt;</span>
+    <span class="tag">&lt;color <span class="attr">name=</span><span class="string">"colorPrimary"</span>&gt;</span>#FF6200EE<span class="tag">&lt;/color&gt;</span>
+<span class="tag">&lt;/resources&gt;</span>
+</code></pre>
+                            <p>In your code, you access this by: <code>R.color.colorPrimary</code>.</p>
+                            </li>
+                            <li><strong>`themes.xml`</strong>: Defines the overall look-and-feel (style) of your app. This is where you set the default <code>colorPrimary</code>, default font, and enable/disable the app bar. You will have a main theme and a "Night" theme (for Dark Mode).</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: The SDK         -->
+                <!-- ========================== -->
+
+                <h2>Deep Dive: The Android SDK (SDK Manager)</h2>
+                <p>The **SDK (Software Development Kit)** is the collection of libraries and tools that allow you to *build for* a specific platform. The "Android 14 SDK" is a "kit" that lets you build apps for Android 14. The "Android 13 SDK" is a kit for Android 13.</p>
+                <p>Android Studio manages all these kits for you using the **SDK Manager** (the "Cube with arrow" icon in the toolbar, or **Tools > SDK Manager**).</p>
+                
+
+                <h3>1. "SDK Platforms" Tab</h3>
+                <p>This tab lists all the Android OS versions (platforms) available. Each one has an **API Level**. This is just a number that represents the version.</p>
+                <ul>
+                    <li>Android 14 (API Level 34)</li>
+                    <li>Android 13 (API Level 33)</li>
+                    <li>Android 12 (API Level 31)</li>
+                    <li>...and so on, down to Android 4.1 (API 16)</li>
+                </ul>
+                <p>You only need to install the SDK Platform for the version you are **compiling** against (e.g., the latest one, API 34).</p>
+
+                <h3>2. "SDK Tools" Tab</h3>
+                <p>This tab lists the essential tools that are shared across all API levels.</p>
+                <ul>
+                    <li><strong>Android SDK Build-Tools:</strong> The actual compilers and tools (like <code>aapt2</code>, <code>d8</code>, <code>zipalign</code>) that turn your code into an <code>.apk</code>. You should have the latest version.</li>
+                    <li><strong>Android Emulator:</strong> The core engine for running virtual devices.</li>
+                    <li><strong>Android SDK Platform-Tools:</strong> This is a *critical* package. It contains helper tools like <strong>ADB (Android Debug Bridge)</strong>.</li>
+                    <li><strong>Google USB Driver:</strong> (Windows only) Needed to connect a physical Google Pixel phone for debugging.</li>
+                </ul>
+                
+                <h4>Spotlight on: ADB (Android Debug Bridge)</h4>
+                <p>ADB is a powerful command-line tool that lets your computer communicate with a connected Android device (either a real phone or an emulator). It is located in the <code>platform-tools</code> folder of your SDK.</p>
+                <p>To use it, you must first enable **"Developer Options"** on your physical phone:</p>
+                <ol>
+                    <li>Go to **Settings > About phone**.</li>
+                    <li>Find the **"Build number"**.</li>
+                    <li>**Tap on "Build number" 7 times** until it says "You are now a developer!".</li>
+                    <li>Go back to **Settings > System > Developer options**.</li>
+                    <li>Turn on **"USB debugging"**.</li>
+                </ol>
+                <p>Now, when you connect your phone to your computer with a USB cable, it will ask for authorization. Once you accept, you can open a Terminal in Android Studio and run commands:</p>
+                <pre><code><span class="comment"># 1. Check connected devices (should show your phone)</span>
+$ adb devices
+
+<span class="comment"># 2. See your app's logs in real-time</span>
+$ adb logcat
+
+<span class="comment"># 3. Install an APK file from your computer</span>
+$ adb install myapp.apk
+
+<span class="comment"># 4. Open a "shell" (command line) inside your phone</span>
+$ adb shell
+</code></pre>
+                
+                <a href="https://developer.android.com/studio/sdk-manager" target="_blank" class="read-more-link">Read More about the SDK Manager &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 6: The AVD Manager -->
+                <!-- ========================== -->
+
+                <h2>Deep Dive: AVD Manager (Emulators)</h2>
+                <p>An **AVD (Android Virtual Device)**, or "emulator," is a program that simulates a real Android phone on your computer. This is your primary tool for testing your app quickly without needing a physical phone.</p>
+                
+                <p>You manage your AVDs from the **Device Manager** tab in Android Studio (or **Tools > AVD Manager**).</p>
+                
+                <h4>How to Create a New Emulator:</h4>
+                <ol>
+                    <li>Click **"Create device"**.</li>
+                    <li><strong>Select Hardware:</strong> Choose a device definition.
+                        <ul>
+                            <li>**Recommendation:** Choose a modern, medium-sized phone like **"Pixel 7"** or **"Pixel 8"**.</li>
+                            <li>Make sure it has the **Play Store icon** next to it. This means the device *includes* Google Play Services, which many libraries need.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Select System Image:</strong> Choose the Android OS version for your virtual phone.
+                        <ul>
+                            <li>**Recommendation:** Choose the latest stable API Level (e.g., **API 34, Android 14**).</li>
+                            <li>You will need to click the "Download" icon next to the name if you don't have it installed. This is a large file (1-2 GB).</li>
+                            <li>Make sure you choose an "x86_64" image if you are on a Windows/Intel machine, or an "arm64" image if you are on an Apple M1/M2/M3 chip.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Verify Configuration:** Give your AVD a name (e.g., "Pixel_7_API_34").
+                        <ul>
+                            <li><strong>Startup orientation:</strong> Keep as "Portrait."</li>
+                            <li><strong>Emulated Performance > Graphics:</strong> Set this to **"Hardware - GLES 2.0"**. This uses your computer's GPU, which is *much* faster than "Software."</li>
+                        </ul>
+                    </li>
+                    <li>Click **"Finish"**.</li>
+                </ol>
+                <p>Now, your new virtual device will appear in the Device Selector dropdown in the toolbar, ready for you to run your app on.</p>
+                
+                <h4>Cold Boot vs. Quick Boot</h4>
+                <p>When you close an emulator, it asks you to save its state (like RAM). If you do, the next time it starts, it will be a **Quick Boot** (less than 5 seconds). If you don't save, it will do a **Cold Boot**, which is like turning on a real phone (can take 1-2 minutes). Always use Quick Boot.</p>
+
+                <!-- ========================== -->
+                <!-- SECTION 7: Gradle          -->
+                <!-- ========================== -->
+                
+                <h2>Deep Dive: The Build System: Gradle</h2>
+                <p>This is the most complex, and most powerful, part of Android Studio. **Gradle** is an advanced **build automation tool**. Its job is to be the "master chef" for your app.</p>
+                <p>You provide Gradle with a "recipe" (your <code>build.gradle.kts</code> files), and it performs all the steps needed to turn your raw ingredients (Kotlin code, XML layouts, images) into a finished, signed, and installable <code>.apk</code> or <code>.aab</code> file.</p>
+                
+                
+                <h4>What Gradle Does (The Build Process):</h4>
+                <ol>
+                    <li><strong>1. Fetches Dependencies:</strong> It reads your <code>dependencies</code> block and downloads all the third-party libraries you asked for (like Retrofit, Glide) from the internet (Maven Central, Google Maven).</li>
+                    <li><strong>2. Compiles Resources:</strong> It takes all your <code>res</code> files (images, layouts, strings) and compiles them into a compact, binary format, creating the <code>R.java</code> file (the "resource" object) so you can access them from your code (e.g., <code>R.string.app_name</code>).</li>
+                    <li><strong>3. Compiles Code:</strong> It uses the Kotlin compiler (<code>kotlinc</code>) to compile your <code>.kt</code> files into Java bytecode (<code>.class</code> files).</li>
+                    <li><strong>4. "Desugaring":** (If needed) It converts modern Java/Kotlin features into older bytecode that older Android versions can understand.</li>
+                    <li><strong>5. Dexing:</strong> It takes all <code>.class</code> files (from your code and all libraries) and combines them into one or more <code>classes.dex</code> files. "DEX" stands for **Dalvik Executable**, the format that the Android Runtime (ART) can read.</li>
+                    <li><strong>6. Packaging:</strong> It puts the <code>classes.dex</code> file, your compiled resources, and your <code>AndroidManifest.xml</code> into a single zip file.</li>
+                    <li><strong>7. Signing:</strong> It signs this zip file with a digital "debug key" (while developing) or a "release key" (when publishing) to prove you are the author.</li>
+                    <li><strong>8. Zipalign & Output:</strong> It optimizes the file for memory and gives you the final <code>app-debug.apk</code> file.</li>
+                </ol>
+                <p>This entire process is what happens every time you click the green "Run" button. A fast computer makes this process faster.</p>
+
+                <h4>The Gradle Files (Deep Dive)</h4>
+                <p>Your project is controlled by text files written in **Kotlin Script** (<code>.kts</code>). Older projects used Groovy (<code>.gradle</code>).</p>
+
+                <h4>1. `settings.gradle.kts` (Project Root)</h4>
+                <p>This file is simple. It tells Gradle which **modules** (sub-projects) are part of your build. For a new project, it's just your main <code>:app</code> module.</p>
+                <pre><code><span class="keyword">include</span>(<span class="string">":app"</span>)
+</code></pre>
+
+                <h4>2. `build.gradle.kts` (Project-level, in Root)</h4>
+                <p>This file sets *global* configurations for all modules in the project. It tells all modules which plugins and versions to use.</p>
+                <pre><code><span class="comment">// Top-level build file</span>
+<span class="keyword">plugins</span> {
+    <span class="comment">// This applies the Android Application plugin to any module that asks for it</span>
+    <span class="function">alias</span>(libs.plugins.android.application) <span class="keyword">apply</span> <span class="keyword">false</span>
+    <span class="comment">// This applies the Kotlin plugin to any module that asks for it</span>
+    <span class="function">alias</span>(libs.plugins.jetbrains.kotlin.android) <span class="keyword">apply</span> <span class="keyword">false</span>
+}
+</code></pre>
+                
+                <h4>3. `libs.versions.toml` (Version Catalog)</h4>
+                <p>This is the *new, modern way* to manage dependencies. Instead of writing long strings like <code>"androidx.core:core-ktx:1.12.0"</code> in your build file, you define them *once* in this TOML file. This makes updating libraries much easier.</p>
+                <pre><code><span class="comment"># This file is in the 'gradle' folder</span>
+[versions]
+coreKtx = <span class="string">"1.12.0"</span>
+junit = <span class="string">"4.13.2"</span>
+...
+
+[libraries]
+androidx-core-ktx = { module = <span class="string">"androidx.core:core-ktx"</span>, version.ref = <span class="string">"coreKtx"</span> }
+junit = { module = <span class="string">"junit:junit"</span>, version.ref = <span class="string">"junit"</span> }
+...
+
+[plugins]
+android-application = { id = <span class="string">"com.android.application"</span>, version.ref = <span class="string">"..."</span> }
+...
+</code></pre>
+                
+                <h4>4. `build.gradle.kts` (Module-level, in `app` folder)</h4>
+                <p>This is your **most important build file**. It is the "recipe" for your <code>:app</code> module. You will edit this file every time you add a new library.</p>
+                
+                <pre><code><span class="comment">// 1. Apply the plugins defined in the project-level file</span>
+<span class="keyword">plugins</span> {
+    <span class="function">alias</span>(libs.plugins.android.application)
+    <span class="function">alias</span>(libs.plugins.jetbrains.kotlin.android)
+}
+
+<span class="comment">// 2. Main Android Configuration</span>
+<span class="keyword">android</span> {
+    <span class="property">namespace</span> <span class="operator">=</span> <span class="string">"com.codewithmsmaxpro.myapp"</span>
+    <span class="property">compileSdk</span> <span class="operator">=</span> <span class="number">34</span>
+
+    <span class="keyword">defaultConfig</span> {
+        <span class="property">applicationId</span> <span class="operator">=</span> <span class="string">"com.codewithmsmaxpro.myapp"</span>
+        <span class="property">minSdk</span> <span class="operator">=</span> <span class="number">24</span>
+        <span class="property">targetSdk</span> <span class="operator">=</span> <span class="number">34</span>
+        <span class="property">versionCode</span> <span class="operator">=</span> <span class="number">1</span>
+        <span class="property">versionName</span> <span class="operator">=</span> <span class="string">"1.0"</span>
+
+        <span class="function">testInstrumentationRunner</span> <span class="string">"androidx.test.runner.AndroidJUnitRunner"</span>
+    }
+
+    <span class="keyword">buildTypes</span> {
+        <span class="keyword">release</span> {
+            <span class="function">minifyEnabled</span>(<span class="keyword">true</span>)
+            <span class="function">proguardFiles</span>(<span class="function">getDefaultProguardFile</span>(<span class="string">'proguard-android-optimize.txt'</span>), <span class="string">'proguard-rules.pro'</span>)
+        }
+    }
+    <span class="comment">// Other blocks like compileOptions, buildFeatures, composeOptions go here</span>
+}
+
+<span class="comment">// 3. List of dependencies (libraries) your app needs</span>
+<span class="keyword">dependencies</span> {
+    <span class="comment">// We get these from the libs.versions.toml file</span>
+    <span class="function">implementation</span>(libs.androidx.core.ktx)
+    <span class="function">implementation</span>(libs.androidx.appcompat)
+    <span class="function">implementation</span>(libs.material)
+
+    <span class="comment">// Example: Adding a new library (e.g., Retrofit for networking)
+    // 1. Add to libs.versions.toml
+    // 2. Add the line here:
+    // implementation(libs.retrofit)</span>
+    
+    <span class="comment">// Testing libraries</span>
+    <span class="function">testImplementation</span>(libs.junit)
+    <span class="function">androidTestImplementation</span>(libs.androidx.junit)
+}
+</code></pre>
+
+                <h4>`android { ... }` Section Deep Dive</h4>
+                <ul>
+                    <li><strong>`compileSdk` (API 34)</strong>: This tells Gradle, "Use the Android 14 tools to build my app." It gives you access to all the newest Android 14 features *if* you want to use them. You should *always* set this to the latest stable API level.</li>
+                    <li><strong>`minSdk` (API 24)</strong>: This is your **most important business decision**. It tells the Play Store, "My app can *only* be installed on phones running Android 7.0 (API 24) or newer." By setting this, you are deciding how many users you want to reach. A lower <code>minSdk</code> (like 21) reaches more old phones but makes development harder. A higher <code>minSdk</code> (like 26) makes development easier but cuts off users with old phones. (API 24 is a common, safe choice today).</li>
+                    <li><strong>`targetSdk` (API 34)</strong>: This tells the Android OS, "I have tested my app on Android 14, and I know it works." This is very important. If you set this to an older version (like 29), a phone running Android 14 will run your app in a "compatibility mode," which can cause unexpected behavior or poor UI. You should *always* set this to the same as your <code>compileSdk</code>.</li>
+                </ul>
+
+                <p>And that is the complete overview of Android Studio! You now know what every major button, window, and file does, from the SDK manager to the depths of the Gradle build system.</p>
+                <a href="https://developer.android.com/studio/build" target="_blank" class="read-more-link">Read More about the Gradle Build System &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-language-kotlin.html" class="cta-button prev">&larr; Chapter 1: Kotlin</a>
+                    <a href="android-ui.html" class="cta-button">Next Chapter: UI & Navigation &rarr;</a>
+                </div>
+
             </div>
         </section>
     </main>
@@ -181,13 +766,17 @@
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.nav-links');
 
-            hamburger.addEventListener('click', () => {
-                nav.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
         }
         navSlide();
     </script>
 
 </body>
 </html>
+
+
