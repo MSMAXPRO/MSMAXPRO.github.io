@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: Core App Components - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (ANDROID) --- */
+        .highlight {
+            background: linear-gradient(90deg, #22c55e, #84cc16); /* Green */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles (Aapke html-basics.html se) --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #84cc16; /* Green highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        .content-section pre code .tag { color: #f472b6; }
+        .content-section pre code .attr { color: #38bdf8; }
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 4: <span class="highlight">Core App Components</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Introduction: The 4 Pillars of an Android App</h2>
+                <p>An Android app is not just one single "program" that runs. Instead, it's a collection of independent, loosely-coupled components. The Android operating system itself is responsible for starting, stopping, and managing these components based on user actions and system events.</p>
+                <p>These components are the fundamental building blocks of any Android application. They are declared in a single, critical file we learned about in Chapter 2: the <code>AndroidManifest.xml</code>.</p>
+                <p>There are four main types of application components:</p>
+                
+                
+
+                <ol>
+                    <li><strong>Activities:</strong> The "UI" component. An activity is a single screen that the user can interact with. Your app is usually a collection of activities (e.g., <code>MainActivity</code>, <code>ProfileActivity</code>, <code>SettingsActivity</code>).</li>
+                    <li><strong>Services:</strong> The "Background" component. A service runs in the background to perform long-running tasks *without* a user interface (e.g., playing music, downloading a file, or syncing data).</li>
+                    <li><strong>Broadcast Receivers:</strong> The "Listener" component. A broadcast receiver's only job is to listen for and respond to system-wide messages (broadcasts), such as "the phone has finished booting" or "the charger has been connected."</li>
+                    <li><strong>Content Providers:</strong> The "Data" component. A content provider manages a shared set of app data. It's the *only* way to securely share your app's data with other applications (e.g., the Contacts app uses a content provider to share your contact list with WhatsApp or Google Maps).</li>
+                </ol>
+                
+                <p>How do these components talk to each other? They use a "message" object called an **Intent**. An Intent is the "glue" that binds these components together. This chapter will cover each of these pillars in extreme detail.</p>
+
+                <!-- ========================== -->
+                <!-- SECTION 2: Activities      -->
+                <!-- ========================== -->
+                
+                <h2>Deep Dive: Activities and The Activity Lifecycle</h2>
+                <p>An **Activity** is a class that represents a single, focused screen in your application. It's the most common and most important component you will build. <code>MainActivity.kt</code>, which is created with every new project, is an Activity.</p>
+                <p>The Activity's job is to draw the User Interface (using Jetpack Compose or XML, as we saw in Chapter 3) and to handle all user interaction for that screen (like button clicks or touch gestures).</p>
+                <p>Unlike a simple desktop program where you control the <code>main()</code> function, in Android, you *do not* control when your Activity starts or stops. The **Android Operating System** is in control. The user (by opening or closing the app) and the system (by receiving a phone call or running low on memory) can start, pause, resume, and destroy your Activity at any time. </p>
+                <p>To manage this, your Activity must "listen" to the OS by implementing a series of **lifecycle callback methods**.</p>
+                
+                <h3>The Activity Lifecycle (The Most Critical Concept)</h3>
+                <p>The Activity Lifecycle is a set of states an Activity can be in during its entire life, from the moment it's created until it's destroyed. The Android system notifies your Activity of these state changes by calling specific callback methods. **Your job is to override these methods** to add your own logic.</p>
+                
+                
+
+                <p>Let's write a "spy" app to see exactly when these methods are called. We'll override every lifecycle method in <code>MainActivity.kt</code> and add a Logcat message to each.</p>
+                
+                <pre><code><span class="comment">// MainActivity.kt</span>
+<span class="keyword">import</span> <span class="type">androidx.appcompat.app.AppCompatActivity</span>
+<span class="keyword">import</span> <span class="type">android.os.Bundle</span>
+<span class="keyword">import</span> <span class="type">android.util.Log</span>
+
+<span class="keyword">class</span> <span class="type">MainActivity</span> <span class="operator">:</span> <span class="type">AppCompatActivity</span>() {
+
+    <span class="keyword">companion object</span> {
+        <span class="keyword">const val</span> <span class="attr">TAG</span> <span class="operator">=</span> <span class="string">"MainActivityLifecycle"</span>
+    }
+
+    <span class="comment">// 1. CALLED FIRST: The Activity is being CREATED.</span>
+    <span class="keyword">override fun</span> <span class="function">onCreate</span>(<span class="attr">savedInstanceState</span><span class="operator">:</span> <span class="type">Bundle?</span>) {
+        <span class="keyword">super</span>.<span class="function">onCreate</span>(<span class="attr">savedInstanceState</span>)
+        <span class="function">setContentView</span>(<span class="type">R</span>.<span class="attr">layout</span>.<span class="attr">activity_main</span>)
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onCreate: Activity is being created."</span>)
+    }
+
+    <span class="comment">// 2. CALLED SECOND: The Activity is about to become VISIBLE.</span>
+    <span class="keyword">override fun</span> <span class="function">onStart</span>() {
+        <span class="keyword">super</span>.<span class="function">onStart</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onStart: Activity is now visible."</span>)
+    }
+
+    <span class="comment">// 3. CALLED THIRD: The Activity is in the FOREGROUND and INTERACTIVE.</span>
+    <span class="keyword">override fun</span> <span class="function">onResume</span>() {
+        <span class="keyword">super</span>.<span class="function">onResume</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onResume: Activity is in foreground and interactive."</span>)
+    }
+
+    <span class="comment">// 4. CALLED when user leaves: The Activity is PARTIALLY VISIBLE (e.g., dialog box)</span>
+    <span class="keyword">override fun</span> <span class="function">onPause</span>() {
+        <span class="keyword">super</span>.<span class="function">onPause</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onPause: Activity is partially visible. Time to save data."</span>)
+    }
+
+    <span class="comment">// 5. CALLED when app is in background: The Activity is INVISIBLE.</span>
+    <span class="keyword">override fun</span> <span class="function">onStop</span>() {
+        <span class="keyword">super</span>.<span class="function">onStop</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onStop: Activity is invisible (in background)."</span>)
+    }
+
+    <span class="comment">// 6. CALLED when user navigates back: Called after onStop()</span>
+    <span class="keyword">override fun</span> <span class="function">onRestart</span>() {
+        <span class="keyword">super</span>.<span class="function">onRestart</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onRestart: Activity is restarting."</span>)
+    }
+
+    <span class="comment">// 7. CALLED LAST: The Activity is being DESTROYED.</span>
+    <span class="keyword">override fun</span> <span class="function">onDestroy</span>() {
+        <span class="keyword">super</span>.<span class="function">onDestroy</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="attr">TAG</span>, <span class="string">"onDestroy: Activity is being destroyed."</span>)
+    }
+}
+</code></pre>
+                
+                <h4>Lifecycle States Explained (What to do in each method)</h4>
+                
+                <h4><code>onCreate(savedInstanceState: Bundle?)</code></h4>
+                <ul>
+                    <li><strong>When is it called?</strong> Exactly *once* when your Activity is first created.</li>
+                    <li><strong>What to do here:</strong> This is where you do all your one-time setup.
+                        <ul>
+                            <li>Call <code>setContentView()</code> (in XML) or <code>setContent { }</code> (in Compose) to show your UI.</li>
+                            <li>Initialize your ViewModels.</li>
+                            <li>Set up click listeners.</li>
+                            <li>Restore saved state from the <code>savedInstanceState</code> bundle (more on this later).</li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <h4><code>onStart()</code></h4>
+                <ul>
+                    <li><strong>When is it called?</strong> When the Activity is about to become visible to the user.</li>
+                    <li><strong>What to do here:</strong> You can start animations or register any listeners (like a Broadcast Receiver) that should only run when the app is visible.</li>
+                </ul>
+
+                <h4><code>onResume()</code></h4>
+                <ul>
+                    <li><strong>When is it called?</strong> When the Activity is in the foreground and the user can interact with it. This is the "running" state.</li>
+                    <li><strong>What to do here:</strong> Start any services that need to run *only* when the user is actively using the app (e.g., start camera preview, start location updates).</li>
+                </ul>
+
+                <h4><code>onPause()</code></h4>
+                <ul>
+                    <li><strong>When is it called?</strong> When the Activity is about to lose focus. It's partially visible, but not interactive (e.g., a phone call comes in, or a semi-transparent dialog appears).</li>
+                    <li><strong>What to do here:</strong> This is your **last chance to save critical data**. This method must be *very fast*.
+                        <ul>
+                            <li>Save any unsaved data (like a draft in a text editor) to the database.</li>
+                            <li>Stop resource-heavy tasks (like camera preview or sensor listeners).</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4><code>onStop()</code></h4>
+  
