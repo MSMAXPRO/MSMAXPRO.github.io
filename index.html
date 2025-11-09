@@ -21,14 +21,36 @@
     <meta property="twitter:image" content="https://codewithmsmaxpro.me/images/social-share-image.jpg">
 
     
-  <link rel="apple-touch-icon" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- === CACHE BUSTING (Zaroori hai taaki Chrome nayi CSS load kare) === -->
     <link rel="stylesheet" href="style.css?v=3.0">
+
+    <style>
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px; /* Ya content se zyada height */
+        }
+        .faq-question {
+            cursor: pointer;
+        }
+        .faq-question::after {
+            content: '+';
+            float: right;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+    </style>
 </head>
 <body>
 
@@ -38,12 +60,10 @@
                 <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                 <!-- === YEH SAHI JAGAH HAI === -->
-                    <div class="nav-rating">
-                        <span class="star">★</span> 4.8 
-                        <span class="count">(50+)</span>
-                    </div>
-                    <!-- === YEH SAHI JAGAH HAI === -->
+                <div class="nav-rating">
+                    <span class="star">★</span> 4.8 
+                    <span class="count">(50+)</span>
+                </div>
                 
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
@@ -64,10 +84,9 @@
         </div>
     </header>
 
-                <main>
+    <main>
         <section class="hero">
             <div class="container">
-                <!-- === RATING CODE YAHAN SE HATA DIYA GAYA HAI (Yahan galat tha) === -->
                 <h1>Your Journey to a <span class="highlight">Tech Career</span> Starts Here</h1>
                 <p>From learning to code to landing your first job, we provide the resources, roadmaps, and support you need to succeed.</p>
                 <a href="roadmaps.html" class="cta-button">Explore Roadmaps</a>
@@ -168,11 +187,6 @@
                 </div>
             </div>
         </section>
-        
-                    
-                </div>
-            </div>
-        </section>
 
         <section class="faq-section">
             <div class="container">
@@ -208,11 +222,6 @@
 
             </div>
         </section>
-        </div>
-    </section>
-
-    
-
 
         <section class="community-cta">
             <div class="container">
@@ -223,9 +232,6 @@
             </div>
         </section>
     </main>
-
-
-
 
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container" style="max-width: 1100px;">
@@ -261,11 +267,8 @@
                         <a href="#" target="_blank" title="Twitter/X">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
                         </a>
-<a href="https://t.me/CodeWithMSMAXPRO" target="_blank" title="Telegram"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
+                        <a href="https://t.me/CodeWithMSMAXPRO" target="_blank" title="Telegram"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13L2 9L22 2Z"></path><path d="M22 2L15 22L11 13L22 2Z"></path></svg>
                         </a>
-        
-            
-            
                     </div>
                 </div>
 
