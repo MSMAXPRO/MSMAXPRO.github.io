@@ -101,34 +101,38 @@
             object-fit: contain;
         }
 
+        /* --- Code Block Styles --- */
+        .content-body pre {
+            background: #1e293b;
+            border: 1px solid #334155;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        .content-body code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .content-body .code-filename {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: -15px;
+            padding: 8px 15px;
+            background: #334155;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <nav>
-                <a href="index.html" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
-                </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1</div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
-            </nav>
-        </div>
-    </header>
+        </header>
 
     <main>
         <section class="content-container">
@@ -171,41 +175,276 @@
                         </div>
                     </div>
 
+                    <h2>🛠️ Full Step-by-Step Tutorial</h2>
 
-                    <h3>Frontend Features (The React App)</h3>
+                    <p>Let's build this app from scratch. We assume you have a basic React app running.</p>
+                    
+                    <h3>Step 1: Get Your API Key</h3>
+                    <p>This is the most important step. Without an API key, you can't fetch data.</p>
                     <ol>
-                        <li><strong>Get API Key:</strong> First, go to <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a>, create a free account, and get your unique API Key.</li>
-                        <li><strong>Component UI:</strong> Create a `Weather` component that includes an `input` field for the city name and a `button` to trigger the search.</li>
-                        <li><strong>State Management:</strong> Use `useState` hooks to manage several pieces of data:
-                            <ul>
-                                <li>`city`: To store the value from the input field.</li>
-                                <li>`weatherData`: To store the JSON response from the API.</li>
-                                <li>`loading`: A boolean to show a "Loading..." message.</li>
-                                <li>`error`: To store any error messages (e.g., "City not found").</li>
-                            </ul>
-                        </li>
-                        <li><strong>API Fetching Logic:</strong>
-                            <ul>
-                                <li>Create an `async function` called `fetchWeather`.</li>
-                                <li>Inside, wrap your logic in a `try...catch...finally` block.</li>
-                                <li>`try`: Set `setLoading(true)`. Use `await fetch(...)` to call the OpenWeatherMap URL (include your API key and the `city` state). Check if `response.ok` is true. If not, throw an error. Convert the response with `await response.json()` and save it using `setWeatherData`.</li>
-                                <li>`catch`: Set the `setError(error.message)`.</li>
-                                <li>`finally`: Set `setLoading(false)`.</li>
-                            </ul>
-                        </li>
-                        <li><strong>Conditional Rendering:</strong>
-                            <ul>
-                                <li>If `loading` is true, display a loading spinner or text.</li>
-                                <li>If `error` is not null, display the error message.</li>
-                                <li>If `weatherData` is not null, pass it as props to a `WeatherCard` component to display the temperature, icon, etc.</li>
-                            </ul>
-                        </li>
+                        <li>Go to <a href="https://openweathermap.org/api" target="_blank" rel="noopener noreferrer">OpenWeatherMap API</a>.</li>
+                        <li>Sign up for a free account.</li>
+                        <li>Go to your account dashboard and find your "API keys" section.</li>
+                        <li>Copy the default key. We will use this in our project.</li>
                     </ol>
+                    <p><strong>Important:</strong> To keep your API key secret, create a file named <code>.env</code> in your project's root folder and add your key like this:</p>
+                    
+                    <span class="code-filename">.env</span>
+                    <pre><code>REACT_APP_WEATHER_API_KEY=your_api_key_here</code></pre>
+                    <p>Restart your React app (<code>npm start</code>) after creating this file.</p>
+
+
+                    <h3>Step 2: Create the Component Files</h3>
+                    <p>In your <code>src</code> folder, create a new folder named <code>components</code>. Inside it, create two files:</p>
+                    <ul>
+                        <li><code>Weather.js</code> (Our component logic)</li>
+                        <li><code>Weather.css</code> (For styling)</li>
+                    </ul>
+
+                    <h3>Step 3: The React Component (Weather.js)</h3>
+                    <p>This is the main file. We'll add the logic for state, API fetching, and the HTML (JSX).</p>
+                    
+                    <span class="code-filename">src/components/Weather.js</span>
+                    <pre><code>import React, { useState } from 'react';
+import './Weather.css';
+
+function Weather() {
+    // State variables
+    const [city, setCity] = useState('');
+    const [weatherData, setWeatherData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // Get the API key from the .env file
+    const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+
+    // Function to fetch weather data
+    const fetchWeather = async () => {
+        if (!city) {
+            setError("Please enter a city name.");
+            return;
+        }
+        
+        setLoading(true);
+        setError(null);
+        setWeatherData(null);
+
+        try {
+            const response = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`
+            );
+
+            if (!response.ok) {
+                throw new Error('City not found. Please try again.');
+            }
+
+            const data = await response.json();
+            setWeatherData(data);
+            
+
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Handle 'Enter' key press in the input
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            fetchWeather();
+        }
+    };
+
+    return (
+        <div className="weather-container">
+            <h1 className="weather-title">Weather Dashboard</h1>
+            
+            <div className="search-bar">
+                <input 
+                    type="text" 
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                    placeholder="Enter city name..."
+                />
+                <button onClick={fetchWeather}>Search</button>
+            </div>
+
+            {/* --- Display Area --- */}
+            <div className="weather-display">
+                {loading && <p className="loading-text">Loading data...</p>}
+                
+                {error && <p className="error-text">{error}</p>}
+                
+                {weatherData && (
+                    <div className="weather-card">
+                        <h2>{weatherData.name}, {weatherData.sys.country}</h2>
+                        <div className="weather-main">
+                            <img 
+                                src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} 
+                                alt={weatherData.weather[0].description} 
+                            />
+                            <span className="temp">{Math.round(weatherData.main.temp)}°C</span>
+                        </div>
+                        <p className="description">{weatherData.weather[0].description}</p>
+                        <div className="weather-details">
+                            <p><strong>Humidity:</strong> {weatherData.main.humidity}%</p>
+                            <p><strong>Wind:</strong> {weatherData.wind.speed} m/s</p>
+                            <p><strong>Feels like:</strong> {Math.round(weatherData.main.feels_like)}°C</p>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}
+
+export default Weather;
+</code></pre>
+
+                    <h3>Step 4: The Styling (Weather.css)</h3>
+                    <p>This CSS will make our component look clean and match your site's dark theme.</p>
+
+                    <span class="code-filename">src/components/Weather.css</span>
+                    <pre><code>.weather-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #0f172a; /* Dark card background */
+    border-radius: 12px;
+    border: 1px solid #1e293b;
+    color: #cbd5e1;
+    font-family: 'Inter', sans-serif;
+}
+
+.weather-title {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.search-bar input {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #fff;
+}
+.search-bar input::placeholder {
+    color: #64748b;
+}
+
+.search-bar button {
+    padding: 12px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #a78bfa, #f472b6); /* Your site's gradient */
+    color: #fff;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.search-bar button:hover {
+    opacity: 0.9;
+}
+
+.loading-text, .error-text {
+    text-align: center;
+    font-size: 1.1rem;
+    padding: 20px;
+}
+.error-text {
+    color: #f87171;
+    background-color: #f8717120;
+    border-radius: 8px;
+}
+
+.weather-card {
+    background-color: #1e293b;
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+}
+.weather-card h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+.weather-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+.weather-main .temp {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #fff;
+    margin-left: 10px;
+}
+.weather-main img {
+    width: 100px;
+    height: 100px;
+}
+.description {
+    font-size: 1.2rem;
+    text-transform: capitalize;
+    color: #94a3b8;
+    margin-bottom: 20px;
+}
+.weather-details {
+    display: flex;
+    justify-content: space-around;
+    color: #fff;
+}
+.weather-details p {
+    margin: 0;
+}
+.weather-details strong {
+    color: #94a3b8;
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+</code></pre>
+
+                    <h3>Step 5: Add to App.js</h3>
+                    <p>Finally, go to your <code>src/App.js</code> file, import the new component, and add it.</p>
+                    
+                    <span class="code-filename">src/App.js</span>
+                    <pre><code>import React from 'react';
+import './App.css'; // Or your main stylesheet
+import Weather from './components/Weather';
+
+function App() {
+  return (
+    <div className="App">
+      {/* You can add this component to your homepage 
+          or wherever you want it to appear */}
+      <Weather />
+    </div>
+  );
+}
+
+export default App;
+</code></pre>
+
+                    <p>Aur bas! Ab aapke paas ek fully functional weather app hai. Yeh tutorial ab `project-weather-app.html` page ka hissa hai.</p>
                     
                     <h2>🔥 Next Steps & Challenges</h2>
-                    <p>After completing the project, try these ideas:</p>
+                    <p>After completing this tutorial, try these ideas:</p>
                     <ul>
-                        <li>**5-Day Forecast:** Along with the current weather, display the forecast for the next 5 days (OpenWeatherMap provides this data too).</li>
+                        <li>**5-Day Forecast:** OpenWeatherMap's API can also send a 5-day forecast. Try to fetch and display that!</li>
                         <li>**Geolocation:** Show the weather for the user's current location (using the browser's Geolocation API) on initial page load.</li>
                         <li>**Save Last Search:** Save the user's last searched city in `localStorage` so it becomes the default location when the app opens.</li>
                     </ul>
