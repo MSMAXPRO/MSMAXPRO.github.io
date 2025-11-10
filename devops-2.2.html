@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2.2: Networking Basics - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9); /* Blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #38bdf8; /* Blue highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash/Python */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class, if, for */
+        .content-section pre code .function { color: #818cf8; } /* println, main, def */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .variable { color: #e2e8f0; } /* $VAR, my_var */
+        .content-section pre code .command { color: #34d399; } /* ls, grep, curl */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 2.2: <span class="highlight">Networking Basics</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The Foundation: Why Networking Matters</h2>
+                <p>In Chapter 2.1, we mastered the Operating System (Linux). That is the "ground" our servers run on. Now, we learn about the "roads" that connect them. **Networking** is the fundamental study of how computers talk to each other.</p>
+                <p>As a DevOps engineer, you live in the network. You don't just "use" the network; you *build* it, *manage* it, and *debug* it. When a developer says "My app can't reach the database," they come to *you*. You are the one who has to figure out *why*.</p>
+                <p>Is it a DNS problem? Is a firewall blocking the port? Is a router misconfigured? This chapter will teach you how to answer those questions. We will cover the entire **TCP/IP stack**, the "language" of the internet.</p>
+
+                <!-- =================================== -->
+                <!-- PART 1: The Models (OSI vs TCP/IP) -->
+                <!-- =================================== -->
+                
+                <h2>Part 1: Network Models (OSI vs. TCP/IP)</h2>
+                <p>To understand networking, we use "models." A model is a way of separating a complex process (like sending a message) into smaller, manageable layers. You will hear about two models: OSI (theoretical) and TCP/IP (practical).</p>
+                
+                <h3>The OSI Model (The 7-Layer Theoretical Model)</h3>
+                <p>The OSI (Open Systems Interconnection) model is a 7-layer *conceptual* model. It was designed by academics to be the "perfect" standard. It's great for *understanding* networking theory, but it's not what the internet *actually* uses. You need to know the 7 layers for interviews.</p>
+                [Image of the 7-layer OSI Model (Physical, Data Link, Network, Transport, Session, Presentation, Application)]
+                <ol>
+                    <li><strong>Layer 7 (Application):</strong> The "human" layer. The app you interact with (e.g., your Chrome browser, Discord). (Protocol: HTTP, FTP, SMTP).</li>
+                    <li><strong>Layer 6 (Presentation):</strong> The "translator." Formats data, handles encryption/decryption (SSL/TLS).</li>
+                    <li><strong>Layer 5 (Session):</strong> The "conversation manager." Establishes, manages, and terminates the connection between two apps.</li>
+                    <li><strong>Layer 4 (Transport):</strong> The "reliability" layer. How data is sent (reliably or not). (Protocols: **TCP**, **UDP**).</li>
+                    <li><strong>Layer 3 (Network):</strong> The "addressing & routing" layer. Finds the best path from A to B. (Protocol: **IP**).</li>
+                    <li><strong>Layer 2 (Data Link):</strong> The "local delivery" layer. Handles communication between two devices on the *same* local network. (Protocol: Ethernet, MAC Addresses).</li>
+                    <li><strong>Layer 1 (Physical):</strong> The actual "hardware." The wires, fiber optics, Wi-Fi radio waves.</li>
+                </ol>
+                
+                <h3>The TCP/IP Model (The 4-Layer Practical Model)</h3>
+                <p>This is the model the internet *actually* runs on. It's simpler (4 layers) and more practical. This is the one you *must* master.</p>
+                [Image of the 4-layer TCP/IP Model (Link, Internet, Transport, Application)]
+                <ol>
+                    <li><strong>Layer 4 (Application):</strong> Same as OSI. This is where protocols like **HTTP**, **SSH**, and **DNS** live.</li>
+                    <li><strong>Layer 3 (Transport):</strong> Same as OSI. This is where **TCP** and **UDP** live. This layer is all about **Ports**.</li>
+                    <li><strong>Layer 2 (Internet):</strong> Same as OSI. This is where the **IP** protocol lives. This layer is all about **IP Addresses**.</li>
+                    <li><strong>Layer 1 (Link):** Same as OSI. This is the hardware, like Ethernet and Wi-Fi.</li>
+                </ol>
+                <p>For the rest of this chapter, we will work our way *up* this practical TCP/IP stack, from Layer 2 to Layer 4.</p>
+
+                <!-- =================================== -->
+                <!-- PART 2: The Internet Layer (IP) -->
+                <!-- =================================== -->
+                
+                <h2>Part 2: The Internet Layer (IP Addresses)</h2>
+                <p>An **IP (Internet Protocol) Address** is the unique "house address" for a device on a network. Just like a postman needs your address to deliver a letter, one server needs another server's IP address to send it data. Every server, computer, and phone on the internet has at least one.</p>
+                
+                <h3>IPv4 vs. IPv6</h3>
+                <h4>IPv4 (The Old Standard)</h4>
+                <ul>
+                    <li><strong>What it is:</strong> The original IP format (e.g., <code>172.217.14.228</code>).</li>
+                    <li><strong>How it works:</strong> It's a 32-bit number (four 8-bit numbers, called "octets").</li>
+                    <li><strong>The Problem:</strong> A 32-bit number only allows for 2^32 (about **4.2 billion**) unique addresses. With phones, laptops, smart TVs, and servers, **we have officially run out of IPv4 addresses.**</li>
+                </ul>
+                
+                <h4>IPv6 (The New Standard)</h4>
+                <ul>
+                    <li><strong>What it is:</strong> The new, much longer format (e.g., <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>).</li>
+                    <li><strong>How it works:</strong> It's a 128-bit number.</li>
+                    <li><strong>The Benefit:</strong> 128 bits allows for 2^128, or **340 undecillion** (3.4 x 10^38) addresses. This is a ridiculously large number. We will never run out of IPv6 addresses.</li>
+                    <li><strong>DevOps Note:** All modern cloud providers (AWS, GCP) are "dual-stack" (they support both), but you should build new infrastructure with IPv6 in mind.</li>
+                </ul>
+
+                <h3>Public vs. Private IP & NAT</h3>
+                <p>We ran out of IPv4 addresses, so how does the internet still work? With a clever trick called **NAT (Network Address Translation)**. This creates two "worlds" of IP addresses: Public and Private.</p>
+                
+                <ul>
+                    <li><strong>Public IP:</strong> Your "main" address on the global internet. Your ISP (Airtel, Jio) gives you *one* of these for your whole house. This IP is unique in the world.</li>
+                    <li><strong>Private IP:</strong> Your *internal* addresses, used *inside* your house/office network. They are not reachable from the internet. They *always* start with one of these reserved blocks:
+                        <ul>
+                            <li><code>192.168.x.x</code> (Most common for home Wi-Fi)</li>
+                            <li><code>10.x.x.x</code> (Common in big companies)</li>
+                            <li><code>172.16.x.x</code> - <code>172.31.x.x</code></li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>Your Wi-Fi Router acts as the NAT. It "owns" the one Public IP. When your laptop (<code>192.168.1.10</code>) wants to go to <code>google.com</code>, it sends the request to the router. The router "translates" the request, sends it to Google using the **Public IP**, gets the response, and then translates it *back* to your laptop. This is how 100 devices in your house can all share one Public IP.</p>
+                
+                <h3>Subnetting & CIDR (CRITICAL)</h3>
+                <p>This is the most important IP concept for cloud (AWS/GCP). A **Subnet** is a "sub-division" of a network.
+                <br>
+                How do you tell a computer which part of an IP is the "Network" and which part is the "Device"?</p>
+                
+                <h4>Method 1: The Old Way (Subnet Mask)</h4>
+                <p>A subnet mask is a 32-bit number (like an IP) that "masks" the device part. <code>255</code> means "This part is the Network." <code>0</code> means "This part is for Devices."</p>
+                <ul>
+                    <li><strong>IP Address:</strong> <code>192.168.1.50</code></li>
+                    <li><strong>Subnet Mask:</strong> <code>255.255.255.0</code></li>
+                    <li><strong>Translation:</strong> The first three octets (<code>192.168.1</code>) are the **Network ID**. The last octet (<code>.50</code>) is the **Host/Device ID**. This network (<code>192.168.1.x</code>) can have 254 usable devices (from .1 to .254).</li>
+                </ul>
+                
+                <h4>Method 2: The New Way (CIDR Notation)</h4>
+                <p>CIDR (Classless Inter-Domain Routing) is the modern, short way to write this. You just write a <code>/</code> followed by the number of bits that are the "Network".</p>
+                <ul>
+                    <li><code>/24</code>: This means the first 24 bits (8+8+8) are the network.
+                        <ul><li><code>192.168.1.0/24</code> is the *exact same thing* as <code>255.255.255.0</code>. It gives you 254 addresses.</li></ul>
+                    </li>
+                    <li><code>/16</code>: This means the first 16 bits (8+8) are the network.
+                        <ul><li><code>10.0.0.0/16</code> is the *exact same thing* as <code>255.255.0.0</code>. It gives you 65,534 addresses (from <code>10.0.0.1</code> to <code>10.0.255.254</code>).</li></ul>
+                    </li>
+                    <li><code>/32</code>: This means all 32 bits are the network. It refers to *one single IP address*.</li>
+                </ul>
+                <p>When you create a **VPC (Virtual Private Cloud)** in AWS, the *first* thing it asks for is your CIDR block (e.g., <code>10.0.0.0/16</code>). You then divide this into smaller "subnets" (e.g., <code>10.0.1.0/24</code> for your web servers, <code>10.0.2.0/24</code> for your databases).</p>
+                
+                <!-- =================================== -->
+                <!-- PART 3: The Transport Layer (TCP/UDP) -->
+                <!-- =================================== -->
+                
+                <h2>Part 3: The Transport Layer (TCP/UDP) & Ports</h2>
+                <p>If the IP Address is the "house address" of your server building, the **Port** is the "apartment number" for a *specific service* (program) running inside that server.</p>
+                <p>Your server (<code>104.21.92.100</code>) is running multiple services at once. How does a user's request know if it's for the website or for your SSH login?</p>
+                <ul>
+                    <li>Your Nginx web server "listens" on **Port 80** (HTTP) and **Port 443** (HTTPS).</li>
+                    <li>Your SSH service "listens" on **Port 22**.</li>
+                </ul>
+                <p>A "socket" is the combination of an IP and a Port (e.g., <code>104.21.92.100:443</code>).</p>
+                
+                <h3>TCP (Transmission Control Protocol)</h3>
+                <ul>
+                    <li><strong>Analogy:</strong> A Phone Call.</li>
+                    <li><strong>How it works:</strong> It's **connection-oriented**. Before any data is sent, a "call" is established using the **3-Way Handshake**.
+                    <br>
+                    
+                        <ol>
+                            <li>**Client -> Server:** SYN (Can we talk?)</li>
+                            <li>**Server -> Client:** SYN-ACK (Yes, I'm here! Can you hear me?)</li>
+                            <li>**Client -> Server:** ACK (Yes, I hear you. Let's talk.)</li>
+                        </ol>
+                    </li>
+                    <li><strong>Pros:</strong> **Reliable.** 100% of data is guaranteed to arrive. Packets are numbered, sent in order, and confirmed (ACK'd). If a packet is lost, it's re-sent.</li>
+                    <li><strong>Cons:</strong> Slower, more overhead.</li>
+                    <li><strong>Used for:</strong> **HTTP/HTTPS** (websites), **SSH**, **FTP** (file transfer), **SMTP** (email). Everything where 100% data integrity is critical.</li>
+                </ul>
+                
+                <h3>UDP (User Datagram Protocol)</h3>
+                <ul>
+                    <li><strong>Analogy:</strong> A Postcard.</li>
+                    <li><strong>How it works:</strong> It's **connectionless**. You just write the data, put the address on it, and "fire and forget."</li>
+                    <li><strong>Pros:</strong> **Fast.** Very low overhead, no handshake.</li>
+                    <li><strong>Cons:</strong> **Unreliable.** Packets (datagrams) can be lost, arrive out of order, or be duplicated.</li>
+                    <li><strong>Used for:</strong> **DNS**, **VoIP** (Zoom/Skype calls), **online gaming**. Everything where *speed* is more important than 100% accuracy. (It's better to miss one frame of a video call than to have it pause for 5 seconds to re-download a lost packet).</li>
+                </ul>
+
+                <h4>Key Ports You MUST Memorize:</h4>
+                <p>A "firewall" is a tool that *blocks* ports. A common DevOps task is "opening port 80" in the firewall so the web server can receive traffic.</p>
+                <ul>
+                    <li><strong>21:</strong> FTP (File Transfer Protocol - insecure)</li>
+                    <li><strong>22:</strong> **SSH** (Secure Shell) - How you log in to your Linux servers.</li>
+                    <li><strong>25:</strong> SMTP (Simple Mail Transfer Protocol) - Used to send email.</li>
+                    <li><strong>53:</strong> **DNS** (Domain Name System) - The "phonebook" service.</li>
+                    <li><strong>80:</strong> **HTTP** (Hypertext Transfer Protocol) - Unsecured web traffic.</li>
+                    <li><strong>443:</strong> **HTTPS** (HTTP Secure) - Secured (encrypted) web traffic.</li>
+                    <li><strong>3306:</strong> **MySQL** - Common database.</li>
+                    <li><strong>5432:</strong> **PostgreSQL** - Common database.</li>
+                    <li><strong>6379:</strong> **Redis** - Common in-memory cache.</li>
+                </ul>
+                
+                <!-- =================================== -->
+                <!-- PART 4: The Application Layer -->
+                <!-- =================================== -->
+                
+                <h2>Part 4: The Application Layer (The Services)</h2>
+                <p>This is the final layer. These are the "human" protocols that run *on top of* TCP or UDP.</p>
+                
+                <h3>1. DNS (Domain Name System) - The Phonebook</h3>
+                <p>DNS is the "phonebook" of the internet. It's a massive, global, distributed database that translates human-readable names (<code>codewithmsmaxpro.me</code>) into computer-readable IP addresses (<code>104.21.92.100</code>).</p>
+                
+                <h4>How it Works (The Query Flow):</h4>
+                <p>When you type <code>google.com</code> into your browser, this happens in milliseconds:</p>
+                
+                <ol>
+                    <li>Your browser asks your **Recursive Resolver** (usually your ISP, e.g., Airtel, or a public one like <code>8.8.8.8</code> - Google's DNS).</li>
+                    <li>The Resolver (if it doesn't have it cached) asks one of the 13 **Root Servers** ("Where can I find <code>.com</code>?").</li>
+                    <li>The Root Server replies: "I don't know, but ask the <code>.com</code> **TLD Server**."</li>
+                    <li>The Resolver asks the <code>.com</code> TLD Server ("Where can I find <code>google.com</code>?").</li>
+                    <li>The TLD Server replies: "I don't know, but ask Google's **Authoritative Nameserver** (e.g., <code>ns1.google.com</code>)."</li>
+                    <li>The Resolver asks <code>ns1.google.com</code> ("What is the IP for <code>google.com</code>?").</li>
+                    <li>The Authoritative Server *finally* answers: "The IP is <code>142.250.196.78</code>."</li>
+                    <li>The Resolver sends this IP back to your browser. Your browser then makes a TCP connection to that IP on port 443.</li>
+                </ol>
+                
+                <h4>Common DNS Record Types (CRITICAL for DevOps)</h4>
+                <p>As a DevOps engineer, you will manage your company's "Authoritative Nameserver" (e.g., on AWS Route 53, GoDaddy, or Cloudflare). You will be in charge of these records:</p>
+                <ul>
+                    <li><strong>A Record (Address):</strong> The most common. Maps a domain (<code>@</code>) or subdomain (<code>www</code>) to an **IPv4 address**.
+                        <br><code>codewithmsmaxpro.me</code> -> <code>104.21.92.100</code>
+                    </li>
+                    <li><strong>AAAA Record (Quad-A):</strong> Maps a domain to an **IPv6 address**.</li>
+                    <li><strong>CNAME (Canonical Name):</strong> Maps a domain to *another domain*. This is an "alias."
+                        <br><code>www.codewithmsmaxpro.me</code> -> <code>codewithmsmaxpro.me</code>
+                        <br>This is very useful. If your IP changes, you only have to update the one 'A' record, and all your CNAMEs update automatically.
+                    </li>
+                    <li><strong>MX (Mail Exchange):** Tells the world where to send **email** for your domain.
+                        <br><code>codewithmsmaxpro.me</code> -> <code>10 aspmx.l.google.com</code> (This points to Google Workspace/Gmail).
+                    </li>
+                    <li><strong>TXT (Text):** Used to store arbitrary text. Its main use is for **verification**. When you sign up for Google Workspace, they will ask you to create a <code>TXT</code> record with a special code (e.g., <code>"google-site-verification=..."</code>) to *prove* you own the domain.</li>
+                </ul>
+
+                <h3>2. HTTP (Hypertext Transfer Protocol)</h3>
+                <p>We covered this briefly in the REST section. This is the "language" of the web. It's a request-response protocol. The client (browser) sends an **HTTP Request** and the server (Nginx) sends an **HTTP Response**.</p>
+                
+                <h4>Anatomy of an HTTP Request</h4>
+                <pre><code><span class="keyword">GET</span> /api/users/123 <span class="type">HTTP/1.1</span>
+<span class="property">Host:</span> api.example.com
+<span class="property">User-Agent:</span> MyAndroidApp/1.0
+<span class="property">Authorization:</span> Bearer my_secret_token
+<span class="property">Accept:</span> application/json
+
+<span class="comment">(Body would go here for a POST request)</span>
+</code></pre>
+
+                <h4>Anatomy of an HTTP Response</h4>
+                <pre><code><span class="type">HTTP/1.1</span> <span class="number">200</span> <span class="keyword">OK</span>
+<span class="property">Content-Type:</span> application/json
+<span class="property">Content-Length:</span> 150
+<span class="property">Date:</span> Mon, 10 Nov 2025 12:00:00 GMT
+
+{
+  <span class="string">"id"</span>: <span class="number">123</span>,
+  <span class="string">"name"</span>: <span class="string">"MSMAXPRO"</span>
+}
+</code></pre>
+                
+                <h3>3. HTTPS (HTTP Secure)</h3>
+                <p>HTTP is plain text. Anyone "sniffing" your Wi-Fi can read your passwords. This is why **HTTPS** was invented. It's *not* a new protocol. It is just **HTTP + SSL/TLS**.</p>
+                <p>SSL (Secure Sockets Layer), now called TLS (Transport Layer Security), is an encryption "layer" that wraps your HTTP request.
+                <br>
+                When you connect to <code>https://google.com</code>:</p>
+                <ol>
+                    <li>Your browser and Google's server perform an **SSL Handshake**.</li>
+                    <li>They use **Public/Private Key Cryptography** to securely agree on a shared secret **Symmetric Key**.</li>
+                    <li>*After* this secure channel is built, they start sending the normal HTTP requests (GET, POST) *inside* this encrypted tunnel.</li>
+                </ol>
+                <p>As a DevOps engineer, your job is to set this up on your server. You get an **SSL Certificate** from a **Certificate Authority (CA)** (like Let's Encrypt - which is free) and install it in Nginx. This is what enables the "lock" icon in the browser.</p>
+
+                <!-- =================================== -->
+                <!-- PART 5: Practical Tools -->
+                <!-- =================================== -->
+                
+                <h2>Part 5: Practical Networking Tools (Command Line)</h2>
+                <p>These are the commands you will use *every day* to debug problems.</p>
+                
+                <h4><code>ping</code></h4>
+                <p>**Question:** "Is this server alive and can I reach it?"
+                <br>
+                It sends an ICMP "echo request" packet and waits for an "echo reply."</p>
+                <pre><code>$ ping google.com
+<span class="comment_output">
+PING google.com (142.250.196.78): 56 data bytes
+64 bytes from 142.250.196.78: icmp_seq=0 ttl=116 time=5.483 ms
+64 bytes from 142.250.196.78: icmp_seq=1 ttl=116 time=5.234 ms
+</span>
+<span class="comment"># 'time=5.483 ms' is your "latency" or "lag".</span>
+<span class="comment"># If this fails, you have a basic connectivity problem.</span>
+</code></pre>
+                
+                <h4><code>ss</code> (or <code>netstat</code>)</h4>
+                <p>**Question:** "What ports are listening on my server?"
+                <br>
+                <code>ss</code> (Socket Statistics) is the modern version of <code>netstat</code>. It's used to see all open connections and listening ports.</p>
+                <pre><code><span class="comment"># Show all listening (l) TCP (t) and UDP (u) ports, </span>
+<span class="comment"># show numbers (n) and the process (p) using them.</span>
+$ sudo ss -ltunp
+<span class="comment_output">
+Proto  Recv-Q  Send-Q  Local Address:Port    Peer Address:Port   Process
+tcp    LISTEN  0       127.0.0.1:5432        0.0.0.0:* (postgres)
+tcp    LISTEN  0       0.0.0.0:80            0.0.0.0:* (nginx)
+tcp    LISTEN  0       0.0.0.0:22            0.0.0.0:* (sshd)
+</span>
+</code></pre>
+                <p>This output is your #1 tool. It tells us that our server is running PostgreSQL (port 5432), Nginx (port 80), and SSH (port 22). If Nginx was crashed, you would *not* see port 80 in this list.</p>
+                
+                <h4><code>dig</code> (Domain Information Groper)</h4>
+                <p>**Question:** "What is the DNS record for this domain?"
+                <br>
+                This is the main tool for debugging DNS.</p>
+                <pre><code>$ dig codewithmsmaxpro.me
+<span class="comment_output">
+...
+;; QUESTION SECTION:
+;codewithmsmaxpro.me.     IN    A
+
+;; ANSWER SECTION:
+codewithmsmaxpro.me. 300  IN    A     104.21.92.100
+codewithmsmaxpro.me. 300  IN    A     172.67.199.23
+...
+</span>
+</code></pre>
+                <p>This tells us that <code>codewithmsmaxpro.me</code> has an "A" (Address) record pointing to two IP addresses (this is common for load balancing). The "300" is the **TTL (Time to Live)** in seconds, meaning other resolvers will cache this record for 5 minutes (300s).</p>
+                
+                <h4><code>traceroute</code> (or <code>mtr</code>)</h4>
+                <p>**Question:** "My server is alive (ping works), but the connection is very slow. Where is the bottleneck?"
+                <br>
+                <code>traceroute</code> shows you every "hop" (router) your data packet takes between you and the server.</p>
+                <pre><code>$ traceroute google.com
+<span class="comment_output">
+traceroute to google.com (142.250.196.78), 30 hops max
+ 1  192.168.1.1 (my-router)  1.5 ms
+ 2  airtel-del-1.isp.net (isp-router)  5.2 ms
+ 3  ...
+ 4  ... (many hops) ...
+ 5  108.170.253.1 (google-router)  25.4 ms
+ 6  142.250.196.78 (google-server)  25.6 ms
+</span>
+</code></pre>
+                <p>If you see a sudden jump in time (e.g., from 5ms to 200ms) at a specific hop, you know where the network lag is.</p>
+                
+                <a href="https://www.cloudflare.com/learning/network-layer/what-is-tcp-ip/" target="_blank" class="read-more-link">Read More about the TCP/IP Model &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-os-linux.html" class="cta-button prev">&larr; Chapter 2.1: The OS (Linux)</a>
+                    <a href="devops-git.html" class="cta-button">Next Chapter: Version Control (Git) &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
