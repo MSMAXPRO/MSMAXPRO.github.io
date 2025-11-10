@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 3: Version Control (Git) - The Ultimate Guide - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #f97316, #ef4444); /* Orange/Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #f97316; /* Orange highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .command { color: #34d399; } /* git */
+        .content-section pre code .keyword { color: #f472b6; } /* -m, --global, --soft, --hard, -i */
+        .content-section pre code .string { color: #a78bfa; } /* "message" */
+        .content-section pre code .variable { color: #e2e8f0; } /* main, HEAD */
+        .content-section pre code .operator { color: #818cf8; } /* | */
+        .content-section pre code .commit-hash { color: #f59e0b; } /* abc1234 */
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 3: <span class="highlight">Version Control (Git) - Ultimate Guide</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The "Why": What is Version Control?</h2>
+                <p>Imagine you are working on your project. You create <code>project_v1.zip</code>. Then you add a new feature and save it as <code>project_v2.zip</code>. Then you fix a bug and save it as <code>project_v2_final.zip</code>. Then your friend helps and you have <code>project_v2_final_amans_changes.zip</code>. Then you find another bug and save <code>project_v2_final_REALLY_final.zip</code>.</p>
+                <p>This is **hell**. It's unmanageable, you can't see *what* changed, and you can't easily merge your friend's changes with your new bug fix. You have no "history."</p>
+                <p>A **Version Control System (VCS)** solves this. It's a system that tracks and manages changes to files over time. It's like a "save" button on steroids. It allows you to take "snapshots" (called **commits**) of your project, see who changed what, and go back to any previous snapshot at any time.</p>
+                
+                <h3>Centralized (CVCS) vs. Distributed (DVCS)</h3>
+                <p>There are two main types of version control:</p>
+                [Image of Centralized (SVN) vs. Distributed (Git) architecture diagram]
+                <ul>
+                    <li><strong>Centralized (CVCS):** (e.g., Subversion/SVN, Perforce) There is **one central server** that holds all the project history. You "check out" the files, make changes, and "check in" the changes. **Problem:** If the central server goes down, nobody can work. You can't commit, see history, or create branches.</li>
+                    <li><strong>Distributed (DVCS):** (e.g., **Git**, Mercurial) This is what we use. When you "clone" a project, you don't just get the files—you get the **entire history of the project**. Every developer has a full-fledged local repository. You can commit, create branches, and view history *without an internet connection*.</li>
+                </ul>
+                
+                <h3>What is Git? What is GitHub?</h3>
+                <p>This is the most common point of confusion for beginners.</p>
+                [Image of Git logo vs GitHub/GitLab logos]
+                <ul>
+                    <li><strong>Git:** Is the **tool**. It's the command-line program (<code>git commit</code>, <code>git push</code>) that you install on your computer. It manages your project's history locally in a hidden folder called <code>.git</code>.</li>
+                    <li><strong>GitHub / GitLab / Bitbucket:** These are **websites** (remote services). They are a place to *host* (store) your Git repositories in the cloud. Think of Git as the software, and GitHub as the "Google Drive" or "social network" for your Git projects.</li>
+                </ul>
+                <p>As a DevOps engineer, you will live and breathe Git. It's the starting point for all CI/CD pipelines.</p>
+
+                <!-- ========================== -->
+                <!-- SECTION 2: First-Time Setup -->
+                <!-- ========================== -->
+
+                <h2>Part 1: First-Time Git Setup</h2>
+                <p>Before you do anything, you must install Git and configure it.</p>
+
+                <h3>Installation</h3>
+                <ul>
+                    <li><strong>Linux (Ubuntu/Debian):</strong> <code>$ sudo apt install git</code></li>
+                    <li><strong>Linux (Fedora/RHEL):</strong> <code>$ sudo dnf install git</code></li>
+                    <li><strong>macOS:</strong> Easiest way is to install Homebrew (<code>/bin/bash -c "$(curl -fsSL ...)"</code>) and then run <code>$ brew install git</code>. Or just by installing Xcode Command Line Tools.</li>
+                    <li><strong>Windows:</strong> Go to <a href="https://git-scm.com/downloads" target="_blank">git-scm.com/downloads</a> and download the installer. This will give you "Git Bash," a terminal that lets you use Git and common Linux commands on Windows.</li>
+                </ul>
+                
+                <h3>The Most Important First Step: `git config`</h3>
+                <p>You *must* do this once per computer. Git records the "author" of every single commit. You need to tell Git who you are.</p>
+                <pre><code><span class="comment"># Set your name</span>
+$ <span class="command">git</span> config --global user.name <span class="string">"Your Name"</span>
+
+<span class="comment"># Set your email (use the same one you use for GitHub)</span>
+$ <span class="command">git</span> config --global user.email <span class="string">"youremail@example.com"</span>
+
+<span class="comment"># Recommended: Set the default branch name to "main"</span>
+$ <span class="command">git</span> config --global init.defaultBranch <span class="string">main</span>
+
+<span class="comment"># Recommended: Set your default text editor (e.g., nano or vscode)</span>
+$ <span class="command">git</span> config --global core.editor <span class="string">"nano"</span>
+</code></pre>
+                <ul>
+                    <li><code>--global</code>: This flag means "apply this setting to *every* Git project on this computer." You only need to run this once.</li>
+                    <li><code>--local</code>: (Default) You can run <code>git config user.name ...</code> *without* <code>--global</code> to set a different name/email for just *one* specific project.</li>
+                </ul>
+                <p>You can check your settings at any time:</p>
+                <pre><code>$ <span class="command">git</span> config --list --show-origin
+</code></pre>
+
+                <!-- ========================== -->
+                <!-- SECTION 3: Core Concepts -->
+                <!-- ========================== -->
+
+                <h2>Part 2: The Core Concepts (The 3 Trees)</h2>
+                <p>To master Git, you must understand that your project exists in three "trees" (or areas) at all times. This is the single most important concept in Git.</p>
+                [Image of the Git 3-Tree Architecture (Working Directory, Staging Area, .git Repository)]
+
+                <ol>
+                    <li><strong>The Working Directory:</strong> This is your project folder. It's the files you can see and edit in your code editor (e.g., <code>style.css</code>, <code>index.html</code>). These are your "live" files.</li>
+                    <li><strong>The Staging Area (or "Index"):</strong> This is the "on-deck" circle. It's a file inside the <code>.git</code> folder that stores a *list* of all the changes you are *about to commit*. This is the most unique part of Git. It lets you build your "snapshot" (commit) piece-by-piece, instead of committing all your changes at once.</li>
+                    <li><strong>The Repository (`.git` folder):</strong> This is the "history book." It's a hidden folder (<code>.git</code>) inside your project that contains all your "snapshots" (commits) from the beginning of time. When you "commit," you are saving the snapshot from the Staging Area into this permanent history.</li>
+                </ol>
+                <p>Your workflow will always be:
+                <br>
+                **Work (Working Directory) -> Stage (<code>git add</code>) -> Commit (<code>git commit</code>)**</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Basic Workflow -->
+                <!-- ========================== -->
+                
+                <h2>Part 3: Basic Local Workflow</h2>
+                <p>Let's create our first repository and make our first commit.</p>
+                
+                <h3>`git init` (Initialize)</h3>
+                <p>This command creates a new, empty Git repository in your current folder. It does this by creating the hidden <code>.git</code> folder.</p>
+                <pre><code>$ mkdir my-first-project
+$ cd my-first-project
+
+<span class="comment"># Create the repository</span>
+$ <span class="command">git</span> init
+<span class="comment_output">Initialized empty Git repository in /home/msmaxpro/my-first-project/.git/</span>
+
+<span class="comment"># Let's look inside the .git folder</span>
+$ ls -a .git
+<span class="comment_output">HEAD  config  description  hooks  info  objects  refs</span>
+</code></pre>
+                <ul>
+                    <li><code>objects</code>: This is where Git stores all your data (commits, files).</li>
+                    <li><code>refs/heads</code>: This is where your branches (like `main`) are stored.</li>
+                    <li><code>HEAD</code>: A special file that points to the branch you are *currently* on.</li>
+                </ul>
+                
+                <h3>`git status` (The Most Important Command)</h3>
+                <p>This is your "dashboard." You should run <code>git status</code> *all the time*. It tells you the state of all your files.</p>
+                <pre><code><span class="comment"># 1. Create two new files</span>
+$ touch index.html
+$ touch style.css
+$ mkdir src
+$ touch src/app.js
+
+<span class="comment"># 2. Check the status</span>
+$ <span class="command">git</span> status
+<span class="comment_output">
+On branch main
+No commits yet
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        <span style="color: #ef4444;">index.html</span>
+        <span style="color: #ef4444;">src/</span>
+        <span style="color: #ef4444;">style.css</span>
+
+nothing added to commit but untracked files present (use "git add" to track)
+</span>
+</code></pre>
+                <ul>
+                    <li><strong>Untracked files:</strong> Git sees these files, but is not "tracking" their history yet.</li>
+                </ul>
+                
+                <h3>`git add` (Stage)</h3>
+                <p>This command moves changes from the Working Directory to the Staging Area. This is you saying, "I am happy with this change and I want to include it in my next 'snapshot'."</p>
+                <pre><code><span class="comment"># Let's stage just one file</span>
+$ <span class="command">git</span> add index.html
+
+<span class="comment"># Check the status again</span>
+$ <span class="command">git</span> status
+<span class="comment_output">
+On branch main
+No commits yet
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        <span style="color: #22c55e;">new file:   index.html</span>
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        <span style="color: #ef4444;">src/</span>
+        <span style="color: #ef4444;">style.css</span>
+</span>
+</code></pre>
+                <p>Notice `index.html` is now green and "Changes to be committed" (staged) and `style.css` is still red and "Untracked."</p>
+                <pre><code><span class="comment"># Stage all remaining changes (the ".")</span>
+<span class="comment"># "." means "everything in the current directory and subdirectories"</span>
+$ <span class="command">git</span> add .
+
+$ <span class="command">git</span> status
+<span class="comment_output">
+On branch main
+No commits yet
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        <span style_color: #22c55e;">new file:   index.html</span>
+        <span style="color: #22c55e;">new file:   src/app.js</span>
+        <span style="color: #22c55e;">new file:   style.css</span>
+</span>
+</code></pre>
+
+                <h3>`git commit` (Commit)</h3>
+                <p>This command takes all the changes in the Staging Area, creates a permanent "snapshot" (commit), and saves it to your Repository (`.git`) history. A commit is a snapshot of your *entire project* at that moment in time.</p>
+                <pre><code><span class="comment"># The -m flag lets you write your commit message inline</span>
+$ <span class="command">git</span> commit -m <span class="string">"Initial commit: Add HTML, CSS, and JS files"</span>
+<span class="comment_output">
+[main (root-commit) <span class="commit-hash">abc1234</span>] Initial commit: Add HTML, CSS, and JS files
+ 3 files changed, 0 insertions(+)
+ create mode 100644 index.html
+ create mode 100644 src/app.js
+ create mode 100644 style.css
+</span>
+</code></pre>
+                <p>Now, your history has one snapshot, identified by the hash `abc1234`.</p>
+                
+                <h4>Deep Dive: Writing a Good Commit Message</h4>
+                <p>A "commit" is useless without a good message. "updated files" is a *bad* message. "fix: correct user login bug (issue #42)" is a *good* message.</p>
+                <p>The standard is called **Conventional Commits**. A message should have a **type**, a **subject**, and (optionally) a **body** and **footer**.</p>
+                <pre><code><span class="keyword">type</span>(<span class="variable">scope</span>): <span class="string">subject</span>
+
+<span class="variable">body</span>
+
+<span class="variable">footer</span>
+</code></pre>
+                <ul>
+                    <li><strong>type:</strong> <code>feat</code> (new feature), <code>fix</code> (bug fix), <code>docs</code> (documentation), <code>style</code>, <code>refactor</code>, <code>test</code>, <code>chore</code> (boring stuff).</li>
+                    <li><strong>scope (optional):** What part of the app? (e.g., <code>auth</code>, <code>api</code>, <code>ui</code>)</li>
+                    <li><strong>subject:</strong> Short description, imperative tense (e.g., "add login button," not "added login button").</li>
+                </ul>
+                <p>Examples of good commit messages:</p>
+                <pre><code><span class="command">git</span> commit -m <span class="string">"feat(auth): Add user login form to landing page"</span></code></pre>
+                <pre><code><span class="command">git</span> commit -m <span class="string">"fix(api): Correct password validation regex (closes #123)"</span></code></pre>
+                <p>This is critical for DevOps. CI/CD pipelines can use these types to *automatically* generate changelogs or trigger new version bumps (e.g., a <code>fix:</code> triggers a patch, a <code>feat:</code> triggers a minor version).</p>
+
+                <h3>`git log` (View History)</h3>
+                <p>Now that you've made a commit, you can see it in your history.</p>
+                <pre><code>$ <span class="command">git</span> log
+<span class="comment_output">
+commit <span class="commit-hash">abc1234567890defabcdef1234567890abcdef</span> (HEAD -> main)
+Author: Your Name <youremail@example.com>
+Date:   Mon Nov 10 13:30:00 2025 +0530
+
+    Initial commit: Add HTML, CSS, and JS files
+</span>
+
+<span class="comment"># The "power-user" log command (my favorite)</span>
+$ <span class="command">git</span> log --oneline --graph --decorate --all
+<span class="comment_output">
+* <span class="commit-hash">abc1234</span> (HEAD -> main) Initial commit: Add HTML, CSS, and JS files
+</span>
+</code></pre>
+                <ul>
+                    <li><code>--oneline</code>: Shows each commit as one line.</li>
+                    <li><code>--graph</code>: Shows the branch structure with ASCII art.</li>
+                    <li><code>--decorate</code>: Shows where branches (like `main`) are pointing.</li>
+                    <li><code>--all</code>: Shows all branches, not just the one you're on.</li>
+                </ul>
+                
+                <h3>`.gitignore` (The "Ignore" File)</h3>
+                <p>This is a critical file in every project. It's a plain text file named <code>.gitignore</code> that tells Git *which files to ignore*. You *never* want to commit large files, log files, secret keys, or "build" artifacts.</p>
+                <p>Create a file named <code>.gitignore</code> in your project's root.</p>
+                <span class="code-filename">.gitignore</span>
+                <pre><code><span class="comment"># Ignore all log files</span>
+*.log
+
+<span class="comment"># Ignore Node.js dependencies (a massive folder)</span>
+node_modules/
+
+<span class="comment"># Ignore environment files (with API keys)</span>
+.env
+*.env
+
+<span class="comment"># Ignore Android Studio build files</span>
+build/
+*.apk
+
+<span class="comment"># Ignore macOS metadata files</span>
+.DS_Store
+</code></pre>
+                <p>Now, <code>git status</code> will no longer show these files as "Untracked."</p>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: Branching -->
+                <!-- ========================== -->
+
+                <h2>Part 4: Branching & Merging (Git's Killer Feature)</h2>
+                <p>This is the single most powerful feature of Git. A **branch** is a lightweight, movable pointer to one of your commits. It's a "line of development."</p>
+                <p>The "main" branch is your stable, production-ready code. You **never** work directly on the `main` branch.
+                <br>
+                Instead, for *every new feature* (e.g., "add login page"), you create a **new feature branch** (e.g., `feat/login-page`). You do all your work on this branch. When you're 100% done, you **merge** it back into `main`.</p>
+                [Image of a Git branching diagram (main branch with a feature branch splitting off and merging back)]
+                
+                <h3>The Full Branching Workflow</h3>
+                
+                <h4>`git branch` and `git switch`</h4>
+                <pre><code><span class="comment"># 1. See what branch you are on</span>
+$ <span class="command">git</span> branch
+<span class="comment_output">
+* main
+</span>
+
+<span class="comment"># 2. Create a new branch for our new feature</span>
+$ <span class="command">git</span> branch feat/add-login-button
+
+<span class="comment"># See all branches (we are still on 'main')</span>
+$ <span class="command">git</span> branch
+<span class="comment_output">
+  feat/add-login-button
+* main
+</span>
+
+<span class="comment"># 3. Switch to the new branch to start working</span>
+$ <span class="command">git</span> switch feat/add-login-button
+<span class="comment_output">
+Switched to branch 'feat/add-login-button'
+</span>
+
+<span class="comment"># (This is the new command. The old command was 'git checkout')</span>
+<span class="comment"># You can create and switch in one command (shortcut):</span>
+$ <span class="command">git</span> switch -c feat/new-feature
+</code></pre>
+
+                <h4>Do Your Work</h4>
+                <p>Now you are "on" the `feat/add-login-button` branch. Any commits you make here will *not* affect the `main` branch. It's completely safe.</p>
+                <pre><code><span class="comment"># (You edit index.html to add the button)</span>
+$<span class="command">git</span> add index.html$ <span class="command">git</span> commit -m <span class="string">"feat: Add login button to header"</span>
+
+<span class="comment"># Check the log</span>
+$ <span class="command">git</span> log --oneline --graph --decorate --all
+<span class="comment_output">
+* <span class="commit-hash">def4567</span> (HEAD -> feat/add-login-button) feat: Add login button to header
+* <span class="commit-hash">abc1234</span> (main) Initial commit
+</span>
+</code></pre>
+                <p>See? The new commit (`def4567`) is on your feature branch, and `main` is still safely back at the first commit.</p>
+                
+                <h4>`git merge` (Bringing it all together)</h4>
+                <p>Your feature is done and tested. Time to merge it into `main`.</p>
+                <pre><code><span class="comment"># 1. ALWAYS switch back to the 'main' (target) branch first</span>
+$ <span class="command">git</span> switch main
+<span class="comment_output">Switched to branch 'main'</span>
+
+<span class="comment"># 2. Run the 'merge' command</span>
+$ <span class="command">git</span> merge feat/add-login-button
+<span class="comment_output">
+Updating abc1234..def4567
+Fast-forward
+ index.html | 5 +++++
+ 1 file changed, 5 insertions(+)
+</span>
+
+<span class="comment"># 3. (Optional) Delete the feature branch</span>
+$ <span class="command">git</span> branch -d feat/add-login-button
+</code></pre>
+                <p>This was a **"fast-forward"** merge. Since `main` had no new commits, Git just moved the `main` pointer up to match your feature branch. It was a simple, clean merge.</p>
+                
+                <h3>Deep Dive: Merge Conflicts (The Scary Part)</h3>
+                <p>A "merge conflict" is not a bug. It's a normal part of working in a team. It happens when **Git doesn't know how to merge automatically**.</p>
+                <p>This happens when two people (or two branches) **edit the exact same line of the same file**.</p>
+                [Image of a Git merge conflict diagram]
+                <p>Git will stop, tell you there's a conflict, and ask you (the human) to fix it.</p>
+                
+                <h4>Example of a Conflict:</h4>
+                <pre><code><span class="comment"># You are on 'main' and try to merge 'feat/login'</span>
+$ <span class="command">git</span> merge feat/login
+<span class="comment_output">
+Auto-merging index.html
+CONFLICT (content): Merge conflict in index.html
+Automatic merge failed; fix conflicts and then commit the result.
+</span>
+</code></pre>
+                <p>Now, if you open <code>index.html</code>, Git will have added "conflict markers" to the file:</p>
+                <pre><code><span class="tag">&lt;div <span class="attr">class=</span><span class="string">"navbar"</span>&gt;</span>
+  <span class="tag">&lt;a <span class="attr">href=</span><span class="string">"/"</span>&gt;</span>Home<span class="tag">&lt;/a&gt;</span>
+<span class="keyword">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span>
+  <span class="tag">&lt;a <span class="attr">href=</span><span class="string">"/contact"</span>&gt;</span>Contact<span class="tag">&lt;/a&gt;</span>
+<span class="keyword">=======</span>
+  <span class="tag">&lt;a <span class="attr">href=</span><span class="string">"/login"</span>&gt;</span>Login<span class="tag">&lt;/a&gt;</span>
+<span class="keyword">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feat/login</span>
+<span class="tag">&lt;/div&gt;</span>
+</code></pre>
+                <ul>
+                    <li><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code>: This is *your* change (from `main`).</li>
+                    <li><code>=======</code>: This divides the two conflicting changes.</li>
+                    <li><code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feat/login</code>: This is *their* change (from the other branch).</li>
+                </ul>
+                
+                <h4>How to Fix It (The 3-Step Process)</h4>
+                <ol>
+                    <li><strong>Edit the File:</strong> Open <code>index.html</code> in your editor. Delete *all* the conflict markers (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>) and manually edit the file to be the *correct* final version. (e.g., keep *both* links).
+                    <pre><code><span class="tag">&lt;div <span class="attr">class=</span><span class="string">"navbar"</span>&gt;</span>
+  <span class="tag">&lt;a <span class="attr">href=</span><span class="string">"/"</span>&gt;</span>Home<span class="tag">&lt;/a&gt;</span>
+  <span class="tag">&lt;a <span class="attr">href=</span><span class="string">"/contact"</span>&gt;</span>Contact<span class="tag">&lt;/a&gt;</span>
+  <span class="tag">&lt;a <span class="attr">href=</span><span class="string">"/login"</span>&gt;</span>Login<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+</code></pre>
+                    </li>
+                    <li><strong>Stage the Fix:</strong> Tell Git you have fixed the file by running <code>git add</code>.
+                    <pre><code>$ <span class="command">git</span> add index.html
+</code></pre>
+                    </li>
+                    <li><strong>Commit the Merge:</strong> Run <code>git commit</code>. Git will automatically create a "merge commit" message. You just need to save it.
+                    <pre><code>$ <span class="command">git</span> commit
+<span class="comment_output">
+(A text editor will open)
+Merge branch 'feat/login'
+
+Conflicts:
+    index.html
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+...
+(Just save and close this file)
+</span>
+</code></pre>
+                    </li>
+                </ol>
+                <p>That's it! The conflict is resolved and the merge is complete.</p>
+
+                <!-- ========================== -->
+                <!-- SECTION 6: Remotes -->
+                <!-- ========================== -->
+
+                <h2>Part 5: Working with Remotes (GitHub/GitLab)</h2>
+                <p>This is how you collaborate. A "remote" is just a nickname for a URL that points to your repository on a server (like GitHub).</p>
+                
+                <h3>`git clone`</h3>
+                <p>This is how you get a repository from a server for the *first time*. It downloads the <code>.git</code> history and checks out the `main` branch into your working directory.</p>
+                <pre><code><span class="comment"># Go to GitHub, find a project, click "Code", copy the URL</span>
+$ <span class="command">git</span> clone https://github.com/MSMAXPRO/my-awesome-project.git
+
+$ cd my-awesome-project
+</code></pre>
+                <p>This automatically sets up your remote connection. It names the server <code>origin</code> by default.</p>
+
+                <h3>`git remote -v`</h3>
+                <p>Shows you your remotes.</p>
+                <pre><code>$ <span class="command">git</span> remote -v
+<span class="comment_output">
+origin  https://github.com/MSMAXPRO/my-awesome-project.git (fetch)
+origin  https://github.com/MSMAXPRO/my-awesome-project.git (push)
+</span>
+</code></pre>
+                
+                <h3>`git push`</h3>
+                <p>This **sends** your local commits *up to* the remote server (`origin`).</p>
+                <pre><code><span class="comment"># 1. You work locally and make a commit</span>
+$<span class="command">git</span> add .$ <span class="command">git</span> commit -m <span class="string">"fix: update button color"</span>
+
+<span class="comment"># 2. You "push" your commit to the 'origin' server,</span>
+<span class="comment">#    on the 'main' branch</span>
+$ <span class="command">git</span> push origin main
+<span class="comment_output">
+Enumerating objects: 5, done.
+...
+To https://github.com/MSMAXPRO/my-awesome-project.git
+   <span class="commit-hash">abc1234</span>..<span class="commit-hash">def5678</span>  main -> main
+</span>
+</code></pre>
+                
+                <h3>`git fetch` vs. `git pull`</h3>
+                <p>This is how you get changes *from* the remote server. This is critical.
+                
+                <h4>`git fetch` (The Safe Way)</h4>
+                <p><code>git fetch</code> downloads all the new changes from the remote, but **it does not touch your local working files**. It just updates your "remote-tracking" branch (<code>origin/main</code>).</p>
+                <pre><code><span class="comment"># 1. Download all new changes from 'origin'</span>
+$ <span class="command">git</span> fetch origin
+
+<span class="comment"># 2. See what the differences are</span>
+$ <span class="command">git</span> log --oneline main..origin/main
+<span class="comment_output">
+* <span class="commit-hash">987zyx</span> (origin/main) feat: add contact page (Aman's commit)
+</span>
+
+<span class="comment"># 3. You see the changes are safe, so you merge them manually</span>
+$ <span class="command">git</span> merge origin/main
+</code></pre>
+
+                <h4>`git pull` (The Easy Way)</h4>
+                <p><code>git pull</code> is just a shortcut. It does **two commands** at once: <code>git fetch</code> + <code>git merge</code>. It's more convenient, but you don't get a chance to review the changes before they are merged into your local branch.</p>
+                <pre><code>$ <span class="command">git</span> pull origin main
+<span class="comment_output">
+From https://github.com/MSMAXPRO/my-awesome-project
+ * branch            main       -> FETCH_HEAD
+Updating <span class="commit-hash">abc1234</span>..<span class="commit-hash">987zyx</span>
+Fast-forward
+...
+</span>
+</code></pre>
+                <p><strong>Rule:** If you are working on a branch by yourself, <code>git pull</code> is fine. If you are on a team and working on a shared branch (like <code>main</code>), <code>git fetch</code> is safer.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 7: Advanced Git -->
+                <!-- ========================== -->
+                
+                <h2>Part 6: Rewriting History (Advanced & Dangerous)</h2>
+                <p>This section is for "cleaning up" your local history *before* you push it to the remote. **WARNING: Never use these commands on branches that other people are using (like <code>main</code>).**</p>
+
+                <h3>`git stash` (Your Safety Net)</h3>
+                <p>You are in the middle of a new feature, but you have a hotfix (an emergency bug). Your files are messy and you can't commit. What do you do?</p>
+                <p><code>git stash</code> takes all your *uncommitted* changes (both staged and unstaged) and saves them in a temporary "stash," leaving your working directory clean.</p>
+                <pre><code><span class="comment"># You have messy files...</span>
+$ <span class="command">git</span> status
+<span class="comment_output">
+Changes not staged for commit:
+        modified:   style.css
+</span>
+
+<span class="comment"># 1. Save your changes to the stash</span>
+$ <span class="command">git</span> stash
+<span class="comment_output">
+Saved working directory and index state WIP on main: ...
+</span>
+
+<span class="comment"># 2. Your directory is now 100% clean. Go fix the bug.</span>
+$ <span class="command">git</span> switch -c fix/hotfix
+<span class="comment"># ... (fix bug, commit, merge) ...</span>
+$ <span class="command">git</span> switch main
+
+<span class="comment"># 3. Bring your changes back from the stash</span>
+$ <span class="command">git</span> stash pop <span class="comment"># (pop = apply and delete from stash)</span>
+<span class="comment_output">
+On branch main
+Changes not staged for commit:
+        modified:   style.css
+</span>
+</code></pre>
+
+                <h3>`git reset` (The "Undo" for Local)</h3>
+                <p><code>git reset</code> is used to undo *local* commits that you have **not pushed** yet. It moves the <code>HEAD</code> pointer to a previous commit.</p>
+                [Image of git reset --soft vs --mixed vs --hard diagram]
+                <ul>
+                    <li><code>--soft</code>: **Moves HEAD only.** Undoes the last commit, but keeps your changes in the Staging Area. (Good for re-committing).</li>
+                    <li><code>--mixed</code> (Default): **Moves HEAD + Staging.** Undoes the last commit, keeps your changes in the Working Directory (unstaged). (Good for re-working files).</li>
+                    <li><code>--hard</code> (Dangerous): **Moves HEAD + Staging + Working Directory.** Undoes the last commit, and **deletes all your changes** forever.</li>
+                </ul>
+                <pre><code><span class="comment"># You just made a bad commit</span>
+$ <span class="command">git</span> log --oneline
+<span class="comment_output">
+* <span class="commit-hash">777bbbb</span> (HEAD -> main) oops, bad commit
+* <span class="commit-hash">666aaaa</span> good commit
+</span>
+
+<span class="comment"># Go back to '666aaaa' and keep files in Working Dir (mixed)</span>
+$ <span class="command">git</span> reset <span class="commit-hash">666aaaa</span>
+<span class="comment"># OR go back 1 commit from HEAD</span>
+$ <span class="command">git</span> reset HEAD~1
+
+$ <span class="command">git</span> log --oneline
+<span class="comment_output">
+* <span class="commit-hash">666aaaa</span> (HEAD -> main) good commit
+</span>
+<span class="comment_comment">(The 'oops' commit is gone, but your files are still in your working directory)</span>
+</code></pre>
+                
+                <h3>`git revert` (The "Safe Undo" for Public)</h3>
+                <p>If you *have* pushed the bad commit to GitHub, you cannot use <code>git reset</code>. You must use <code>git revert</code>.</p>
+                <p><code>git revert</code> doesn't delete the bad commit. Instead, it creates a **new commit** that does the *exact opposite* of the bad one.</p>
+                <pre><code>$ <span class="command">git</span> log --oneline
+<span class="comment_output">
+* <span class="commit-hash">777bbbb</span> (HEAD -> main, origin/main) oops, bad commit
+* <span class="commit-hash">666aaaa</span> good commit
+</span>
+
+<span class="comment"># Create a new commit that undoes 777bbbb</span>
+$ <span class="command">git</span> revert <span class="commit-hash">777bbbb</span>
+<span class="comment_output">
+(Editor opens, asking you to confirm the message "Revert 'oops, bad commit'")
+[main <span class="commit-hash">888cccc</span>] Revert "oops, bad commit"
+</span>
+
+$ <span class="command">git</span> log --oneline
+<span class="comment_output">
+* <span class="commit-hash">888cccc</span> (HEAD -> main) Revert "oops, bad commit"
+* <span class="commit-hash">777bbbb</span> (origin/main) oops, bad commit
+* <span class="commit-hash">666aaaa</span> good commit
+</span>
+<span class="comment_comment">(The history is safe, and you can now 'git push' this new revert commit)</span>
+</code></pre>
+                
+                <h3>`git rebase` (The History Cleaner)</h3>
+                <p>Rebase is the biggest rival to `merge`. `git rebase` rewrites history. It takes your branch's commits and *moves* them on top of another branch, creating a **clean, linear history** (no merge commits).</p>
+                <p>The most powerful version is **Interactive Rebase (<code>-i</code>)**. This lets you clean up your *local* feature branch *before* you merge it.</p>
+                <p>Imagine your local history is messy:</p>
+                <pre><code><span class="comment_output">
+* <span class="commit-hash">ff3344</span> (HEAD -> my-feature) fix typo
+* <span class="commit-hash">ee2211</span> oops, forgot a file
+* <span class="commit-hash">dd9988</span> add login button
+* <span class="commit-hash">abc1234</span> (main) Initial commit
+</span>
+</code></pre>
+                <p>You don't want to merge 3 messy commits into `main`. Let's clean them up.</p>
+                <pre><code><span class="comment"># Rebase 'interactively' the last 3 commits from HEAD</span>
+$ <span class="command">git</span> rebase -i HEAD~3
+</code></pre>
+                <p>This opens your text editor with a "to-do" list:</p>
+                <pre><code><span class="keyword">pick</span> <span class="commit-hash">dd9988</span> add login button
+<span class="keyword">pick</span> <span class="commit-hash">ee2211</span> oops, forgot a file
+<span class="keyword">pick</span> <span class="commit-hash">ff3344</span> fix typo
+
+<span class="comment"># Rebase ...</span>
+<span class="comment"># Commands:</span>
+<span class="comment"># p, pick = use commit</span>
+<span class="comment"># r, reword = use commit, but edit the commit message</span>
+<span class="comment"># s, squash = use commit, but meld into previous commit</span>
+<span class="comment"># f, fixup = like "squash", but discard this commit's log message</span>
+<span class="comment"># d, drop = remove commit</span>
+</code></pre>
+                <p>You edit this file to **squash** all three commits into one perfect commit:</p>
+                <pre><code><span class="keyword">pick</span> <span class="commit-hash">dd9988</span> add login button
+<span class="keyword">s</span> <span class="commit-hash">ee2211</span> oops, forgot a file <span class="comment_comment">(s = squash)</span>
+<span class="keyword">s</span> <span class="commit-hash">ff3344</span> fix typo <span class="comment_comment">(s = squash)</span>
+</code></pre>
+                <p>Save and close. Git will then open a *new* editor asking you to write the commit message for the *new, combined* commit. You write:</p>
+                <pre><code>feat(auth): Add login button and form
+</code></pre>
+                <p>Now, your history looks beautiful and clean:</p>
+                <pre><code>$ <span class="command">git</span> log --oneline
+<span class="comment_output">
+* <span class="commit-hash">9a9a9a</span> (HEAD -> my-feature) feat(auth): Add login button and form
+* <span class="commit-hash">abc1234</span> (main) Initial commit
+</span>
+</code></pre>
+                
+                <h3>`git cherry-pick`</h3>
+                <p>This command lets you "pick" a single commit from one branch and "copy" it onto another branch. This is useful for hotfixes.</p>
+                <pre><code><span class="comment"># On main, you find a bug. You fix it on a hotfix branch.</span>
+$ <span class="command">git</span> log --oneline origin/hotfix-branch
+<span class="comment_output">
+* <span class="commit-hash">ccc4444</span> fix: critical login bug
+</span>
+
+<span class="comment"># You are on your 'dev' branch, but you need this fix *now*.</span>
+$<span class="command">git</span> switch dev$ <span class="command">git</span> cherry-pick <span class="commit-hash">ccc4444</span>
+<span class="comment_output">
+[dev <span class="commit-hash">ddd5555</span>] fix: critical login bug
+</span>
+</code></pre>
+                <p>Git has copied that one commit onto your `dev` branch.</p>
+                
+                <a href="https://git-scm.com/book/en/v2" target="_blank" class="read-more-link">Read the Official Pro Git Book (Free) &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-os-networking.html" class="cta-button prev">&larr; Chapter 2: OS & Networking</a>
+                    <a href="devops-cicd.html" class="cta-button">Next Chapter: CI/CD Pipelines &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
