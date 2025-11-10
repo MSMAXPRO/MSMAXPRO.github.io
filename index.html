@@ -50,6 +50,43 @@
         .faq-item.active .faq-question::after {
             transform: rotate(45deg);
         }
+
+        /* === NAYA PRO-TIP BANNER STYLES === */
+        .pro-tip-banner {
+            background-color: #10b9811a; /* Halka Green BG */
+            border: 1px solid #10b981;  /* Green Border */
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start; /* Taaki icon aur text top se align ho */
+            gap: 15px;
+        }
+        .pro-tip-icon svg {
+            flex-shrink: 0; /* Taaki icon chhota na ho */
+            color: #34d399; /* Bright green icon */
+            margin-top: 3px;
+        }
+        .pro-tip-text p {
+            margin: 0;
+            line-height: 1.6;
+            color: #e2e8f0;
+            font-size: 0.95rem; /* Thoda chhota */
+        }
+        .pro-tip-text strong {
+            color: #34d399; /* Bright green title */
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Tip ko responsive banane ke liye */
+        @media (max-width: 768px) {
+            .pro-tip-banner {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -60,7 +97,7 @@
                 <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                <div class="nav-rating">
+                 <div class="nav-rating">
                     <span class="star">★</span> 4.8 
                     <span class="count">(50+)</span>
                 </div>
@@ -85,6 +122,28 @@
     </header>
 
     <main>
+
+        <!-- === NAYA PRO-TIP BANNER === -->
+        <section class="pro-tip-section" style="padding: 40px 20px 0 20px;">
+            <div class="container">
+                <div class="pro-tip-banner">
+                    <div class="pro-tip-icon">
+                        <!-- Yeh ek "zap" (lightning) icon hai, aap ise 'lightbulb' se bhi badal sakte hain -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    </div>
+                    <div class="pro-tip-text">
+                        <strong>A Note from MSMAXPRO (Your Tip):</strong>
+                        <!-- 
+                            AAPKO YEH NEECHE WAALI LINE EDIT KARNI HAI 
+                            Aap yahaan apna personal tip likh sakte hain!
+                        -->
+                        <p>This website is 100% free, built on my personal experience. All the 15,000-word guides are here to help you build your career, faster. My goal is to give you the content I *wished* I had when I started.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- === BANNER END === -->
+
         <section class="hero">
             <div class="container">
                 <h1>Your Journey to a <span class="highlight">Tech Career</span> Starts Here</h1>
@@ -187,7 +246,7 @@
                 </div>
             </div>
         </section>
-
+        
         <section class="faq-section">
             <div class="container">
                 <h2>Frequently Asked <span class="highlight">Questions</span></h2>
