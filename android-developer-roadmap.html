@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* (Aapka saara header, footer, aur common styles yahan hain...) */
+        /* (Common styles...) */
         html, body { overflow-x: hidden; }
         body { font-family: 'Inter', sans-serif; margin: 0; background-color: #0f172a; background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%); color: #cbd5e1; line-height: 1.7; }
         .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
@@ -31,7 +31,7 @@
         h1 { text-align: center; font-size: 2.8rem; margin-bottom: 50px; font-weight: 700; color: #ffffff; }
         footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
 
-        /* --- NAYA HIGHLIGHT COLOR --- */
+        /* --- HIGHLIGHT COLOR (ANDROID) --- */
         .highlight {
             background: linear-gradient(90deg, #22c55e, #84cc16); /* Green */
             -webkit-background-clip: text;
@@ -92,11 +92,10 @@
 
     <main>
         <section class="roadmap-details">
-            <!-- === NAYE CHAPTERS YAHAN HAIN === -->
             <div class="container roadmap-container">
                 <h1><span class="highlight">Android Developer</span> Roadmap</h1>
                 
-                <a href="kotlin.html" style="text-decoration: none; color: inherit;">
+                <a href="android-language-kotlin.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">1</div>
                         <div class="step-content">
@@ -106,7 +105,7 @@
                     </div>
                 </a>
 
-                <a href="android-studio.html" style="text-decoration: none; color: inherit;">
+                <a href="android-studio-sdk.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">2</div>
                         <div class="step-content">
@@ -116,7 +115,7 @@
                     </div>
                 </a>
 
-                <a href="ui-navigation.html" style="text-decoration: none; color: inherit;">
+                <a href="android-ui.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">3</div>
                         <div class="step-content">
@@ -126,7 +125,7 @@
                     </div>
                 </a>
                 
-                <a href="android-components.html" style="text-decoration: none; color: inherit;">
+                <a href="android-core-components.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">4</div>
                         <div class="step-content">
@@ -136,7 +135,7 @@
                     </div>
                 </a>
                 
-                <a href="android-storage.html" style="text-decoration: none; color: inherit;">
+                <a href="android-data-storage.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">5</div>
                         <div class="step-content">
@@ -166,6 +165,48 @@
                     </div>
                 </a>
                 
+                <!-- === 4 NAYE CARDS YAHAN ADD KIYE HAIN === -->
+                
+                <a href="android-testing.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <h3>Testing Your App</h3>
+                            <p>Learn to write Unit Tests (for your logic) and UI Tests (for your screens) using JUnit and Espresso/Compose Test.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="android-firebase.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">9</div>
+                        <div class="step-content">
+                            <h3>Firebase Integration</h3>
+                            <p>Learn to add a backend quickly using Firebase for Authentication, Firestore (database), and Cloud Messaging.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="android-advanced-ui.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">10</div>
+                        <div class="step-content">
+                            <h3>Advanced UI & Animations</h3>
+                            <p>Learn about Material Motion, custom views, and animations to make your app look polished and professional.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="android-publishing.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">11</div>
+                        <div class="step-content">
+                            <h3>Publishing to Google Play</h3>
+                            <p>Learn the final step: how to sign your app, build a production App Bundle (.aab), and submit it to the Google Play Console.</p>
+                        </div>
+                    </div>
+                </a>
+                
             </div>
         </section>
     </main>
@@ -191,4 +232,3 @@
 
 </body>
 </html>
-
