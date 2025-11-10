@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 8: Testing Your App - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (TESTING) --- */
+        .highlight {
+            background: linear-gradient(90deg, #d946ef, #8b5cf6); /* Fuchsia/Purple */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #d946ef; /* Fuchsia highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        .content-section pre code .tag { color: #f472b6; }
+        .content-section pre code .attr { color: #38bdf8; }
+        .content-section pre code .annotation { color: #eab308; } /* @GET, @POST, @Inject */
+
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 8: <span class="highlight">Testing Your App</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Why Test? -->
+                <!-- ========================== -->
+                
+                <h2>The "Why": What is Software Testing?</h2>
+                <p>Writing code that works *once* is easy. Writing code that *keeps* working after you add new features, fix other bugs, or refactor (clean up) old code is **hard**. This is what separates a hobbyist from a professional engineer.</p>
+                <p><strong>Software Testing</strong> is the process of creating small, automatic programs that *verify* your main code works as expected. You write a "test" that checks a "feature." If the test passes, you know the feature works. If it fails, you know you broke something.</p>
+                
+                <h3>The Value of an Automated Test Suite</h3>
+                <p>Imagine your app has a complex login screen. You add a new "Forgot Password" feature. How do you know you didn't accidentally break the "Login" button or the "Sign Up" button?</p>
+                <ul>
+                    <li><strong>The Bad Way (Manual Testing):</strong> You run the app. You type a valid email/password. You click login. It works. You type an invalid email. You click login. It shows an error. You type a valid email but wrong password... you get the idea. This is slow, boring, and you *will* miss a case.</li>
+                    <li><strong>The Good Way (Automated Testing):</strong> You run one command in your terminal: <code>./gradlew test</code>. In 5 seconds, 500 tests run automatically, and you get a green checkmark. You know, with confidence, that you broke nothing.</li>
+                </ul>
+                <p>Tests are your **safety net**. They give you the confidence to change and improve your code without fear.</p>
+                
+                <h3>The Testing Pyramid</h3>
+                <p>This is the most important theory in software testing. It describes the *types* of tests you should write and *how many* of each you should have. A healthy app has a *lot* of small, fast tests at the bottom and a *few* big, slow tests at the top.</p>
+                [Image of the Testing Pyramid (UI Tests at top, Integration Tests in middle, Unit Tests at bottom)]
+                
+                <ol>
+                    <li><strong>Unit Tests (70%):</strong>
+                        <ul>
+                            <li><strong>What:</strong> Tests a single, isolated "unit" (one function or one class).</li>
+                            <li><strong>Speed:</strong> Extremely fast (milliseconds).</li>
+                            <li><strong>Where:</strong> Runs on your computer's JVM (in the <code>/src/test</code> folder).</li>
+                            <li><strong>Example:</strong> "Does the <code>validateEmail("test@")</code> function return <code>false</code>?"</li>
+                        </ul>
+                    </li>
+                    <li><strong>Integration Tests (20%):</strong>
+                        <ul>
+                            <li><strong>What:</strong> Tests how two or more units "integrate" and work together.</li>
+                            <li><strong>Speed:</strong> Medium (seconds).</li>
+                            <li><strong>Where:</strong> Can run on the JVM or on an Android device (in <code>/src/androidTest</code>).</li>
+                            <li><strong>Example:</strong> "If I save a <code>User</code> to the Room Database, can I then fetch it correctly?" (Tests the DAO + Database).</li>
+                        </ul>
+                    </li>
+                    <li><strong>End-to-End (E2E) / UI Tests (10%):</strong>
+                        <ul>
+                            <li><strong>What:</strong> Tests a complete user flow from start to finish.</li>
+                            <li><strong>Speed:</strong> Very slow (minutes).</li>
+                            <li><strong>Where:</strong> *Must* run on a real device or emulator (in <code>/src/androidTest</code>).</li>
+                            <li><strong>Example:</strong> "Launch the app, type 'user' in the text field, type '1234' in the password field, click 'Login', and check if the 'Welcome, user!' text appears."</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>We will learn to write all three types.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: Unit Tests -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: Unit Tests (Local Tests)</h2>
+                <p>Unit tests are the foundation of your testing strategy. They are small, fast, and test a single piece of logic in isolation. They run on your local computer's JVM (Java Virtual Machine), not on an Android device, which is why they are so fast.</p>
+                
+                <h3>Test Location</h3>
+                <p>In your Android Studio project panel, you have three main source folders:</p>
+                <ul>
+                    <li><code>src/main/java</code>: Your main app code.</li>
+                    <li><code>src/test/java</code>: Your **Unit Tests** go here.</li>
+                    <li><code>src/androidTest/java</code>: Your **Integration & UI Tests** go here.</li>
+                </ul>
+                
+                <h3>Step 1: Add Dependencies</h3>
+                <p>The standard library for testing in the Java/Kotlin world is **JUnit**. Android projects use **JUnit 4** by default (though JUnit 5 is also becoming popular).</p>
+                <p>In your <code>build.gradle.kts (Module: :app)</code>, these lines should already be there:</p>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="function">testImplementation</span>(libs.junit) <span class="comment">// JUnit 4</span>
+    <span class="function">androidTestImplementation</span>(libs.androidx.junit)
+    <span class="function">androidTestImplementation</span>(libs.androidx.espresso.core)
+}
+</code></pre>
+                <p>The <code>testImplementation</code> line is for your local unit tests. <code>androidTestImplementation</code> is for tests that run on a device.</p>
+                
+                <h3>Step 2: The "Arrange, Act, Assert" (AAA) Pattern</h3>
+                <p>All unit tests should follow the "AAA" pattern to be clean and readable.</p>
+                <ol>
+                    <li><strong>Arrange:</strong> Set up your test. Initialize your objects and prepare the "world" for the one thing you want to test.</li>
+                    <li><strong>Act:</strong> Perform the single action. Call the one function you are testing.</li>
+                    <li><strong>Assert:</strong> Check the result. Verify that the action you performed had the expected outcome.</li>
+                </ol>
+                
+                <h3>Step 3: Writing Your First Unit Test</h3>
+                <p>Let's imagine we have a simple <code>Validator</code> class in our main code.</p>
+                <span class="code-filename">src/main/java/com/example/myapp/util/Validator.kt</span>
+                <pre><code><span class="keyword">object</span> <span class="type">Validator</span> {
+    <span class="keyword">fun</span> <span class="function">isValidPassword</span>(<span class="attr">password</span><span class="operator">:</span> <span class="type">String</span>)<span class="operator">:</span> <span class="type">Boolean</span> {
+        <span class="keyword">return</span> <span class="attr">password</span>.<span class="property">length</span> <span class="operator">>=</span> <span class="number">8</span>
+    }
+}
+</code></pre>
+                
+                <p>Now, let's write a test for it in the <code>/src/test</code> folder. By convention, the test file is named after the class it's testing, with "Test" at the end.</p>
+                
+                <span class="code-filename">src/test/java/com/example/myapp/util/ValidatorTest.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">org.junit.Test</span>
+<span class="keyword">import</span> <span class="type">org.junit.Assert.*</span>
+
+<span class="keyword">class</span> <span class="type">ValidatorTest</span> {
+    
+    <span class="comment">// The @Test annotation tells JUnit this is a test function</span>
+    <span class="annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`isValidPassword returns false for short password`</span>() {
+        <span class="comment">// We can use backticks `` for long, descriptive function names</span>
+        
+        <span class="comment">// 1. Arrange</span>
+        <span class="keyword">val</span> <span class="attr">shortPassword</span> <span class="operator">=</span> <span class="string">"123"</span>
+        
+        <span class="comment">// 2. Act</span>
+        <span class="keyword">val</span> <span class="attr">result</span> <span class="operator">=</span> <span class="type">Validator</span>.<span class="function">isValidPassword</span>(<span class="attr">shortPassword</span>)
+        
+        <span class="comment">// 3. Assert</span>
+        <span class="function">assertFalse</span>(<span class="string">"Password '123' should be invalid"</span>, <span class="attr">result</span>)
+    }
+    
+    <span class="annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`isValidPassword returns true for long password`</span>() {
+        <span class="comment">// Arrange</span>
+        <span class="keyword">val</span> <span class="attr">longPassword</span> <span class="operator">=</span> <span class="string">"12345678"</span>
+        
+        <span class="comment">// Act</span>
+        <span class="keyword">val</span> <span class="attr">result</span> <span class="operator">=</span> <span class="type">Validator</span>.<span class="function">isValidPassword</span>(<span class="attr">longPassword</span>)
+        
+        <span class="comment">// Assert</span>
+        <span class="function">assertTrue</span>(<span class="string">"Password '12345678' should be valid"</span>, <span class="attr">result</span>)
+    }
+}
+</code></pre>
+                <p>You can run this test by clicking the small green "play" icon next to the class name in Android Studio.</p>
+                
+                <h4>Common JUnit Assertions</h4>
+                <ul>
+                    <li><code>assertEquals(expected, actual)</code>: Checks if two values are equal.</li>
+                    <li><code>assertNotEquals(unexpected, actual)</code>: Checks if two values are *not* equal.</li>
+                    <li><code>assertTrue(message, condition)</code>: Checks if a condition is true.</li>
+                    <li><code>assertFalse(message, condition)</code>: Checks if a condition is false.</li>
+                    <li><code>assertNull(object)</code>: Checks if an object is null.</li>
+                    <li><code>assertNotNull(object)</code>: Checks if an object is *not* null.</li>
+                </ul>
+
+                <a href="https://junit.org/junit4/" target="_blank" class="read-more-link">Read More about JUnit 4 &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Mocking -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Mocking with Mockito</h2>
+                <p>The <code>Validator</code> test was easy because it had no **dependencies**. But what about our <code>NotesViewModel</code> from Chapter 7? It *depends* on a <code>NotesRepository</code>.
+                <br>
+                When we unit test the <code>ViewModel</code>, we should *only* test the <code>ViewModel</code>'s logic, not the Repository's logic. We need to **isolate** the <code>ViewModel</code>.
+                <br>
+                We do this by creating a **Mock** (a "fake" version) of its dependency.</p>
+                
+                <p><strong>Mocking</strong> is the process of creating a fake, controllable object that pretends to be a real dependency. We can tell this mock object, "When your <code>getNotes()</code> function is called, return this fake list of notes."</p>
+                <p>The most popular mocking library for Kotlin is **Mockito-Kotlin**.</p>
+                
+                <h3>Step 1: Add Mockito Dependency</h3>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="function">testImplementation</span>(libs.junit)
+    
+    <span class="comment">// Add Mockito</span>
+    <span class="function">testImplementation</span>(<span class="string">"org.mockito.kotlin:mockito-kotlin:5.1.0"</span>)
+    <span class="function">testImplementation</span>(<span class="string">"org.mockito:mockito-inline:5.2.0"</span>) <span class="comment">// For mocking final classes</span>
+}
+</code></pre>
+                
+                <h3>Step 2: Mocking in a Test</h3>
+                <p>Let's imagine we have this ViewModel and Repository:</p>
+                <span class="code-filename">src/main/java/.../NotesRepository.kt</span>
+                <pre><code><span class="comment">// This is an interface, which is easy to mock</span>
+<span class="keyword">interface</span> <span class="type">NotesRepository</span> {
+    <span class="keyword">suspend fun</span> <span class="function">getAllNotes</span>()<span class="operator">:</span> <span class="type">List</span><span class="operator">&lt;</span><span class="type">String</span><span class="operator">&gt;</span>
+}
+
+<span class="keyword">class</span> <span class="type">NotesViewModel</span>(<span class="keyword">val</span> <span class="attr">repository</span><span class="operator">:</span> <span class="type">NotesRepository</span>) <span class="operator">:</span> <span class="type">ViewModel</span>() {
+    
+    <span class="keyword">private val</span> <span class="attr">_notes</span> <span class="operator">=</span> <span class="type">MutableStateFlow</span>(<span class="function">emptyList</span><span class="operator">&lt;</span><span class="type">String</span><span class="operator">&gt;</span>())
+    <span class="keyword">val</span> <span class="attr">notes</span><span class="operator">:</span> <span class="type">StateFlow</span><span class="operator">&lt;</span><span class="type">List</span><span class="operator">&lt;</span><span class="type">String</span><span class="operator">&gt;&gt;</span> <span class="operator">=</span> <span class="attr">_notes</span>.<span class="function">asStateFlow</span>()
+    
+    <span class="keyword">fun</span> <span class="function">fetchNotes</span>() {
+        <span class="attr">viewModelScope</span>.<span class="function">launch</span> {
+            <span class="attr">_notes</span>.<span class="attr">value</span> <span class="operator">=</span> <span class="attr">repository</span>.<span class="function">getAllNotes</span>()
+        }
+    }
+}
+</code></pre>
+                
+                <p>Now, let's test this ViewModel. We need to create a **fake** <code>NotesRepository</code>.</p>
+                
+                <span class="code-filename">src/test/java/.../NotesViewModelTest.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">org.junit.Test</span>
+<span class="keyword">import</span> <span class="type">org.mockito.kotlin.mock</span>
+<span class="keyword">import</span> <span class="type">org.mockito.kotlin.whenever</span>
+<span class="keyword">import</span> <span class="type">org.mockito.kotlin.verify</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.runTest</span> <span class="comment">// For testing coroutines</span>
+<span class="keyword">import</span> <span class="type">org.junit.Assert.*</span>
+
+<span class="keyword">class</span> <span class="type">NotesViewModelTest</span> {
+
+    <span class="comment">// 1. Create a mock object for the dependency</span>
+    <span class="keyword">private val</span> <span class="attr">mockRepository</span><span class="operator">:</span> <span class="type">NotesRepository</span> <span class="operator">=</span> <span class="function">mock</span>()
+
+    <span class="comment">// 2. Create the class we want to test (the "Subject Under Test")</span>
+    <span class="keyword">private val</span> <span class="attr">viewModel</span> <span class="operator">=</span> <span class="type">NotesViewModel</span>(<span class="attr">mockRepository</span>)
+
+    <span class="annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`fetchNotes updates notes StateFlow`</span>() <span class="operator">=</span> <span class="function">runTest</span> { <span class="comment">// Use runTest for coroutines</span>
+        <span class="comment">// --- Arrange ---</span>
+        <span class="keyword">val</span> <span class="attr">fakeNotes</span> <span class="operator">=</span> <span class="function">listOf</span>(<span class="string">"Note 1"</span>, <span class="string">"Note 2"</span>)
+        
+        <span class="comment">// "WHEN-EVER" repository.getAllNotes() is called, "THEN RETURN" our fake list</span>
+        <span class="function">whenever</span>(<span class="attr">mockRepository</span>.<span class="function">getAllNotes</span>()).<span class="function">thenReturn</span>(<span class="attr">fakeNotes</span>)
+        
+        <span class="comment">// --- Act ---</span>
+        <span class="attr">viewModel</span>.<span class="function">fetchNotes</span>()
+        
+        <span class="comment">// --- Assert ---</span>
+        <span class="comment">// Check that the ViewModel's state was updated</span>
+        <span class="function">assertEquals</span>(<span class="attr">fakeNotes</span>, <span class="attr">viewModel</span>.<span class="attr">notes</span>.<span class="attr">value</span>)
+        
+        <span class="comment">// (Optional) Verify that the repository function was *actually* called</span>
+        <span class="function">verify</span>(<span class="attr">mockRepository</span>).<span class="function">getAllNotes</span>()
+    }
+}
+</code></pre>
+                
+                <a href="https://github.com/mockito/mockito-kotlin" target="_blank" class="read-more-link">Read More about Mockito-Kotlin &rarr;</a>
+                
+                <h3>Testing Coroutines & `Dispatchers`</h3>
+                <p>The test above has a problem. The <code>viewModelScope</code> in <code>NotesViewModel</code> uses <code>Dispatchers.Main</code>, which is not available in a local unit test. Your test will crash.</p>
+                <p>To fix this, we need to **replace** the real <code>Dispatchers.Main</code> with a fake <code>TestDispatcher</code> during our test.</p>
+                <p>This is a very advanced but *essential* part of testing ViewModels. We create a "JUnit Rule" to do this automatically for every test.</p>
+                
+                <span class="code-filename">src/test/java/com/example/myapp/MainCoroutineRule.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">kotlinx.coroutines.Dispatchers</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.test.TestDispatcher</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.test.StandardTestDispatcher</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.test.resetMain</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.test.setMain</span>
+<span class="keyword">import</span> <span class="type">org.junit.rules.TestWatcher</span>
+<span class="keyword">import</span> <span class="type">org.junit.runner.Description</span>
+
+<span class="comment">// This is a JUnit Rule. You can copy/paste this file into your project.</span>
+<span class="keyword">class</span> <span class="type">MainCoroutineRule</span>(
+    <span class="keyword">val</span> <span class="attr">testDispatcher</span><span class="operator">:</span> <span class="type">TestDispatcher</span> <span class="operator">=</span> <span class="type">StandardTestDispatcher</span>()
+) <span class="operator">:</span> <span class="type">TestWatcher</span>() {
+    
+    <span class="keyword">override fun</span> <span class="function">starting</span>(<span class="attr">description</span><span class="operator">:</span> <span class="type">Description</span>) {
+        <span class="comment">// 1. BEFORE the test, set the Main dispatcher to our fake TestDispatcher</span>
+        <span class="type">Dispatchers</span>.<span class="function">setMain</span>(<span class="attr">testDispatcher</span>)
+    }
+
+    <span class="keyword">override fun</span> <span class="function">finished</span>(<span class="attr">description</span><span class="operator">:</span> <span class="type">Description</span>) {
+        <span class="comment">// 2. AFTER the test, clean up</span>
+        <span class="type">Dispatchers</span>.<span class="function">resetMain</span>()
+    }
+}
+</code></pre>
+                
+                <p>Now, we just add this "Rule" to our test class:</p>
+                <span class="code-filename">src/test/java/.../NotesViewModelTest.kt (Updated)</span>
+                <pre><code><span class="keyword">import</span> <span class="type">org.junit.Rule</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.test.runTest</span>
+
+<span class="keyword">class</span> <span class="type">NotesViewModelTest</span> {
+
+    <span class="comment">// Add this @get:Rule. This will run before every @Test</span>
+    <span class="annotation">@get:Rule</span>
+    <span class="keyword">val</span> <span class="attr">mainCoroutineRule</span> <span class="operator">=</span> <span class="type">MainCoroutineRule</span>()
+
+    <span class="comment">// ...</span>
+    <span class="keyword">private val</span> <span class="attr">mockRepository</span><span class="operator">:</span> <span class="type">NotesRepository</span> <span class="operator">=</span> <span class="function">mock</span>()
+    <span class="keyword">private val</span> <span class="attr">viewModel</span> <span class="operator">=</span> <span class="type">NotesViewModel</span>(<span class="attr">mockRepository</span>)
+
+    <span class="annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`fetchNotes updates notes StateFlow`</span>() <span class="operator">=</span> <span class="function">runTest</span> { <span class="comment">// This runTest uses the TestDispatcher</span>
+        <span class="comment">// ... (Arrange, Act, Assert from before) ...</span>
+    }
+}
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Integration Tests -->
+                <!-- ========================== -->
+
+                <h2>Part 3: Integration Tests (Instrumented Tests)</h2>
+                <p>Unit tests are great, but sometimes you need to test how components work *together*. The most common integration test is **testing your Room Database**.
+                <br>
+                Does your <code>@Query("SELECT * ...")</code> actually work? Does it crash?
+                <br>
+                These tests must run on an Android device (real or emulator) because the Room database is an Android-specific component. These tests live in <code>src/androidTest/java</code>.</p>
+
+                <h3>Testing the Room DAO</h3>
+                <p>We don't want to test on our *real* app database, as that would fill it with junk. Room provides a special <code>inMemoryDatabaseBuilder</code> that creates a temporary, "fake" database just for the test.</p>
+                
+                <h4>Step 1: Add Dependencies</h4>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="function">androidTestImplementation</span>(libs.androidx.junit)
+    <span class="function">androidTestImplementation</span>(libs.androidx.espresso.core)
+    
+    <span class="comment">// Add Room testing library</span>
+    <span class="function">androidTestImplementation</span>(<span class="string">"androidx.room:room-testing:$room_version"</span>)
+}
+</code></pre>
+
+                <h4>Step 2: Write the DAO Test</h4>
+                <span class="code-filename">src/androidTest/java/.../NoteDaoTest.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.room.Room</span>
+<span class="keyword">import</span> <span class="type">androidx.test.core.app.ApplicationProvider</span>
+<span class="keyword">import</span> <span class="type">androidx.test.ext.junit.runners.AndroidJUnit4</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.flow.first</span>
+<span class="keyword">import</span> <span class="type">kotlinx.coroutines.runBlocking</span>
+<span class="keyword">import</span> <span class="type">org.junit.After</span>
+<span class="keyword">import</span> <span class="type">org.junit.Before</span>
+<span class="keyword">import</span> <span class="type">org.junit.Test</span>
+<span class="keyword">import</span> <span class="type">org.junit.runner.RunWith</span>
+<span class="keyword">import</span> <span class="type">java.io.IOException</span>
+<span class="keyword">import</span> <span class="type">org.junit.Assert.*</span>
+
+@RunWith(<span class="type">AndroidJUnit4</span><span class="operator">::</span><span class="keyword">class</span>) <span class="comment">// Tell JUnit to run this on Android</span>
+<span class="keyword">class</span> <span class="type">NoteDaoTest</span> {
+    
+    <span class="keyword">private lateinit var</span> <span class="attr">noteDao</span><span class="operator">:</span> <span class="type">NoteDao</span>
+    <span class="keyword">private lateinit var</span> <span class="attr">db</span><span class="operator">:</span> <span class="type">AppDatabase</span>
+
+    <span class="comment">// @Before runs *before* every single @Test</span>
+    <span class="annotation">@Before</span>
+    <span class="keyword">fun</span> <span class="function">createDb</span>() {
+        <span class="keyword">val</span> <span class="attr">context</span> <span class="operator">=</span> <span class="type">ApplicationProvider</span>.<span class="function">getApplicationContext</span><span class="operator">&lt;</span><span class="type">Context</span><span class="operator">&gt;</span>()
+        <span class="comment">// Create a fake, in-memory database that lives only in RAM</span>
+        <span class="attr">db</span> <span class="operator">=</span> <span class="type">Room</span>.<span class="function">inMemoryDatabaseBuilder</span>(
+            <span class="attr">context</span>, <span class="type">AppDatabase</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+            .<span class="function">allowMainThreadQueries</span>() <span class="comment">// Only for testing!</span>
+            .<span class="function">build</span>()
+        <span class="attr">noteDao</span> <span class="operator">=</span> <span class="attr">db</span>.<span class="function">noteDao</span>()
+    }
+
+    <span class="comment">// @After runs *after* every single @Test</span>
+    <span class="annotation">@After</span>
+    @Throws(<span class="type">IOException</span><span class="operator">::</span><span class="keyword">class</span>)
+    <span class="keyword">fun</span> <span class="function">closeDb</span>() {
+        <span class="attr">db</span>.<span class="function">close</span>()
+    }
+
+    <span class="annotation">@Test</span>
+    @Throws(<span class="type">Exception</span><span class="operator">::</span><span class="keyword">class</span>)
+    <span class="keyword">fun</span> <span class="function">`insertAndGetNote`</span>() <span class="operator">=</span> <span class="function">runBlocking</span> { <span class="comment">// Use runBlocking for simple suspend tests</span>
+        <span class="comment">// Arrange</span>
+        <span class="keyword">val</span> <span class="attr">note</span> <span class="operator">=</span> <span class="type">Note</span>(<span class="attr">title</span> <span class="operator">=</span> <span class="string">"Test"</span>, <span class="attr">content</span> <span class="operator">=</span> <span class="string">"This is a test"</span>)
+        
+        <span class="comment">// Act</span>
+        <span class="attr">noteDao</span>.<span class="function">insert</span>(<span class="attr">note</span>)
+        <span class="keyword">val</span> <span class="attr">allNotes</span> <span class="operator">=</span> <span class="attr">noteDao</span>.<span class="function">getAllNotes</span>().<span class="function">first</span>() <span class="comment">// .first() gets the first value from the Flow</span>
+        
+        <span class="comment">// Assert</span>
+        <span class="function">assertEquals</span>(<span class="attr">allNotes</span>[<span class="number">0</span>].<span class="attr">title</span>, <span class="string">"Test"</span>)
+    }
+}
+</code></pre>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: UI Tests (E2E) -->
+                <!-- ========================== -->
+
+                <h2>Part 4: UI Tests (End-to-End)</h2>
+                <p>Finally, we have UI tests. These launch your *actual* app on an emulator and simulate a user. They are slow, brittle (can break easily), but they are the only way to verify that everything works together.</p>
+                <p>We have two different frameworks for this, depending on your UI system.</p>
+
+                <h3>Option A: Espresso (The Legacy XML Way)</h3>
+                <p>Espresso is the standard library for testing XML-based UIs. It has a simple "View - Action - Assertion" API.</p>
+                <pre><code><span class="comment">// In src/androidTest/java/.../MainActivityEspressoTest.kt</span>
+@RunWith(<span class="type">AndroidJUnit4</span><span class="operator">::</span><span class="keyword">class</span>)
+<span class="keyword">class</span> <span class="type">MainActivityEspressoTest</span> {
+
+    <span class="comment">// This rule automatically launches MainActivity before each test</span>
+    <span class="annotation">@get:Rule</span>
+    <span class="keyword">val</span> <span class="attr">activityRule</span> <span class="operator">=</span> <span class="type">ActivityScenarioRule</span>(<span class="type">MainActivity</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+
+    <span class="annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`clickButton_changesText`</span>() {
+        <span class="comment">// 1. Arrange (Find the views)</span>
+        <span class="keyword">val</span> <span class="attr">buttonMatcher</span> <span class="operator">=</span> <span class="function">withId</span>(<span class="type">R</span>.<span class="attr">id</span>.<span class="attr">my_button</span>)
+        <span class="keyword">val</span> <span class="attr">textMatcher</span> <span class="operator">=</span> <span class="function">withId</span>(<span class="type">R</span>.<span class="attr">id</span>.<span class="attr">my_text_view</span>)
+
+        <span class="comment">// 2. Act (Perform a click)</span>
+        <span class="function">onView</span>(<span class="attr">buttonMatcher</span>).<span class="function">perform</span>(<span class="function">click</span>())
+
+        <span class="comment">// 3. Assert (Check if the text changed)</span>
+        <span class="function">onView</span>(<span class="attr">textMatcher</span>).<span class="function">check</span>(<span class="function">matches</span>(<span class="function">withText</span>(<span class="string">"You clicked the button!"</span>)))
+    }
+}
+</code></pre>
+                
+                <h3>Option B: Jetpack Compose Test (The Modern Way)</h3>
+                <p>Testing with Compose is *much* easier and more integrated. You don't need to worry about <code>ActivityScenarioRule</code>.</p>
+                
+                <h4>Step 1: Add Compose Test Dependencies</h4>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="function">androidTestImplementation</span>(<span class="string">"androidx.compose.ui:ui-test-junit4"</span>)
+    <span class="function">debugImplementation</span>(<span class="string">"androidx.compose.ui:ui-tooling"</span>)
+}
+</code></pre>
+                
+                <h4>Step 2: Write the Compose Test</h4>
+                <p>We can test our <code>MyCounterScreen</code> Composable directly, without even needing an Activity!</p>
+                <pre><code><span class="comment">// In src/androidTest/java/.../MyCounterScreenTest.kt</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.test.*</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.test.junit4.createComposeRule</span>
+<span class="keyword">import</span> <span class="type">org.junit.Rule</span>
+<span class="keyword">import</span> <span class="type">org.junit.Test</span>
+
+<span class="keyword">class</span> <span class="type">MyCounterScreenTest</span> {
+    
+    <span class="comment">// 1. Create a "Compose Test Rule"</span>
+    <span class="annotation">@get:Rule</span>
+    <span class="keyword">val</span> <span class="attr">composeTestRule</span> <span class="operator">=</span> <span class="function">createComposeRule</span>()
+
+    <span class_annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`clickButton_incrementsCounter`</span>() {
+        <span class="comment">// 1. Arrange: Set the Composable we want to test</span>
+        <span class="attr">composeTestRule</span>.<span class="function">setContent</span> {
+            <span class="function">MyCounterScreen</span>() <span class="comment">// This uses a real ViewModel</span>
+        }
+        
+        <span class="comment">// 2. Act: Find the button and click it</span>
+        <span class="comment">// We use 'onNode' (like Espresso's 'onView')</span>
+        <span class="attr">composeTestRule</span>
+            .<span class="function">onNodeWithText</span>(<span class="string">"Click Me"</span>)
+            .<span class="function">performClick</span>()
+
+        <span class="comment">// 3. Assert: Check if the text updated</span>
+        <span class="attr">composeTestRule</span>
+            .<span class="function">onNodeWithText</span>(<span class="string">"You clicked 1 times"</span>)
+            .<span class="function">assertIsDisplayed</span>()
+            
+        <span class="comment">// Act again</span>
+        <span class="attr">composeTestRule</span>.<span class="function">onNodeWithText</span>(<span class="string">"Click Me"</span>).<span class="function">performClick</span>()
+        
+        <span class="comment">// Assert again</span>
+        <span class="attr">composeTestRule</span>.<span class="function">onNodeWithText</span>(<span class="string">"You clicked 2 times"</span>).<span class="function">assertIsDisplayed</span>()
+    }
+}
+</code></pre>
+
+                <h3>Final Step: Testing with Hilt (DI)</h3>
+                <p>This is the most advanced and most professional technique. How do you UI-test a screen that injects a *real* ViewModel, which injects a *real* Repository, which makes a *real* network call? Your test will fail if the internet is down.</p>
+                <p>You need to **replace your dependencies** at test-time. Hilt lets you do this easily.</p>
+                <p><strong>Step 1: Add Hilt Testing Dependencies</strong></p>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="function">kspAndroidTest</span>(<span class="string">"com.google.dagger:hilt-compiler:2.48"</span>)
+    <span class="function">androidTestImplementation</span>(<span class="string">"com.google.dagger:hilt-android-testing:2.48"</span>)
+}
+</code></pre>
+                
+                <p><strong>Step 2: Create a Fake Repository (in `src/androidTest`)</strong></p>
+                <p>Create a "fake" repository in your `androidTest` folder that does *not* make network calls.</p>
+                
+                <p><strong>Step 3: Create a Fake Hilt Module (in `src/androidTest`)</strong></p>
+                <p>Create a Hilt module in your `androidTest` folder that tells Hilt: "When you run a test, **UNINSTALL** the real <code>AppModule</code> and **INSTALL** this *fake* module instead."</p>
+                <pre><code><span class="comment">// In src/androidTest/java/.../di/TestAppModule.kt</span>
+@Module
+@InstallIn(<span class="type">SingletonComponent</span><span class="operator">::</span><span class="keyword">class</span>)
+<span class="comment">// This tells Hilt to *uninstall* the AppModule we defined in the main app</span>
+@TestInstallIn(
+    <span class="attr">components</span> <span class="operator">=</span> [<span class="type">SingletonComponent</span><span class="operator">::</span><span class="keyword">class</span>],
+    <span class="attr">replaces</span> <span class="operator">=</span> [<span class="type">AppModule</span><span class="operator">::</span><span class="keyword">class</span>]
+)
+<span class="keyword">object</span> <span class="type">TestAppModule</span> {
+    
+    <span class="comment">// This provider *overrides* the real one</span>
+    <span class="annotation">@Provides</span>
+    <span class_annotation">@Singleton</span>
+    <span class="keyword">fun</span> <span class="function">provideFakeNotesRepository</span>()<span class="operator">:</span> <span class="type">NotesRepository</span> {
+        <span class_keyword">return</span> <span class="type">FakeNotesRepository</span>() <span class="comment">// Return our fake one!</span>
+    }
+    
+    <span class="comment">// (Hilt will still provide the real Dao, ApiService, etc. if you don't override them)</span>
+}
+</code></pre>
+                
+                <p><strong>Step 4: Write the Hilt UI Test</strong></p>
+                <pre><code><span class="comment">// In src/androidTest/java/.../MyScreenHiltTest.kt</span>
+@HiltAndroidTest <span class="comment">// 1. Add this annotation</span>
+@RunWith(<span class="type">AndroidJUnit4</span><span class="operator">::</span><span class="keyword">class</span>)
+<span class="keyword">class</span> <span class="type">MyScreenHiltTest</span> {
+
+    <span class="comment">// 2. Add Hilt rule (must run before Compose rule)</span>
+    <span class="annotation">@get:Rule(order = 0)</span>
+    <span class="keyword">val</span> <span class="attr">hiltRule</span> <span class="operator">=</span> <span class="type">HiltAndroidRule</span>(<span class="keyword">this</span>)
+
+    <span class="annotation">@get:Rule(order = 1)</span>
+    <span class="keyword">val</span> <span class="attr">composeTestRule</span> <span class="operator">=</span> <span class="function">createComposeRule</span>()
+
+    <span class="annotation">@Test</span>
+    <span class="keyword">fun</span> <span class="function">`screen_launches_and_uses_fake_data`</span>() {
+        <span class="comment">// 3. Hilt automatically injects fakes</span>
+        <span class="attr">hiltRule</span>.<span class="function">inject</span>() 
+        
+        <span class="attr">composeTestRule</span>.<span class="function">setContent</span> {
+            <span class="comment">// This NotesViewModel will now be created by Hilt,</span>
+            <span class="comment">// and Hilt will give it the FakeNotesRepository!</span>
+            <span class="function">MyScreen</span>(<span class="attr">viewModel</span> <span class="operator">=</span> <span class="function">hiltViewModel</span>())
+        }
+        
+        <span class="comment">// 4. Assert against the fake data</span>
+        <span class="attr">composeTestRule</span>
+            .<span class="function">onNodeWithText</span>(<span class="string">"Fake Note 1"</span>) <span class="comment">// (Assuming FakeNotesRepository provides this)</span>
+            .<span class="function">assertIsDisplayed</span>()
+    }
+}
+</code></pre>
+                <p>This is the absolute standard for professional, testable, and robust Android applications.</p>
+                <a href="https://developer.android.com/training/testing" target="_blank" class="read-more-link">Read the Official Guide to Testing &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-architecture.html" class="cta-button prev">&larr; Chapter 7: Architecture</a>
+                    <a href="android-firebase.html" class="cta-button">Next Chapter: Firebase &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
