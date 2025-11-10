@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 10: Advanced UI & Animations - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (ADVANCED UI) --- */
+        .highlight {
+            background: linear-gradient(90deg, #06b6d4, #3b82f6); /* Cyan/Blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #06b6d4; /* Cyan highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        .content-section pre code .tag { color: #f472b6; }
+        .content-section pre code .attr { color: #38bdf8; }
+        .content-section pre code .annotation { color: #eab308; } /* @GET, @POST, @Inject */
+
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 10: <span class="highlight">Advanced UI & Animations</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Introduction: Beyond the Basics</h2>
+                <p>So far, we've learned how to build functional UIs. You can display lists (<code>LazyColumn</code>), show text (<code>Text</code>), and react to clicks (<code>Button</code>). This is the "science" of app development. Now, we learn the "art."</p>
+                <p>This chapter is about **polish**. It's about what makes an app feel "Googley" or "Apple-like." It's about the small, delightful interactions that make a user *want* to use your app. A functional app solves a problem, but a *beautiful* app creates a connection with the user.</p>
+                <p>We will cover four main areas:</p>
+                <ol>
+                    <li><strong>Material Design 3:</strong> The "Why" and "How" of modern Android design principles (Color, Typography, Theming).</li>
+                    <li><strong>Custom UI Components:</strong> How to build complex, reusable UI components from scratch (both in legacy XML and modern Compose).</li>
+                    <li><strong>Animations:</strong> How to make your UI move and react, from simple fades to complex physics-based motion.</li>
+                    <li><strong>Advanced Gestures:</strong> How to handle complex touch interactions like dragging, swiping, and pinch-to-zoom.</li>
+                </ol>
+
+                <!-- ========================== -->
+                <!-- SECTION 2: Material Design 3 -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: Material Design 3 (M3) - The Design System</h2>
+                <p>You should not be inventing your design from scratch. Google has invested thousands of hours into creating a comprehensive, beautiful, and accessible design system called **Material Design**. The current version is **Material 3 (M3)**, also known as "Material You."</p>
+                <p>M3 is a set of guidelines *and* a library of pre-built components (like <code>Button</code>, <code>Card</code>, <code>TopAppBar</code>) that automatically implement these guidelines. By using the <code>androidx.compose.material3</code> library, you get a beautiful, professional-looking app for free.</p>
+                
+
+                <h3>Core Concept: Color</h3>
+                <p>M3's color system is the most important part. It's based on "color slots" rather than hard-coded colors. You don't say "this button is blue." You say "this button uses the `Primary` color." This allows your app to easily support **Light Mode** and **Dark Mode**.</p>
+                
+                <h4>The Main Color Slots</h4>
+                
+                <ul>
+                    <li><strong><code>primary</code>:</strong> The main "accent" color for key components (like a "Login" button).</li>
+                    <li><strong><code>onPrimary</code>:</strong> The color of text/icons that appear *on top of* the <code>primary</code> color (usually White or Black).</li>
+                    <li><strong><code>primaryContainer</code>:</strong> A lighter, more subtle version of your primary color (e.g., for a selected item).</li>
+                    <li><strong><code>onPrimaryContainer</code>:</strong> The color of text/icons on top of <code>primaryContainer</code>.</li>
+                    <li><strong><code>secondary</code> / <code>tertiary</code>:</strong> Other accent colors for less important parts of the UI.</li>
+                    <li><strong><code>surface</code>:</strong> The main background color for "surfaces" like Cards, Bottom Sheets, and Menus.</li>
+                    <li><strong><code>onSurface</code>:</strong> The color of text/icons on top of <code>surface</code> (your main text color).</li>
+                    <li><strong><code>background</code>:</strong> The main background color of the entire app.</li>
+                    <li><strong><code>onBackground</code>:</strong> The color of text/icons on top of <code>background</code>.</li>
+                </ul>
+
+                <h4>How to Implement M3 Theming</h4>
+                <p>When you create a new "Empty Compose Activity," Android Studio automatically creates a theme for you in <code>ui/theme/Theme.kt</code> and <code>ui/theme/Color.kt</code>.</p>
+                
+                <span class="code-filename">ui/theme/Color.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.ui.graphics.Color</span>
+
+<span class="comment">// 1. Define your brand's base colors</span>
+<span class="keyword">val</span> <span class="attr">Purple80</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFFD0BCFF</span>)
+<span class="keyword">val</span> <span class="attr">PurpleGrey80</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFFCCC2DC</span>)
+<span class="keyword">val</span> <span class="attr">Purple40</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFF6650a4</span>)
+<span class="comment">// ...</span>
+</code></pre>
+                
+                <span class="code-filename">ui/theme/Theme.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.material3.darkColorScheme</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.material3.lightColorScheme</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.material3.MaterialTheme</span>
+
+<span class="comment">// 2. Create your app's Dark Color Scheme</span>
+<span class="keyword">private val</span> <span class="attr">DarkColorScheme</span> <span class="operator">=</span> <span class="function">darkColorScheme</span>(
+    <span class="attr">primary</span> <span class="operator">=</span> <span class="attr">Purple80</span>,
+    <span class="attr">secondary</span> <span class="operator">=</span> <span class="attr">PurpleGrey80</span>,
+    <span class="attr">background</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFF1C1B1F</span>),
+    <span class="attr">surface</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFF1C1B1F</span>)
+    <span class="comment">// ... set all other colors</span>
+)
+
+<span class="comment">// 3. Create your app's Light Color Scheme</span>
+<span class="keyword">private val</span> <span class="attr">LightColorScheme</span> <span class="operator">=</span> <span class="function">lightColorScheme</span>(
+    <span class="attr">primary</span> <span class="operator">=</span> <span class="attr">Purple40</span>,
+    <span class="attr">secondary</span> <span class="operator">=</span> <span class="attr">PurpleGrey40</span>,
+    <span class="attr">background</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFFFFFBFE</span>),
+    <span class="attr">surface</span> <span class="operator">=</span> <span class="type">Color</span>(<span class="number">0xFFFFFBFE</span>)
+    <span class="comment">// ...</span>
+)
+
+<span class="comment">// 4. Create your main Theme composable</span>
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyApplicationTheme</span>(<span class="attr">darkTheme</span><span class="operator">:</span> <span class="type">Boolean</span> <span class="operator">=</span> <span class="function">isSystemInDarkTheme</span>(), <span class="attr">content</span><span class="operator">:</span> <span class="annotation">@Composable</span> () <span class="operator">-></span> <span class="type">Unit</span>) {
+    <span class="keyword">val</span> <span class="attr">colorScheme</span> <span class="operator">=</span> <span class="keyword">when</span> {
+        <span class="attr">darkTheme</span> <span class="operator">-></span> <span class="attr">DarkColorScheme</span>
+        <span class="keyword">else</span> <span class="operator">-></span> <span class="attr">LightColorScheme</span>
+    }
+
+    <span class="function">MaterialTheme</span>(
+        <span class="attr">colorScheme</span> <span class="operator">=</span> <span class="attr">colorScheme</span>,
+        <span class="attr">typography</span> <span class="operator">=</span> <span class="attr">Typography</span>, <span class="comment">// (From Typography.kt)</span>
+        <span class="attr">content</span> <span class="operator">=</span> <span class="attr">content</span>
+    )
+}
+</code></pre>
+                
+                <p><strong>Step 5: Use the Theme</strong></p>
+                <p>In your <code>MainActivity.kt</code>, you wrap your *entire app* in this theme. Now, all M3 composables (like <code>Button</code>) will automatically pick the right colors for light/dark mode.</p>
+                <pre><code><span class="comment">// In MainActivity.kt</span>
+<span class="keyword">override fun</span> <span class="function">onCreate</span>(<span class="attr">savedInstanceState</span><span class="operator">:</span> <span class="type">Bundle?</span>) {
+    <span class="keyword">super</span>.<span class="function">onCreate</span>(<span class="attr">savedInstanceState</span>)
+    <span class="function">setContent</span> {
+        <span class="comment">// Wrap your whole app in your theme</span>
+        <span class="function">MyApplicationTheme</span> {
+            <span class="comment">// Now all Composables inside here use your theme</span>
+            <span class="function">MyAppNavigation</span>()
+        }
+    }
+}
+
+<span class="comment">// In any Composable</span>
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyScreen</span>() {
+    <span class="function">Button</span>(<span class="attr">onClick</span> <span class="operator">=</span> {}) { <span class="comment">// This button is auto-themed</span>
+        <span class="function">Text</span>(<span class="string">"Click Me"</span>)
+    }
+    
+    <span class="comment">// You can also access colors manually</span>
+    <span class="function">Text</span>(
+        <span class="attr">text</span> <span class="operator">=</span> <span class="string">"Hello"</span>,
+        <span class="attr">color</span> <span class="operator">=</span> <span class="type">MaterialTheme</span>.<span class="attr">colorScheme</span>.<span class="attr">primary</span>
+    )
+}
+</code></pre>
+                
+                <h4>Dynamic Color (Material You)</h4>
+                <p>On Android 12+, M3 can automatically generate your *entire* color scheme from the user's **wallpaper**. This is called "Material You" or "Dynamic Color."</p>
+                <p>To enable this, you just need to update your `Theme.kt`:</p>
+                <pre><code><span class="comment">// In Theme.kt</span>
+<span class="keyword">import</span> <span class="type">android.os.Build</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.material3.dynamicDarkColorScheme</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.material3.dynamicLightColorScheme</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.platform.LocalContext</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyApplicationTheme</span>(<span class="attr">darkTheme</span><span class="operator">:</span> <span class="type">Boolean</span> <span class="operator">=</span> <span class="function">isSystemInDarkTheme</span>(), <span class="attr">content</span><span class="operator">:</span> <span class="annotation">@Composable</span> () <span class="operator">-></span> <span class="type">Unit</span>) {
+    <span class="keyword">val</span> <span class="attr">colorScheme</span> <span class="operator">=</span> <span class="keyword">when</span> {
+        <span class="comment">// 1. Check if dynamic color is available (Android 12+)</span>
+        <span class="type">Build</span>.<span class="type">VERSION</span>.<span class="attr">SDK_INT</span> <span class="operator">>=</span> <span class="type">Build</span>.<span class="type">VERSION_CODES</span>.<span class="attr">S</span> <span class="operator">-></span> {
+            <span class="keyword">val</span> <span class="attr">context</span> <span class="operator">=</span> <span class="type">LocalContext</span>.<span class="attr">current</span>
+            <span class="keyword">if</span> (<span class="attr">darkTheme</span>) <span class="function">dynamicDarkColorScheme</span>(<span class="attr">context</span>) <span class="keyword">else</span> <span class="function">dynamicLightColorScheme</span>(<span class="attr">context</span>)
+        }
+        
+        <span class="comment">// 2. Fallback to your hard-coded theme</span>
+        <span class="attr">darkTheme</span> <span class="operator">-></span> <span class="attr">DarkColorScheme</span>
+        <span class="keyword">else</span> <span class="operator">-></span> <span class="attr">LightColorScheme</span>
+    }
+    
+    <span class="comment">// ... MaterialTheme { ... } ...</span>
+}
+</code></pre>
+                <p>With this code, your app's colors will automatically match the user's wallpaper, making it feel deeply integrated with the OS.</p>
+                <a href="https://m3.material.io/" target="_blank" class="read-more-link">Read More about Material Design 3 &rarr;</a>
+
+                <!-- ===================================== -->
+                <!-- PART 2: Custom UI Components         -->
+                <!-- ===================================== -->
+
+                <h2>Part 2: Creating Custom UI Components</h2>
+                <p>Material Design gives you 90% of what you need. But sometimes you need a component that is unique to your brand (e.g., a "star rating" bar, a custom graph, or a special button). In this case, you must build it yourself.</p>
+                
+                <h3>The Modern Way: Custom Composables</h3>
+                <p>In Jetpack Compose, this is the default way of working. You just combine smaller composables into a new, reusable one. Let's build a custom `CircularProgressBar` composable.</p>
+                
+
+                <span class="code-filename">components/CircularProgressBar.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.foundation.Canvas</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.foundation.layout.Box</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.foundation.layout.size</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.material3.Text</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.runtime.Composable</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.Alignment</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.Modifier</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.graphics.Color</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.graphics.StrokeCap</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.graphics.drawscope.Stroke</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.unit.Dp</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.unit.dp</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.ui.unit.sp</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">CircularProgressBar</span>(
+    <span class="attr">percentage</span><span class="operator">:</span> <span class="type">Float</span>,
+    <span class="attr">radius</span><span class="operator">:</span> <span class="type">Dp</span> <span class="operator">=</span> <span class="number">50</span>.<span class="attr">dp</span>,
+    <span class="attr">color</span><span class="operator">:</span> <span class="type">Color</span> <span class="operator">=</span> <span class="type">MaterialTheme</span>.<span class="attr">colorScheme</span>.<span class="attr">primary</span>,
+    <span class="attr">strokeWidth</span><span class="operator">:</span> <span class="type">Dp</span> <span class="operator">=</span> <span class="number">8</span>.<span class="attr">dp</span>
+) {
+    <span class="comment">// We use a Box to stack the text on top of the canvas</span>
+    <span class="function">Box</span>(
+        <span class="attr">contentAlignment</span> <span class="operator">=</span> <span class="type">Alignment</span>.<span class="attr">Center</span>,
+        <span class="attr">modifier</span> <span class="operator">=</span> <span class="type">Modifier</span>.<span class="function">size</span>(<span class="attr">radius</span> <span class="operator">*</span> <span class="number">2f</span>)
+    ) {
+        <span class="comment">// 1. The Canvas is where we draw custom shapes</span>
+        <span class="function">Canvas</span>(<span class="attr">modifier</span> <span class="operator">=</span> <span class="type">Modifier</span>.<span class="function">size</span>(<span class="attr">radius</span> <span class="operator">*</span> <span class="number">2f</span>)) {
+            <span class="comment">// 2. Draw the background track (the grey circle)</span>
+            <span class="function">drawArc</span>(
+                <span class="attr">color</span> <span class="operator">=</span> <span class="type">Color</span>.<span class="attr">LightGray</span>,
+                <span class="attr">startAngle</span> <span class="operator">=</span> <span class="number">-90f</span>,
+                <span class="attr">sweepAngle</span> <span class="operator">=</span> <span class="number">360f</span>,
+                <span class="attr">useCenter</span> <span class="operator">=</span> <span class="keyword">false</span>,
+                <span class="attr">style</span> <span class="operator">=</span> <span class="type">Stroke</span>(<span class="attr">strokeWidth</span>.<span class="function">toPx</span>(), <span class="attr">cap</span> <span class="operator">=</span> <span class="type">StrokeCap</span>.<span class="attr">Round</span>)
+            )
+            <span class="comment">// 3. Draw the foreground progress arc</span>
+            <span class="function">drawArc</span>(
+                <span class="attr">color</span> <span class="operator">=</span> <span class="attr">color</span>,
+                <span class="attr">startAngle</span> <span class="operator">=</span> <span class="number">-90f</span>,
+                <span class="attr">sweepAngle</span> <span class="operator">=</span> <span class="number">360f</span> <span class="operator">*</span> <span class="attr">percentage</span>,
+                <span class="attr">useCenter</span> <span class="operator">=</span> <span class="keyword">false</span>,
+                <span class="attr">style</span> <span class="operator">=</span> <span class="type">Stroke</span>(<span class="attr">strokeWidth</span>.<span class="function">toPx</span>(), <span class="attr">cap</span> <span class="operator">=</span> <span class="type">StrokeCap</span>.<span class="attr">Round</span>)
+            )
+        }
+        <span class="comment">// 4. The Text in the center</span>
+        <span class="function">Text</span>(
+            <span class="attr">text</span> <span class="operator">=</span> <span class="string">"${(percentage * 100).toInt()}%"</span>,
+            <span class="attr">fontSize</span> <span class="operator">=</span> <span class="number">18</span>.<span class="attr">sp</span>,
+            <span class="attr">color</span> <span class="operator">=</span> <span class="type">MaterialTheme</span>.<span class="attr">colorScheme</span>.<span class="attr">onSurface</span>
+        )
+    }
+}
+</code></pre>
+                
+                <h3>The Legacy Way: Custom XML Views</h3>
+                <p>In the old XML system, this was *much* harder. You had to create a new class that inherits from <code>View</code> and manually override two complex methods: <code>onMeasure()</code> (to tell Android how big your view is) and <code>onDraw()</code> (to draw on a <code>Canvas</code> object).</p>
+                
+                <span class="code-filename">views/CustomCircleView.kt</span>
+                <pre><code><span class="keyword">class</span> <span class="type">CustomCircleView</span> <span class="annotation">@JvmOverloads</span> <span class="keyword">constructor</span>(
+    <span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span>, 
+    <span class="attr">attrs</span><span class="operator">:</span> <span class="type">AttributeSet?</span> <span class="operator">=</span> <span class="keyword">null</span>, 
+    <span class="attr">defStyleAttr</span><span class="operator">:</span> <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span>
+) <span class="operator">:</span> <span class="type">View</span>(<span class="attr">context</span>, <span class="attr">attrs</span>, <span class="attr">defStyleAttr</span>) {
+
+    <span class="keyword">private val</span> <span class="attr">paint</span> <span class="operator">=</span> <span class="type">Paint</span>(<span class="type">Paint</span>.<span class="attr">ANTI_ALIAS_FLAG</span>).<span class="function">apply</span> {
+        <span class="attr">style</span> <span class="operator">=</span> <span class="type">Paint</span>.<span class="type">Style</span>.<span class="attr">STROKE</span>
+        <span class="attr">strokeWidth</span> <span class="operator">=</span> <span class="number">20f</span>
+        <span class="attr">color</span> <span class="operator">=</span> <span class="type">Color</span>.<span class="attr">RED</span>
+    }
+    
+    <span class="comment">// 1. Tell Android how big the view should be</span>
+    <span class="keyword">override fun</span> <span class="function">onMeasure</span>(<span class="attr">widthMeasureSpec</span><span class="operator">:</span> <span class="type">Int</span>, <span class="attr">heightMeasureSpec</span><span class="operator">:</span> <span class="type">Int</span>) {
+        <span class="comment">// We'll just make it a fixed 200x200 pixels</span>
+        <span class="keyword">val</span> <span class="attr">size</span> <span class="operator">=</span> <span class="number">200</span>
+        <span class="function">setMeasuredDimension</span>(<span class="attr">size</span>, <span class="attr">size</span>)
+    }
+
+    <span class="comment">// 2. Draw the view on the canvas</span>
+    <span class="keyword">override fun</span> <span class="function">onDraw</span>(<span class="attr">canvas</span><span class="operator">:</span> <span class="type">Canvas</span>) {
+        <span class="keyword">super</span>.<span class="function">onDraw</span>(<span class="attr">canvas</span>)
+        <span class="comment">// Draw a red circle in the center</span>
+        <span class="keyword">val</span> <span class="attr">radius</span> <span class="operator">=</span> (<span class="attr">width</span> <span class="operator">/</span> <span class="number">2f</span>) <span class="operator">-</span> <span class="number">10f</span> <span class="comment">// 10f is half stroke width</span>
+        <span class="attr">canvas</span>.<span class="function">drawCircle</span>(<span class="attr">width</span> <span class="operator">/</span> <span class="number">2f</span>, <span class="attr">height</span> <span class="operator">/</span> <span class="number">2f</span>, <span class="attr">radius</span>, <span class="attr">paint</span>)
+    }
+}
+</code></pre>
+                <p>This shows how much simpler Compose has made custom UI development.</p>
+
+                <!-- ===================================== -->
+                <!-- PART 3: Animations -->
+                <!-- ===================================== -->
+
+                <h2>Part 3: Animations in Jetpack Compose</h2>
+                <p>In Compose, animations are first-class citizens. The library is built from the ground up to be animatable. There are several levels of animation APIs, from very simple to very complex.</p>
+                
+
+                <h3>High-Level APIs (Easy)</h3>
+                <p>These APIs are "fire and forget." You just wrap your component and it animates automatically.</p>
+
+                <h4>1. `AnimatedVisibility`</h4>
+                <p>This is the most common. It animates the "enter" (appearing) and "exit" (disappearing) of a Composable. Instead of just popping in, it can fade, slide, or shrink.</p>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.animation.*</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyAnimatedComponent</span>(<span class="attr">isVisible</span><span class="operator">:</span> <span class="type">Boolean</span>) {
+    <span class="function">AnimatedVisibility</span>(
+        <span class="attr">visible</span> <span class="operator">=</span> <span class="attr">isVisible</span>,
+        <span class="attr">enter</span> <span class="operator">=</span> <span class="function">slideInHorizontally</span>() <span class="operator">+</span> <span class="function">fadeIn</span>(),
+        <span class="attr">exit</span> <span class="operator">=</span> <span class="function">slideOutHorizontally</span>() <span class="operator">+</span> <span class="function">fadeOut</span>()
+    ) {
+        <span class="comment">// This is the content that will be animated</span>
+        <span class="function">Text</span>(<span class="string">"Hello, I slide and fade!"</span>)
+    }
+}
+</code></pre>
+
+                <h4>2. `AnimatedContent`</h4>
+                <p>This Composable animates when its *content* changes. It's perfect for a counter that fades from "1" to "2", or an icon that changes.</p>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.animation.AnimatedContent</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyAnimatedCounter</span>(<span class="attr">count</span><span class="operator">:</span> <span class="type">Int</span>) {
+    <span class="function">AnimatedContent</span>(<span class="attr">targetState</span> <span class="operator">=</span> <span class="attr">count</span>, <span class="attr">label</span> <span class="operator">=</span> <span class="string">"counter"</span>) { <span class="attr">targetCount</span> <span class="operator">-></span>
+        <span class="comment">// This composable will cross-fade whenever targetCount changes</span>
+        <span class="function">Text</span>(<span class="attr">text</span> <span class="operator">=</span> <span class="string">"Count: $targetCount"</span>, <span class="attr">fontSize</span> <span class="operator">=</span> <span class="number">30</span>.<span class="attr">sp</span>)
+    }
+}
+</code></pre>
+                
+                <h3>Low-Level APIs (Powerful)</h3>
+                <p>These are used to animate any *single value* (a <code>Color</code>, a <code>Dp</code>, a <code>Float</code>).</p>
+                
+                <h4>1. `animate*AsState`</h4>
+                <p>This is the workhorse of Compose animation. It takes a "target" value and smoothly animates from its current value to the target value. It's a "set it and forget it" animation for a single value.</p>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.animation.animateColorAsState</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.animation.core.tween</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.runtime.getValue</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">ColorChangingBox</span>(<span class="attr">isToggled</span><span class="operator">:</span> <span class="type">Boolean</span>) {
+    <span class="comment">// 1. Select the target color based on the state</span>
+    <span class="keyword">val</span> <span class="attr">targetColor</span> <span class="operator">=</span> <span class="keyword">if</span> (<span class="attr">isToggled</span>) <span class="type">Color</span>.<span class="attr">Green</span> <span class="keyword">else</span> <span class="type">Color</span>.<span class="attr">Gray</span>
+    
+    <span class="comment">// 2. Animate the color</span>
+    <span class="keyword">val</span> <span class="attr">backgroundColor</span> <span class="keyword">by</span> <span class="function">animateColorAsState</span>(
+        <span class="attr">targetValue</span> <span class="operator">=</span> <span class="attr">targetColor</span>,
+        <span class="attr">animationSpec</span> <span class="operator">=</span> <span class="function">tween</span>(<span class="attr">durationMillis</span> <span class="operator">=</span> <span class="number">500</span>), <span class="comment">// 500ms animation</span>
+        <span class="attr">label</span> <span class="operator">=</span> <span class="string">"color"</span>
+    )
+    
+    <span class="function">Box</span>(<span class="attr">modifier</span> <span class="operator">=</span> <span class="type">Modifier</span>.<span class="function">size</span>(<span class="number">100</span>.<span class="attr">dp</span>).<span class="function">background</span>(<span class="attr">backgroundColor</span>))
+}
+</code></pre>
+                
+                <h4>2. `updateTransition`</h4>
+                <p>Used when you have *multiple* animations that all depend on a *single* state. For example, when a button is "selected," it should get bigger *and* change color. `updateTransition` manages both animations together.</p>
+                <pre><code><span class="keyword">enum class</span> <span class="type">BoxState</span> { <span class="attr">Collapsed</span>, <span class="attr">Expanded</span> }
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MultiAnimationBox</span>(<span class="attr">boxState</span><span class="operator">:</span> <span class="type">BoxState</span>) {
+    <span class="comment">// 1. Create a transition based on the target state</span>
+    <span class="keyword">val</span> <span class="attr">transition</span> <span class="operator">=</span> <span class="function">updateTransition</span>(<span class="attr">targetState</span> <span class="operator">=</span> <span class="attr">boxState</span>, <span class="attr">label</span> <span class="operator">=</span> <span class="string">"box"</span>)
+    
+    <span class="comment">// 2. Animate 'color' based on the transition</span>
+    <span class="keyword">val</span> <span class="attr">color</span> <span class="keyword">by</span> <span class="attr">transition</span>.<span class="function">animateColor</span>(<span class="attr">label</span> <span class="operator">=</span> <span class="string">"color"</span>) { <span class="attr">state</span> <span class="operator">-></span>
+        <span class="keyword">if</span> (<span class="attr">state</span> <span class="operator">==</span> <span class="type">BoxState</span>.<span class="attr">Collapsed</span>) <span class="type">Color</span>.<span class="attr">Gray</span> <span class="keyword">else</span> <span class="type">Color</span>.<span class="attr">Green</span>
+    }
+    
+    <span class="comment">// 3. Animate 'size' based on the *same* transition</span>
+    <span class="keyword">val</span> <span class="attr">size</span> <span class="keyword">by</span> <span class="attr">transition</span>.<span class="function">animateDp</span>(<span class="attr">label</span> <span class="operator">=</span> <span class="string">"size"</span>) { <span class="attr">state</span> <span class="operator">-></span>
+        <span class="keyword">if</span> (<span class="attr">state</span> <span class="operator">==</span> <span class="type">BoxState</span>.<span class="attr">Collapsed</span>) <span class="number">100</span>.<span class="attr">dp</span> <span class="keyword">else</span> <span class="number">200</span>.<span class="attr">dp</span>
+    }
+    
+    <span class="function">Box</span>(<span class="attr">modifier</span> <span class="operator">=</span> <span class="type">Modifier</span>.<span class="function">size</span>(<span class="attr">size</span>).<span class="function">background</span>(<span class="attr">color</span>))
+}
+</code></pre>
+                
+                <h3>Part 4: Lottie (Vector Animations)</h3>
+                <p>What if your animation is extremely complex, like a character waving or a success checkmark drawing itself? You don't code this by hand. You use **Lottie**.</p>
+                <p>Lottie is a library from Airbnb that parses animations exported from **Adobe After Effects** (as a <code>.json</code> file) and renders them natively in your app. It's the #1 way to add complex, beautiful animations.</p>
+                
+                
+                <p><strong>Step 1: Add Lottie Dependency</strong></p>
+                <pre><code><span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="function">implementation</span>(<span class="string">"com.airbnb.android:lottie-compose:6.1.0"</span>)
+}
+</code></pre>
+                
+                <p><strong>Step 2: Get a Lottie JSON file</strong></p>
+                <p>Go to <a href="https://lottiefiles.com/" target="_blank">LottieFiles.com</a>, find a free animation, and download its <code>.json</code> file. Place this file in your <code>res/raw</code> folder (you may need to create this folder).</p>
+                
+                <p><strong>Step 3: Use the `LottieAnimation` Composable</strong></p>
+                <pre><code><span class="keyword">import</span> <span class="type">com.airbnb.lottie.compose.*</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">MyLottieAnimation</span>() {
+    <span class="keyword">val</span> <span class="attr">composition</span> <span class="keyword">by</span> <span class="function">rememberLottieComposition</span>(
+        <span class="type">LottieCompositionSpec</span>.<span class="function">RawRes</span>(<span class="type">R</span>.<span class="attr">raw</span>.<span class="attr">success_animation</span>)
+    )
+    <span class="keyword">val</span> <span class="attr">progress</span> <span class="keyword">by</span> <span class="function">animateLottieCompositionAsState</span>(
+        <span class="attr">composition</span>,
+        <span class="attr">iterations</span> <span class="operator">=</span> <span class="type">LottieConstants</span>.<span class="attr">IterateForever</span> <span class="comment">// Loop forever</span>
+    )
+
+    <span class="function">LottieAnimation</span>(
+        <span class="attr">composition</span> <span class="operator">=</span> <span class="attr">composition</span>,
+        <span class="attr">progress</span> <span class="operator">=</span> { <span class="attr">progress</span> }
+    )
+}
+</code></pre>
+
+                <h3>Part 5: Advanced Gestures</h3>
+                <p>Handling a <code>click</code> is easy. What about dragging, swiping, or pinch-to-zoom? For this, you use the <code>pointerInput</code> modifier.</p>
+                
+                <h4>Example: Draggable Box</h4>
+                <pre><code><span class="keyword">import</span> <span class="type">androidx.compose.foundation.gestures.detectDragGestures</span>
+<span class="keyword">import</span> <span class="type">androidx.compose.foundation.layout.offset</span>
+
+<span class="keyword">@Composable</span>
+<span class="keyword">fun</span> <span class="function">DraggableBox</span>() {
+    <span class="keyword">var</span> <span class="attr">offsetX</span> <span class="keyword">by</span> <span class="function">remember</span> { <span class="function">mutableStateOf</span>(<span class="number">0f</span>) }
+    <span class="keyword">var</span> <span class="attr">offsetY</span> <span class="keyword">by</span> <span class="function">remember</span> { <span class="function">mutableStateOf</span>(<span class="number">0f</span>) }
+
+    <span class="function">Box</span>(
+        <span class="attr">modifier</span> <span class="operator">=</span> <span class="type">Modifier</span>
+            .<span class="function">offset</span> { <span class="type">IntOffset</span>(<span class="attr">offsetX</span>.<span class="function">roundToInt</span>(), <span class="attr">offsetY</span>.<span class="function">roundToInt</span>()) }
+            .<span class="function">background</span>(<span class="type">Color</span>.<span class="attr">Blue</span>)
+            .<span class="function">size</span>(<span class="number">100</span>.<span class="attr">dp</span>)
+            .<span class="function">pointerInput</span>(<span class="type">Unit</span>) { <span class="comment">// This is the gesture listener</span>
+                <span class="function">detectDragGestures</span> { <span class="attr">change</span>, <span class="attr">dragAmount</span> <span class="operator">-></span>
+                    <span class="attr">change</span>.<span class="function">consume</span>()
+                    <span class="attr">offsetX</span> <span class="operator">+=</span> <span class="attr">dragAmount</span>.<span class="attr">x</span>
+                    <span class="attr">offsetY</span> <span class="operator">+=</span> <span class="attr">dragAmount</span>.<span class="attr">y</span>
+                }
+            }
+    )
+}
+</code></pre>
+                
+                <a href="https://developer.android.com/jetpack/compose/animation" target="_blank" class="read-more-link">Read the Official Guide to Compose Animation &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-firebase.html" class="cta-button prev">&larr; Chapter 9: Firebase</a>
+                    <a href="android-publishing.html" class="cta-button">Next Chapter: Publishing to Google Play &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
