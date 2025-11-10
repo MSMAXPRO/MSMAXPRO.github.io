@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2.1: The OS (Linux) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9); /* Blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #38bdf8; /* Blue highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash/Python */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class, if, for */
+        .content-section pre code .function { color: #818cf8; } /* println, main, def */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .variable { color: #e2e8f0; } /* $VAR, my_var */
+        .content-section pre code .command { color: #34d399; } /* ls, grep, curl */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 2.1: <span class="highlight">The Operating System (Linux)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The Foundation of Everything</h2>
+                <p>Welcome to the single most important chapter in this entire roadmap. You can't build a house without understanding the ground (the OS). A developer who doesn't understand these fundamentals is just a "coder." A DevOps engineer who masters them is an "architect."</p>
+                <p>In Chapter 1, you learned how to write *scripts* (Bash, Python). In this chapter, you will learn *what* you are scripting. When you run <code>docker ps</code>, what is a "process"? When you write <code>192.168.1.1</code>, what is an "IP address"? When you "open port 80," what does that *mean*?</p>
+                
+                <h3>Why Linux? Why Not Windows?</h3>
+                <p>Linux is the undisputed king of the cloud. Over 90% of all public cloud servers (AWS, GCP, Azure) run some "flavor" of Linux. Why?</p>
+                
+                <ul>
+                    <li><strong>It's Free & Open Source:</strong> You don't pay licensing fees. You can see and modify the source code.</li>
+                    <li><strong>It's Stable:</strong> Linux servers are famous for running for *years* without a reboot.</li>
+                    <li><strong>It's Secure:</strong> The permission model (which we'll cover) is far more secure than traditional Windows.</li>
+                    <li><strong>It's Lightweight:</strong> You can run a Linux server with no GUI (Graphical User Interface), using only 100MB of RAM. This makes it fast and efficient.</li>
+                    <li><strong>It's Automation-First:</strong> Linux was *built* to be controlled from the command line, making it perfect for DevOps scripts.</li>
+                </ul>
+                
+                <h3>Kernel vs. Shell vs. Distribution</h3>
+                <p>These terms are often confused. Let's clarify.</p>
+                
+                <ul>
+                    <li><strong>The Kernel (Linux):</strong> This is the *core* of the OS. It's the central program that manages the CPU, memory, and hardware (like the hard drive). It's the "engine" of the car. The kernel itself is just one piece of software, created by Linus Torvalds.</li>
+                    <li><strong>The Shell (e.g., Bash):</strong> This is the program you interact with. It's the "steering wheel and pedals." It's a command-line interpreter that takes your commands (like <code>ls</code>) and tells the kernel what to do.</li>
+                    <li><strong>The Distribution (Distro):</strong> This is the *complete car*. It's the kernel *plus* the shell *plus* thousands of other pre-installed tools (like a package manager, a file system, a web server, etc.).</li>
+                </ul>
+                
+                <!-- =================================== -->
+                <!-- PART 1: Distributions & Package Mgmt -->
+                <!-- =================================== -->
+                
+                <h2>Part 1: Distributions & Package Management</h2>
+                <p>There are hundreds of "distros," but you only need to know the two main "families." Their main difference is their **Package Manager** (the tool used to install, update, and remove software).</p>
+                
+                
+                <h3>Family 1: Debian-based (e.g., Ubuntu, Debian)</h3>
+                <p>This is the most popular family for beginners, startups, and cloud development. **Ubuntu Server** is the most common choice.</p>
+                <h4>The Package Manager: <code>apt</code> (Advanced Packaging Tool)</h4>
+                <p><code>apt</code> is the command you use to manage <code>.deb</code> packages. It is powerful and easy to use.</p>
+                
+                <h4>Action 1: Update Package Lists (The First Command)</h4>
+                <p>This is the **first command you must run** on any new server. It does *not* upgrade your software. It simply downloads the latest list of *available* packages and versions from the Ubuntu repositories (servers).</p>
+                <pre><code><span class="comment"># 'sudo' means "SuperUser Do" - run this as an admin (root)</span>
+$ sudo apt update
+<span class="comment_output">
+Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:2 http://us.archive.ubuntu.com/ubuntu focal InRelease
+...
+All packages are up to date.
+</span>
+</code></pre>
+
+                <h4>Action 2: Install a Package</h4>
+                <p>This installs a new piece of software, like the <code>nginx</code> web server.</p>
+                <pre><code><span class="comment"># '-y' flag automatically says 'yes' to any prompts</span>
+$ sudo apt install -y nginx
+<span class="comment_output">
+Reading package lists... Done
+Building dependency tree... Done
+The following NEW packages will be installed:
+  nginx
+0 upgraded, 1 newly installed, 0 to remove...
+</span>
+</code></pre>
+
+                <h4>Action 3: Upgrade All Packages</h4>
+                <p>This command compares your *installed* packages to the *list* you downloaded with <code>apt update</code>. It then upgrades everything on your system to the latest version.</p>
+                <pre><code>$ sudo apt upgrade
+<span class="comment_output">
+The following packages will be upgraded:
+  libssl1.1 openssl
+2 upgraded, 0 newly installed, 0 to remove...
+Do you want to continue? [Y/n] Y
+</span>
+</code></pre>
+
+                <h4>Action 4: Remove a Package</h4>
+                <p>There are two ways to remove:</p>
+                <pre><code><span class="comment"># 1. 'remove' - Uninstalls the program but LEAVES config files</span>
+<span class="comment"># This is good if you plan to reinstall it later</span>
+$ sudo apt remove nginx
+
+<span class="comment"># 2. 'purge' - Uninstalls the program AND deletes its system-wide config files</span>
+<span class="comment"># This is a complete, clean removal.</span>
+$ sudo apt purge nginx
+</code></pre>
+                
+                <h3>Family 2: Red Hat-based (e.g., RHEL, CentOS, Fedora, Rocky)</h3>
+                <p>This family is the standard for large, stable, corporate environments. **RHEL (Red Hat Enterprise Linux)** is the paid, supported version. **Rocky Linux** and **AlmaLinux** are free, 1-to-1 copies of RHEL.</p>
+                <h4>The Package Manager: <code>dnf</code> (or <code>yum</code>)</h4>
+                <p><code>yum</code> was the original package manager. <code>dnf</code> (Dandified YUM) is the modern, faster replacement. The commands are almost identical.</p>
+                <pre><code><span class="comment"># 1. Install a package (dnf/yum often install without 'update')</span>
+$ sudo dnf install -y nginx
+
+<span class="comment"># 2. Upgrade all packages</span>
+$ sudo dnf upgrade -y
+
+<span class="comment"># 3. Remove a package</span>
+$ sudo dnf remove nginx
+</code></pre>
+                
+                <!-- =================================== -->
+                <!-- PART 2: The Filesystem (FHS) -->
+                <!-- =================================== -->
+                
+                <h2>Part 2: The Linux Filesystem Hierarchy (FHS)</h2>
+                <p>When you first log into a Linux server and type <code>ls /</code>, you'll see a list of folders: <code>/bin</code>, <code>/etc</code>, <code>/var</code>, <code>/home</code>, etc. This isn't random. It's a standard called the **FHS (Filesystem Hierarchy Standard)**. Knowing what goes where is essential for finding files and understanding how the system works.</p>
+                
+                
+                <h4>The Root (<code>/</code>) Directory</h4>
+                <p>This is the top-level directory. Everything on the system, including other hard drives, lives inside this directory.</p>
+                
+                <h4><code>/bin</code> (User Binaries) & <code>/sbin</code> (System Binaries)</h4>
+                <ul>
+                    <li><strong><code>/bin</code>:</strong> Contains the most basic, essential **binaries** (commands) that *all* users need, like <code>ls</code>, <code>cp</code>, <code>mv</code>, <code>grep</code>, and <code>bash</code>.</li>
+                    <li><strong><code>/sbin</code>:</strong> Contains essential **system** binaries, which are generally only used by the "root" (admin) user. Things like <code>fdisk</code> (for formatting disks) or <code>iptables</code> (firewall).</li>
+                    <li>(Note: In many modern distros, <code>/bin</code> and <code>/sbin</code> are just "symlinks" pointing to <code>/usr/bin</code> and <code>/usr/sbin</code>.)</li>
+                </ul>
+
+                <h4><code>/etc</code> (Configuration)</h4>
+                <p>This is one of the **most important** folders for a DevOps engineer. <code>/etc</code> (Et Cetera) holds all the system-wide **configuration files**. If you install <code>nginx</code>, its config file will be at <code>/etc/nginx/nginx.conf</code>. If you want to change your SSH login settings, you edit <code>/etc/ssh/sshd_config</code>.</p>
+
+                <h4><code>/home</code> (User Home Directories)</h4>
+                <p>This is where your personal files live. Each user gets their own directory (e.g., <code>/home/msmaxpro</code>, <code>/home/aman</code>). When you type <code>cd ~</code>, you are going to your home directory.</p>
+
+                <h4><code>/root</code> (The Root User's Home)</h4>
+                <p>This is the special home directory for the "root" super-administrator. It is *not* <code>/</code>.</p>
+                
+                <h4><code>/var</code> (Variable Files)</h4>
+                <p>This is your *other* most important folder. <code>/var</code> holds files that are expected to **change (vary) all the time**. This is where your applications will write their data.</p>
+                <ul>
+                    <li><strong><code>/var/log</code>:</strong> The **System Log** directory. This is the first place you look when something goes wrong.
+                        <ul>
+                            <li><code>/var/log/syslog</code> (or <code>messages</code>): General system messages.</li>
+                            <li><code>/var/log/auth.log</code>: Login attempts, SSH connections, <code>sudo</code> commands.</li>
+                            <li><code>/var/log/nginx/access.log</code>: A log of *every* user visit to your website.</li>
+                            <li><code>/var/log/nginx/error.log</code>: Errors from your web server.</li>
+                        </ul>
+                    </li>
+                    <li><strong><code>/var/www/html</code>:</strong> The default "document root" for Nginx/Apache. Your website's <code>index.html</code> file often lives here.</li>
+                    <li><strong><code>/var/lib/mysql</code>:</strong> Your MySQL database files would be stored here.</li>
+                </ul>
+                
+                <h4><code>/tmp</code> (Temporary Files)</h4>
+                <p>A folder for any process to write temporary files. This folder is a "free-for-all" and is often **wiped clean every time the server reboots**.</p>
+                
+                <h4><code>/usr</code> (User Programs)</h4>
+                <p>This is where most of the software you install with <code>apt</code> or <code>dnf</code> actually lives. When you run <code>apt install python3</code>, the <code>python3</code> binary is placed in <code>/usr/bin/python3</code>.</p>
+                
+                <h4><code>/dev</code> (Devices)</h4>
+                <p>This is a special virtual folder. Linux treats *everything* as a file. Your hard drive is a file (<code>/dev/sda</code>), your USB stick is a file (<code>/dev/sdb1</code>), and even a "black hole" is a file (<code>/dev/null</code>). When you send output to <code>/dev/null</code>, it's thrown away forever.</p>
+
+                <!-- =================================== -->
+                <!-- PART 3: Core Commands & Text Tools -->
+                <!-- =================================== -->
+                
+                <h2>Part 3: Core Commands & Text Tools (The "Verbs")</h2>
+                <p>These are the commands you must know by heart. You will use them every single day.</p>
+                
+                <h3>File & Directory Navigation</h3>
+                <pre><code><span class="comment"># 1. 'ls' - List files and directories</span>
+$ ls
+<span class="comment_output">Desktop  Documents  Downloads  Music</span>
+
+<span class="comment"># 'ls -l' (long format) - Shows permissions, owner, size, date</span>
+$ ls -l
+<span class="comment_output">drwxr-xr-x 2 user user 4096 Nov 10 10:00 Documents</span>
+<span class="comment_output">-rw-r--r-- 1 user user 1024 Nov 10 10:05 file.txt</span>
+
+<span class="comment"># 'ls -a' (all) - Shows hidden ".dotfiles" (like .bashrc)</span>
+$ ls -a
+<span class="comment_output">.  ..  .bashrc  .profile  Documents  file.txt</span>
+
+<span class="comment"># 'ls -lh' (long + human-readable size) - The BEST combo!</span>
+$ ls -lh
+<span class="comment_output">-rw-r--r-- 1 user user 1.1K Nov 10 10:05 file.txt</span>
+
+<span class="comment"># 2. 'pwd' - Print Working Directory (Where am I?)</span>
+$ pwd
+<span class="comment_output">/home/msmaxpro</span>
+
+<span class="comment"># 3. 'cd' - Change Directory</span>
+$ cd Documents
+$ pwd
+<span class="comment_output">/home/msmaxpro/Documents</span>
+
+$ cd ..  <span class="comment"># Go up one level</span>
+$ cd ~   <span class="comment"># Go to my home directory (/home/msmaxpro)</span>
+$ cd -   <span class="comment"># Go to the *previous* directory I was in</span>
+</code></pre>
+                
+                <h3>File & Directory Manipulation</h3>
+                <pre><code><span class="comment"># 1. 'touch' - Create an empty file</span>
+$ touch new_file.txt
+
+<span class="comment"># 2. 'mkdir' - Make a directory</span>
+$ mkdir my_project
+$ mkdir -p my_project/src/main <span class="comment"># '-p' creates parent directories</span>
+
+<span class="comment"># 3. 'cp' - Copy</span>
+$ cp new_file.txt new_file_copy.txt
+$ cp new_file.txt my_project/ <span class="comment"># Copy file into directory</span>
+$ cp -r my_project my_project_backup <span class="comment"># '-r' (recursive) to copy a whole directory</span>
+
+<span class="comment"># 4. 'mv' - Move (also used for Renaming)</span>
+$ mv new_file_copy.txt my_project/ <span class="comment"># Move file</span>
+$ mv new_file.txt old_file.txt    <span class="comment"># Rename file</span>
+
+<span class="comment"># 5. 'rm' - Remove (Delete)</span>
+$ rm old_file.txt
+$ rm -r my_project_backup <span class="comment"># '-r' (recursive) to delete a directory</span>
+$ rm -f my_project      <span class="comment"># '-f' (force) - no prompt, dangerous!</span>
+<span class="comment"># The most dangerous command in Linux: rm -rf /</span>
+<span class="comment"># ('-rf' = recursive + force, '/' = root)</span>
+<span class="comment"># This will delete YOUR ENTIRE SERVER. Never run it.</span>
+</code></pre>
+
+                <h3>Viewing File Content</h3>
+                <pre><code><span class="comment"># 1. 'cat' - Concatenate (Prints the *whole* file. For small files.)</span>
+$ cat /etc/os-release
+<span class="comment_output">NAME="Ubuntu"</span>
+<span class="comment_output">VERSION="22.04.3 LTS (Jammy Jellyfish)"</span>
+
+<span class="comment"># 2. 'less' - The best tool for big files (like logs)</span>
+<span class="comment"># This opens an interactive pager. Press 'q' to quit, '/' to search.</span>
+$ less /var/log/syslog
+
+<span class="comment"># 3. 'head' / 'tail' - Show the top or bottom of a file</span>
+$ head -n 5 /var/log/syslog <span class="comment"># Show first 5 lines</span>
+$ tail -n 20 /var/log/syslog <span class="comment"># Show last 20 lines</span>
+
+<span class="comment"># 4. 'tail -f' - (Follow) The #1 tool for debugging</span>
+<span class="comment"># This opens the file and *watches* for new lines.</span>
+<span class="comment"># Run this, then use your app. You'll see logs appear in real-time.</span>
+$ tail -f /var/log/nginx/access.log
+</code></pre>
+
+                <h3><code>find</code>, <code>grep</code>, <code>awk</code>, <code>sed</code></h3>
+                <p>We covered these in Chapter 1 (Bash Scripting), but they are fundamental OS commands. <code>find</code> is new:</p>
+                <pre><code><span class="comment"># 1. 'find' - Search for files in a directory hierarchy</span>
+<span class="comment"># Find all .md files in the current directory (.)</span>
+$ find . -name "*.md"
+
+<span class="comment"># Find all directories (-type d) in /var</span>
+$ find /var -type d -name "log"
+
+<span class="comment"># Find all files (-type f) in /etc modified in the last 60 minutes (-mmin -60)</span>
+$ find /etc -type f -mmin -60
+
+<span class="comment"># Find all files larger than 100 Megabytes (+100M)</span>
+$ find / -size +100M
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Process Mgmt -->
+                <!-- ========================== -->
+
+                <h2>Part 4: Process & Service Management</h2>
+                <p>A "process" is any program that is currently running. A "service" is a process that runs in the background (like a web server or database).</p>
+                
+                <h3><code>ps</code> (Process Status)</h3>
+                <p>Shows a "snapshot" of all currently running processes. The <code>aux</code> flags are standard.</p>
+                <pre><code>$ ps aux
+<span class="comment_output">
+USER       PID  %CPU %MEM     VSZ    RSS TTY      STAT START   TIME COMMAND
+root         1   0.0  0.1  167496  11096 ?        Ss   09:00   0:02 /sbin/init
+root       123   0.0  0.2  229180  17540 ?        Ssl  09:00   0:05 /usr/lib/systemd/systemd-journald
+nginx      876   0.1  0.5  123456  45000 ?        S    09:10   0:01 nginx: worker process
+...
+</span>
+</code></pre>
+                <ul>
+                    <li><strong><code>USER</code>:</strong> Who owns the process.</li>
+                    <li><strong><code>PID</code>:</strong> The **Process ID**. A unique number. This is how you "target" a process.</li>
+                    <li><strong><code>%CPU</code> / <code>%MEM</code>:</strong> How much CPU and Memory it's using.</li>
+                    <li><strong><code>STAT</code>:</strong> The status. <code>S</code> = Sleeping (idle), <code>R</code> = Running.</li>
+                    <li><strong><code>COMMAND</code>:</strong> The command that was run.</li>
+                </ul>
+                
+                <h3><code>top</code> / <code>htop</code> (The "Task Manager")</h3>
+                <p><code>ps</code> is a static snapshot. <code>top</code> is a live, real-time dashboard that updates every few seconds. It shows you what's using your CPU and RAM *right now*. <code>htop</code> is a "prettier," more user-friendly version of <code>top</code> (you may need to install it: <code>sudo apt install htop</code>).</p>
+                
+
+                <h3><code>kill</code> and Signals (Stopping a Process)</h3>
+                <p>This command sends a "signal" to a process. You *must* give it the PID.</p>
+                <pre><code><span class="comment"># Find the PID of the misbehaving process</span>
+$ ps aux | grep "my-buggy-script.py"
+<span class="comment_output">msmaxpro  12345  0.0  0.1 ... python3 my-buggy-script.py</span>
+
+<span class="comment"># Send the TERM signal (15) - The "Polite" Way</span>
+<span class="comment"># This asks the process to "please shut down gracefully"</span>
+$ kill 12345
+
+<span class="comment"># If it's stuck, send the KILL signal (9) - The "Force Quit"</span>
+<span class="comment"># This kills the process immediately, no questions asked.</span>
+$ kill -9 12345
+</code></pre>
+                
+                <h3><code>systemd</code> and <code>systemctl</code></h3>
+                <p><code>kill</code> is for any process. For "services" (like Nginx, Docker, databases), you should *always* use the official service manager: <code>systemd</code>. The command is <code>systemctl</code>.</p>
+                <pre><code><span class="comment"># Check the status of the nginx web server</span>
+$ sudo systemctl status nginx
+<span class="comment_output">
+● nginx.service - A high performance web server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled)
+     Active: active (running) since Tue 2025-11-10 09:10:01 UTC
+</span>
+
+<span class="comment"># Stop the service</span>
+$ sudo systemctl stop nginx
+
+<span class="comment"># Start the service</span>
+$ sudo systemctl start nginx
+
+<span class="comment"># Restart the service (after changing /etc/nginx/nginx.conf)</span>
+$ sudo systemctl restart nginx
+
+<span class="comment"># CRITICAL: Make the service start automatically when the server reboots</span>
+$ sudo systemctl enable nginx
+
+<span class="comment"># Stop the service from starting on reboot</span>
+$ sudo systemctl disable nginx
+</code></pre>
+                
+                <h3><code>journalctl</code> (The Systemd Log Viewer)</h3>
+                <p><code>systemd</code> also has its own logging system. This is the *best* way to debug a service that *fails to start*.</p>
+                <pre><code><span class="comment"># Show all logs for *only* the nginx service</span>
+$ sudo journalctl -u nginx
+
+<span class="comment"># Follow the logs in real-time (like tail -f)</span>
+$ sudo journalctl -u nginx -f
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 5: Permissions -->
+                <!-- ========================== -->
+                
+                <h2>Part 5: User & Permission Management (CRITICAL)</h2>
+                <p>This is the core of Linux security. Every file and folder is "owned" by a **User** and a **Group**. You can set permissions for three levels:</p>
+                <ol>
+                    <li><strong>User (u):</strong> The owner of the file.</li>
+                    <li><strong>Group (g):</strong> Other users who are in the file's group.</li>
+                    <li><strong>Others (o):</strong> Everyone else.</li>
+                </ol>
+                <p>Run <code>ls -l</code> to see this in action:</p>
+                <pre><code>$ ls -l
+<span class="comment_output">
+-rwxr-xr--  1 msmaxpro developers  4096 Nov 10 11:30 my_script.sh
+drwxr-x---  2 msmaxpro developers  4096 Nov 10 11:30 my_folder
+</span>
+</code></pre>
+                <p>Let's break down <code>-rwxr-xr--</code>:</p>
+                <ul>
+                    <li><code>-</code>: This is a file (<code>d</code> means directory).</li>
+                    <li><code>rwx</code>: The **User** (msmaxpro) can **R**ead, **W**rite, and e**X**ecute.</li>
+                    <li><code>r-x</code>: The **Group** (developers) can **R**ead and e**X**ecute, but **cannot Write**.</li>
+                    <li><code>r--</code>: **Others** can **R**ead, but **cannot Write or Execute**.</li>
+                </ul>
+                
+                <h3><code>chmod</code> (Change Mode)</h3>
+                <p>This command changes those permissions.</p>
+                <h4>Symbolic Mode (Easy to read)</h4>
+                <pre><code><span class="comment"># Make our script executable for the User (u)</span>
+$ chmod u+x my_script.sh
+
+<span class="comment"># Remove read permission for Others (o)</span>
+$ chmod o-r my_script.sh
+
+<span class="comment"># Give read AND write to Group (g), remove all for Others (o)</span>
+$ chmod g+rw,o-rwx my_script.sh
+
+<span class="comment"># Set permissions exactly (User=rwx, Group=r, Other=nothing)</span>
+$ chmod u=rwx,g=r,o= my_script.sh
+</code></pre>
+                <h4>Octal Mode (Fast/Common)</h4>
+                <p>This uses numbers. <code>r=4</code>, <code>w=2</code>, <code>x=1</code>. You add them up.</p>
+                <ul>
+                    <li><code>7 (rwx) = 4 + 2 + 1</code></li>
+                    <li><code>6 (rw-) = 4 + 2 + 0</code></li>
+                    <li><code>5 (r-x) = 4 + 0 + 1</code></li>
+                    <li><code>4 (r--) = 4 + 0 + 0</code></li>
+                    <li><code>0 (---) = 0 + 0 + 0</code></li>
+                </ul>
+                <p>You write three numbers: (User)(Group)(Other).</p>
+                <pre><code><span class="comment"># Set permissions to rwxr-xr-x (User=7, Group=5, Others=5)</span>
+<span class="comment"># This is the most common permission for executable scripts.</span>
+$ chmod 755 my_script.sh
+
+<span class="comment"># Set permissions to rw-r--r-- (User=6, Group=4, Others=4)</span>
+<span class="comment"># This is the most common permission for web files (like index.html).</span>
+$ chmod 644 index.html
+
+<span class="comment"># Set permissions to rwx------ (User=7, Group=0, Others=0)</span>
+<span class="comment"># This is the most secure permission for private files (like keys).</span>
+$ chmod 700 my_secret_key
+</code></pre>
+                
+                <h3><code>chown</code> (Change Owner)</h3>
+                <p>This command changes who "owns" the file. This is critical for security. Your Nginx web server runs as the <code>nginx</code> user. It *cannot* read your <code>/home/msmaxpro</code> files. You must <code>chown</code> your web files to the <code>nginx</code> user.</p>
+                <pre><code><span class="comment"># Change the owner to 'nginx'</span>
+$ sudo chown nginx /var/www/html/index.html
+
+<span class="comment"># Change the owner AND group at the same time (user:group)</span>
+$ sudo chown nginx:nginx /var/www/html/index.html
+
+<span class="comment"># Change ownership of an entire directory (R = Recursive)</span>
+$ sudo chown -R nginx:nginx /var/www/html
+</code></pre>
+
+                <h3><code>sudo</code> (SuperUser Do)</h3>
+                <p><code>sudo</code> is the command that lets you *temporarily* become the "root" (admin) user to run a single command (like <code>apt install</code> or <code>chown</code>). By default, the main user on an Ubuntu server is allowed to use <code>sudo</code>. You can add other users to this "sudo group".</p>
+                <pre><code><span class="comment"># Add a new user named 'aman'</span>
+$ sudo adduser aman
+
+<span class="comment"># Add the user 'aman' to the 'sudo' group (on Debian/Ubuntu)</span>
+$ sudo usermod -aG sudo aman
+
+<span class="comment"># (On CentOS/RHEL, the group is named 'wheel')</span>
+<span class="comment"># $ sudo usermod -aG wheel aman</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 6: SSH -->
+                <!-- ========================== -->
+
+                <h2>Part 6: SSH (Secure Shell) - Your Gateway</h2>
+                <p>SSH (running on **Port 22**) is the *most important* protocol for a DevOps engineer. It allows you to open a secure, encrypted command-line (shell) on a remote server. This is how you will log in to and manage all your servers.</p>
+                
+                <h3>Method 1: Password Authentication (The "Bad" Way)</h3>
+                <p>This is the simple way. You log in with a username and password. This is **INSECURE** because hackers can "brute force" your password (try 10,000 passwords per second) until they get in.</p>
+                <pre><code>$ ssh msmaxpro@172.104.22.11
+<span class="comment_output">
+msmaxpro@172.104.22.11's password: ********
+</span>
+</code></pre>
+
+                <h3>Method 2: Public Key Authentication (The "Professional" Way)</h3>
+                <p>This is the standard for all cloud platforms. It's 1000x more secure. You generate a "key pair" on your *local* machine (your laptop):</p>
+                <ol>
+                    <li>A **Private Key** (<code>id_rsa</code>): You keep this secret. It's your passport.</li>
+                    <li>A **Public Key** (<code>id_rsa.pub</code>): You give this to everyone. You put this on any server you want to access.</li>
+                </ol>
+                <p>The server (with the public key) can *verify* you are who you say you are, as only *you* have the matching private key.</p>
+                
+                <h4>Step 1: Generate your keys (On *your* laptop)</h4>
+                <p>You only need to do this once.</p>
+                <pre><code><span class="comment"># -t rsa (algorithm)</span>
+<span class="comment"># -b 4096 (bit-strength, 4096 is very strong)</span>
+$ ssh-keygen -t rsa -b 4096 -C "msmaxpro@my-laptop"
+<span class="comment_output">
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/msmaxpro/.ssh/id_rsa): [Press Enter]
+Enter passphrase (empty for no passphrase): [Press Enter or type a password]
+</span>
+</code></pre>
+                <p>This creates <code>id_rsa</code> (private) and <code>id_rsa.pub</code> (public) in your <code>~/.ssh</code> directory.</p>
+
+                <h4>Step 2: Copy your Public Key to the Server</h4>
+                <p>Linux has a magic command for this:</p>
+                <pre><code><span class="comment"># This will ask for your password ONE LAST TIME</span>
+$ ssh-copy-id msmaxpro@172.104.22.11
+</code></pre>
+                <p>This command logs into your server, finds the <code>~/.ssh/authorized_keys</code> file, and pastes your public key into it.</p>
+                
+                <h4>Step 3: Log in (No Password)</h4>
+                <pre><code>$ ssh msmaxpro@172.104.22.11
+<span class="comment_output">
+Welcome to Ubuntu 22.04 LTS ...
+msmaxpro@server:~$ 
+</span><span class="comment_comment"># It logged you in instantly! No password needed.</span>
+</code></pre>
+                
+                <h4>Step 4: Disable Password Login (The Final Step)</h4>
+                <p>Now that your key works, you should *disable* password login on your server forever to block all brute-force attacks.</p>
+                <ol>
+                    <li>On the *server*, open <code>/etc/ssh/sshd_config</code>: <br> <code>$ sudo nano /etc/ssh/sshd_config</code></li>
+                    <li>Find the line <code>#PasswordAuthentication yes</code>.</li>
+                    <li>Change it to: <code>PasswordAuthentication no</code> (and remove the <code>#</code>).</li>
+                    <li>Save the file and restart the SSH service: <br> <code>$ sudo systemctl restart sshd</code></li>
+                </ol>
+                <p>Now, no one in the world can log in to your server without your private key file.</p>
+                
+                <a href="https://ubuntu.com/server/docs/security-ssh" target="_blank" class="read-more-link">Read More about Linux & SSH &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-scripting.html" class="cta-button prev">&larr; Chapter 1: Scripting</a>
+                    <a href="devops-networking.html" class="cta-button">Next: Chapter 2.2: Networking &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
