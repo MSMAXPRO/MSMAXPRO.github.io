@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps Engineer Roadmap - CodeWithMSMAXPRO</title>
+    <title>Chapter 1: Programming / Scripting - CodeWithMSMAXPRO</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,32 +13,227 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* (Aapke saare common styles...) */
-        html, body { overflow-x: hidden; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background-color: #0f172a; background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%); color: #cbd5e1; line-height: 1.7; }
-        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-        header { background-color: transparent; padding: 1.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-        nav { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; text-decoration: none; display: flex; align-items: center; z-index: 1000; }
-        .logo img { height: 40px; margin-right: 10px; }
-        .nav-links { list-style: none; margin: 0; padding: 0; display: flex; }
-        .nav-links li { margin-left: 30px; }
-        .nav-links li a { text-decoration: none; color: #cbd5e1; font-weight: 500; transition: color 0.3s ease; }
-        .nav-links li a:hover { color: #7c3aed; }
-        .hamburger { display: none; cursor: pointer; z-index: 1000; }
-        .hamburger div { width: 25px; height: 3px; background-color: #ffffff; margin: 5px; transition: all 0.3s ease; }
-        section { padding: 60px 0; }
-        h1 { text-align: center; font-size: 2.8rem; margin-bottom: 50px; font-weight: 700; color: #ffffff; }
-        footer { text-align: center; padding: 25px 0; margin-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #94a3b8; }
-        .highlight { background: linear-gradient(90deg, #f97316, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .roadmap-container { position: relative; }
-        .roadmap-container::before { content: ''; position: absolute; left: 50px; top: 25px; bottom: 25px; width: 4px; background-color: #1e293b; z-index: -1; }
-        .roadmap-step { background-color: rgba(30, 41, 59, 0.5); padding: 25px 30px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); margin-bottom: 25px; display: flex; align-items: center; gap: 25px; position: relative; transition: transform 0.2s ease; }
-        .roadmap-step:hover { transform: scale(1.03); }
-        .step-number { font-size: 1.8rem; font-weight: 700; background: linear-gradient(90deg, #f97316, #ef4444); color: #fff; min-width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .step-content h3 { margin: 0 0 5px 0; font-size: 1.5rem; color: #ffffff; }
-        .step-content p { margin: 0; color: #94a3b8; }
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
         
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #f97316, #ef4444); /* Orange/Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #f97316; /* Orange highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash/Python */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class, if, for */
+        .content-section pre code .function { color: #818cf8; } /* println, main, def */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .variable { color: #e2e8f0; } /* $VAR, my_var */
+        .content-section pre code .command { color: #34d399; } /* ls, grep, curl */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
         @media (max-width: 768px) {
             .logo span { display: none; }
             .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
@@ -61,15 +256,16 @@
                     <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
+                
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
                     <li><a href="portfolio.html">Portfolio</a></li> 
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
+                
                 <div class="hamburger">
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -80,110 +276,452 @@
     </header>
 
     <main>
-        <section class="roadmap-details">
-            <div class="container roadmap-container">
-                <h1><span class="highlight">DevOps Engineer</span> Roadmap</h1>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 1: <span class="highlight">Programming / Scripting</span></h1>
                 
-                <a href="devops-bash.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Bash Scripting</h3>
-                            <p>Master the Linux command line and automate tasks with Bash.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="devops-python.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Python for Automation</h3>
-                            <p>Use Python to write complex scripts and automate cloud infrastructure.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="devops-go.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Go (Golang) Basics</h3>
-                            <p>Understand the language used to build tools like Docker & Kubernetes.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="devops-apis.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h3>APIs, JSON & YAML</h3>
-                            <p>Learn how services talk to each other and manage configuration data.</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="devops-linux.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h3>OS & Networking Basics</h3>
-                            <p>Understand the Linux command line, file system, and basic networking (IP, DNS, HTTP).</p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="git-basics.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">6</div>
-                        <div class="step-content">
-                            <h3>Version Control (Git)</h3>
-                            <p>Learn Git branching, merging, and pull requests. (This is essential).</p>
-                        </div>
-                    </div>
-                </a>
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
                 
-                <a href="devops-cicd.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">7</div>
-                        <div class="step-content">
-                            <h3>CI/CD Pipelines</h3>
-                            <p>Learn Continuous Integration & Deployment. Master tools like Jenkins or GitHub Actions.</p>
-                        </div>
-                    </div>
-                </a>
+                <h2>The "Why": Why Does a DevOps Engineer Need to Code?</h2>
+                <p>A common misconception is that DevOps is just "Operations" (managing servers) and that developers (Devs) do all the coding. This is completely false. DevOps is a *culture* and a *practice* that merges Development and Operations, and the "glue" that holds it all together is **automation**.</p>
+                <p>You cannot automate without programming. As a DevOps engineer, your primary job is to **automate everything**. You will write scripts to:</p>
+                <ul>
+                    <li><strong>Provision Infrastructure:</strong> Automatically create 100 new servers on AWS.</li>
+                    <li><strong>Build & Test Code:</strong> Create CI/CD pipelines that automatically build and test new features.</li>
+                    <li><strong>Deploy Applications:</strong> Automatically deploy the new version of the app to all 100 servers.</li>
+                    <li>**Monitor & Log:** Write scripts to check if all servers are healthy and send an alert if one goes down.</li>
+                    <li><strong>Manage Backups:</strong> Write a script that automatically backs up your database every night at 2 AM.</li>
+                </ul>
+                <p>A developer writes code for the *product*. A DevOps engineer writes code for the *process*. Your code is the assembly line that builds and ships the product.</p>
                 
-                <a href="devops-cloud.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">8</div>
-                        <div class="step-content">
-                            <h3>Cloud Providers</h3>
-                            <p>Get comfortable with at least one cloud provider: AWS, Google Cloud (GCP), or Azure.</p>
-                        </div>
-                    </div>
-                </a>
+                <h3>What to Learn: Bash vs. Python vs. Go</h3>
+                <p>You don't need to learn all three, but you need to know *when* to use each one.
+                <ol>
+                    <li><strong>Bash (or another shell script):</strong> This is your **must-have**. It's the native language of every Linux server. You use it for simple, file-based tasks and for "gluing" other command-line tools together.</li>
+                    <li><strong>Python:</strong> This is your **workhorse**. When a task becomes too complex for Bash (e.g., it involves JSON, API calls, or complex logic), you use Python. It's the most popular language for DevOps automation.</li>
+                    <li><strong>Go (Golang):</strong> This is your **specialty tool**. Go is a compiled language that is extremely fast and excellent at concurrency (doing many things at once). You use it to build high-performance command-line tools and infrastructure components (like Docker and Kubernetes, which are written in Go).</li>
+                </ol>
+                <p>This chapter will provide a deep dive into Bash and Python, as they cover 99% of DevOps tasks.</p>
                 
-                <a href="devops-containers.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">9</div>
-                        <div class="step-content">
-                            <h3>Containers (Docker & Kubernetes)</h3>
-                            <p>Learn to package apps with Docker and manage them at scale with Kubernetes (K8s).</p>
-                        </div>
-                    </div>
-                </a>
+                <!-- ========================== -->
+                <!-- PART 1: Bash Scripting     -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: Bash Scripting (The Linux "Glue")</h2>
+                <p>Bash (Bourne Again Shell) is the default command-line interpreter for nearly all Linux distributions (and macOS). A Bash script is simply a plain text file containing a series of commands that you would normally type into your terminal, one after another. It's the most basic and fundamental way to automate tasks on a server.</p>
 
-                <a href="devops-monitoring.html" style="text-decoration: none; color: inherit;">
-                    <div class="roadmap-step">
-                        <div class="step-number">10</div>
-                        <div class="step-content">
-                            <h3>Monitoring & Logging</h3>
-                            <p>Learn to monitor your applications using tools like Prometheus, Grafana, and the ELK Stack.</p>
-                        </div>
-                    </div>
-                </a>
+                <h3>1. "Hello, World!" in Bash</h3>
+                <p>Let's create our first script. Open a file named <code>hello.sh</code>.</p>
                 
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># This is a comment</span>
+<span class="comment"># 'echo' is the command to print text to the console</span>
+<span class="command">echo</span> <span class="string">"Hello, CodeWithMSMAXPRO!"</span>
+</code></pre>
+
+                <ul>
+                    <li><strong><code>#!/bin/bash</code>:</strong> This is called the **"Shebang"**. It *must* be the very first line. It tells the operating system *which* interpreter (in this case, <code>/bin/bash</code>) to use to run this script.</li>
+                    <li><strong>Permissions:</strong> Before you can run this script, you must make it "executable":
+                    <pre><code><span class="comment"># Give the owner (you) permission to execute (x) the file</span>
+$ chmod +x hello.sh
+</code></pre>
+                    </li>
+                    <li><strong>Running the Script:</strong>
+                    <pre><code><span class="comment"># './' means "in the current directory"</span>
+$ ./hello.sh
+<span class="comment_output">Hello, CodeWithMSMAXPRO!</span>
+</code></pre>
+                    </li>
+                </ul>
+                
+                <h3>2. Variables</h3>
+                <p>In Bash, you create variables (all-caps by convention) and access them with the <code>$</code> sign. **Important:** There are **NO spaces** around the <code>=</code> sign.</p>
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Assignment (NO SPACES)</span>
+<span class="variable">NAME</span>=<span class="string">"MSMAXPRO"</span>
+
+<span class="comment"># Accessing the variable</span>
+<span class="command">echo</span> <span class="string">"Hello, $NAME"</span>
+
+<span class="comment"># You can also use ${} for clarity</span>
+<span class="command">echo</span> <span class="string">"Hello, ${NAME}!"</span>
+</code></pre>
+                
+                <h3>3. User Input (`read`)</h3>
+                <p>You can ask the user for input using the <code>read</code> command.</p>
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="command">echo</span> -n <span class="string">"What is your name? "</span> <span class="comment_comment"># '-n' prevents a new line</span>
+<span class="command">read</span> <span class="variable">USER_NAME</span>
+
+<span class="command">echo</span> <span class="string">"Hello, $USER_NAME. Welcome!"</span>
+</code></pre>
+
+                <h3>4. Control Flow: `if` Statements</h3>
+                <p>This is where Bash gets tricky. The syntax is old and very specific. The most important thing is the **spaces** inside the <code>[ ... ]</code> brackets. They are **mandatory**.</p>
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="command">read</span> -p <span class="string">"Enter a number: "</span> <span class="variable">NUM</span>
+
+<span class="comment"># Notice the spaces: [ $NUM -gt 10 ]</span>
+<span class="keyword">if</span> [ <span class="variable">$NUM</span> -gt <span class="number">10</span> ]; <span class="keyword">then</span>
+    <span class="command">echo</span> <span class="string">"Your number ($NUM) is greater than 10."</span>
+<span class="keyword">elif</span> [ <span class="variable">$NUM</span> -eq <span class="number">10</span> ]; <span class="keyword">then</span>
+    <span class="command">echo</span> <span class="string">"Your number is exactly 10."</span>
+<span class="keyword">else</span>
+    <span class="command">echo</span> <span class="string">"Your number is less than 10."</span>
+<span class="keyword">fi</span> <span class="comment"># 'if' is closed with 'fi' (if backwards)</span>
+</code></pre>
+                
+                <h4>Bash Comparison Cheatsheet</h4>
+                <ul>
+                    <li><strong>Numbers:</strong> <code>-eq</code> (equal), <code>-ne</code> (not equal), <code>-gt</code> (greater than), <code>-lt</code> (less than), <code>-ge</code> (greater/equal), <code>-le</code> (less/equal)</li>
+                    <li><strong>Strings:</strong> <code>=</code> (equal), <code>!=</code> (not equal), <code>-z $VAR</code> (is empty), <code>-n $VAR</code> (is not empty)</li>
+                    <li><strong>Files:</strong> <code>-f $FILE</code> (is a file), <code>-d $DIR</code> (is a directory), <code>-e $PATH</code> (exists)</li>
+                </ul>
+                <pre><code><span class="comment"># Example: Check if a file exists</span>
+<span class="variable">FILE_PATH</span>=<span class="string">"/var/log/syslog"</span>
+<span class="keyword">if</span> [ -f <span class="variable">$FILE_PATH</span> ]; <span class="keyword">then</span>
+    <span class="command">echo</span> <span class="string">"File exists!"</span>
+<span class="keyword">fi</span>
+</code></pre>
+
+                <h3>5. Control Flow: `for` Loops</h3>
+                <p>Loops let you iterate over a list of items.</p>
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># Loop over a list of strings</span>
+<span class="variable">SERVICES</span>=<span class="string">"web db cache"</span>
+<span class="keyword">for</span> <span class="variable">SERVICE</span> <span class="keyword">in</span> <span class="variable">$SERVICES</span>; <span class="keyword">do</span>
+    <span class="command">echo</span> <span class="string">"Restarting $SERVICE server..."</span>
+    <span class="comment"># (fake command)</span>
+    <span class="command">sudo</span> service <span class="variable">$SERVICE</span> restart
+<span class="keyword">done</span>
+
+<span class="comment"># C-style loop</span>
+<span class="keyword">for</span> (( <span class="variable">i</span>=<span class="number">1</span>; <span class="variable">i</span><span class="operator">&lt;=</span><span class="number">5</span>; <span class="variable">i</span><span class="operator">++</span> )); <span class="keyword">do</span>
+    <span class="command">echo</span> <span class="string">"Number: $i"</span>
+<span class="keyword">done</span>
+</code></pre>
+
+                <h3>6. Functions</h3>
+                <p>Functions let you group reusable code. Note: Bash functions are simple; they don't have true "return" values in the way other languages do (they return an "exit code," 0 for success).</p>
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="comment"># 1. Define the function</span>
+<span class="function">greet</span>() {
+    <span class="command">echo</span> <span class="string">"Hello, $1!"</span> <span class="comment"># $1 is the first argument</span>
+}
+
+<span class="comment"># 2. Call the function</span>
+<span class="function">greet</span> <span class="string">"Aman"</span> <span class="comment_output"># Output: Hello, Aman!</span>
+<span class="function">greet</span> <span class="string">"Priya"</span> <span class="comment_output"># Output: Hello, Priya!</span>
+</code></pre>
+                
+                <h3>7. Essential DevOps Commands (The "Glue")</h3>
+                <p>The real power of Bash is not the language itself, but its ability to "glue" together other powerful command-line tools. These are your bread and butter.</p>
+                
+                <h4><code>grep</code> (Find Text)</h4>
+                <p><code>grep</code> searches for a text pattern inside a file.</p>
+                <pre><code><span class="comment"># Search for "error" in the 'app.log' file</span>
+<span class="command">grep</span> <span class="string">"error"</span> /var/log/app.log
+
+<span class="comment"># Search case-insensitively (-i) and show line numbers (-n)</span>
+<span class="command">grep</span> -in <span class="string">"database connection"</span> /var/log/app.log
+</code></pre>
+                
+                <h4>Pipes: <code>|</code> (Chaining Commands)</h4>
+                <p>The pipe <code>|</code> is the most powerful concept. It takes the **output** of the command on the left and uses it as the **input** for the command on the right.</p>
+                <pre><code><span class="comment"># 1. 'ps aux' lists ALL running processes (hundreds of lines)</span>
+<span class="comment"># 2. '|' pipes that output into 'grep'</span>
+<span class="comment"># 3. 'grep "nginx"' filters the list to only show lines with "nginx"</span>
+<span class="command">ps</span> aux | <span class="command">grep</span> <span class="string">"nginx"</span>
+</code></pre>
+
+                <h4><code>awk</code> (Extract Columns)</h4>
+                <p><code>awk</code> is a tool for processing text, column by column. It's often used with <code>grep</code>.</p>
+                <pre><code><span class="comment"># Find the 'nginx' process and print only the 2nd column (the Process ID)</span>
+<span class="command">ps</span> aux | <span class="command">grep</span> <span class="string">"nginx"</span> | <span class="command">awk</span> <span class="string">'{print $2}'</span>
+</code></pre>
+
+                <h4><code>sed</code> (Search and Replace)</h4>
+                <p><code>sed</code> (Stream Editor) is used to find and replace text inside a file.</p>
+                <pre><code><span class="comment"># In 'config.txt', replace "DATABASE_URL=old" with "DATABASE_URL=new"</span>
+<span class="command">sed</span> -i <span class="string">'s/DATABASE_URL=old/DATABASE_URL=new/'</span> config.txt
+</code></pre>
+
+                <h4><code>curl</code> (Make Network Requests)</h4>
+                <p><code>curl</code> is your tool for making HTTP requests from the command line. You use it to test if your servers are online.</p>
+                <pre><code><span class="comment"># Make a simple GET request to your website</span>
+<span class="command">curl</span> https://codewithmsmaxpro.me
+
+<span class="comment"># Make a POST request with JSON data</span>
+<span class="command">curl</span> -X POST -H <span class="string">"Content-Type: application/json"</span> \
+     -d <span class="string">'{"username":"test"}'</span> \
+     https://api.example.com/login
+</code></pre>
+
+                <h3>Real-World Bash Script: Server Health Check</h3>
+                <p>Let's put it all together. This script checks if a website is online. If not, it sends an alert (in a real world, this would send an email).</p>
+                
+                <span class="code-filename">check_server.sh</span>
+                <pre><code><span class="comment">#!/bin/bash</span>
+
+<span class="variable">SITE_URL</span>=<span class="string">"https://codewithmsmaxpro.me"</span>
+<span class="variable">LOG_FILE</span>=<span class="string">"server_health.log"</span>
+
+<span class="comment"># Get the HTTP status code from the server</span>
+<span class="variable">HTTP_CODE</span>=$(<span class="command">curl</span> -s -o /dev/null -w <span class="string">"%{http_code}"</span> <span class="variable">$SITE_URL</span>)
+
+<span class="keyword">if</span> [ <span class="variable">$HTTP_CODE</span> -ne <span class="number">200</span> ]; <span class="keyword">then</span>
+    <span class="comment"># Site is DOWN</span>
+    <span class="variable">TIMESTAMP</span>=$(<span class="command">date</span> <span class="string">"+%Y-%m-%d %H:%M:%S"</span>)
+    <span class="variable">MESSAGE</span>=<span class="string">"[$TIMESTAMP] ERROR: Site $SITE_URL is DOWN! (Code: $HTTP_CODE)"</span>
+    
+    <span class="command">echo</span> <span class="variable">$MESSAGE</span>
+    <span class="command">echo</span> <span class="variable">$MESSAGE</span> &gt;&gt; <span class="variable">$LOG_FILE</span> <span class="comment"># Append to log file</span>
+<span class="keyword">else</span>
+    <span class="comment"># Site is UP</span>
+    <span class="command">echo</span> <span class="string">"Site is UP and running (Code: $HTTP_CODE)"</span>
+<span class="keyword">fi</span>
+</code></pre>
+
+                <a href="https://tldp.org/LDP/Bash-Beginners-Guide/html/" target="_blank" class="read-more-link">Read the Bash Beginners Guide &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- PART 2: Python Scripting -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Python (The Automation Workhorse)</h2>
+                <p>Bash is great for simple scripts, but it has problems. The syntax is clunky, it can't handle complex data (like JSON) well, and error handling is difficult. When your script needs to be more than 100 lines long, it's time to use **Python**.</p>
+                <p>Python is the #1 language for DevOps and automation. Why?</p>
+                <ul>
+                    <li><strong>Easy to Read:</strong> The syntax is clean and looks like English.</li>
+                    <li><strong>Powerful Libraries:</strong> It has battle-tested, free libraries for *everything*:
+                        <ul>
+                            <li><code>requests</code>: For making complex HTTP calls.</li>
+                            <li><code>json</code>: For parsing and creating JSON.</li>
+                            <li><code>boto3</code>: The official AWS SDK.</li>
+                            <li><code>azure-sdk</code>: The official Microsoft Azure SDK.</li>
+                            <li><code>paramiko</code>: For connecting to servers via SSH.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Better Error Handling:</strong> Python's <code>try...except</code> blocks are far superior to Bash's.</li>
+                </ul>
+                
+                <h3>1. Python Basics (for DevOps)</h3>
+                <p>We'll assume you know the very basics (variables, functions). Let's focus on what's important for DevOps.</p>
+                
+                <h4>Data Types (Lists and Dictionaries)</h4>
+                <p>Python's lists and dictionaries (maps) are easy to use and essential for handling data.</p>
+                <pre><code><span class="comment"># A List (like a MutableList in Kotlin)</span>
+<span class="variable">servers</span> = [<span class="string">'web-01'</span>, <span class="string">'db-01'</span>, <span class="string">'cache-01'</span>]
+<span class="variable">servers</span>.append(<span class="string">'web-02'</span>)
+
+<span class="comment"># A Dictionary (like a Map in Kotlin)</span>
+<span class="variable">config</span> = {
+    <span class="string">'host'</span>: <span class="string">'192.168.1.10'</span>,
+    <span class="string">'port'</span>: <span class="number">8080</span>,
+    <span class="string">'retries'</span>: <span class="number">3</span>
+}
+
+<span class="comment"># Accessing data</span>
+<span class="function">print</span>(f<span class="string">"Connecting to {config['host']} on port {config['port']}"</span>)
+</code></pre>
+                
+                <h4>Functions</h4>
+                <p>Python functions are declared with the <code>def</code> keyword.</p>
+                <pre><code><span class="keyword">def</span> <span class="function">check_server_status</span>(<span class="variable">server_url</span>):
+    <span class="comment"># (Logic to check status)</span>
+    <span class="function">print</span>(f<span class="string">"Checking {server_url}..."</span>)
+    <span class="keyword">return</span> <span class="string">"Online"</span>
+
+<span class="variable">status</span> = <span class="function">check_server_status</span>(<span class="string">'api.example.com'</span>)
+</code></pre>
+
+                <h3>2. Essential Python Libraries for DevOps</h3>
+                
+                <h4><code>os</code> and <code>sys</code> (Interacting with the OS)</h4>
+                <p>The <code>os</code> module lets you talk to the operating system (e.g., read environment variables). The <code>sys</code> module lets you handle arguments passed to your script.</p>
+                
+                <span class="code-filename">my_script.py</span>
+                <pre><code><span class="keyword">import</span> <span class="variable">os</span>
+<span class="keyword">import</span> <span class="variable">sys</span>
+
+<span class="comment"># Get an Environment Variable (safer than hardcoding)</span>
+<span class="variable">API_KEY</span> = <span class="variable">os</span>.environ.get(<span class="string">'MY_API_KEY'</span>)
+<span class="keyword">if not</span> <span class="variable">API_KEY</span>:
+    <span class="function">print</span>(<span class="string">"Error: MY_API_KEY environment variable not set."</span>)
+    <span class="variable">sys</span>.exit(<span class="number">1</span>) <span class="comment_comment"># Exit with an error code</span>
+
+<span class="comment"># Get arguments passed to the script</span>
+<span class="comment"># $ python my_script.py server1</span>
+<span class="variable">server_name</span> = <span class="variable">sys</span>.argv[<span class="number">1</span>] <span class="comment"># 'server1' (index 0 is the script name)</span>
+<span class="function">print</span>(f<span class="string">"Working on server: {server_name}"</span>)
+</code></pre>
+
+                <h4><code>subprocess</code> (Running Shell Commands)</h4>
+                <p>This is the *right* way to run Bash commands (like <code>ls -l</code> or <code>docker ps</code>) from *inside* your Python script.</p>
+                <pre><code><span class="keyword">import</span> <span class="variable">subprocess</span>
+
+<span class="keyword">def</span> <span class="function">list_docker_containers</span>():
+    <span class="function">print</span>(<span class="string">"Running 'docker ps'..."</span>)
+    <span class="keyword">try</span>:
+        <span class="variable">result</span> = <span class="variable">subprocess</span>.<span class="function">run</span>(
+            [<span class="string">'docker'</span>, <span class="string">'ps'</span>], 
+            <span class="variable">capture_output</span>=<span class="keyword">True</span>, 
+            <span class="variable">text</span>=<span class="keyword">True</span>, 
+            <span class="variable">check</span>=<span class="keyword">True</span>
+        )
+        <span class="function">print</span>(<span class="string">"--- Docker Output ---"</span>)
+        <span class="function">print</span>(<span class="variable">result</span>.<span class="variable">stdout</span>)
+    <span class="keyword">except</span> <span class="type">FileNotFoundError</span>:
+        <span class="function">print</span>(<span class="string">"Error: 'docker' command not found."</span>)
+    <span class="keyword">except</span> <span class="variable">subprocess</span>.<span class="type">CalledProcessError</span> <span class="keyword">as</span> <span class="variable">e</span>:
+        <span class="function">print</span>(f<span class="string">"Error running docker: {e.stderr}"</span>)
+
+<span class="function">list_docker_containers</span>()
+</code></pre>
+
+                <h4><code>json</code> and <code>requests</code> (Working with APIs)</h4>
+                <p>This is where Python truly beats Bash. You can easily make API calls with <code>requests</code> and parse the <code>json</code> response.</p>
+                <p>(First, run <code>pip install requests</code> in your terminal).</p>
+                <pre><code><span class="keyword">import</span> <span class="variable">requests</span>
+<span class="keyword">import</span> <span class="variable">json</span>
+
+<span class="keyword">def</span> <span class="function">get_user_from_api</span>(<span class="variable">user_id</span>):
+    <span class="variable">url</span> = f<span class="string">"https://jsonplaceholder.typicode.com/users/{user_id}"</span>
+    
+    <span class="keyword">try</span>:
+        <span class="variable">response</span> = <span class="variable">requests</span>.<span class="function">get</span>(<span class="variable">url</span>)
+        
+        <span class="comment"># Automatically check for errors (4xx or 5xx)</span>
+        <span class="variable">response</span>.<span class="function">raise_for_status</span>() 
+        
+        <span class="comment"># Parse the JSON text into a Python dictionary</span>
+        <span class="variable">user_data</span> = <span class="variable">response</span>.<span class="function">json</span>()
+        
+        <span class="function">print</span>(f<span class="string">"Username: {user_data['username']}"</span>)
+        <span class="function">print</span>(f<span class="string">"City: {user_data['address']['city']}"</span>)
+        
+    <span class="keyword">except</span> <span class="variable">requests</span>.<span class="type">exceptions</span>.<span class="type">HTTPError</span> <span class="keyword">as</span> <span class="variable">e</span>:
+        <span class="function">print</span>(f<span class="string">"API Error: {e.response.status_code}"</span>)
+    <span class="keyword">except</span> <span class="variable">requests</span>.<span class="type">exceptions</span>.<span class="type">ConnectionError</span>:
+        <span class="function">print</span>(<span class="string">"Network Error: Could not connect."</span>)
+
+<span class="function">get_user_from_api</span>(<span class="number">1</span>)
+</code></pre>
+
+                <h3>Real-World Python Script: AWS S3 Backup</h3>
+                <p>Here is a script that uses the <code>boto3</code> library (<code>pip install boto3</code>) to find all files in a local directory and upload them to an Amazon S3 (storage) bucket.</p>
+                
+                <span class="code-filename">s3_backup.py</span>
+                <pre><code><span class="keyword">import</span> <span class="variable">os</span>
+<span class="keyword">import</span> <span class="variable">boto3</span>
+<span class="keyword">from</span> <span class="variable">botocore</span>.<span class="variable">exceptions</span> <span class="keyword">import</span> <span class="type">NoCredentialsError</span>
+
+<span class="comment"># Configure your AWS credentials via environment variables</span>
+<span class_comment_variable">S3_BUCKET_NAME</span> = <span class="string">'my-app-backups'</span>
+<span class="variable">LOCAL_BACKUP_DIR</span> = <span class="string">'/var/backups/db'</span>
+
+<span class="variable">s3_client</span> = <span class="variable">boto3</span>.<span class="function">client</span>(<span class="string">'s3'</span>)
+
+<span class="keyword">def</span> <span class="function">upload_backups</span>():
+    <span class="function">print</span>(f<span class="string">"Starting upload to {S3_BUCKET_NAME}..."</span>)
+    <span class="keyword">try</span>:
+        <span class="comment"># Walk through the directory</span>
+        <span class="keyword">for</span> <span class="variable">root</span>, <span class="variable">dirs</span>, <span class="variable">files</span> <span class="keyword">in</span> <span class="variable">os</span>.<span class="function">walk</span>(<span class="variable">LOCAL_BACKUP_DIR</span>):
+            <span class="keyword">for</span> <span class="variable">filename</span> <span class="keyword">in</span> <span class="variable">files</span>:
+                <span class="variable">local_path</span> = <span class="variable">os</span>.<span class="function">path</span>.<span class="function">join</span>(<span class="variable">root</span>, <span class="variable">filename</span>)
+                <span class="variable">s3_key</span> = f<span class="string">"db_backups/{filename}"</span>
+                
+                <span class="function">print</span>(f<span class="string">"Uploading {local_path} to {s3_key}..."</span>)
+                <span class="variable">s3_client</span>.<span class="function">upload_file</span>(<span class="variable">local_path</span>, <span class="variable">S3_BUCKET_NAME</span>, <span class="variable">s3_key</span>)
+        
+        <span class="function">print</span>(<span class="string">"Backup complete!"</span>)
+        
+    <span class="keyword">except</span> <span class="type">NoCredentialsError</span>:
+        <span class="function">print</span>(<span class="string">"Error: AWS credentials not found."</span>)
+    <span class="keyword">except</span> <span class="type">Exception</span> <span class="keyword">as</span> <span class="variable">e</span>:
+        <span class="function">print</span>(f<span class="string">"An error occurred: {e}"</span>)
+
+<span class="keyword">if</span> <span class="variable">__name__</span> == <span class="string">"__main__"</span>:
+    <span class="function">upload_backups</span>()
+</code></pre>
+                
+                <a href="https://docs.python.org/3/tutorial/" target="_blank" class="read-more-link">Read the Official Python Tutorial &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- PART 3: Intro to Go -->
+                <!-- ========================== -->
+
+                <h2>Part 3: Go (Golang) - The Performance Tool</h2>
+                <p>Go is a language you'll learn *after* you are comfortable with Python and Bash. It's a statically compiled language built by Google, which means it's extremely fast and produces a single binary file (e.g., <code>my_tool.exe</code>) that you can run anywhere without installing any dependencies.</p>
+                <p>It's used for high-performance infrastructure tools. **Docker, Kubernetes, and Prometheus** are all written in Go.</p>
+                
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Concurrency (Goroutines):** Go's main feature. It can easily run *thousands* of tasks at the same time, making it perfect for servers that handle many requests.</li>
+                    <li><strong>Static Binary:** It compiles to *one single file* with no dependencies, making it trivial to deploy.</li>
+                    <li><strong>Fast:** It's a compiled language, so it's nearly as fast as C or C++.</li>
+                </ul>
+
+                <h3>Go "Hello, World!"</h3>
+                <pre><code><span class="keyword">package</span> <span class="variable">main</span>
+
+<span class="keyword">import</span> <span class="string">"fmt"</span> <span class="comment">// (fmt is the formatting/printing package)</span>
+
+<span class="keyword">func</span> <span class="function">main</span>() {
+    <span class="variable">fmt</span>.<span class="function">Println</span>(<span class="string">"Hello from Go!"</span>)
+}
+</code></pre>
+
+                <h3>Go Concurrency (Goroutines & Channels)</h3>
+                <p>This is what makes Go special. A "goroutine" is a super-lightweight thread. You can start one just by putting <code>go</code> in front of a function call.</p>
+                <pre><code><span class="keyword">package</span> <span class="variable">main</span>
+<span class="keyword">import</span> (<span class="string">"fmt"</span>; <span class="string">"time"</span>)
+
+<span class="keyword">func</span> <span class="function">say</span>(<span class="variable">s</span> <span class="type">string</span>) {
+    <span class="keyword">for</span> <span class="variable">i</span> <span class="operator">:=</span> <span class="number">0</span>; <span class="variable">i</span> &lt; <span class="number">3</span>; <span class="variable">i</span><span class="operator">++</span> {
+        <span class="variable">time</span>.<span class="function">Sleep</span>(<span class="number">100</span> * <span class="variable">time</span>.<span class="variable">Millisecond</span>)
+        <span class="variable">fmt</span>.<span class="function">Println</span>(<span class="variable">s</span>)
+    }
+}
+
+<span class="keyword">func</span> <span class="function">main</span>() {
+    <span class="comment">// Start a new goroutine (background task)</span>
+    <span class="keyword">go</span> <span class="function">say</span>(<span class="string">"World"</span>)
+    
+    <span class="comment">// Run this on the main task</span>
+    <span class="function">say</span>(<span class="string">"Hello"</span>)
+}
+<span class="comment_output">
+// Output (they run concurrently!):
+// Hello
+// World
+// Hello
+// World
+// Hello
+// World
+</span>
+</code></pre>
+                <p>You should learn Go when your Python scripts are too slow or when you need to build a complex, high-performance tool for your company's infrastructure.</p>
+                
+                <a href="https://go.dev/tour/welcome/1" target="_blank" class="read-more-link">Read the Official Tour of Go &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-roadmap.html" class="cta-button prev">&larr; Back to Roadmap</a>
+                    <a href="devops-linux.html" class="cta-button">Next Chapter: OS & Networking &rarr;</a>
+                </div>
+
             </div>
         </section>
     </main>
@@ -199,10 +737,12 @@
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.nav-links');
 
-            hamburger.addEventListener('click', () => {
-                nav.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
         }
         navSlide();
     </script>
