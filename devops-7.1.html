@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7.1: Monitoring (Prometheus & Grafana) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (MONITORING) --- */
+        .highlight {
+            background: linear-gradient(90deg, #d946ef, #c026d3); /* Fuchsia/Purple */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #d946ef; /* Fuchsia highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for YAML/Bash */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* global, scrape_configs, job_name */
+        .content-section pre code .property { color: #38bdf8; } /* scrape_interval, static_configs, targets */
+        .content-section pre code .string { color: #a78bfa; } /* "prometheus", "node" */
+        .content-section pre code .number { color: #f59e0b; } /* 15s, 9090 */
+        .content-section pre code .command { color: #34d399; } /* docker, echo */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 7.1: <span class="highlight">Monitoring (Prometheus & Grafana)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The "Why": What is Observability?</h2>
+                <p>You have now learned how to build, package, and deploy your applications to the cloud. Your app is running on Kubernetes. **But is it working?**</p>
+                <p>How do you know? How do you know if users are getting errors? How do you know if your server is about to crash from high CPU? How do you know if a deploy made the app 50% slower?</p>
+                <p>This is the problem of **Observability** (or o11y) - the ability to understand the internal state of your system just by looking at its outputs. You can't just <code>ssh</code> into 500 containers and run <code>htop</code>. You need a centralized system.</p>
+                <p>Observability is built on three main pillars:</p>
+                
+                <ol>
+                    <li><strong>Metrics (This Chapter):</strong> The "What." A number measured over time.
+                        <ul><li><strong>Example:</strong> <code>cpu_usage_percent = 85%</code></li></ul>
+                    </li>
+                    <li><strong>Logs (Chapter 7.2):</strong> The "Why." A detailed, timestamped text record of an event.
+                        <ul><li><strong>Example:</strong> <code>ERROR: User '123' failed to log in: password incorrect.</code></li></ul>
+                    </li>
+                    <li><strong>Traces (Advanced):</strong> The "Where." A trace shows the complete journey of a single request as it moves through all your different microservices.
+                        <ul><li><strong>Example:</strong> Request A -> 10ms in Login API -> 150ms in Database -> 20ms in Login API -> Success.</li></ul>
+                    </li>
+                </ol>
+                <p>This chapter focuses on **Monitoring**, which is the art of collecting, storing, and visualizing **Metrics**.</p>
+
+                <h3>What is Prometheus?</h3>
+                <p><strong>Prometheus** is the open-source, industry-standard tool for monitoring and alerting. It was created at SoundCloud and is now a core part of the Cloud Native Computing Foundation (CNCF), just like Kubernetes.
+                <br>
+                Its entire job is to be a **Time-Series Database (TSDB)**. It saves numbers (metrics) with timestamps.</p>
+                
+                <h3>What is Grafana?</h3>
+                <p><strong>Grafana** is the open-source industry-standard tool for **visualization**. Prometheus *collects* and *stores* the data. Grafana *queries* Prometheus and displays the data as beautiful, interactive dashboards (graphs, charts, gauges).</p>
+                
+                <p>You almost *always* use them together. **Prometheus is the database. Grafana is the dashboard.**</p>
+                
+
+                <!-- ========================== -->
+                <!-- SECTION 2: Architecture -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The Prometheus Architecture (Pull vs. Push)</h2>
+                <p>Prometheus has a very specific "pull-based" architecture. This is a critical concept.</p>
+                
+                <h3>The "Pull" Model</h3>
+                <p>You don't *push* your metrics to Prometheus. Instead, Prometheus *scrapes* (pulls) metrics from your applications.</p>
+                
+                <ol>
+                    <li><strong>Your App / Server (The "Target"):</strong> You don't install an "agent." You just run a lightweight web server (called an **Exporter**) that exposes a <code>/metrics</code> endpoint. This page is just a wall of text with all the current metrics.</li>
+                    <li><strong>The Prometheus Server:** You configure Prometheus (in <code>prometheus.yml</code>) with a list of all your targets.</li>
+                    <li><strong>The Scrape:** Every 15 seconds (by default), Prometheus visits the <code>/metrics</code> endpoint of every target, downloads all the metrics, and saves them to its database.</li>
+                </ol>
+                
+                <h3>Core Components</h3>
+                <ul>
+                    <li><strong>Prometheus Server:</strong> The main component that does the *scraping*, *storing* (in its TSDB), and *querying* (with its PromQL language).</li>
+                    <li><strong>Exporters:** The "agents" that you install *on* your servers or *with* your apps. Their only job is to expose the <code>/metrics</code> endpoint.
+                        <ul>
+                            <li><strong><code>node_exporter</code>:** The most common. Monitors a Linux server's health (CPU, RAM, Disk).</li>
+                            <li><strong><code>cAdvisor</code>:** Monitors Docker containers.</li>
+                            <li><strong>Client Libraries:** For your own app (Node.js, Python, Kotlin) to expose custom metrics (like <code>http_requests_total</code>).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Alertmanager:** A separate component that Prometheus *sends alerts to*. Alertmanager's job is to de-duplicate, group, and route those alerts to the right place (e.g., Slack, PagerDuty, Email).</li>
+                </ul>
+
+                <!-- ========================== -->
+                <!-- SECTION 3: Metric Types -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: The 4 Types of Prometheus Metrics</h2>
+                <p>This is the most important theory. Prometheus only has four types of metrics. You *must* use the right one for the job.</p>
+                
+                <h3>1. Counter (The "Odometer")</h3>
+                <p>A **Counter** is a metric that can **only go up** (or be reset to 0). It's like the odometer in your car (its total mileage). It never goes down.</p>
+                <ul>
+                    <li><strong>Use Case:** Counting *total* occurrences of an event.</li>
+                    <li><strong>Examples:**
+                        <ul>
+                            <li><code>http_requests_total</code> (Total HTTP requests handled)</li>
+                            <li><code>errors_total</code> (Total errors encountered)</li>
+                            <li><code>user_signups_total</code> (Total new users)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>You *never* graph a Counter directly. A graph of "total requests" just goes up and up, which is useless. Instead, you use the <code>rate()</code> function (see PromQL) to ask: "How *fast* is this counter increasing per second?"</p>
+                
+                <h3>2. Gauge (The "Speedometer")</h3>
+                <p>A **Gauge** is a metric that can **go up or down**. It's like the speedometer in your car. It represents a single, "point-in-time" value.</p>
+                <ul>
+                    <li><strong>Use Case:** Measuring a value that can fluctuate.</li>
+                    <li><strong>Examples:**
+                        <ul>
+                            <li><code>cpu_usage_percent</code> (Currently 85%)</li>
+                            <li><code>memory_usage_bytes</code> (Currently 4.2 GB)</li>
+                            <li><code>users_online_current</code> (Currently 520 users)</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>You can graph a Gauge directly. It's useful for "What is my CPU usage *right now*?"</p>
+
+                <h3>3. Histogram (The "Bucket List" for Latency)</h3>
+                <p>This is the most powerful and complex type. It's used to measure **distributions** of data, most commonly **request latency** (how long something took).</p>
+                <p>A Histogram doesn't just store one number. It stores *multiple* counters in "buckets."</p>
+                <p>When you define a Histogram for <code>http_request_duration_seconds</code>, you define your buckets (e.g., 0.1s, 0.5s, 1s, 2s).</p>
+                <p>When a request finishes in 0.7 seconds, the Histogram updates *three* counters:</p>
+                <ul>
+                    <li>The counter for <code>le="1.0"</code> (less than or equal to 1.0s) increments.</li>
+                    <li>The counter for <code>le="2.0"</code> increments.</li>
+                    <li>The counter for <code>le="+Inf"</code> (infinity) increments.</li>
+                </ul>
+                <p>This allows you to calculate **percentiles** (e.g., "95% of my users had a response time under 1s").</p>
+                
+                <h3>4. Summary (Also for Latency)</h3>
+                <p>A Summary is similar to a Histogram, but it calculates the percentiles (quantiles) on the *client-side* (in your app) before sending them to Prometheus. This is less common and harder to aggregate. **Rule of thumb: Always use a Histogram for latency.**</p>
+                
+                <!-- =================================== -->
+                <!-- PART 3: Prometheus Setup -->
+                <!-- =================================== -->
+                
+                <h2>Part 3: Installing & Configuring Prometheus</h2>
+                <p>The easiest way to run Prometheus (and all its components) is with Docker.</p>
+                
+                <h3>Step 1: Create a `prometheus.yml` Configuration</h3>
+                <p>Prometheus is configured using a YAML file. Create a folder (e.g., <code>my-prometheus-project</code>) and inside it, create a file named <code>prometheus.yml</code>.</p>
+                
+                
+                <span class="code-filename">prometheus.yml</span>
+                <pre><code><span class="comment"># 'global' block: settings that apply to all jobs</span>
+<span class="property">global:</span>
+  <span class="comment"># How often to scrape targets (default is 1 minute)</span>
+  <span class="property">scrape_interval:</span> <span class="string">15s</span> 
+  <span class="comment"># How often to evaluate alerting rules</span>
+  <span class="property">evaluation_interval:</span> <span class="string">15s</span>
+
+<span class="comment"># 'alerting' block: Tell Prometheus where Alertmanager is</span>
+<span class="property">alerting:</span>
+  <span class="property">alertmanagers:</span>
+  - <span class="property">static_configs:</span>
+    - <span class="property">targets:</span>
+      - <span class="string">'alertmanager:9093'</span> <span class="comment"># We'll use this hostname later</span>
+
+<span class="comment"># 'rule_files' block: Where to find our custom alerts</span>
+<span class="property">rule_files:</span>
+  - <span class="string">"alert.rules.yml"</span> <span class="comment"># We will create this file</span>
+
+<span class="comment"># 'scrape_configs' block: *What* to monitor</span>
+<span class="property">scrape_configs:</span>
+  <span class="comment"># Job 1: Monitor Prometheus itself</span>
+  - <span class="property">job_name:</span> <span class="string">"prometheus"</span>
+    <span class="property">static_configs:</span>
+      - <span class="property">targets:</span> [<span class="string">"localhost:9090"</span>] <span class="comment"># Prometheus scrapes itself</span>
+
+  <span class="comment"># Job 2: Monitor our Linux server (Node Exporter)</span>
+  <span class="comment"># We will add this in the next section</span>
+  <span class="comment"># - job_name: "node"</span>
+  <span class="comment">#   static_configs:</span>
+  <span class="comment">#     - targets: ["node-exporter:9100"]</span>
+</code></pre>
+                
+                <h3>Step 2: Run Prometheus in Docker</h3>
+                <p>Now, run this command from your terminal in the *same folder* as your <code>prometheus.yml</code> file.</p>
+                <pre><code><span class="command">docker</span> run -d \
+    -p 9090:9090 \
+    --name prometheus \
+    -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml \
+    prom/prometheus
+</code></pre>
+                <ul>
+                    <li><code>-d</code>: Run in detached (background) mode.</li>
+                    <li><code>-p 9090:9090</code>: Map your laptop's port 9090 to the container's port 9090.</li>
+                    <li><code>--name prometheus</code>: Name the container.</li>
+                    <li><code>-v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml</code>: This is the **volume mount**. It mounts your local config file *into* the container, overwriting the default one.</li>
+                    <li><code>prom/prometheus</code>: The official Docker image.</li>
+                </ul>
+                <p>You can now open <code>http://localhost:9090</code> in your browser! You'll see the Prometheus dashboard. Try typing <code>up</code> in the query bar and clicking "Execute." It should show <code>up{job="prometheus"} 1</code>, meaning it is successfully scraping itself.</p>
+
+                <!-- =================================== -->
+                <!-- PART 4: PromQL -->
+                <!-- =================================== -->
+                
+                <h2>Part 4: Deep Dive - PromQL (The Query Language)</h2>
+                <p>Prometheus is not a SQL database. You cannot <code>SELECT * FROM ...</code>. It has its own powerful query language called **PromQL (Prometheus Query Language)**. It's designed to slice and dice time-series data.</p>
+                
+                <h3>1. Selectors & Time Series</h3>
+                <p>A "time series" is a metric name + a set of labels (key-value pairs).</p>
+                <pre><code><span class="comment"># This is a time series</span>
+http_requests_total{method="GET", path="/api/login", status="200"}
+</code></pre>
+                <p>You select data by its name and labels:</p>
+                <pre><code><span class="comment"># Select all time series with this metric name</span>
+<span class="function">http_requests_total</span>
+
+<span class="comment"># Select only the ones for the "api" job</span>
+<span class="function">http_requests_total</span>{job="api"}
+
+<span class="comment"># Select only "POST" requests to the "/api/login" path</span>
+<span class="function">http_requests_total</span>{method="POST", path="/api/login"}
+</code></pre>
+                
+                <h3>2. Instant vs. Range Vectors</h3>
+                <ul>
+                    <li><strong>Instant Vector:** The *single* latest value for each time series. (e.g., `cpu_usage`).</li>
+                    <li><strong>Range Vector:** A *range* of historical values. You specify the time in <code>[]</code>.
+                    <br>
+                    <code>http_requests_total[5m]</code> - "Give me all the values for this metric from the last 5 minutes."</li>
+                </ul>
+                <p>You *cannot* graph a Range Vector directly. You must use a function to process it.</p>
+                
+                <h3>3. The Most Important Function: `rate()`</h3>
+                <p>As we said, Counters (like <code>http_requests_total</code>) just go up. This is useless. We want the *per-second rate of change*. The <code>rate()</code> function does this.</p>
+                <pre><code><span class="comment"># "Calculate the per-second rate of http_requests_total,
+#  averaged over the last 5 minutes"</span>
+<span class="function">rate</span>(<span class="function">http_requests_total</span>[5m])
+</code></pre>
+                <p>This will return an Instant Vector showing the "requests per second" for each time series. **This is what you graph.**</p>
+                
+                <h3>4. Aggregation Operators (`sum`, `avg`, `topk`)</h3>
+                <p><code>rate()</code> gives you the rate for *every* combination of labels. You usually want to aggregate them.</p>
+                <pre><code><span class="comment"># Get the *total* requests per second for *all* jobs</span>
+<span class="function">sum</span>(<span class="function">rate</span>(<span class="function">http_requests_total</span>[5m]))
+
+<span class="comment"># Get the *average* requests per second</span>
+<span class="function">avg</span>(<span class="function">rate</span>(<span class="function">http_requests_total</span>[5m]))
+
+<span class="comment"># Show the top 5 time series by current memory usage</span>
+<span class="function">topk</span>(<span class="number">5</span>, <span class="function">memory_usage_bytes</span>)
+</code></pre>
+                
+                <h3>5. Grouping with `by` and `without`</h3>
+                <p>The <code>by</code> clause lets you aggregate *by* a specific label.</p>
+                <pre><code><span class="comment"># Don't give me one total sum.</span>
+<span class="comment"># Give me the total sum *for each job*.</span>
+<span class="function">sum</span>(<span class="function">rate</span>(<span class="function">http_requests_total</span>[5m])) <span class="keyword">by</span> (job)
+
+<span class="comment"># Give me the total sum, but preserve the 'job' and 'method' labels</span>
+<span class="function">sum</span>(<span class="function">rate</span>(<span class="function">http_requests_total</span>[5m])) <span class="keyword">by</span> (job, method)
+</code></pre>
+                
+                <h3>6. Using Histograms: `histogram_quantile()`</h3>
+                <p>This is the most complex, but most important, query for measuring performance (latency). You *cannot* just `avg()` a histogram. You must use this function.</p>
+                <pre><code><span class="comment"># Calculate the 95th percentile (0.95) latency
+# for the 'http_request_duration_seconds' metric.
+# This query is complex.</span>
+<span class="function">histogram_quantile</span>(
+  <span class="number">0.95</span>,
+  <span class="function">sum</span>(<span class="function">rate</span>(<span class="function">http_request_duration_seconds_bucket</span>[5m])) <span class="keyword">by</span> (le)
+)
+</code></pre>
+                <p>This query will give you a single number (in seconds) that answers: "95% of all my users had a response time *faster* than this." This is how you measure your app's true performance.</p>
+
+                <!-- =================================== -->
+                <!-- PART 5: Node Exporter -->
+                <!-- =================================== -->
+                
+                <h2>Part 5: Practical Monitoring - `node_exporter`</h2>
+                <p>Let's monitor a real server. **Node Exporter** is an official exporter from Prometheus that exposes 1000s of metrics about a Linux server (CPU, RAM, Disk, Network).</p>
+                
+                <h3>Step 1: Run `node_exporter` in Docker</h3>
+                <p>Run this command on the server you want to monitor.</p>
+                <pre><code><span class="command">docker</span> run -d \
+    --name=node-exporter \
+    -p 9100:9100 \
+    --net="host" \
+    --pid="host" \
+    -v "/:/host:ro,rslave" \
+    quay.io/prometheus/node-exporter:latest \
+    --path.rootfs=/host
+</code></pre>
+                <p>This is a complex command that gives the container read-only access to the host's filesystem so it can read system stats. It will expose a metrics endpoint at <code>http://[SERVER_IP]:9100/metrics</code>.</p>
+                
+                <h3>Step 2: Add to `prometheus.yml`</h3>
+                <p>Now, go back to your <code>prometheus.yml</code> file and add a new job. (Assume your server's private IP is <code>192.168.1.50</code>).</p>
+                <pre><code><span class="property">scrape_configs:</span>
+  <span class="comment"># ... (prometheus job) ...</span>
+
+  <span class="comment"># NEW JOB: Monitor our Linux server</span>
+  - <span class="property">job_name:</span> <span class="string">"node-exporter-job"</span>
+    <span class="property">static_configs:</span>
+      - <span class="property">targets:</span> [<span class="string">"192.168.1.50:9100"</span>]
+</code></pre>
+                <p>Restart your Prometheus container (<code>docker restart prometheus</code>). It will now scrape your server's health every 15 seconds.</p>
+
+                <h3>Step 3: Example `node_exporter` Queries</h3>
+                <pre><code><span class="comment"># Get CPU usage percentage (per CPU core) in 'idle' mode.</span>
+<span class="comment"># (This is complex because we want the INVERSE of idle)</span>
+<span class="number">100</span> - (
+  <span class="function">avg</span>(<span class="function">rate</span>(<span class="function">node_cpu_seconds_total</span>{mode="idle"}[1m])) <span class="keyword">by</span> (instance) * <span class="number">100</span>
+)
+
+<span class="comment"># Get available memory in bytes</span>
+<span class="function">node_memory_MemAvailable_bytes</span>
+
+<span class="comment"># Get free disk space percentage</span>
+(<span class="function">node_filesystem_avail_bytes</span> / <span class="function">node_filesystem_size_bytes</span>) * <span class="number">100</span>
+</code></pre>
+                <p>As you can see, these queries are complex. This is why we use Grafana.</p>
+                
+                <!-- =================================== -->
+                <!-- PART 6: Grafana -->
+                <!-- =================================== -->
+                
+                <h2>Part 6: Visualization with Grafana</h2>
+                <p>Grafana is our dashboard. It connects to Prometheus (as a "Data Source") and runs those complex PromQL queries for us, displaying the results in beautiful graphs.</p>
+                
+                <h3>Step 1: Run Grafana in Docker</h3>
+                <pre><code><span class="command">docker</span> run -d \
+    -p 3000:3000 \
+    --name=grafana \
+    grafana/grafana-oss:latest
+</code></pre>
+                
+                <h3>Step 2: Setup Grafana</h3>
+                <ol>
+                    <li>Open <code>http://localhost:3000</code> in your browser.</li>
+                    <li>Default login is: **User:** <code>admin</code>, **Password:** <code>admin</code>. (It will ask you to change this).</li>
+                </ol>
+                
+                <h3>Step 3: Add Prometheus as a Data Source</h3>
+                <ol>
+                    <li>Click the "Settings" cog (gear) icon on the left.</li>
+                    <li>Click "Data Sources."</li>
+                    <li>Click "Add data source."</li>
+                    <li>Select **"Prometheus"**.</li>
+                    <li>For the **URL**, enter your Prometheus server's URL. **IMPORTANT:** Since both are in Docker, <code>localhost</code> won't work. You must use your computer's *private* IP (e.g., <code>http://192.168.1.10:9090</code>).</li>
+                    <li>Click "Save & Test". It should say "Data source is working."</li>
+                </ol>
+                
+                
+                <h3>Step 4: Import a Pre-built Dashboard</h3>
+                <p>You *can* build your own dashboard, but the community has already built amazing ones. Let's import the official dashboard for `node_exporter`.</p>
+                <ol>
+                    <li>Go to <a href="https://grafana.com/grafana/dashboards/" target="_blank">Grafana Dashboards</a>.</li>
+                    <li>Search for "Node Exporter Full" (a popular one is ID `1860`).</li>
+                    <li>Copy the **Dashboard ID** (e.g., `1860`).</li>
+                    <li>In Grafana, click the "+" (Create) icon on the left.</li>
+                    <li>Click **"Import"**.</li>
+                    <li>Paste the ID `1860` into the box and click "Load".</li>
+                    <li>On the next screen, select *your* Prometheus data source from the dropdown.</li>
+                    <li>Click "Import".</li>
+                </ol>
+                <p>**Done!** You will instantly see a complete, professional dashboard with all your server's CPU, RAM, Disk, and Network stats, all updating in real-time. This is the power of the Prometheus + Grafana stack.</p>
+                
+                <a href="https://prometheus.io/docs/introduction/overview/" target="_blank" class="read-more-link">Read the Official Prometheus Docs &rarr;</a>
+                <a href="https://grafana.com/docs/grafana/latest/" target="_blank" class="read-more-link" style="margin-left: 10px;">Read the Official Grafana Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-containers.html" class="cta-button prev">&larr; Chapter 6: Containers</a>
+                    <a href="devops-logging-elk.html" class="cta-button">Next: Chapter 7.2: Logging (ELK) &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
