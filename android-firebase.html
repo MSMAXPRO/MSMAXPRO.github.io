@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 9: Firebase Integration - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (FIREBASE) --- */
+        .highlight {
+            background: linear-gradient(90deg, #f59e0b, #eab308); /* Yellow/Orange */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #f59e0b; /* Orange highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class */
+        .content-section pre code .function { color: #818cf8; } /* println, main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        .content-section pre code .tag { color: #f472b6; }
+        .content-section pre code .attr { color: #38bdf8; }
+        .content-section pre code .annotation { color: #eab308; } /* @GET, @POST, @Inject */
+
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #22c55e, #84cc16);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 9: <span class="highlight">Firebase Integration</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>What is Firebase?</h2>
+                <p>Firebase is a **BaaS (Backend-as-a-Service)** platform developed by Google. It provides a complete, cloud-hosted backend for your application, allowing you to build full-stack apps *without* writing a single line of server code yourself.</p>
+                <p>Think about a feature like "user login." To build this from scratch, you would need to:</p>
+                <ol>
+                    <li>Set up a server (e.g., Node.js, Django).</li>
+                    <li>Create a database (e.g., MongoDB, PostgreSQL).</li>
+                    <li>Write API endpoints for `/signup`, `/login`.</li>
+                    <li>Implement secure password hashing (<code>bcrypt</code>).</li>
+                    <li>Create and manage user sessions with JWTs.</li>
+                    <li>Deploy and maintain this server 24/7.</li>
+                </ol>
+                <p>With Firebase, you just add their SDK, write <code>FirebaseAuth.getInstance().createUserWithEmail(...)</code>, and you're done. Firebase handles the server, database, and security for you.</p>
+                
+                <p>Firebase is a *suite* of products. For this chapter, we will cover the four most essential services for Android developers:</p>
+                <ul>
+                    <li><strong>Firebase Authentication:</strong> For user sign-up, login, and management (Email, Google, Phone).</li>
+                    <li><strong>Cloud Firestore:</strong> A real-time NoSQL database for storing your app's data (user profiles, posts, etc.).</li>
+                    <li><strong>Cloud Storage for Firebase:</strong> For storing large user-generated files (profile pictures, videos, PDFs).</li>
+                    <li><strong>Firebase Cloud Messaging (FCM):</strong> For sending push notifications to your users.</li>
+                </ul>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: Firebase Setup -->
+                <!-- ========================== -->
+
+                <h2>Firebase Setup: Connecting Your App</h2>
+                <p>Before you can use any Firebase service, you must first create a Firebase project and connect it to your Android app.</p>
+                
+                <h3>Step 1: Create a Firebase Project</h3>
+                <ol>
+                    <li>Go to the <a href="https://firebase.google.com/" target="_blank">Firebase Console</a>.</li>
+                    <li>Log in with your Google account.</li>
+                    <li>Click **"Add project"**.</li>
+                    <li>Give your project a name (e.g., "MyTestApp").</li>
+                    <li>(Optional but Recommended) Enable Google Analytics for this project.</li>
+                    <li>Click "Create project."</li>
+                </ol>
+                
+                <h3>Step 2: Register Your Android App</h3>
+                <ol>
+                    <li>Inside your new project's dashboard, click the **Android icon** (<code>&lt;/&gt;</code>) to add an Android app.</li>
+                    <li>You will be asked for three things:
+                        <ul>
+                            <li><strong>Android package name:</strong> This is the *most important* step. This MUST be the **exact same** as the <code>applicationId</code> in your <code>build.gradle.kts</code> file (e.g., <code>com.codewithmsmaxpro.myapp</code>).</li>
+                            <li><strong>App nickname (Optional):</strong> A simple name, like "My Android App".</li>
+                            <li><strong>SHA-1 certificate (Optional):</strong> You **need** this for Google Sign-In and other security features.</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <h4>How to get your SHA-1 Key (Critical Step)</h4>
+                <p>Open your Android Studio project. In the Gradle tab (usually on the right), navigate to:
+                <br>
+                <code>YourApp > Tasks > android > signingReport</code>
+                <br>
+                Double-click <code>signingReport</code>. A "Run" window will open, and you will see several outputs. Find the **"debug"** variant and copy its **SHA-1** key. It looks like `A1:B2:C3:...:F9`.</p>
+                <p>Paste this SHA-1 key into the Firebase setup. If you forget, you can add it later in Project Settings.</p>
+                
+                <h3>Step 3: Download and Add `google-services.json`</h3>
+                <ol>
+                    <li>After registering, Firebase will ask you to download a config file: <code>google-services.json</code>.</li>
+                    <li>Download this file.</li>
+                    <li>In Android Studio, switch your Project Panel from "Android" view to **"Project"** view.</li>
+                    <li>Drag and drop the <code>google-services.json</code> file into your **`app`** folder (at the same level as your <code>src</code> and <code>build.gradle.kts</code> files).
+                    <br>
+                    
+                    </li>
+                    <li>This is very important. This file contains all your project's API keys and identifiers. **Never** share this file publicly or commit it to a public GitHub repository.</li>
+                </ol>
+                
+                <h3>Step 4: Add Firebase SDKs (Gradle Setup)</h3>
+                <p>Firebase will tell you to add its SDKs to your Gradle files.</p>
+                
+                <span class="code-filename">build.gradle.kts (Project-level)</span>
+                <pre><code><span class="keyword">plugins</span> {
+    <span class="comment">// ...</span>
+    <span class="comment">// Add the Google Services plugin</span>
+    <span class="function">alias</span>(libs.plugins.google.gms.google.services) <span class="keyword">apply</span> <span class="keyword">false</span>
+}
+</code></pre>
+
+                <span class="code-filename">build.gradle.kts (Module-level: :app)</span>
+                <pre><code><span class="keyword">plugins</span> {
+    <span class="comment">// ...</span>
+    <span class="comment">// Apply the Google Services plugin</span>
+    <span class="function">alias</span>(libs.plugins.google.gms.google.services)
+}
+
+<span class="keyword">dependencies</span> {
+    <span class="comment">// ...</span>
+    <span class="comment">// Add the Firebase Bill of Materials (BOM)</span>
+    <span class="comment">// This manages all Firebase library versions for you</span>
+    <span class="function">implementation</span>(platform(<span class="string">"com.google.firebase:firebase-bom:32.3.1"</span>))
+    
+    <span class="comment">// Now, you can add the specific Firebase products you need</span>
+    <span class="comment">// WITHOUT specifying a version number.</span>
+    <span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-analytics-ktx"</span>)
+    <span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-auth-ktx"</span>)
+    <span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-firestore-ktx"</span>)
+}
+</code></pre>
+                <p>Click **"Sync Now"**. That's it! Your app is now connected to Firebase.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Firebase Auth   -->
+                <!-- ========================== -->
+                
+                <h2>Pillar 1: Firebase Authentication</h2>
+                <p>Firebase Authentication provides a complete backend service to handle user sign-up and login. It supports email/password, phone numbers, and federated providers like Google, Facebook, and Twitter, all with a single SDK.</p>
+                
+                <h3>Step 1: Enable Auth Methods in Console</h3>
+                <p>Before you can use any login method, you must "turn it on."</p>
+                <ol>
+                    <li>Go to the Firebase Console.</li>
+                    <li>Open your project.</li>
+                    <li>In the left menu, go to **Build > Authentication**.</li>
+                    <li>Click the **"Get started"** button.</li>
+                    <li>Go to the **"Sign-in method"** tab.</li>
+                    <li>Click on **"Email/Password"** and **Enable** it.</li>
+                    <li>Click on **"Google"**, **Enable** it, and provide a project support email.</li>
+                </ol>
+                
+                <h3>Step 2: Add Auth Dependency</h3>
+                <p>If you haven't already, add the Auth dependency to your `build.gradle.kts` file:</p>
+                <pre><code><span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-auth-ktx"</span>)
+</code></pre>
+                
+                <h3>Step 3: Get the `FirebaseAuth` Instance</h3>
+                <p>The `FirebaseAuth` object is your single entry point for all auth operations. You can get an instance of it anywhere.</p>
+                <pre><code><span class="keyword">import</span> <span class="type">com.google.firebase.auth.FirebaseAuth</span>
+<span class="keyword">import</span> <span class="type">com.google.firebase.auth.ktx.auth</span>
+<span class="keyword">import</span> <span class="type">com.google.firebase.ktx.Firebase</span>
+
+<span class="keyword">class</span> <span class="type">MyAuthManager</span> {
+    <span class="keyword">private val</span> <span class="attr">auth</span><span class="operator">:</span> <span class="type">FirebaseAuth</span> = <span class="type">Firebase</span>.<span class="attr">auth</span>
+}
+</code></pre>
+                
+                <h3>Deep Dive: Email/Password Sign-Up</h3>
+                <p>This function creates a new user in the Firebase backend.</p>
+                <span class="code-filename">AuthViewModel.kt</span>
+                <pre><code><span class="keyword">fun</span> <span class="function">signUp</span>(<span class="attr">email</span><span class="operator">:</span> <span class="type">String</span>, <span class="attr">password</span><span class="operator">:</span> <span class="type">String</span>) {
+    <span class="attr">viewModelScope</span>.<span class="function">launch</span> {
+        <span class="keyword">try</span> {
+            <span class="keyword">val</span> <span class="attr">result</span> <span class="operator">=</span> <span class="attr">auth</span>.<span class="function">createUserWithEmailAndPassword</span>(<span class="attr">email</span>, <span class="attr">password</span>).<span class="function">await</span>()
+            <span class="keyword">val</span> <span class="attr">firebaseUser</span> <span class="operator">=</span> <span class="attr">result</span>.<span class="attr">user</span>
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Auth"</span>, <span class="string">"Sign up successful! User ID: ${firebaseUser?.uid}"</span>)
+            <span class="comment">// Now, you should probably save this user's info to Firestore</span>
+            
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">FirebaseAuthUserCollisionException</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Auth"</span>, <span class="string">"Email already in use."</span>)
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">FirebaseAuthWeakPasswordException</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Auth"</span>, <span class="string">"Password is too weak."</span>)
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+            <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Auth"</span>, <span class="string">"Sign up failed: ${e.message}"</span>)
+        }
+    }
+}
+</code></pre>
+                <p>Note: We use <code>.await()</code> from the <code>kotlinx-coroutines-play-services</code> library to make the old "Task" API work with modern coroutines.</p>
+
+                <h3>Deep Dive: Email/Password Sign-In</h3>
+                <p>This function logs in an existing user.</p>
+                <span class="code-filename">AuthViewModel.kt</span>
+                <pre><code><span class="keyword">fun</span> <span class="function">signIn</span>(<span class="attr">email</span><span class="operator">:</span> <span class="type">String</span>, <span class="attr">password</span><span class="operator">:</span> <span class="type">String</span>) {
+    <span class="attr">viewModelScope</span>.<span class="function">launch</span> {
+        <span class="keyword">try</span> {
+            <span class="keyword">val</span> <span class="attr">result</span> <span class="operator">=</span> <span class="attr">auth</span>.<span class="function">signInWithEmailAndPassword</span>(<span class="attr">email</span>, <span class="attr">password</span>).<span class="function">await</span>()
+            <span class="keyword">val</span> <span class="attr">firebaseUser</span> <span class="operator">=</span> <span class="attr">result</span>.<span class="attr">user</span>
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Auth"</span>, <span class="string">"Sign in successful! Welcome, ${firebaseUser?.email}"</span>)
+            <span class="comment">// Navigate to home screen</span>
+            
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">FirebaseAuthInvalidUserException</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Auth"</span>, <span class="string">"No account found with this email."</span>)
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">FirebaseAuthInvalidCredentialsException</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Auth"</span>, <span class="string">"Wrong password."</span>)
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+            <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Auth"</span>, <span class="string">"Sign in failed: ${e.message}"</span>)
+        }
+    }
+}
+</code></pre>
+                
+                <h3>Observing Auth State (The "Current User")</h3>
+                <p>How do you know if a user is logged in *right now*? Firebase Auth maintains the user's session for you. You can get the current user at any time.</p>
+                <pre><code><span class="keyword">val</span> <span class="attr">currentUser</span> <span class="operator">=</span> <span class="attr">auth</span>.<span class="attr">currentUser</span>
+<span class="keyword">if</span> (<span class="attr">currentUser</span> <span class="operator">!=</span> <span class="keyword">null</span>) {
+    <span class="comment">// User is logged in</span>
+    <span class="function">println</span>(<span class="string">"Current user ID: ${currentUser.uid}"</span>)
+} <span class="keyword">else</span> {
+    <span class="comment">// User is logged out</span>
+    <span class="function">println</span>(<span class="string">"No user is logged in."</span>)
+}
+</code></pre>
+                
+                <h3>Deep Dive: Google Sign-In</h3>
+                <p>This is more complex because it involves another SDK (Google Play Services) to get the Google token, which you then "exchange" for a Firebase credential.</p>
+                <p><strong>Step 1: Add Google Sign-In Dependency</strong></p>
+                <pre><code><span class="function">implementation</span>(<span class="string">"com.google.android.gms:play-services-auth:20.7.0"</span>)
+</code></pre>
+                <p><strong>Step 2: Set up GoogleSignInClient (in your Activity)</strong></p>
+                <pre><code><span class="keyword">import</span> <span class="type">com.google.android.gms.auth.api.signin.GoogleSignIn</span>
+<span class="keyword">import</span> <span class="type">com.google.android.gms.auth.api.signin.GoogleSignInClient</span>
+<span class="keyword">import</span> <span class="type">com.google.android.gms.auth.api.signin.GoogleSignInOptions</span>
+
+<span class="keyword">lateinit var</span> <span class="attr">googleSignInClient</span><span class="operator">:</span> <span class="type">GoogleSignInClient</span>
+
+<span class="keyword">override fun</span> <span class="function">onCreate</span>(<span class="attr">savedInstanceState</span><span class="operator">:</span> <span class="type">Bundle?</span>) {
+    <span class="comment">// ...</span>
+    <span class="comment">// 1. Configure Google Sign-In</span>
+    <span class="keyword">val</span> <span class="attr">gso</span> <span class="operator">=</span> <span class="type">GoogleSignInOptions</span>.<span class="function">Builder</span>(<span class="type">GoogleSignInOptions</span>.<span class="attr">DEFAULT_SIGN_IN</span>)
+        <span class="comment">// You get this from your google-services.json file</span>
+        .<span class="function">requestIdToken</span>(getString(<span class="type">R</span>.<span class="attr">string</span>.<span class="attr">default_web_client_id</span>))
+        .<span class="function">requestEmail</span>()
+        .<span class="function">build</span>()
+
+    <span class="comment">// 2. Build the client</span>
+    <span class="attr">googleSignInClient</span> <span class="operator">=</span> <span class="type">GoogleSignIn</span>.<span class="function">getClient</span>(<span class="keyword">this</span>, <span class="attr">gso</span>)
+}
+</code></pre>
+                
+                <p><strong>Step 3: Register an Activity Result Launcher</strong></p>
+                <p>This is the modern way to handle the result from the Google Sign-In pop-up.</p>
+                <pre><code><span class="keyword">private val</span> <span class="attr">googleSignInLauncher</span> <span class="operator">=</span> <span class="function">registerForActivityResult</span>(
+    <span class="type">ActivityResultContracts</span>.<span class="type">StartActivityForResult</span>()
+) { <span class="attr">result</span> <span class="operator">-></span>
+    <span class="keyword">if</span> (<span class="attr">result</span>.<span class="attr">resultCode</span> <span class="operator">==</span> <span class="type">Activity</span>.<span class="attr">RESULT_OK</span>) {
+        <span class="keyword">val</span> <span class="attr">task</span> <span class="operator">=</span> <span class="type">GoogleSignIn</span>.<span class="function">getSignedInAccountFromIntent</span>(<span class="attr">result</span>.<span class="attr">data</span>)
+        <span class="keyword">try</span> {
+            <span class="keyword">val</span> <span class="attr">account</span> <span class="operator">=</span> <span class="attr">task</span>.<span class="function">getResult</span>(<span class="type">ApiException</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+            <span class="function">firebaseAuthWithGoogle</span>(<span class="attr">account</span>.<span class="attr">idToken</span>)
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">ApiException</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Auth"</span>, <span class="string">"Google sign in failed"</span>, <span class="attr">e</span>)
+        }
+    }
+}
+</code></pre>
+
+                <p><strong>Step 4: Start the Sign-In Flow (e.g., on button click)</strong></p>
+                <pre><code><span class="function">googleSignInButton</span>.<span class="function">setOnClickListener</span> {
+    <span class="keyword">val</span> <span class="attr">signInIntent</span> <span class="operator">=</span> <span class="attr">googleSignInClient</span>.<span class="attr">signInIntent</span>
+    <span class="attr">googleSignInLauncher</span>.<span class="function">launch</span>(<span class="attr">signInIntent</span>)
+}
+</code></pre>
+                
+                <p><strong>Step 5: Exchange the Google Token for a Firebase Credential</strong></p>
+                <pre><code><span class="keyword">private fun</span> <span class="function">firebaseAuthWithGoogle</span>(<span class="attr">idToken</span><span class="operator">:</span> <span class="type">String?</span>) {
+    <span class="keyword">val</span> <span class="attr">credential</span> <span class="operator">=</span> <span class="type">GoogleAuthProvider</span>.<span class="function">getCredential</span>(<span class="attr">idToken</span>, <span class="keyword">null</span>)
+    <span class="attr">viewModelScope</span>.<span class="function">launch</span> {
+        <span class="keyword">try</span> {
+            <span class="attr">auth</span>.<span class="function">signInWithCredential</span>(<span class="attr">credential</span>).<span class="function">await</span>()
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Auth"</span>, <span class="string">"Firebase Google Sign-In Successful"</span>)
+            <span class="comment">// Navigate to home screen</span>
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Auth"</span>, <span class="string">"Firebase Google Sign-In Failed"</span>, <span class="attr">e</span>)
+        }
+    }
+}
+</code></pre>
+                <a href="https://firebase.google.com/docs/auth/android/google-signin" target="_blank" class="read-more-link">Read More about Firebase Google Sign-In &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Cloud Firestore -->
+                <!-- ========================== -->
+                
+                <h2>Pillar 2: Cloud Firestore</h2>
+                <p>Firebase Authentication only confirms *who* a user is. It doesn't store any *data* about them (like their username, bio, or high score). For that, you need a database. **Cloud Firestore** is Firebase's modern, powerful, and scalable NoSQL database.</p>
+                
+                <h3>Firestore vs. Firebase Realtime Database (RTDB)</h3>
+                <p>Firebase offers *two* databases, which is confusing.
+                    <ul>
+                        <li><strong>Realtime Database (RTDB):</strong> This is the *original* Firebase database. It's one giant JSON file. It's very fast, but it struggles with complex data and querying.</li>
+                        <li><strong>Cloud Firestore (Newer):</strong> This is the *new and recommended* database. It's **document-based** (NoSQL), which is much more structured. It has more powerful querying, scales better, and is more robust.</li>
+                    </ul>
+                <p><strong>Rule: Always use Cloud Firestore for new projects.</strong></p>
+                
+                <h3>Firestore Data Model (Critical Concept)</h3>
+                <p>Firestore is a NoSQL database. It doesn't have tables and rows. Instead, it has:</p>
+                
+                <ul>
+                    <li><strong>Collection:</strong> A folder or list of documents (e.g., <code>"users"</code>, <code>"posts"</code>).</li>
+                    <li><strong>Document:</strong> A single entry in a collection. It's like a container. Each document has a unique **Document ID**.</li>
+                    <li><strong>Fields (Data):</strong> The actual key-value data *inside* a document (e.g., <code>name: "Aman"</code>, <code>score: 100</code>).</li>
+                </ul>
+                <p>**Analogy:** A Collection (<code>"users"</code>) is a filing cabinet. A Document (<code>"user_123"</code>) is a single file folder. The Fields are the papers *inside* that folder (<code>name: "Aman"</code>).</p>
+                <p><strong>Important:</strong> You *cannot* have documents directly inside other documents. You can only have **Collections** inside **Documents** (called "sub-collections").</p>
+                
+                <h3>Step 1: Add Firestore Dependency</h3>
+                <pre><code><span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-firestore-ktx"</span>)
+</code></pre>
+                
+                <h3>Step 2: Get the Firestore Instance</h3>
+                <pre><code><span class="keyword">import</span> <span class="type">com.google.firebase.firestore.FirebaseFirestore</span>
+<span class="keyword">import</span> <span class="type">com.google.firebase.firestore.ktx.firestore</span>
+<span class="keyword">import</span> <span class="type">com.google.firebase.ktx.Firebase</span>
+
+<span class="keyword">val</span> <span class="attr">db</span><span class="operator">:</span> <span class="type">FirebaseFirestore</span> <span class="operator">=</span> <span class="type">Firebase</span>.<span class="attr">firestore</span>
+</code></pre>
+
+                <h3>Step 3: Writing Data (Create & Update)</h3>
+                <p>To write data, you first create a Kotlin <code>data class</code> or a <code>Map</code>.</p>
+                <pre><code><span class="keyword">data class</span> <span class="type">UserProfile</span>(
+    <span class="keyword">val</span> <span class="attr">username</span><span class="operator">:</span> <span class="type">String</span> <span class="operator">=</span> <span class="string">""</span>,
+    <span class="keyword">val</span> <span class="attr">email</span><span class="operator">:</span> <span class="type">String</span> <span class="operator">=</span> <span class="string">""</span>,
+    <span class="keyword">val</span> <span class="attr">joinDate</span><span class="operator">:</span> <span class="type">Long</span> <span class="operator">=</span> <span class="type">System</span>.<span class="function">currentTimeMillis</span>()
+)
+
+<span class="keyword">fun</span> <span class="function">saveUserToFirestore</span>() {
+    <span class="keyword">val</span> <span class="attr">userId</span> <span class="operator">=</span> <span class="attr">auth</span>.<span class="attr">currentUser</span><span class="operator">?.</span><span class="attr">uid</span> <span class="operator">?:</span> <span class="keyword">return</span>
+    <span class="keyword">val</span> <span class="attr">email</span> <span class="operator">=</span> <span class="attr">auth</span>.<span class="attr">currentUser</span><span class="operator">?.</span><span class="attr">email</span> <span class="operator">?:</span> <span class="string">""</span>
+
+    <span class="keyword">val</span> <span class="attr">newUser</span> <span class="operator">=</span> <span class="type">UserProfile</span>(<span class="attr">username</span> <span class="operator">=</span> <span class="string">"MSMAXPRO"</span>, <span class="attr">email</span> <span class="operator">=</span> <span class="attr">email</span>)
+
+    <span class="comment">// 1. Get a reference to the document</span>
+    <span class="comment">// This creates a path: /users/USER_ID</span>
+    <span class="keyword">val</span> <span class="attr">userDocument</span> <span class="operator">=</span> <span class="attr">db</span>.<span class="function">collection</span>(<span class="string">"users"</span>).<span class="function">document</span>(<span class="attr">userId</span>)
+
+    <span class="comment">// 2. Set the data (this will CREATE or OVERWRITE)</span>
+    <span class="attr">userDocument</span>.<span class="function">set</span>(<span class="attr">newUser</span>)
+        .<span class="function">addOnSuccessListener</span> { <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Firestore"</span>, <span class="string">"User profile saved!"</span>) }
+        .<span class="function">addOnFailureListener</span> { <span class="attr">e</span> <span class="operator">-></span> <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Firestore"</span>, <span class="string">"Error saving"</span>, <span class="attr">e</span>) }
+}
+
+<span class="keyword">fun</span> <span class="function">addPost</span>(<span class="attr">title</span><span class="operator">:</span> <span class="type">String</span>) {
+    <span class="keyword">val</span> <span class="attr">post</span> <span class="operator">=</span> <span class="function">mapOf</span>(<span class="string">"title"</span> <span class="operator">to</span> <span class="attr">title</span>, <span class="string">"likes"</span> <span class="operator">to</span> <span class="number">0</span>)
+    
+    <span class="comment">// .add() will auto-generate a unique document ID</span>
+    <span class="attr">db</span>.<span class="function">collection</span>(<span class="string">"posts"</span>)
+        .<span class="function">add</span>(<span class="attr">post</span>)
+        .<span class="function">addOnSuccessListener</span> { <span class="attr">documentReference</span> <span class="operator">-></span>
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Firestore"</span>, <span class="string">"Post added with ID: ${documentReference.id}"</span>)
+        }
+}
+</code></pre>
+                
+                <h3>Step 4: Reading Data (One Time)</h3>
+                <p>To get data just once (e.g., loading a user's profile), you use <code>.get()</code>.</p>
+                <pre><code><span class="keyword">fun</span> <span class="function">fetchUserProfile</span>() {
+    <span class="keyword">val</span> <span class="attr">userId</span> <span class="operator">=</span> <span class="attr">auth</span>.<span class="attr">currentUser</span><span class="operator">?.</span><span class="attr">uid</span> <span class="operator">?:</span> <span class="keyword">return</span>
+    
+    <span class="attr">db</span>.<span class="function">collection</span>(<span class="string">"users"</span>).<span class="function">document</span>(<span class="attr">userId</span>)
+        .<span class="function">get</span>()
+        .<span class="function">addOnSuccessListener</span> { <span class="attr">document</span> <span class="operator">-></span>
+            <span class="keyword">if</span> (<span class="attr">document</span> <span class="operator">!=</span> <span class="keyword">null</span> <span class="operator">&amp;&amp;</span> <span class="attr">document</span>.<span class="function">exists</span>()) {
+                <span class="comment">// Convert the document back into our data class</span>
+                <span class="keyword">val</span> <span class="attr">user</span> <span class="operator">=</span> <span class="attr">document</span>.<span class="function">toObject</span>(<span class="type">UserProfile</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+                <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Firestore"</span>, <span class="string">"Username: ${user?.username}"</span>)
+            } <span class="keyword">else</span> {
+                <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Firestore"</span>, <span class="string">"No such document"</span>)
+            }
+        }
+        .<span class="function">addOnFailureListener</span> { <span class="attr">e</span> <span class="operator">-></span>
+            <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Firestore"</span>, <span class="string">"Error getting document"</span>, <span class="attr">e</span>)
+        }
+}
+</code></pre>
+
+                <h3>Step 5: Reading Data (Real-time) - The Magic</h3>
+                <p>This is the best part of Firestore. You can "listen" to a document or collection. When *anything* changes (even on another user's phone), Firestore will **automatically** send the new data to your app. This is perfect for a chat app or a live feed.</p>
+                <p>You use <code>.addSnapshotListener()</code> instead of <code>.get()</code>.</p>
+                
+                <span class="code-filename">ChatActivity.kt</span>
+                <pre><code><span class="comment">// This listener will stay active until the Activity is destroyed</span>
+<span class="keyword">fun</span> <span class="function">listenForMessages</span>(<span class="attr">chatRoomId</span><span class="operator">:</span> <span class="type">String</span>) {
+    <span class="attr">db</span>.<span class="function">collection</span>(<span class="string">"chatRooms"</span>).<span class="function">document</span>(<span class="attr">chatRoomId</span>)
+      .<span class="function">collection</span>(<span class="string">"messages"</span>).<span function="orderBy</span>(<span class="string">"timestamp"</span>)
+      .<span class="function">addSnapshotListener</span> { <span class="attr">snapshots</span>, <span class="attr">error</span> <span class="operator">-></span>
+        
+        <span class="keyword">if</span> (<span class="attr">error</span> <span class="operator">!=</span> <span class="keyword">null</span>) {
+            <span class="type">Log</span>.<span class="function">w</span>(<span class="string">"Firestore"</span>, <span class="string">"Listen failed."</span>, <span class="attr">error</span>)
+            <span class="keyword">return@addSnapshotListener</span>
+        }
+
+        <span class="keyword">if</span> (<span class="attr">snapshots</span> <span class="operator">!=</span> <span class="keyword">null</span>) {
+            <span class="keyword">val</span> <span class="attr">messages</span> <span class="operator">=</span> <span class="attr">snapshots</span>.<span class="function">toObjects</span>(<span class="type">ChatMessage</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+            <span class="comment">// Update your UI (e.g., your RecyclerView or LazyColumn)</span>
+            <span class="function">updateChatUI</span>(<span class="attr">messages</span>)
+        }
+      }
+}
+</code></pre>
+                <a href="https://firebase.google.com/docs/firestore" target="_blank" class="read-more-link">Read More about Cloud Firestore &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 5: Cloud Storage -->
+                <!-- ========================== -->
+
+                <h2>Pillar 3: Cloud Storage for Firebase</h2>
+                <p>Firestore is great for text, numbers, and booleans. But where do you store large files like profile pictures, videos, or PDFs? **You should never store large files in a database.**</p>
+                <p>Instead, you use **Cloud Storage**. This service is built specifically to store and serve large binary files.</p>
+                <p>The common workflow is:</p>
+                <ol>
+                    <li>User picks an image from their phone's gallery (<code>Uri</code>).</li>
+                    <li>You upload this image file to Cloud Storage.</li>
+                    <li>Storage gives you back a permanent **Download URL** (a public <code>https://...</code> link).</li>
+                    <li>You take this URL (which is just a <code>String</code>) and save it in your **Firestore** document (e.g., in the `profilePictureUrl` field of your <code>User</code>).</li>
+                </ol>
+                
+                
+                <h3>Step 1: Add Storage Dependency</h3>
+                <pre><code><span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-storage-ktx"</span>)
+</code></pre>
+                
+                <h3>Step 2: Set Security Rules</h3>
+                <p>By default, no one can read or write to your Storage bucket. You must go to the **Firebase Console > Storage > Rules** tab and set up rules. For development, you can start with this (INSECURE):</p>
+                <pre><code><span class="comment">// WARNING: Insecure, allows anyone to read/write.</span>
+rules_version = <span class="string">'2'</span>;
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if <span class="keyword">true</span>;
+    }
+  }
+}
+</code></pre>
+                
+                <h3>Step 3: Uploading a File</h3>
+                <pre><code><span class="keyword">import</span> <span class="type">com.google.firebase.storage.ktx.storage</span>
+<span class="keyword">import</span> <span class="type">android.net.Uri</span>
+
+<span class="keyword">val</span> <span class="attr">storage</span> <span class="operator">=</span> <span class="type">Firebase</span>.<span class="attr">storage</span>
+<span class="keyword">val</span> <span class="attr">storageRef</span> <span class="operator">=</span> <span class="attr">storage</span>.<span class="attr">reference</span>
+
+<span class="comment">// Assume 'imageUri' is the Uri you got from the user's photo gallery</span>
+<span class="keyword">fun</span> <span class="function">uploadProfilePic</span>(<span class="attr">userId</span><span class="operator">:</span> <span class="type">String</span>, <span class="attr">imageUri</span><span class="operator">:</span> <span class="type">Uri</span>) {
+    <span class="comment">// 1. Create a reference. e.g., "profile_images/USER_ID_123.jpg"</span>
+    <span class="keyword">val</span> <span class="attr">imageRef</span> <span class="operator">=</span> <span class="attr">storageRef</span>.<span class="function">child</span>(<span class="string">"profile_images/$userId.jpg"</span>)
+    
+    <span class="comment">// 2. Start the upload task</span>
+    <span class="keyword">val</span> <span class="attr">uploadTask</span> <span class="operator">=</span> <span class="attr">imageRef</span>.<span class="function">putFile</span>(<span class="attr">imageUri</span>)
+
+    <span class="comment">// 3. Listen for success or failure</span>
+    <span class="attr">uploadTask</span>.<span class="function">addOnSuccessListener</span> { <span class="attr">taskSnapshot</span> <span class="operator">-></span>
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Storage"</span>, <span class="string">"Image uploaded!"</span>)
+        
+        <span class="comment">// 4. IMPORTANT: Get the Download URL</span>
+        <span class="function">getDownloadUrl</span>(<span class="attr">imageRef</span>)
+        
+    }.<span class="function">addOnFailureListener</span> { <span class="attr">e</span> <span class="operator">-></span>
+        <span class="type">Log</span>.<span class="function">e</span>(<span class="string">"Storage"</span>, <span class="string">"Upload failed"</span>, <span class="attr">e</span>)
+    }
+}
+
+<span class="keyword">fun</span> <span class="function">getDownloadUrl</span>(<span class="attr">imageRef</span><span class="operator">:</span> <span class="type">StorageReference</span>) {
+    <span class="attr">imageRef</span>.<span class="attr">downloadUrl</span>.<span class="function">addOnSuccessListener</span> { <span class="attr">uri</span> <span class="operator">-></span>
+        <span class="keyword">val</span> <span class="attr">imageUrl</span> <span class="operator">=</span> <span class="attr">uri</span>.<span class="function">toString</span>()
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Storage"</span>, <span class="string">"Download URL: $imageUrl"</span>)
+        
+        <span class="comment">// 5. Now save this URL string to your user's document in Firestore</span>
+        <span class="function">saveUrlToFirestore</span>(<span class="attr">imageUrl</span>)
+    }
+}
+</code></pre>
+                <a href="https://firebase.google.com/docs/storage/android/start" target="_blank" class="read-more-link">Read More about Cloud Storage &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 6: Cloud Messaging -->
+                <!-- ========================== -->
+
+                <h2>Pillar 4: Firebase Cloud Messaging (FCM)</h2>
+                <p>FCM is the service that lets you send **Push Notifications** to your app, even when the app is closed. This is extremely powerful for user re-engagement (e.g., "You have a new message!" or "A new post is available").</p>
+                
+
+                <h3>How it Works</h3>
+                <ol>
+                    <li>When your app is installed, it registers with FCM and receives a unique **FCM Registration Token**.</li>
+                    <li>Your app sends this token to your backend (e.g., saves it to your Firestore user document).</li>
+                    <li>When you want to send a notification, your *server* (not your app) tells the FCM API: "Send this message to *this* token."</li>
+                    <li>FCM handles delivering the message to the correct device.</li>
+                </ol>
+
+                <h3>Step 1: Add FCM Dependency</h3>
+                <pre><code><span class="function">implementation</span>(<span class="string">"com.google.firebase:firebase-messaging-ktx"</span>)
+</code></pre>
+                
+                <h3>Step 2: Create a Messaging Service</h3>
+                <p>You need to create a <code>Service</code> (see Chapter 4) that extends <code>FirebaseMessagingService</code>. This service will run in the background and "listen" for two things: new tokens and new messages.</p>
+                
+                <span class="code-filename">services/MyFirebaseMessagingService.kt</span>
+                <pre><code><span class="keyword">import</span> <span class="type">com.google.firebase.messaging.FirebaseMessagingService</span>
+<span class="keyword">import</span> <span class="type">com.google.firebase.messaging.RemoteMessage</span>
+<span class="keyword">import</span> <span class="type">android.util.Log</span>
+
+<span class="keyword">class</span> <span class="type">MyFirebaseMessagingService</span> <span class="operator">:</span> <span class="type">FirebaseMessagingService</span>() {
+
+    <span class="comment">/**
+     * This is called when a new token is generated.
+     * This happens on first app install, or if the user
+     * reinstalls the app or clears data.
+     */</span>
+    <span class="keyword">override fun</span> <span class="function">onNewToken</span>(<span class="attr">token</span><span class="operator">:</span> <span class="type">String</span>) {
+        <span class="keyword">super</span>.<span class="function">onNewToken</span>(<span class="attr">token</span>)
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"FCM"</span>, <span class="string">"New Token Generated: $token"</span>)
+        
+        <span class="comment">// **CRITICAL:** You MUST send this token to your server!</span>
+        <span class="comment">// e.g., saveTokenToFirestore(token)</span>
+    }
+
+    <span class="comment">/**
+     * This is called when a message is received *while the app is in the foreground*.
+     * If the app is in the background, Android shows a
+     * system notification tray icon automatically.
+     */</span>
+    <span class="keyword">override fun</span> <span class="function">onMessageReceived</span>(<span class="attr">remoteMessage</span><span class="operator">:</span> <span class="type">RemoteMessage</span>) {
+        <span class="keyword">super</span>.<span class="function">onMessageReceived</span>(<span class="attr">remoteMessage</span>)
+        
+        <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"FCM"</span>, <span class="string">"Message received!"</span>)
+        
+        <span class="attr">remoteMessage</span>.<span class="attr">notification</span><span class="operator">?.</span><span class="function">let</span> { <span class="attr">notification</span> <span class="operator">-></span>
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"FCM"</span>, <span class="string">"Title: ${notification.title}"</span>)
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"FCM"</span>, <span class="string">"Body: ${notification.body}"</span>)
+            
+            <span class="comment">// If the app is in the foreground, the system won't show it.</span>
+            <span class="comment">// So, you have to build a custom notification here.</span>
+            <span class="function">showCustomNotification</span>(<span class="attr">notification</span>.<span class="attr">title</span>, <span class="attr">notification</span>.<span class="attr">body</span>)
+        }
+    }
+    
+    <span class="keyword">private fun</span> <span class="function">showCustomNotification</span>(<span class="attr">title</span><span class="operator">:</span> <span class="type">String?</span>, <span class="attr">body</span><span class="operator">:</span> <span class="type">String?</span>) {
+        <span class="comment">// ... (Code to build and show a Notification) ...</span>
+    }
+}
+</code></pre>
+                
+                <h3>Step 3: Register the Service in `AndroidManifest.xml`</h3>
+                <p>Just like any service, you must register it.</p>
+                <pre><code><span class="tag">&lt;application ...&gt;</span>
+    <span class="comment">&lt;!-- ... your activities ... --&gt;</span>
+    
+    <span class="tag">&lt;service</span>
+        <span class="attr">android:name=</span><span class="string">".services.MyFirebaseMessagingService"</span>
+        <span class="attr">android:exported=</span><span class="string">"false"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;intent-filter&gt;</span>
+            <span class="tag">&lt;action <span class="attr">android:name=</span><span class="string">"com.google.firebase.MESSAGING_EVENT"</span> /&gt;</span>
+        <span class="tag">&lt;/intent-filter&gt;</span>
+    <span class="tag">&lt;/service&gt;</span>
+    
+<span class="tag">&lt;/application&gt;</span>
+</code></pre>
+                <p>That's it! Your app is now ready to receive notifications. You can send your first test notification from the **Firebase Console > Engage > Cloud Messaging** dashboard.</p>
+                <a href="https://firebase.google.com/docs/cloud-messaging/android/client" target="_blank" class="read-more-link">Read More about Firebase Cloud Messaging &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-testing.html" class="cta-button prev">&larr; Chapter 8: Testing</a>
+                    <a href="android-advanced-ui.html" class="cta-button">Next Chapter: Advanced UI &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
