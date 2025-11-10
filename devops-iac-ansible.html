@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 8: Config. Management (Ansible) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #f97316, #ef4444); /* Orange/Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #f97316; /* Orange highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for YAML/Bash */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* ---, hosts, become, tasks, when */
+        .content-section pre code .property { color: #38bdf8; } /* name, apt, copy, template, state */
+        .content-section pre code .string { color: #a78bfa; } /* "message", "latest", "present" */
+        .content-section pre code .variable { color: #e2e8f0; } /* {{ my_var }} */
+        .content-section pre code .command { color: #34d399; } /* ansible, ansible-playbook */
+        .content-section pre code .operator { color: #e2e8f0; } /* : */
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 8: <span class="highlight">Configuration Management (Ansible)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The "Why" - What is Configuration Management?</h2>
+                <p>In Chapter 5 (Cloud Providers), we learned how to use **Terraform (IaC)** to *provision* our infrastructure. We can create 100 AWS EC2 servers with one command. This is great, but what now? All we have is 100 blank, empty Ubuntu servers.</p>
+                <p>How do we:
+                    <ul>
+                        <li>Install <code>nginx</code> on all 100 servers?</li>
+                        <li>Update the <code>/etc/nginx/nginx.conf</code> file with our settings?</li>
+                        <li>Add a user <code>www-data</code>?</li>
+                        <li>Ensure the <code>nginx</code> service is running and enabled on boot?</li>
+                    </ul>
+                </p>
+                <p>You *could* write a giant Bash script (Chapter 1) to do this. But this is the wrong tool for the job. Why?</p>
+                
+                <h3>Why Bash Scripts Fail (Procedural vs. Declarative)</h3>
+                <p>A Bash script is **Procedural**. It's a list of steps to follow.
+                <br>
+                <code>$ sudo apt install nginx</code>
+                <br>
+                What happens if you run this script *twice*? The first time, it works. The second time, it *might* fail, or it might just say "nginx is already installed." What if you run it on a server that has an *older* version of Nginx? Will it upgrade? You don't know.</p>
+                
+                <p>A Configuration Management tool is **Declarative**. You don't write *steps*. You write a *description of the desired state*.
+                <br>
+                You write: <code>nginx: state=present, version=latest</code>.
+                <br>
+                The tool (Ansible) is smart. It logs into the server and checks: "Is nginx installed?"
+                <ul>
+                    <li>If "no," it runs <code>apt install nginx</code>.</li>
+                    <li>If "yes," and it's the latest version, it does **nothing**.</li>
+                    <li>If "yes," but it's an old version, it runs <code>apt upgrade nginx</code>.</li>
+                </ul>
+                <p>This is **Idempotency**. You can run the same command 1,000 times, and the result will always be the same: one server with the latest Nginx installed. This is the core principle of Configuration Management.</p>
+                
+                <h3>Ansible vs. Puppet vs. Chef</h3>
+                <p>These are the three main tools for this job.</p>
+                
+                <ul>
+                    <li><strong>Puppet & Chef (The "Pull" Model):</strong> These are "agent-based." You must install a "Puppet Agent" on all 100 of your servers. Each agent then "pulls" its configuration from a central Puppet Master server. This is very powerful but also very complex to set up.</li>
+                    <li><strong>Ansible (The "Push" Model):</strong> This is **agentless**. You *do not* install anything on your 100 servers (except Python, which is usually there). Ansible works by simply **SSHing** (Chapter 2.1) into each server from a central "Control Node" (your laptop) and running the commands for it.</li>
+                </ul>
+                <p>Because it is agentless, simple, and uses easy-to-read YAML, **Ansible** has become the dominant and most popular tool for this job, especially in cloud environments.</p>
+                
+
+                <!-- ========================== -->
+                <!-- SECTION 2: Ansible Setup -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Ansible Setup & Core Concepts</h2>
+                <p>Ansible is incredibly easy to set up. You only install it on **one machine**: your "Control Node" (your laptop or a dedicated admin server).</p>
+                
+                <h3>Installation (on the Control Node)</h3>
+                <p>Ansible is a Python tool. The best way to install it is with <code>pip</code> inside a virtual environment (as we learned in Chapter 1).</p>
+                <pre><code><span class="comment"># 1. Create a Python virtual environment</span>
+$ python3 -m venv ansible_env
+$ source ansible_env/bin/activate
+
+<span class="comment"># 2. Install Ansible</span>
+(venv) $ pip install ansible
+
+<span class="comment"># 3. Verify the installation</span>
+(venv) $ ansible --version
+<span class="comment_output">ansible [core 2.15.5] ...</span>
+</code></pre>
+                
+                <h3>The Core Components</h3>
+                <ol>
+                    <li><strong>Control Node:** The machine Ansible is installed on (your laptop).</li>
+                    <li><strong>Managed Nodes:** The servers you want to manage (e.g., your 100 web servers). They only need to have an SSH server and Python installed.</li>
+                    <li><strong>Inventory:** A "phone book." A simple file (e.g., <code>hosts.ini</code>) that lists the IP addresses or domains of all your Managed Nodes.</li>
+                    <li><strong>Playbook:** The "recipe." A YAML file (e.g., <code>setup_nginx.yml</code>) that lists all the tasks you want to perform.</li>
+                    <li><strong>Module:** A "tool" that Ansible uses to perform a task. Ansible has thousands of modules (e.g., <code>apt</code> module, <code>docker_container</code> module, <code>copy</code> module).</li>
+                </ol>
+                
+                <h3>Step 1: SSH Key Authentication (MANDATORY)</h3>
+                <p>Ansible works by SSHing into your servers. It *cannot* use password authentication. You **must** have passwordless SSH login set up from your Control Node to all your Managed Nodes.</p>
+                <p>As we learned in Chapter 2.1:</p>
+                <pre><code><span class="comment"># 1. On your laptop (Control Node), generate a key if you don't have one</span>
+$ ssh-keygen -t rsa -b 4096
+
+<span class="comment"># 2. Copy your *public* key to EACH of your servers</span>
+$ ssh-copy-id user@server1.example.com
+$ ssh-copy-id user@server2.example.com
+</code></pre>
+                
+                <h3>Step 2: The Inventory File</h3>
+                <p>Create a file named <code>inventory.ini</code>. This is where you list your servers. You can group them together.</p>
+                <span class="code-filename">inventory.ini</span>
+                <pre><code><span class="comment"># A group for all web servers</span>
+[webservers]
+<span class="variable">web1.example.com</span>
+<span class="variable">web2.example.com</span>
+<span class="variable">192.168.1.50</span>
+
+<span class="comment"># A group for all database servers</span>
+[dbservers]
+<span class="variable">db1.example.com</span>
+</code></pre>
+                
+                <h3>Step 3: The `ansible.cfg` File (Optional but Recommended)</h3>
+                <p>Create a file named <code>ansible.cfg</code> in the same directory. This tells Ansible where to find your inventory and what user to log in as.</p>
+                <span class="code-filename">ansible.cfg</span>
+                <pre><code>[defaults]
+<span class="comment"># Use our inventory file</span>
+<span class="property">inventory</span> = <span class="variable">inventory.ini</span>
+
+<span class="comment"># The default user to SSH as</span>
+<span class="property">remote_user</span> = <span class="variable">msmaxpro</span>
+
+<span class="comment"># Don't bother checking host keys (less secure, but easier for testing)</span>
+<span class="property">host_key_checking</span> = <span class="variable">False</span>
+</code></pre>
+
+                <!-- ========================== -->
+                <!-- SECTION 3: Ad-Hoc Commands -->
+                <!-- ========================== -->
+
+                <h2>Part 3: Ad-Hoc Commands (Your First Contact)</h2>
+                <p>Before you write a complex Playbook, you can run simple, one-off commands to test your connection. This is done with the <code>ansible</code> command.</p>
+                
+                <h4>Checking the Connection (`ping` module)</h4>
+                <p>The <code>-m</code> flag specifies which **module** to use. The <code>ping</code> module doesn't ping the server; it logs in via SSH, checks if Python is installed, and returns "pong" if successful.</p>
+                <pre><code><span class="comment"># Run the 'ping' module on ALL hosts in the inventory</span>
+$ <span class="command">ansible</span> all -m ping
+<span class="comment_output">
+web1.example.com | <span style="color: #22c55e;">SUCCESS</span> => {
+    "changed": false, 
+    "ping": "pong"
+}
+web2.example.com | <span style="color: #22c55e;">SUCCESS</span> => {
+    "changed": false, 
+    "ping": "pong"
+}
+db1.example.com | <span style="color: #ef4444;">FAILED!</span> => {
+    "msg": "Failed to connect to the host via ssh: ssh: connect to host db1.example.com port 22: Connection timed out"
+}
+</span>
+</code></pre>
+                <p>This is amazing! In one command, you just diagnosed your entire infrastructure. You know your `webservers` are reachable, but `db1.example.com` is offline or its firewall is blocking port 22.</p>
+
+                <h4>Running Raw Shell Commands (`shell` module)</h4>
+                <p>You can use the <code>-a</code> flag to pass arguments to a module. The <code>shell</code> module lets you run any Bash command.</p>
+                <pre><code><span class="comment"># Get the uptime for all servers in the 'webservers' group</span>
+$ <span class="command">ansible</span> webservers -m shell -a <span class="string">"uptime"</span>
+<span class="comment_output">
+web1.example.com | <span style="color: #22c55e;">SUCCESS</span> | rc=0 >>
+ 10:30:01 up 5 days, 20 min,  1 user,  load average: 0.00, 0.01, 0.05
+web2.example.com | <span style="color: #22c55e;">SUCCESS</span> | rc=0 >>
+ 10:30:02 up 10 days, 4 hr,  1 user,  load average: 0.00, 0.00, 0.00
+</span>
+
+<span class="comment"># Get free memory on ALL servers</span>
+$ <span class="command">ansible</span> all -m shell -a <span class="string">"free -h"</span>
+</code></pre>
+
+                <!-- ========================== -->
+                <!-- SECTION 4: Playbooks -->
+                <!-- ========================== -->
+                
+                <h2>Part 4: Playbooks (The "Recipe")</h2>
+                <p>Ad-hoc commands are good for checking status, but not for real automation. For that, you use a **Playbook**. A Playbook is a YAML file that lists a series of **Tasks** to be run on a group of hosts.</p>
+                <p>This is where you write your *declarative state*.</p>
+                
+                <h3>Example: Our First Playbook (Installing Nginx)</h3>
+                <p>Create a file named <code>install_nginx.yml</code>.</p>
+                
+                <span class="code-filename">install_nginx.yml</span>
+                <pre><code><span class="comment"># A 'play' is a set of tasks for a group of hosts</span>
+<span class="keyword">---</span>
+- <span class="property">name:</span> <span class="string">Install and configure Nginx</span>
+  <span class="property">hosts:</span> <span class="string">webservers</span> <span class="comment"># Run this play on the [webservers] group</span>
+  <span class="property">become:</span> <span class="keyword">true</span>     <span class="comment"># This means "run tasks as root" (using sudo)</span>
+  
+  <span class="comment"># 'tasks' is the list of actions to perform</span>
+  <span class="property">tasks:</span>
+  
+  - <span class="property">name:</span> <span class="string">1. Ensure Nginx is installed at the latest version</span>
+    <span class="property">apt:</span>
+      <span class="property">name:</span> <span class="string">nginx</span>
+      <span class="property">state:</span> <span class="string">latest</span>
+      <span class="property">update_cache:</span> <span class="keyword">yes</span> <span class="comment"># Run 'apt update' first</span>
+      
+  - <span class="property">name:</span> <span class="string">2. Ensure Nginx service is running and enabled on boot</span>
+    <span class="property">service:</span>
+      <span class="property">name:</span> <span class="string">nginx</span>
+      <span class="property">state:</span> <span class="string">started</span>
+      <span class="property">enabled:</span> <span class="keyword">true</span>
+</code></pre>
+                
+                <h3>Running the Playbook</h3>
+                <p>You run playbooks with the <code>ansible-playbook</code> command.</p>
+                <pre><code>$ <span class="command">ansible-playbook</span> install_nginx.yml
+<span class="comment_output">
+PLAY [Install and configure Nginx] *************************************
+
+TASK [Gathering Facts] *************************************************
+ok: [web1.example.com]
+ok: [web2.example.com]
+
+TASK [1. Ensure Nginx is installed...] *********************************
+changed: [web1.example.com]  <span class="comment"># This server was changed</span>
+ok: [web2.example.com]      <span class="comment"># This server was already OK</span>
+
+TASK [2. Ensure Nginx service is running...] ***************************
+changed: [web1.example.com]
+ok: [web2.example.com]
+
+PLAY RECAP *************************************************************
+web1.example.com : ok=3  changed=2  unreachable=0  failed=0
+web2.example.com : ok=3  changed=0  unreachable=0  failed=0
+</span>
+</code></pre>
+                <p>This is **idempotency** in action. On `web1`, it installed Nginx (`changed=2`). On `web2` (which already had Nginx), it did *nothing* (`changed=0`). This is safe to run 1,000 times.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 5: Modules -->
+                <!-- ========================== -->
+                
+                <h2>Part 5: Essential Modules Deep Dive</h2>
+                <p>Ansible's power comes from its modules. You should *always* use a module (like <code>apt</code>) instead of the <code>shell</code> command (<code>shell: apt install...</code>). The module is idempotent; the shell command is not.</p>
+                
+                <h3><code>apt</code> / <code>yum</code> / <code>dnf</code></h3>
+                <p>Manages system packages. Ansible is smart enough to detect the OS and use the right one.</p>
+                <pre><code>- <span class="property">name:</span> <span class="string">Install a list of packages</span>
+  <span class="property">ansible.builtin.apt:</span>
+    <span class="property">name:</span>
+      - <span class="string">nginx</span>
+      - <span class="string">git</span>
+      - <span class="string">unzip</span>
+    <span class="property">state:</span> <span class="string">present</span>
+</code></pre>
+                
+                <h3><code>service</code> / <code>systemd</code></h3>
+                <p>Manages services (as we saw in <code>systemctl</code>).</p>
+                <pre><code>- <span class="property">name:</span> <span class="string">Restart the Docker service</span>
+  <span class="property">ansible.builtin.service:</span>
+    <span class="property">name:</span> <span class="string">docker</span>
+    <span class="property">state:</span> <span class="string">restarted</span>
+</code></pre>
+
+                <h3><code>copy</code></h3>
+                <p>Copies a file from your Control Node (laptop) to the Managed Nodes.</p>
+                <pre><code>- <span class="property">name:</span> <span class="string">Copy my custom config file</span>
+  <span class="property">ansible.builtin.copy:</span>
+    <span class="property">src:</span> <span class="string">files/my-nginx.conf</span> <span class="comment"># (Path on your laptop)</span>
+    <span class="property">dest:</span> <span class="string">/etc/nginx/nginx.conf</span> <span class="comment"># (Path on the server)</span>
+    <span class="property">owner:</span> <span class="string">root</span>
+    <span class="property">group:</span> <span class="string">root</span>
+    <span class="property">mode:</span> <span class="string">'0644'</span> <span class="comment"># (rw-r--r--)</span>
+</code></pre>
+
+                <h3><code>template</code> (and Jinja2)</h3>
+                <p>This is the *most powerful* file module. It's like <code>copy</code>, but it processes the file as a **Jinja2 template**. This lets you use variables inside your config files.</p>
+                
+                <span class="code-filename">templates/nginx.conf.j2</span>
+                <pre><code><span class="comment"># This is a Jinja2 template.</span>
+<span class="keyword">worker_processes</span> <span class="variable">{{ ansible_processor_vcpus }}</span>;
+
+<span class="keyword">http</span> {
+    <span class="keyword">server</span> {
+        <span class="keyword">listen</span> <span class="variable">{{ my_nginx_port }}</span>;
+        <span class="keyword">server_name</span> <span class="variable">{{ my_domain_name }}</span>;
+    }
+}
+</code></pre>
+                
+                <span class="code-filename">install_nginx.yml (Playbook)</span>
+                <pre><code>- <span class="property">name:</span> <span class="string">Configure Nginx from template</span>
+  <span class="property">hosts:</span> <span class="string">webservers</span>
+  <span class="property">become:</span> <span class="keyword">true</span>
+  
+  <span class="comment"># We can define variables for this play</span>
+  <span class="property">vars:</span>
+    <span class="property">my_nginx_port:</span> <span class="number">80</span>
+    <span class="property">my_domain_name:</span> <span class="string">"codewithmsmaxpro.me"</span>
+    
+  <span class="property">tasks:</span>
+  - <span class="property">name:</span> <span class="string">Push the templated config file</span>
+    <span class="property">ansible.builtin.template:</span>
+      <span class="property">src:</span> <span class="string">templates/nginx.conf.j2</span>
+      <span class="property">dest:</span> <span class="string">/etc/nginx/nginx.conf</span>
+</code></pre>
+                <p>Ansible will read <code>nginx.conf.j2</code>, replace the <code>{{ ... }}</code> variables, and create a custom <code>nginx.conf</code> file on each server. <code>{{ ansible_processor_vcpus }}</code> is a built-in "fact" (data Ansible finds) about the server.</p>
+                
+                <h3><code>lineinfile</code></h3>
+                <p>Used to ensure a specific line exists (or doesn't) in a file. This is perfect for changing a single setting without replacing the whole file.</p>
+                <pre><code>- <span class="property">name:</span> <span class="string">Disable password authentication in SSH</span>
+  <span class="property">ansible.builtin.lineinfile:</span>
+    <span class="property">path:</span> <span class="string">/etc/ssh/sshd_config</span>
+    <span class="property">regexp:</span> <span class="string">'^#?PasswordAuthentication'</span>
+    <span class="property">line:</span> <span class="string">'PasswordAuthentication no'</span>
+    <span class="property">state:</span> <span class="string">present</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 6: Advanced Playbooks -->
+                <!-- ========================== -->
+                
+                <h2>Part 6: Advanced Playbook Logic</h2>
+                
+                <h3>Handlers (Restarting Services)</h3>
+                <p>In our example, we changed <code>nginx.conf</code>, but Nginx won't see the change until it's restarted. You *could* add a <code>service: restart</code> task, but that's inefficient. It would restart Nginx *every* time you run the playbook, even if the config didn't change.</p>
+                <p>A **Handler** is a task that *only* runs if it is "notified" by another task that *actually made a change*.</p>
+                
+                <span class="code-filename">install_nginx.yml (Updated)</span>
+                <pre><code>- <span class="property">name:</span> <span class="string">Install and configure Nginx</span>
+  <span class="property">hosts:</span> <span class="string">webservers</span>
+  <span class="property">become:</span> <span class="keyword">true</span>
+  <span class="property">tasks:</span>
+  - <span class="property">name:</span> <span class="string">Ensure Nginx is installed</span>
+    <span class="property">ansible.builtin.apt:</span>
+      <span class="property">name:</span> <span class="string">nginx</span>
+      <span class="property">state:</span> <span class="string">latest</span>
+
+  - <span class="property">name:</span> <span class="string">Push the templated config file</span>
+    <span class="property">ansible.builtin.template:</span>
+      <span class="property">src:</span> <span class="string">templates/nginx.conf.j2</span>
+      <span class="property">dest:</span> <span class="string">/etc/nginx/nginx.conf</span>
+    <span class="property">notify:</span> <span class="string">Restart Nginx</span>  <span class="comment"># Notify the handler</span>
+      
+  - <span class="property">name:</span> <span class="string">Ensure Nginx is running</span>
+    <span class="property">ansible.builtin.service:</span>
+      <span class="property">name:</span> <span class="string">nginx</span>
+      <span class="property">state:</span> <span class="string">started</span>
+      
+  <span class="comment"># This block runs at the *end* of the play,</span>
+  <span class="comment"># *only if* it was notified by a change.</span>
+  <span class="property">handlers:</span>
+  - <span class="property">name:</span> <span class="string">Restart Nginx</span>
+    <span class="property">ansible.builtin.service:</span>
+      <span class="property">name:</span> <span class="string">nginx</span>
+      <span class="property">state:</span> <span class="string">restarted</span>
+</code></pre>
+                
+                <h3>Conditionals (<code>when:</code>)</h3>
+                <p>The <code>when:</code> clause lets you skip tasks based on a condition. Ansible automatically gathers "facts" about your servers (like OS, IP, etc.).</p>
+                <pre><code>- <span class="property">name:</span> <span class="string">Install Apache (for CentOS)</span>
+  <span class="property">ansible.builtin.dnf:</span>
+    <span class="property">name:</span> <span class="string">httpd</span>
+    <span class="property">state:</span> <span class="string">present</span>
+  <span class="property">when:</span> <span class="variable">ansible_facts['os_family']</span> == <span class="string">"RedHat"</span>
+
+- <span class="property">name:</span> <span class="string">Install Apache (for Ubuntu)</span>
+  <span class="property">ansible.builtin.apt:</span>
+    <span class="property">name:</span> <span class="string">apache2</span>
+    <span class="property">state:</span> <span class="string">present</span>
+  <span class="property">when:</span> <span class="variable">ansible_facts['os_family']</span> == <span class="string">"Debian"</span>
+</code></pre>
+                
+                <h3>Loops (<code>loop:</code>)</h3>
+                <p>You can easily loop over a list of items.</p>
+                <pre><code>- <span class="property">name:</span> <span class="string">Install a list of common packages</span>
+  <span class="property">ansible.builtin.apt:</span>
+    <span class="property">name:</span> <span class="string">"{{ item }}"</span> <span class="comment"># 'item' is the variable</span>
+    <span class="property">state:</span> <span class="string">present</span>
+  <span class="property">loop:</span>
+    - <span class="string">git</span>
+    - <span class="string">curl</span>
+    - <span class="string">unzip</span>
+    - <span class="string">htop</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 7: Roles & Vault -->
+                <!-- ========================== -->
+
+                <h2>Part 7: Roles & Vault (Professional Structure)</h2>
+                
+                <h3>Ansible Roles (Reusable Playbooks)</h3>
+                <p>Your <code>install_nginx.yml</code> file will get very long. What if you want to re-use your "install nginx" logic in 5 different projects? You can't copy-paste.
+                <br>
+                A **Role** is a way to package all the tasks, templates, variables, and handlers for *one specific job* (like "nginx" or "mysql") into a standard, reusable folder structure.</p>
+                
+                <p>This is the standard directory structure for an Ansible project:</p>
+                <pre><code>ansible-project/
+├── <span class="variable">inventory.ini</span>       <span class="comment"># Your list of servers</span>
+├── <span class="variable">ansible.cfg</span>         <span class="comment"># Your config</span>
+├── <span class="variable">site.yml</span>            <span class="comment"># The MAIN playbook</span>
+└── <span class="variable">roles/</span>
+    └── <span class="variable">webserver/</span>          <span class="comment"># The "webserver" role</span>
+        ├── <span class="variable">tasks/</span>
+        │   └── <span class="variable">main.yml</span>      <span class="comment"># All tasks go here</span>
+        ├── <span class="variable">templates/</span>
+        │   └── <span class="variable">nginx.conf.j2</span> <span class="comment"># All templates go here</span>
+        ├── <span class="variable">handlers/</span>
+        │   └── <span class="variable">main.yml</span>      <span class="comment"># All handlers go here</span>
+        └── <span class="variable">vars/</span>
+            └── <span class="variable">main.yml</span>      <span class="comment"># Default variables for this role</span>
+</code></pre>
+                <p>Then, your main <code>site.yml</code> playbook becomes incredibly simple:</p>
+                <span class="code-filename">site.yml</span>
+                <pre><code><span class="keyword">---</span>
+- <span class="property">name:</span> <span class="string">Configure all web servers</span>
+  <span class="property">hosts:</span> <span class="string">webservers</span>
+  <span class="property">become:</span> <span class="keyword">true</span>
+  <span class="property">roles:</span>
+    - <span class="string">webserver</span> <span class="comment"># Just apply the 'webserver' role</span>
+    <span class="comment"># - database</span>
+    <span class="comment"># - monitoring</span>
+</code></pre>
+                
+                <h3>Ansible Vault (Managing Secrets)</h3>
+                <p>How do you store your <code>DATABASE_PASSWORD</code>? You can't write it in plain text in <code>vars/main.yml</code> and push it to GitHub.
+                <br>
+                **Ansible Vault** is a built-in tool that lets you encrypt specific files or variables.</p>
+                
+                <pre><code><span class="comment"># 1. Create a new, encrypted file for your secrets</span>
+$ <span class="command">ansible-vault</span> create roles/webserver/vars/secrets.yml
+<span class="comment_output">New Vault password: ********* (type your password)</span>
+<span class_comment_output_>(A text editor opens. You add your secrets:)</span>
+<span class="property">db_password:</span> <span class="string">"my-super-secret-password-123"</span>
+</code></pre>
+                <p>The file <code>secrets.yml</code> will just contain encrypted nonsense. It's safe to commit to Git.</p>
+                <pre><code><span class="comment"># 2. Run your playbook, asking for the password</span>
+$ <span class="command">ansible-playbook</span> site.yml --ask-vault-pass
+<span class="comment_output">Vault password: ********* (type your password)</span>
+</code></pre>
+                <p>Ansible will automatically decrypt the file *in memory* during the run and inject <code>db_password</code> as a variable. Your secret is never exposed.</p>
+                
+                <a href="https://docs.ansible.com/" target="_blank" class="read-more-link">Read the Official Ansible Documentation &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-monitoring.html" class="cta-button prev">&larr; Chapter 7: Monitoring & Logging</a>
+                    <a href="devops-security-vault.html" class="cta-button">Next Chapter: DevSecOps (Vault) &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
