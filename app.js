@@ -13,7 +13,6 @@ const navSlide = () => {
 navSlide(); // Run the function
 
 /* === FAQ Accordion === */
-// Pehle check karo ki hum us page par hain jismein FAQ hai
 const faqItems = document.querySelectorAll('.faq-item');
 
 if (faqItems.length > 0) {
@@ -22,14 +21,11 @@ if (faqItems.length > 0) {
         
         if (question) { // Check if question exists
             question.addEventListener('click', () => {
-                // Doosre sabhi open answers ko band karo
                 faqItems.forEach(otherItem => {
                     if (otherItem !== item && otherItem.classList.contains('active')) {
                         otherItem.classList.remove('active');
                     }
                 });
-                
-                // Is item ko toggle karo
                 item.classList.toggle('active');
             });
         }
@@ -39,16 +35,10 @@ if (faqItems.length > 0) {
 /* === Load Latest Blog Posts (for index.html) === */
 const postsContainer = document.getElementById('latest-posts-container');
 
-// Check karo ki 'blogPosts' (blog_data.js se) load hua hai ya nahi
-// aur 'postsContainer' page par hai ya nahi
 if (postsContainer && typeof blogPosts !== 'undefined' && blogPosts.length > 0) {
     
-    // Default text ko Hatao
     postsContainer.innerHTML = ""; 
 
-    // === CODE FIX ===
-    // .slice(-3) -> Hamesha list ke AAKHIRI 3 items ko select karega.
-    // .reverse() -> Un 3 ko ulta kar dega, taaki sabse naya (last item) pehle dikhe.
     const latestPosts = blogPosts.slice(-3).reverse();
 
     latestPosts.forEach(post => {
@@ -72,11 +62,9 @@ if (postsContainer && typeof blogPosts !== 'undefined' && blogPosts.length > 0) 
         postsContainer.appendChild(postCard);
     });
     
-    // CSS ko grid layout mein convert karo
     postsContainer.style.display = 'grid';
     postsContainer.style.gap = '30px';
     
-    // Media query ke hisaab se columns set karo
     if (window.innerWidth >= 1024) {
         postsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
     } else if (window.innerWidth >= 768) {
@@ -85,7 +73,6 @@ if (postsContainer && typeof blogPosts !== 'undefined' && blogPosts.length > 0) 
         postsContainer.style.gridTemplateColumns = '1fr';
     }
 
-    // Resize par columns update karne ke liye (Optional but good)
     window.addEventListener('resize', () => {
         if (window.innerWidth >= 1024) {
             postsContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
@@ -93,6 +80,44 @@ if (postsContainer && typeof blogPosts !== 'undefined' && blogPosts.length > 0) 
             postsContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
         } else {
             postsContainer.style.gridTemplateColumns = '1fr';
+        }
+    });
+}
+
+
+/* === NAYA: PRO-TIP TRANSLATOR === */
+const translateBtn = document.querySelector('.pro-tip-translate-btn');
+
+if (translateBtn) {
+    translateBtn.addEventListener('click', () => {
+        // 1. Parent banner ko dhoondo
+        const banner = translateBtn.closest('.pro-tip-banner');
+        if (!banner) return;
+
+        // 2. Button ka current language state check karo
+        const currentLang = translateBtn.dataset.langCurrent;
+
+        if (currentLang === 'hi') {
+            // --- English mein badlo ---
+            
+            // Text ko badlo
+            banner.querySelector('[data-lang="hi"]').style.display = 'none';
+            banner.querySelector('[data-lang="en"]').style.display = 'block';
+            
+            // Button ko badlo
+            translateBtn.textContent = 'Translate in Hindi';
+            translateBtn.dataset.langCurrent = 'en';
+
+        } else {
+            // --- Hinglish/Hindi mein badlo ---
+
+            // Text ko badlo
+            banner.querySelector('[data-lang="hi"]').style.display = 'block';
+            banner.querySelector('[data-lang="en"]').style.display = 'none';
+
+            // Button ko badlo
+            translateBtn.textContent = 'Translate in English';
+            translateBtn.dataset.langCurrent = 'hi';
         }
     });
 }
