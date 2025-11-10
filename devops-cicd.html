@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4: CI/CD Pipelines - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #a78bfa, #7c3aed); /* Purple */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #a78bfa; /* Purple highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash/Python */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* jobs, on, steps, run */
+        .content-section pre code .property { color: #38bdf8; } /* name, uses, with */
+        .content-section pre code .string { color: #a78bfa; } /* "message" */
+        .content-section pre code .variable { color: #e2e8f0; } /* ${{ secrets.VAR }} */
+        .content-section pre code .command { color: #34d399; } /* docker, echo */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 4: <span class="highlight">CI/CD Pipelines</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The "Why": What is CI/CD?</h2>
+                <p>In the previous chapters, we learned the core components of DevOps: scripting, the OS, networking, and Git. Now, we assemble them. **CI/CD** is the *process* that uses all those skills to automate the delivery of software.</p>
+                <p>CI/CD stands for **Continuous Integration** and **Continuous Delivery** (or **Continuous Deployment**). It is the heart of the DevOps culture.</p>
+                
+                
+                <h3>What is Continuous Integration (CI)?</h3>
+                <p>CI is the practice of developers "integrating" (merging) their code changes into the main <code>main</code> branch as often as possible (multiple times a day).</p>
+                <p>But how do you do this safely? You automate it. **Every time a developer pushes code to a new branch, a CI server automatically does the following:**</p>
+                <ol>
+                    <li><strong>Builds</strong> the code (e.g., runs <code>npm run build</code> or <code>./gradlew build</code>).</li>
+                    <li><strong>Tests</strong> the code (e.g., runs <code>npm test</code> or <code>./gradlew test</code>).</li>
+                    <li><strong>Scans</strong> the code (e.g., checks for security vulnerabilities).</li>
+                </ol>
+                <p>If *any* of these steps fail, the developer gets an instant email. The code is blocked from merging. This provides a **fast feedback loop** and stops bugs *before* they get into the main codebase.</p>
+                
+                <h3>What is Continuous Delivery vs. Deployment (CD)?</h3>
+                <p>This is the next step. After CI (Build + Test) is successful, what happens?</p>
+                <ul>
+                    <li><strong>Continuous Delivery:</strong> The pipeline automatically prepares a "release artifact" (e.g., a Docker image) and deploys it to a **staging** (test) environment. It is now 100% ready to go to production. A human (like a QA manager) then gives the *final manual approval* to "promote" this build to production.</li>
+                    <li><strong>Continuous Deployment:</strong> This is the most advanced step. It's the same as above, but there is **no human approval**. If the CI tests pass, the code is *automatically* deployed to *all* users in production, immediately. This is what companies like Netflix and Amazon do.</li>
+                </ul>
+                <p>Your goal is to build a **CI/CD Pipeline**: an automated series of steps (a "workflow") that takes code from a developer's <code>git push</code> all the way to a production server.</p>
+                
+                <h3>Core Pipeline Concepts</h3>
+                <ul>
+                    <li><strong>Pipeline/Workflow:</strong> The entire automated process from start to finish. Defined in a file (e.g., <code>.github/workflows/main.yml</code>).</li>
+                    <li><strong>Stage:</strong> A logical section of the pipeline (e.g., "Build Stage", "Test Stage", "Deploy Stage").</li>
+                    <li><strong>Job:</strong> A set of steps that run together (e.g., "build_docker_image", "run_unit_tests").</li>
+                    <li><strong>Step/Task:</strong> A single command (e.g., <code>run: npm install</code>).</li>
+                    <li><strong>Runner/Agent:</strong> The actual server (virtual machine) that runs your pipeline. This can be hosted by GitHub, or it can be your own self-hosted server.</li>
+                    <li><strong>Artifact:</strong> The *output* of a stage (e.g., the compiled <code>.jar</code> file, the <code>.aab</code>, or the Docker image). This artifact is passed to the next stage.</li>
+                </ul>
+                
+                <p>We will learn the two most popular tools for building CI/CD pipelines: **GitHub Actions** (the modern standard) and **Jenkins** (the classic standard).</p>
+
+                <!-- ========================== -->
+                <!-- SECTION 2: GitHub Actions -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: GitHub Actions (The Modern Standard)</h2>
+                <p>**GitHub Actions** is a CI/CD platform built directly into GitHub. It's incredibly powerful, easy to learn, and has a massive community marketplace. It is now the default choice for new projects, especially open-source ones.</p>
+                
+                
+                <h3>How it Works</h3>
+                <p>You create a **YAML** (<code>.yml</code>) configuration file in your repository inside a special folder: <code>.github/workflows/</code>.</p>
+                <p>When a specific **event** happens (like a <code>push</code> to the <code>main</code> branch), GitHub reads your YAML file and automatically provisions a **Runner** (a fresh virtual machine, usually Ubuntu) to execute the **jobs** and **steps** you defined.</p>
+                
+                <h3>Core Components of a GitHub Actions Workflow</h3>
+                <ul>
+                    <li><strong>Workflow:</strong> The entire <code>.yml</code> file.</li>
+                    <li><strong>Event (<code>on:</code>):</strong> The *trigger* that starts the workflow (e.g., <code>on: push</code>, <code>on: pull_request</code>, <code>on: schedule</code>).</li>
+                    <li><strong>Job (<code>jobs:</code>):</strong> A set of steps that run on a fresh runner. You can have multiple jobs that run in parallel (like <code>test</code> and <code>build</code>).</li>
+                    <li><strong>Runner (<code>runs-on:</code>):</strong> The OS to use for the virtual machine (e.g., <code>ubuntu-latest</code>, <code>windows-latest</code>, <code>macos-latest</code>).</li>
+                    <li><strong>Step (<code>steps:</code>):</strong> A single task. A step can either <code>run:</code> a shell command (like <code>npm install</code>) or <code>uses:</code> a pre-built "Action" from the marketplace.</li>
+                    <li><strong>Action (<code>uses:</code>):</strong> A reusable, pre-packaged script (e.g., <code>actions/checkout@v3</code> to check out your code, or <code>docker/build-push-action@v5</code> to build a Docker image).</li>
+                </ul>
+                
+                <h3>Workflow Example 1: Basic Node.js Build & Test</h3>
+                <p>Let's build a CI pipeline for a simple Node.js project. This workflow will:</p>
+                <ol>
+                    <li>Trigger on every <code>push</code> to the <code>main</code> branch.</li>
+                    <li>Spin up an Ubuntu VM.</li>
+                    <li>Check out our Git repository.</li>
+                    <li>Set up the correct version of Node.js (e.g., 18).</li>
+                    <li>Install our dependencies (<code>npm install</code>).</li>
+                    <li>Run our tests (<code>npm test</code>).</li>
+                </ol>
+                
+                <span class="code-filename">.github/workflows/main.yml</span>
+                <pre><code><span class="comment"># Name of the workflow (shows up in GitHub UI)</span>
+<span class="property">name:</span> <span class="string">Node.js CI</span>
+
+<span class="comment"># 1. 'on' (The Trigger)</span>
+<span class="comment"># This workflow runs on every push to the 'main' branch</span>
+<span class="comment"># and every pull request targeting the 'main' branch</span>
+<span class="property">on:</span>
+  <span class="property">push:</span>
+    <span class="property">branches:</span> [ <span class="string">"main"</span> ]
+  <span class="property">pull_request:</span>
+    <span class="property">branches:</span> [ <span class="string">"main"</span> ]
+
+<span class="comment"># 2. 'jobs' (What to do)</span>
+<span class="property">jobs:</span>
+  <span class="comment"># We define a single job called 'build-and-test'</span>
+  <span class="property">build-and-test:</span>
+    <span class="comment"># 3. 'runs-on' (The Environment)</span>
+    <span class="comment"># Use the latest stable Ubuntu VM from GitHub</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    
+    <span class="comment"># 4. 'steps' (The commands)</span>
+    <span class="property">steps:</span>
+      <span class="comment"># Step 1: Check out the code from our repo</span>
+      <span class="comment"># 'uses:' runs a pre-built Action</span>
+      - <span class="property">name:</span> <span class="string">Checkout code</span>
+        <span class="property">uses:</span> <span class="string">actions/checkout@v4</span>
+
+      <span class="comment"># Step 2: Set up the correct Node.js version</span>
+      - <span class="property">name:</span> <span class="string">Set up Node.js 18</span>
+        <span class="property">uses:</span> <span class="string">actions/setup-node@v4</span>
+        <span class="property">with:</span>
+          <span class="property">node-version:</span> <span class="string">'18'</span>
+          <span class="property">cache:</span> <span class="string">'npm'</span> <span class="comment"># Cache node_modules for speed</span>
+
+      <span class="comment"># Step 3: Install dependencies</span>
+      <span class="comment"># 'run:' runs a shell command</span>
+      - <span class="property">name:</span> <span class="string">Install dependencies</span>
+        <span class="property">run:</span> <span class="command">npm</span> install
+
+      <span class="comment"># Step 4: Run the tests</span>
+      - <span class="property">name:</span> <span class="string">Run tests</span>
+        <span class="property">run:</span> <span class="command">npm</span> test
+</code></pre>
+                <p>That's it! By adding this one file to your repository, you have a complete CI system. If `npm test` fails, the `push` will be marked with a red "X" and you will be notified.</p>
+                
+                <h3>Workflow Example 2: Build & Push a Docker Image</h3>
+                <p>This is a true DevOps task. This pipeline will build a Docker image from a <code>Dockerfile</code> in our repo and push it to the **GitHub Container Registry (GHCR)**.</p>
+                
+                <span class="code-filename">.github/workflows/docker-publish.yml</span>
+                <pre><code><span class="property">name:</span> <span class="string">Publish Docker Image</span>
+
+<span class="property">on:</span>
+  <span class="property">push:</span>
+    <span class="property">branches:</span> [ <span class="string">"main"</span> ] <span class="comment"># Only run when we push to main</span>
+
+<span class="property">jobs:</span>
+  <span class="property">build-and-push-docker:</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    
+    <span class="comment"># We need special permissions to push to GHCR</span>
+    <span class="property">permissions:</span>
+      <span class="property">contents:</span> <span class="string">read</span>
+      <span class="property">packages:</span> <span class="string">write</span> <span class="comment"># This is the key permission</span>
+      
+    <span class="property">steps:</span>
+      <span class="comment"># 1. Check out the code</span>
+      - <span class="property">name:</span> <span class="string">Checkout code</span>
+        <span class="property">uses:</span> <span class="string">actions/checkout@v4</span>
+
+      <span class="comment"># 2. Log in to the GitHub Container Registry (GHCR)</span>
+      - <span class="property">name:</span> <span class="string">Log in to GHCR</span>
+        <span class="property">uses:</span> <span class="string">docker/login-action@v3</span>
+        <span class="property">with:</span>
+          <span class="property">registry:</span> <span class="string">ghcr.io</span>
+          <span class="property">username:</span> <span class="string">${{ github.repository_owner }}</span>
+          <span class="comment"># This is a special, temporary token. No need to store secrets!</span>
+          <span class="property">password:</span> <span class="string">${{ secrets.GITHUB_TOKEN }}</span>
+
+      <span class="comment"># 3. Build the Docker image and push it</span>
+      - <span class="property">name:</span> <span class="string">Build and push Docker image</span>
+        <span class="property">uses:</span> <span class="string">docker/build-push-action@v5</span>
+        <span class="property">with:</span>
+          <span class="property">context:</span> <span class="string">.</span> <span class="comment"># Use the Dockerfile from the root</span>
+          <span class="property">push:</span> <span class="keyword">true</span> <span class="comment"># We want to push</span>
+          <span class="comment"># Example tag: ghcr.io/msmaxpro/my-app:latest</span>
+          <span class="property">tags:</span> <span class="string">ghcr.io/${{ github.repository_owner }}/my-app:latest</span>
+</code></pre>
+
+                <h3>Secrets & Environments</h3>
+                <p>What if you need to deploy to an AWS server? You need <code>AWS_ACCESS_KEY_ID</code> and <code>AWS_SECRET_ACCESS_KEY</code>. You **must never** write these in your YAML file.</p>
+                <p>Instead, you go to your **GitHub Repo > Settings > Secrets and variables > Actions**.</p>
+                
+                <p>Here you add a "Repository secret" (e.g., <code>AWS_SECRET_KEY</code>). Now, you can securely access it in your workflow using the <code>secrets</code> context:</p>
+                <pre><code>      - <span class="property">name:</span> <span class="string">Configure AWS Credentials</span>
+        <span class="property">uses:</span> <span class="string">aws-actions/configure-aws-credentials@v4</span>
+        <span class="property">with:</span>
+          <span class="property">aws-access-key-id:</span> <span class="string">${{ secrets.AWS_ACCESS_KEY_ID }}</span>
+          <span class="property">aws-secret-access-key:</span> <span class="string">${{ secrets.AWS_SECRET_KEY }}</span>
+          <span class="property">aws-region:</span> <span class="string">us-east-1</span>
+</code></pre>
+                
+                <a href="https://docs.github.com/en/actions" target="_blank" class="read-more-link">Read the Official GitHub Actions Docs &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Jenkins -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Jenkins (The Classic Standard)</h2>
+                <p>If GitHub Actions is the modern, cloud-based solution, **Jenkins** is the classic, self-hosted, and infinitely customizable standard. It's a free, open-source server that you run *yourself* (e.g., on one of your own Linux servers).</p>
+                
+                
+                <h3>Why is Jenkins still used so much?</h3>
+                <ul>
+                    <li><strong>Self-Hosted:</strong> Companies can run it on their own private servers (on-premise), which is critical for finance or healthcare industries that can't send their code to the cloud.</li>
+                    <li><strong>Plugins:** Jenkins has thousands of plugins for *everything*. If a tool exists, there is a Jenkins plugin for it.</li>
+                    <li><strong>Control:** You have 100% control over the environment, security, and hardware.</li>
+                </ul>
+                
+                <h3>The `Jenkinsfile` (Declarative Pipeline)</h3>
+                <p>Like GitHub Actions, Jenkins is also "Pipeline-as-Code." You don't use the web UI to build jobs. Instead, you add a file named <code>Jenkinsfile</code> to your repository's root.</p>
+                <p>Jenkins pipelines are written in a **Groovy-based DSL (Domain Specific Language)**. There are two types: "Scripted" (old and hard) and "Declarative" (new and recommended).</p>
+                
+                <h4>Declarative Pipeline Syntax</h4>
+                <p>The syntax is very logical and easy to read.</p>
+                <pre><code><span class="function">pipeline</span> {
+    <span class="comment">// 1. 'agent' - Where should this run?</span>
+    <span class="comment">// 'any' means run on any available Jenkins agent (server)</span>
+    <span class="keyword">agent</span> <span class="variable">any</span>
+    
+    <span class="comment">// 2. 'stages' - The main container for all our work</span>
+    <span class="keyword">stages</span> {
+        
+        <span class="comment">// 3. 'stage' - A logical step (Build, Test, Deploy)</span>
+        <span class="keyword">stage</span>(<span class="string">'Build'</span>) {
+            <span class="comment">// 4. 'steps' - The commands to run</span>
+            <span class="keyword">steps</span> {
+                <span class="command">echo</span> <span class="string">'Building the application...'</span>
+                <span class="command">sh</span> <span class="string">'./gradlew build'</span>
+            }
+        }
+        
+        <span class="keyword">stage</span>(<span class="string">'Test'</span>) {
+            <span class="keyword">steps</span> {
+                <span class="command">echo</span> <span class="string">'Running unit tests...'</span>
+                <span class="command">sh</span> <span class="string">'./gradlew test'</span>
+            }
+            <span class="comment">// 5. 'post' - Runs after the stage completes</span>
+            <span class="keyword">post</span> {
+                <span class="keyword">always</span> {
+                    <span class="comment">// Archive the test results, even if they failed</span>
+                    <span class="command">junit</span> <span class="string">'app/build/test-results/**/*.xml'</span>
+                }
+            }
+        }
+        
+        <span class="keyword">stage</span>(<span class="string">'Deploy to Staging'</span>) {
+            <span class="keyword">steps</span> {
+                <span class="command">echo</span> <span class="string">'Deploying to staging server...'</span>
+                <span class="command">sh</span> <span class="string">'./scripts/deploy-staging.sh'</span>
+            }
+        }
+    }
+}
+</code></pre>
+                
+                <h3>GitHub Actions vs. Jenkins</h3>
+                <ul>
+                    <li>**GitHub Actions:** Easier to start, fully cloud-based, great community actions. Best for new/open-source projects.</li>
+                    <li>**Jenkins:** More powerful, more complex, 100% customizable, self-hosted. Better for large enterprises with complex, private infrastructure needs.</li>
+                </ul>
+                <a href="https://www.jenkins.io/doc/book/pipeline/" target="_blank" class="read-more-link">Read the Official Jenkins Docs &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 4: Deployment Strategies -->
+                <!-- ========================== -->
+
+                <h2>Part 3: Advanced Deployment Strategies</h2>
+                <p>Your CD pipeline is built. You're ready to deploy. How do you do it without causing downtime? You **never** just stop the old server and start the new one. Users would see an error page. Instead, you use a strategy.</p>
+                
+                <h3>1. Rolling Deployment</h3>
+                <p>This is the most common default strategy. You have a pool of 5 servers (V1).</p>
+                <ol>
+                    <li>Take Server 1 offline.</li>
+                    <li>Upgrade it to V2.</li>
+                    <li>Put it back online.</li>
+                    <li>Take Server 2 offline.</li>
+                    <li>Upgrade it to V2... and so on.</li>
+                </ol>
+                [Image of a Rolling Deployment diagram]
+                <ul>
+                    <li><strong>Pros:</strong> Simple, slow, and safe. Zero downtime.</li>
+                    <li><strong>Cons:</strong> The rollout is slow. For a brief time, you have *both* V1 and V2 running, which can cause database or compatibility issues.</li>
+                </ul>
+                
+                <h3>2. Blue/Green Deployment</h3>
+                <p>This is a very safe and powerful strategy. You have two *identical* production environments, "Blue" and "Green."</p>
+                <ol>
+                    <li>Your users are currently on the **Blue** environment (V1).</li>
+                    <li>You deploy the new version (V2) to the **Green** environment. The Green environment is "offline" (no users).</li>
+                    <li>You run all your tests on the Green environment.</li>
+                    <li>When you are 100% confident it works, you flip a switch at the **Load Balancer** (the network router).</li>
+                    <li>All new traffic *instantly* goes to the Green (V2) environment. Blue (V1) is now offline.</li>
+                </ol>
+                
+                <ul>
+                    <li><strong>Pros:</strong> Instant rollout. Instant *rollback* (if V2 has a bug, you just flip the switch back to Blue). No version mismatch.</li>
+                    <li><strong>Cons:</strong> **Expensive.** You have to pay for *double* the server infrastructure at all times.</li>
+                </ul>
+                
+                <h3>3. Canary Deployment</h3>
+                <p>This is the most advanced and modern strategy, used by giants like Google and Netflix.</p>
+                <ol>
+                    <li>You have 100 servers running V1.</li>
+                    <li>You deploy V2 to *one single server* (the "canary").</li>
+                    <li>You configure your load balancer to send **1%** of your *real user traffic* to this one canary server.</li>
+                    <li>You wait. You watch your monitoring tools (like Prometheus, which we'll see later). Is the error rate going up? Is CPU usage normal?</li>
+                    <li>If all is well, you deploy V2 to 10% of servers. Wait. Then 50%. Then 100%.</li>
+                </ol>
+                
+                <ul>
+                    <li><strong>Pros:</strong> The *safest* way to release. You test new features on real users with minimal risk. You can "roll back" by just shutting down the canary servers.</li>
+                    <li><strong>Cons:</strong> Extremely complex to set up. Requires a very mature monitoring system (Chapter 7) and a smart load balancer.</li>
+                </ul>
+
+                <a href="https://martinfowler.com/bliki/DeploymentStrategies.html" target="_blank" class="read-more-link">Read More about Deployment Strategies &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-git.html" class="cta-button prev">&larr; Chapter 3: Version Control (Git)</a>
+                    <a href="devops-cloud.html" class="cta-button">Next Chapter: Cloud Providers &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
