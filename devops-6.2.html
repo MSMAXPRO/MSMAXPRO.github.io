@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6.2: Container Orchestration (Kubernetes) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #38bdf8, #22c55e); /* Blue/Green */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #38bdf8; /* Blue highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for YAML/Bash */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* apiVersion, kind, metadata, spec */
+        .content-section pre code .property { color: #38bdf8; } /* name, replicas, containers, image */
+        .content-section pre code .string { color: #a78bfa; } /* "nginx", "v1" */
+        .content-section pre code .number { color: #f59e0b; } /* 3, 80 */
+        .content-section pre code .command { color: #34d399; } /* kubectl, docker */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 6.2: <span class="highlight">Container Orchestration (Kubernetes)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The "Why" - What is Orchestration?</h2>
+                <p>In the last chapter, we learned how to use Docker. Docker is a revolutionary tool for building, shipping, and running a single container. With <code>docker-compose</code>, we can even run a few related containers on a single machine. This is perfect for local development.</p>
+                <p>But what happens in **production**?
+                <br>
+                What happens when your website gets 10 million users and you need to run **500 copies** of your web server container?
+                <br>
+                What happens if one of those 500 containers crashes at 3 AM?
+                <br>
+                How do you update all 500 containers to a new version with zero downtime?</p>
+                
+                <p>This is the problem of **Container Orchestration**. You cannot manually <code>ssh</code> into 50 servers and run <code>docker run ...</code>. You need a "manager" or "orchestrator" to do it for you.</p>
+                
+                <h3>What is Kubernetes (K8s)?</h3>
+                <p><strong>Kubernetes** (also known as **K8s** - "K" + 8 letters + "s") is the undisputed king of container orchestration. It is an open-source platform originally developed by Google (based on their internal "Borg" system) that *automates* the deployment, scaling, and management of containerized applications.</p>
+                
+                
+                <p>Kubernetes is your "operating system for the cloud." You give it your "desired state," and it works 24/7 to make it a reality.</p>
+                <ul>
+                    <li><strong>You tell K8s:</strong> "I want 5 copies of my <code>my-web-app:v1</code> image running at all times."</li>
+                    <li><strong>K8s makes it happen:</strong> It finds 5 servers with free space and starts the 5 containers.</li>
+                    <li><strong>A server crashes:</strong> K8s detects this. It sees only 4 containers are running. It automatically finds a new, healthy server and starts the 5th container there.</li>
+                    <li><strong>You release <code>v2</code>:</strong> You tell K8s, "Update this app to <code>my-web-app:v2</code>." K8s performs a **rolling update**: it carefully starts 1 container of v2, waits for it to be healthy, then stops 1 container of v1. It repeats this until all 5 containers are safely updated, all with zero downtime for your users.</li>
+                </ul>
+                <p>This is the power of orchestration. It's a self-healing, auto-scaling system for your applications.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: Architecture -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Kubernetes Architecture (The 10,000-foot View)</h2>
+                <p>A Kubernetes setup is called a **Cluster**. A cluster is a group of servers (called **Nodes**) that are all working together. The cluster is split into two parts: the "brain" and the "muscle."</p>
+                
+                
+                
+                <h3>1. The Control Plane (The "Brain")</h3>
+                <p>This is the "master" server (or servers) that manages the entire cluster. It makes all the decisions. It contains four key components:</p>
+                <ul>
+                    <li><strong><code>kube-apiserver</code>:</strong> This is the **front-door** and *only* way to talk to the cluster. Every command you run (using <code>kubectl</code>) goes to the API server. It's the "waiter" (API) for the whole cluster.</li>
+                    <li><strong><code>etcd</code>:** This is the **database/memory** of the cluster. It's a simple, reliable key-value store. *All* configuration and state (e.g., "we should have 5 containers") is stored in <code>etcd</code>. If this database corrupts, your entire cluster is dead.</li>
+                    <li><strong><code>kube-scheduler</code>:** This is the "placer." It watches for new containers that need to be run. Its only job is to decide *which* Worker Node is the best fit for that container (e.g., based on available CPU/RAM). It *decides*, it doesn't *run* it.</li>
+                    <li><strong><code>kube-controller-manager</code>:** This is the "watcher" or "thermostat." It runs "controller loops" that constantly check the *desired state* (from <code>etcd</code>) against the *current state* (what's actually running). If it sees a difference (e.g., "desired=5, current=4"), it takes action to fix it.</li>
+                </ul>
+                
+                <h3>2. The Worker Nodes (The "Muscle")</h3>
+                <p>These are the servers (VMs or physical) that do the *actual work* of running your application containers. Each Worker Node has three key components:</p>
+                <ul>
+                    <li><strong><code>kubelet</code>:</strong> This is the **"agent"** that runs on every single worker. It's the "manager" of that one node. It talks to the <code>kube-apiserver</code> to get its instructions (e.g., "Scheduler said you need to run this container") and then tells the Container Runtime what to do.</li>
+                    <li><strong><code>Container Runtime</code>:** The tool that *actually* runs the containers. This can be **Docker**, but more commonly it's a lighter-weight runtime like **<code>containerd</code>** (which Docker itself is built on).</li>
+                    <li><strong><code>kube-proxy</code>:** This is the "network manager" for the node. It's a simple network proxy that handles all the complex network rules (like routing traffic from a Service to the correct container).</li>
+                </ul>
+                
+                <a href="https://kubernetes.io/docs/concepts/overview/components/" target="_blank" class="read-more-link">Read More about K8s Components &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: The K8s Object Model -->
+                <!-- ========================== -->
+
+                <h2>Part 3: The Kubernetes Object Model (YAML)</h2>
+                <p>How do you tell the <code>kube-apiserver</code> what you want? You don't send an email. You send a **YAML** file.
+                <br>
+                In Kubernetes, *everything* is an **Object** (or "Resource"). A container, a deployment, a network rule... it's all an object defined in YAML. This is the **"declarative"** model. You write a YAML file that describes your "desired state" and send it to the API server.</p>
+                <p>Every Kubernetes YAML file has **four** required fields:</p>
+                
+                <pre><code><span class="comment"># 1. apiVersion: Which K8s API to use (e.g., v1, apps/v1)</span>
+<span class="property">apiVersion:</span> <span class="string">v1</span>
+<span class="comment"># 2. kind: What *kind* of object is this?</span>
+<span class="property">kind:</span> <span class="string">Pod</span>
+<span class="comment"># 3. metadata: Data *about* the object (its name, labels)</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-first-pod</span>
+  <span class="property">labels:</span>
+    <span class="property">app:</span> <span class="string">my-app</span>
+<span class="comment"># 4. spec: The "desired state" - the *real* configuration</span>
+<span class="property">spec:</span>
+  <span class="property">containers:</span>
+  <span class="comment"># ... (spec for the Pod goes here)</span>
+</code></pre>
+                <p>We will now learn the most important <code>kind</code>s of objects.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Workloads -->
+                <!-- ========================== -->
+                
+                <h2>Part 4: Core Workloads (Running Your App)</h2>
+                <p>These objects are responsible for running your containers.</p>
+                
+                <h3>1. `Pod` (The Smallest Unit)</h3>
+                <p>A **Pod** is the *smallest, most basic deployable unit* in Kubernetes. A Pod is **not** a container. It is a **wrapper around one or more containers**.</p>
+                <p>A Pod represents a single, co-located "instance" of your app. All containers inside one Pod share the same network (IP address) and storage (Volumes). 99% of the time, your Pod will just have **one container** in it (e.g., your web app).</p>
+                <p>You almost *never* create a Pod by itself. Why? Because if the Pod crashes, it's dead. K8s won't restart it. Instead, you use a `Deployment` to manage your Pods.</p>
+                
+                <span class="code-filename">pod.yml</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">v1</span>
+<span class="property">kind:</span> <span class="string">Pod</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">nginx-pod</span>
+<span class="property">spec:</span>
+  <span class="property">containers:</span>
+  - <span class="property">name:</span> <span class="string">nginx-container</span>
+    <span class="property">image:</span> <span class="string">nginx:1.25</span>
+    <span class="property">ports:</span>
+    - <span class="property">containerPort:</span> <span class="number">80</span>
+</code></pre>
+
+                <h3>2. `ReplicaSet` (The "Ensurer")</h3>
+                <p>A <code>ReplicaSet</code>'s job is simple: to ensure that a specified number of "replicas" (copies) of a Pod are running at all times.</p>
+                <p>You tell it: <code>replicas: 3</code>. It will create 3 Pods. If you manually delete one, the ReplicaSet's controller will see "desired=3, current=2" and *immediately* create a new one.</p>
+                <p>You almost *never* create a ReplicaSet by itself either. You use a `Deployment`.</p>
+                
+                <h3>3. `Deployment` (The "Manager" - CRITICAL)</h3>
+                <p>This is the object you will use **99% of the time** to deploy your app. A <code>Deployment</code> is a high-level manager that controls `ReplicaSet`s, which in turn control `Pod`s.</p>
+                
+                <p>The <code>Deployment</code> adds the one feature <code>ReplicaSet</code>s don't have: **rolling updates**.</p>
+                <p>When you edit a Deployment (e.g., change <code>image: v1</code> to <code>image: v2</code>), the Deployment performs a controlled rolling update:</p>
+                <ol>
+                    <li>It creates a *new* ReplicaSet for v2.</li>
+                    <li>It scales up the v2 ReplicaSet (e.g., to 1 Pod).</li>
+                    <li>It waits for that v2 Pod to be "healthy."</li>
+                    <li>It scales down the *old* v1 ReplicaSet (e.g., to 2 Pods).</li>
+                    <li>It repeats this process, one-by-one, until all Pods are v2 and the v1 ReplicaSet is at 0.</li>
+                </ol>
+                <p>This ensures you have zero downtime during an update.</p>
+                
+                <h4>Example: A Full Deployment YAML</h4>
+                <span class="code-filename">deployment.yml</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">apps/v1</span> <span class="comment"># Note the different apiVersion</span>
+<span class="property">kind:</span> <span class="string">Deployment</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-nginx-deployment</span>
+<span class="property">spec:</span>
+  <span class="comment"># 1. We want 3 copies (replicas) of our app</span>
+  <span class="property">replicas:</span> <span class="number">3</span>
+  
+  <span class="comment"># 2. The 'selector' tells the Deployment which Pods it "owns"</span>
+  <span class="comment"># This MUST match the Pods' labels</span>
+  <span class="property">selector:</span>
+    <span class="property">matchLabels:</span>
+      <span class="property">app:</span> <span class="string">my-nginx</span>
+      
+  <span class="comment"># 3. This is the 'template' for creating the Pods</span>
+  <span class="property">template:</span>
+    <span class="property">metadata:</span>
+      <span class="comment"># 4. The Pods' labels (must match the selector)</span>
+      <span class="property">labels:</span>
+        <span class="property">app:</span> <span class="string">my-nginx</span>
+    <span class="property">spec:</span>
+      <span class="property">containers:</span>
+      - <span class="property">name:</span> <span class="string">nginx-container</span>
+        <span class="property">image:</span> <span class="string">nginx:1.25</span>
+        <span class="property">ports:</span>
+        - <span class="property">containerPort:</span> <span class="number">80</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 5: Networking -->
+                <!-- ========================== -->
+                
+                <h2>Part 5: Networking (Services & Ingress)</h2>
+                <p>We have a problem. We have 3 Nginx Pods running. But Pods are ephemeral:
+                <br>
+                1. If a Pod crashes, it gets a **new IP address** when it restarts.
+                <br>
+                2. If a `Backend` app wants to talk to a `Database` app, which of the 3 `Database` Pod IPs should it talk to?
+                <br>
+                We need a **stable address** for a group of Pods. This is what a **Service** is.</p>
+                
+                <h3>1. `Service` (The "Internal Load Balancer")</h3>
+                <p>A **Service** is a K8s object that provides a **single, stable IP address** and **DNS name** for a group of Pods (e.g., all Pods with the label <code>app: my-nginx</code>). It acts as an internal load balancer, distributing traffic to all the healthy Pods behind it.</p>
+                
+                
+                <h4>Example: A Service for our Nginx Deployment</h4>
+                <span class="code-filename">service.yml</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">v1</span>
+<span class="property">kind:</span> <span class="string">Service</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-nginx-service</span>
+<span class="property">spec:</span>
+  <span class="comment"># 1. This 'selector' finds the Pods to send traffic to.</span>
+  <span class="comment"># It MUST match the Pods' labels (app: my-nginx)</span>
+  <span class="property">selector:</span>
+    <span class="property">app:</span> <span class="string">my-nginx</span>
+  
+  <span class="comment"># 2. 'ports' defines how traffic is routed</span>
+  <span class="property">ports:</span>
+  - <span class="property">protocol:</span> <span class="string">TCP</span>
+    <span class="property">port:</span> <span class="number">80</span>        <span class="comment"># The Service's port (what other Pods connect to)</span>
+    <span class="property">targetPort:</span> <span class="number">80</span>  <span class="comment"># The container's port (from the Dockerfile)</span>
+    
+  <span class="comment"># 3. 'type' (discussed below)</span>
+  <span class="property">type:</span> <span class="string">ClusterIP</span>
+</code></pre>
+                <p>Now, any *other* Pod in your cluster can simply connect to <code>http://my-nginx-service</code> and Kubernetes will automatically route their request to one of the 3 healthy Nginx Pods.</p>
+                
+                <h4>Service Types (How to Expose Your App)</h4>
+                <ul>
+                    <li><strong><code>ClusterIP</code> (Default):</strong> Exposes the Service *only* on an internal IP inside the cluster. This is perfect for databases or backend APIs that should *not* be open to the internet.</li>
+                    <li><strong><code>NodePort</code>:</strong> Exposes the Service on a static port (e.g., 30080) on *every single Worker Node*. This is good for testing, as you can go to <code>http://[Any_Node_IP]:30080</code>.</li>
+                    <li><strong><code>LoadBalancer</code> (The Cloud Way):</strong> This is the one you use in production. When you set this type, Kubernetes *automatically* tells your cloud provider (AWS, GCP) to provision a **real, external Load Balancer** (like an AWS ELB). This gives you a *public IP address* for your app, which you can point your domain (<code>codewithmsmaxpro.me</code>) to.</li>
+                </ul>
+                
+                <h3>2. `Ingress` (The "Smart Router")</h3>
+                <p>A <code>LoadBalancer</code> service is expensive (you pay for a new public IP for *every* app). What if you have 10 apps on your cluster? You don't want 10 Load Balancers.</p>
+                <p>An **Ingress** is a Layer 7 "smart router" that sits in front of *all* your services. You create **one** <code>LoadBalancer</code> for your Ingress, and then the Ingress routes traffic to the correct *internal* <code>ClusterIP</code> service based on the URL.</p>
+                
+                
+                <h4>Example: An Ingress for Two Apps</h4>
+                <span class="code-filename">ingress.yml</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">networking.k8s.io/v1</span>
+<span class="property">kind:</span> <span class="string">Ingress</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-app-ingress</span>
+<span class="property">spec:</span>
+  <span class="property">rules:</span>
+  <span class="comment"># Rule 1: Send 'codewithmsmaxpro.me' to the blog service</span>
+  - <span class="property">host:</span> <span class="string">"codewithmsmaxpro.me"</span>
+    <span class="property">http:</span>
+      <span class="property">paths:</span>
+      - <span class="property">path:</span> <span class="string">/</span>
+        <span class="property">pathType:</span> <span class="string">Prefix</span>
+        <span class="property">backend:</span>
+          <span class="property">service:</span>
+            <span class="property">name:</span> <span class="string">my-blog-service</span>
+            <span class="property">port:</span>
+              <span class="property">number:</span> <span class="number">80</span>
+  
+  <span class="comment"># Rule 2: Send 'api.codewithmsmaxpro.me' to the API service</span>
+  - <span class="property">host:</span> <span class="string">"api.codewithmsmaxpro.me"</span>
+    <span class="property">http:</span>
+      <span class="property">paths:</span>
+      - <span class="property">path:</span> <span class="string">/</span>
+        <span class="property">pathType:</span> <span class="string">Prefix</span>
+        <span class="property">backend:</span>
+          <span class="property">service:</span>
+            <span class="property">name:</span> <span class="string">my-api-service</span>
+            <span class="property">port:</span>
+              <span class="property">number:</span> <span class="number">8080</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 6: Config & Storage -->
+                <!-- ========================== -->
+                
+                <h2>Part 6: ConfigMaps, Secrets, and Storage</h2>
+                
+                <h3>`ConfigMap` (For Non-Secret Data)</h3>
+                <p>You should *never* hard-code configuration (like a <code>DATABASE_URL</code>) into your Docker image. To change it, you'd have to rebuild the entire image.
+                <br>
+                A **ConfigMap** is a K8s object that stores non-sensitive configuration data as key-value pairs. You can then "inject" this data into your Pods as environment variables or files.</p>
+                
+                <span class="code-filename">configmap.yml</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">v1</span>
+<span class="property">kind:</span> <span class="string">ConfigMap</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-app-config</span>
+<span class="property">data:</span>
+  <span class="property">DATABASE_URL:</span> <span class="string">"postgres://user@db-service"</span>
+  <span class="property">LOG_LEVEL:</span> <span class="string">"DEBUG"</span>
+</code></pre>
+                
+                <h3>`Secret` (For Sensitive Data)</h3>
+                <p>A **Secret** is *exactly* like a ConfigMap, but it's used for sensitive data (API keys, database passwords). The data is stored in **Base64** encoding (which is *not* encryption, just obsfucation). Its main power is that you can apply stricter access control (RBAC) to it.</p>
+                <pre><code><span class="comment"># Create a secret from the command line (safer)</span>
+$ <span class="command">kubectl</span> create secret generic my-db-secret \
+    --from-literal=DB_PASSWORD=<span class="string">'super-secret-pass-123'</span>
+</code></pre>
+
+                <h4>How to Use ConfigMaps/Secrets in a Pod:</h4>
+                <span class="code-filename">deployment.yml (Updated)</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">apps/v1</span>
+<span class="property">kind:</span> <span class="string">Deployment</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-api-deployment</span>
+<span class="property">spec:</span>
+  <span class="comment_comment">... (replicas, selector) ...</span>
+  <span class="property">template:</span>
+    <span class="comment_comment">... (metadata) ...</span>
+    <span class="property">spec:</span>
+      <span class="property">containers:</span>
+      - <span class="property">name:</span> <span class="string">api-container</span>
+        <span class="property">image:</span> <span class="string">my-api:v1</span>
+        <span class="comment"># Inject the data as Environment Variables</span>
+        <span class="property">env:</span>
+        - <span class="property">name:</span> <span class="string">LOG_LEVEL</span>
+          <span class="property">valueFrom:</span>
+            <span class="property">configMapKeyRef:</span>
+              <span class="property">name:</span> <span class="string">my-app-config</span> <span class="comment_comment"># Name of the ConfigMap</span>
+              <span class="property">key:</span> <span class="string">LOG_LEVEL</span>
+        - <span class="property">name:</span> <span class="string">DATABASE_PASSWORD</span>
+          <span class="property">valueFrom:</span>
+            <span class="property">secretKeyRef:</span>
+              <span class="property">name:</span> <span class="string">my-db-secret</span> <span class="comment_comment"># Name of the Secret</span>
+              <span class="property">key:</span> <span class="string">DB_PASSWORD</span>
+</code></pre>
+
+                <h3>`PersistentVolume` (Persistent Storage)</h3>
+                <p>Just like Docker, a Pod's filesystem is **ephemeral**. If a Pod (like your database) crashes and restarts, all its data is GONE.
+                <br>
+                To save data permanently, we use **PersistentVolumes**. The concept is a bit complex:</p>
+                
+                <ol>
+                    <li><strong>PersistentVolume (PV):</strong> The "storage" itself. This is the actual physical (or cloud) disk (e.g., an AWS EBS Volume). A cluster admin usually creates this.</li>
+                    <li><strong>PersistentVolumeClaim (PVC):** The "request" for storage. A developer's Pod *claims* (requests) storage.</li>
+                    <li><strong>StorageClass:** The "automatic" way. You just ask for "10GB of fast-ssd," and the StorageClass automatically provisions a PV for you.</li>
+                </ol>
+                
+                <h4>Example: A Pod (Database) requesting storage</h4>
+                <span class="code-filename">db-deployment.yml</span>
+                <pre><code><span class="comment"># 1. Create the "request" (PVC)</span>
+<span class="property">apiVersion:</span> <span class="string">v1</span>
+<span class="property">kind:</span> <span class="string">PersistentVolumeClaim</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-db-data-claim</span>
+<span class="property">spec:</span>
+  <span class="property">accessModes:</span>
+    - <span class="string">ReadWriteOnce</span> <span class="comment_comment"># Can be mounted by one Pod at a time</span>
+  <span class="property">resources:</span>
+    <span class="property">requests:</span>
+      <span class="property">storage:</span> <span class="string">5Gi</span> <span class="comment_comment"># I need 5 Gigabytes of space</span>
+  <span class="property">storageClassName:</span> <span class="string">"standard-ssd"</span> <span class="comment_comment">(Tells the cloud provider to make an SSD)</span>
+
+<span class="comment">---</span> <span class="comment_comment"># (This just separates YAML files)</span>
+
+<span class="comment"># 2. Create the Deployment that *uses* the claim</span>
+<span class="property">apiVersion:</span> <span class="string">apps/v1</span>
+<span class="property">kind:</span> <span class="string">Deployment</span>
+<span class_comment">...</span>
+<span class="property">spec:</span>
+  <span class="property">template:</span>
+    <span class="comment_comment">...</span>
+    <span class="property">spec:</span>
+      <span class="property">containers:</span>
+      - <span class="property">name:</span> <span class="string">postgres</span>
+        <span class="property">image:</span> <span class="string">postgres:15</span>
+        <span class="property">ports:</span>
+        - <span class="property">containerPort:</span> <span class="number">5432</span>
+        <span class="comment"># 3. Mount the volume into the container</span>
+        <span class="property">volumeMounts:</span>
+        - <span class="property">name:</span> <span class="string">db-storage</span>
+          <span class="property">mountPath:</span> <span class="string">/var/lib/postgresql/data</span> <span class="comment_comment"># Postgres's data path</span>
+      
+      <span class="comment"># 4. Tell the Pod *which* PVC to use for "db-storage"</span>
+      <span class="property">volumes:</span>
+      - <span class="property">name:</span> <span class="string">db-storage</span>
+        <span class="property">persistentVolumeClaim:</span>
+          <span class="property">claimName:</span> <span class="string">my-db-data-claim</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 8: kubectl -->
+                <!-- ========================== -->
+                
+                <h2>Part 7: Practical Management (`kubectl`)</h2>
+                <p><code>kubectl</code> is the **command-line tool** for talking to your Kubernetes cluster's API server. This is your most important tool, similar to the <code>git</code> or <code>docker</code> command.</p>
+                
+                <h3>The 4 Core Verbs: `apply`, `get`, `describe`, `delete`</h3>
+                
+                <h4><code>kubectl apply -f [FILENAME]</code></h4>
+                <p>This is the **#1 command**. It takes a YAML file and tells the API server: "Make the world look like this file." It is used to *create* and *update* objects.</p>
+                <pre><code><span class="comment"># Create or update all objects defined in my deployment.yml file</span>
+$ <span class="command">kubectl</span> apply -f deployment.yml
+<span class="comment_output">
+deployment.apps/my-nginx-deployment created
+</span>
+</code></pre>
+                
+                <h4><code>kubectl get [OBJECT]</code></h4>
+                <p>This checks the *status* of your objects.</p>
+                <pre><code><span class="comment"># Get all pods</span>
+$ <span class="command">kubectl</span> get pods
+<span class="comment_output">
+NAME                                   READY   STATUS    RESTARTS   AGE
+my-nginx-deployment-7f5d7d5f4f-abcde   1/1     Running   0          5m
+my-nginx-deployment-7f5d7d5f4f-ghijk   1/1     Running   0          5m
+my-nginx-deployment-7f5d7d5f4f-xyz12   1/1     Running   0          5m
+</span>
+
+<span class="comment"># Get all services and deployments</span>
+$ <span class="command">kubectl</span> get service,deployment
+</code></pre>
+                
+                <h4><code>kubectl describe [OBJECT] [NAME]</code></h4>
+                <p>This is your **#1 debugging tool**. If your Pod is *not* <code>Running</code> (e.g., it says <code>CrashLoopBackOff</code> or <code>Pending</code>), you use <code>describe</code> to find out *why*.</p>
+                <pre><code><span class="comment"># Find out why my pod is broken</span>
+$ <span class="command">kubectl</span> describe pod my-nginx-deployment-7f5d7d5f4f-abcde
+<span class="comment_output">
+Name:         my-nginx-deployment-7f5d7d5f4f-abcde
+Namespace:    default
+Status:       Pending
+...
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  2m    default-scheduler  0/3 nodes are available: 3 Insufficient cpu.
+</span>
+</code></pre>
+                <p>The "Events" section at the bottom tells you the problem: "Insufficient cpu" (your servers are full).</p>
+                
+                <h4><code>kubectl delete -f [FILENAME]</code></h4>
+                <p>Deletes all objects defined in the YAML file.</p>
+                <pre><code>$ <span class="command">kubectl</span> delete -f deployment.yml
+<span class="comment_output">
+deployment.apps "my-nginx-deployment" deleted
+</span>
+</code></pre>
+                
+                <h3>Other Essential `kubectl` Commands</h3>
+                <pre><code><span class="comment"># Show logs from a pod (like 'docker logs')</span>
+$ <span class="command">kubectl</span> logs my-nginx-deployment-7f5d7d5f4f-abcde
+
+<span class="comment"># Follow the logs in real-time</span>
+$ <span class="command">kubectl</span> logs -f my-nginx-deployment-7f5d7d5f4f-abcde
+
+<span class="comment"># Get a shell *inside* a running container (like 'docker exec')</span>
+$ <span class="command">kubectl</span> exec -it my-nginx-deployment-7f5d7d5f4f-abcde -- /bin/bash
+</code></pre>
+
+                <!-- ========================== -->
+                <!-- SECTION 9: Local Setup -->
+                <!-- ========================== -->
+                
+                <h2>Part 8: Local Development (Minikube)</h2>
+                <p>How do you learn all this without paying for an AWS cluster? You run Kubernetes on your laptop using **Minikube**.</p>
+                <p>Minikube is a tool that spins up a *single-node* Kubernetes cluster inside a VM or Docker container on your local machine. It's a fully functional, real K8s cluster for development and testing.</p>
+                
+                
+                <h3>How to Use Minikube</h3>
+                <ol>
+                    <li>**Install:** Follow the <a href="https://minikube.sigs.k8s.io/docs/start/" target="_blank">official Minikube installation guide</a> for your OS.</li>
+                    <li><strong>Start your cluster:**
+                    <pre><code><span class="comment"># This will download the K8s components and start the cluster</span>
+$ <span class="command">minikube</span> start
+</code></pre>
+                    </li>
+                    <li><strong>Point `kubectl` to it:**
+                    <pre><code>$ <span class="command">minikube</span> kubectl -- config use-context minikube
+</code></pre>
+                    </li>
+                    <li><strong>You're ready!** You can now use all the <code>kubectl</code> commands.
+                    <pre><code>$ <span class="command">kubectl</span> get nodes
+<span class="comment_output">
+NAME       STATUS   ROLES           AGE   VERSION
+minikube   Ready    control-plane   5m    v1.28.3
+</span>
+</code></pre>
+                    </li>
+                    <li><strong>Stop the cluster:**
+                    <pre><code>$ <span class="command">minikube</span> stop
+</code></pre>
+                    </li>
+                </ol>
+                
+                <a href="https://kubernetes.io/docs/home/" target="_blank" class="read-more-link">Read the Official Kubernetes Documentation &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-docker.html" class="cta-button prev">&larr; Chapter 6.1: Docker</a>
+                    <a href="devops-monitoring.html" class="cta-button">Next Chapter: Monitoring & Logging &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
