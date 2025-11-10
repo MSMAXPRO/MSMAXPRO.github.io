@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 9.1: Secrets Management (Vault) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (SECURITY) --- */
+        .highlight {
+            background: linear-gradient(90deg, #ef4444, #b91c1c); /* Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #ef4444; /* Red highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for YAML/Bash/HCL */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* path, capabilities, policy */
+        .content-section pre code .property { color: #38bdf8; } /* name, apt, copy, template, state */
+        .content-section pre code .string { color: #a78bfa; } /* "message", "latest", "present" */
+        .content-section pre code .variable { color: #e2e8f0; } /* {{ .data.key }} */
+        .content-section pre code .command { color: #34d399; } /* vault, kubectl, docker */
+        .content-section pre code .operator { color: #e2e8f0; } /* = */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 9.1: <span class="highlight">Secrets Management (Vault)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The "Why" - What is a Secret?</h2>
+                <p>In DevOps, a **"secret"** is any piece of data that grants access or privilege. It's not just passwords. It includes:</p>
+                <ul>
+                    <li>Database usernames and passwords (e.g., <code>DB_USER</code>, <code>DB_PASS</code>)</li>
+                    <li>API keys for third-party services (e.g., <code>STRIPE_API_KEY</code>, <code>AWS_SECRET_ACCESS_KEY</code>)</li>
+                    <li>TLS/SSL certificates and private keys</li>
+                    <li>SSH keys for accessing servers</li>
+                    <li>JWT signing keys</li>
+                </ul>
+                
+                <h3>The Problem: Secret Sprawl</h3>
+                <p>Where do most developers store these secrets?
+                <br>
+                1. Hard-coded in their code (<code>val apiKey = "sk_live_..."</code>) - **TERRIBLE!**
+                <br>
+                2. In <code>.env</code> files or <code>.properties</code> files. - **BAD!**
+                <br>
+                3. As "Secrets" in their CI/CD tool (like GitHub Actions Secrets). - **BETTER, but still not perfect.**
+                </p>
+                <p>This is called **Secret Sprawl**. Your secrets are "sprawled" (phaile hue) across dozens of files, repositories, and servers. This creates a massive security hole.</p>
+                
+                <h4>Why is <code>.env</code> or GitHub Secrets Bad?</h4>
+                <ul>
+                    <li><strong>Static:** The <code>DB_PASSWORD</code> is the same for all 500 of your containers. If *one* developer or *one* container is compromised, the hacker gets the password and has access to your entire database.</li>
+                    <li><strong>No Audit Trail:** Who accessed the <code>AWS_SECRET_KEY</code>? When? You have no idea.</li>
+                    <li><strong>No Revocation:** If a key leaks, you must manually go to AWS, generate a new key, and then *manually* update it in all 50 places you used it. This is slow and error-prone.</li>
+                    <li><strong>No "Time-to-Live" (TTL):** The secret lives forever.</li>
+                </ul>
+                
+                <h3>The Solution: Centralized Secrets Management</h3>
+                <p>You need a "single source of truth" for all secrets. A central, secure, encrypted, and auditable "tijori" (vault). This is **HashiCorp Vault**.</p>
+                
+                
+                <p><strong>Vault** is an open-source tool that provides a **secure API for secrets**. Instead of your app reading from an <code>.env</code> file, it *asks* Vault for the database password. Vault checks who the app is (authentication), checks if it has permission (authorization), and *only then* gives it the secret.
+                <br>
+                Even better, Vault can **dynamically generate** secrets. It can create a *brand new, temporary* database password for your app that *automatically expires* in 5 minutes. Now, even if the secret leaks, it's useless 5 minutes later.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: Vault Core Concepts -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Vault Core Architecture</h2>
+                
+                <p>To understand Vault, you must understand its core components:</p>
+                <ul>
+                    <li><strong>Vault Server:** The main <code>vault</code> program that runs as a server. It listens on a port (e.g., 8200) and provides an HTTP API.</li>
+                    <li><strong>Storage Backend:** Vault *does not* store data itself. It *encrypts* data and gives it to a storage backend. This could be a <code>filesystem</code>, AWS S3, or (most commonly) **Consul** (another HashiCorp tool).</li>
+                    <li><strong>Auth Methods:** How you *prove* you are who you say you are. This is the "login" system. Examples: <code>token</code>, <code>userpass</code> (username/password), <code>github</code>, <code>aws</code>, <code>kubernetes</code>.</li>
+                    <li><strong>Secrets Engines:** The "plugins" that store or generate secrets.
+                        <ul>
+                            <li><code>kv</code> (Key-Value): A simple, static key-value store (like a secure <code>.env</code> file).</li>
+                            <li><code>database</code>: Connects to a database (like PostgreSQL) and generates *dynamic* credentials.</li>
+                            <li><code>aws</code>: Generates *dynamic*, temporary AWS IAM credentials.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Policies:** The "IAM" of Vault. The rulebook that defines *who* (which token) can access *what* (which secret path).</li>
+                    <li><strong>Sealing / Unsealing:** Vault's ultimate security feature. When a Vault server starts, it's **Sealed**. It knows *where* its data is (the storage backend), but it does **not** know *how* to decrypt it (the "encryption key"). The encryption key is split into 5 "Unseal Keys." To "unseal" Vault, 3 of the 5 key holders must enter their key. This prevents any single person (even the root admin) from accessing all secrets.</li>
+                </ul>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Installation -->
+                <!-- ========================== -->
+                
+                <h2>Part 3: Installation & Running in Dev Mode</h2>
+                <p>The best way to learn Vault is to run it in **"-dev" mode**. This is a special, in-memory, auto-unsealed mode for development. **DO NOT** use this in production.</p>
+                
+                <h3>Step 1: Install Vault</h3>
+                <p>Go to the <a href="https://developer.hashicorp.com/vault/downloads" target="_blank">official Vault website</a> and download the binary for your OS. It's a single file.</p>
+                <pre><code><span class="comment"># On macOS (using Homebrew)</span>
+$ brew tap hashicorp/tap
+$ brew install vault
+
+<span class="comment"># On Linux (Ubuntu/Debian)</span>
+$ curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+$ echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+$ sudo apt update && sudo apt install vault
+</code></pre>
+                
+                <h3>Step 2: Run in Dev Mode</h3>
+                <p>Open your terminal and run this one command:</p>
+                <pre><code>$ <span class="command">vault</span> server -dev
+<span class="comment_output">
+==> Vault server configuration:
+
+             Api Address: http://127.0.0.1:8200
+                     Cgo: disabled
+         Cluster Address: https://127.0.0.1:8201
+              Listener 1: tcp (addr: "127.0.0.1:8200", ...)
+               Log Level: info
+...
+==> Vault server started!
+...
+Unseal Key: <span class="string">some-long-random-key</span>
+Root Token: <span class="keyword">hvs.SOME_VERY_SECRET_ROOT_TOKEN</span>
+
+...
+</span>
+</code></pre>
+                <p>This is critical. Vault is now running, and it has printed your two most important pieces of information:</p>
+                <ul>
+                    <li><strong>Unseal Key:** In production, this would be 5 keys. In dev mode, it's just one.</li>
+                    <li><strong>Root Token:** This is the "root user" password. It has god-mode access to everything. **Copy this token!**</li>
+                </ul>
+                
+                <h3>Step 3: Configure Your Shell</h3>
+                <p>Open a **new, second terminal** (leave the server running). You need to tell your <code>vault</code> CLI (client) how to find the server and what your token is.</p>
+                <pre><code><span class="comment"># Set the server address</span>
+$ <span class="command">export</span> <span class="variable">VAULT_ADDR</span>=<span class="string">"http://127.0.0.1:8200"</span>
+
+<span class="comment"># Set your token (paste the Root Token from the server output)</span>
+$ <span class="command">export</span> <span class="variable">VAULT_TOKEN</span>=<span class="string">"hvs.SOME_VERY_SECRET_ROOT_TOKEN"</span>
+
+<span class="comment"># 4. Check your status</span>
+$ <span class="command">vault</span> status
+<span class="comment_output">
+Key             Value
+---             -----
+Seal Type       shamir
+Initialized     true
+Sealed          <span style="color: #22c55e;">false</span>  <span class="comment"><-- (false means it's UNSEALED and ready)</span>
+Total Shares    1
+Threshold       1
+Version         1.15.0
+...
+</span>
+</code></pre>
+                <p>You are now logged in as root and ready to issue commands.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: KV Secrets Engine -->
+                <!-- ========================== -->
+                
+                <h2>Part 4: Storing Static Secrets (KV Engine)</h2>
+                <p>The <code>kv</code> (Key-Value) engine is the simplest secrets engine. It's a secure "hash map" or "dictionary." You use it for data that doesn't change often, like an API key for a third-party service.</p>
+                <p>Dev mode enables `kv` (version 2) at the path <code>secret/</code> by default.</p>
+                
+                <h3>Writing a Secret (`kv put`)</h3>
+                <p>The command is <code>vault kv put [path] [key=value]</code>. The path <code>secret/</code> is reserved for the `kv` engine.</p>
+                <pre><code><span class="comment"># Store the AWS API keys for "my-app"</span>
+$ <span class="command">vault</span> kv put secret/my-app/aws \
+    <span class="string">aws_access_key_id</span>=<span class="string">"AKIA123456789"</span> \
+    <span class="string">aws_secret_access_key</span>=<span class="string">"MySuperSecretKey"</span>
+<span class="comment_output">
+==== Data ====
+Key              Value
+---              -----
+created_time     2025-11-10T14:30:00Z
+deletion_time    n/a
+destroyed        false
+version          1
+</span>
+</code></pre>
+                
+                <h3>Reading a Secret (`kv get`)</h3>
+                <p>The command is <code>vault kv get [path]</code>.</p>
+                <pre><code>$ <span class="command">vault</span> kv get secret/my-app/aws
+<span class="comment_output">
+==== Metadata ====
+Key              Value
+---              -----
+created_time     2025-11-10T14:30:00Z
+...
+version          1
+
+==== Data ====
+Key                      Value
+---                      -----
+aws_access_key_id        AKIA123456789
+aws_secret_access_key    MySuperSecretKey
+</span>
+</code></pre>
+
+                <h3>Versioning (KV v2)</h3>
+                <p>By default, the <code>kv</code> engine is **versioned**. If you write a new secret to the same path, it creates a new version (v2) and "hides" the old one (v1). This is a lifesaver if you accidentally save a wrong password.</p>
+                <pre><code><span class="comment"># Overwrite the secret</span>
+$ <span class="command">vault</span> kv put secret/my-app/aws <span class="string">aws_secret_access_key</span>=<span class="string">"ANOTHER_NEW_KEY"</span>
+<span class="comment_output">
+==== Data ====
+Key              Value
+---              -----
+created_time     2025-11-10T14:35:00Z
+...
+version          <span class="number">2</span>
+</span>
+
+<span class="comment"># Get the *latest* version (v2)</span>
+$ <span class="command">vault</span> kv get secret/my-app/aws
+<span class="comment_output">
+...
+version          2
+...
+aws_secret_access_key    ANOTHER_NEW_KEY
+</span>
+
+<span class="comment"># Get the *previous* version (v1)</span>
+$ <span class="command">vault</span> kv get -version=1 secret/my-app/aws
+<span class="comment_output">
+...
+version          1
+...
+aws_access_key_id        AKIA123456789
+aws_secret_access_key    MySuperSecretKey
+</span>
+</code></pre>
+                
+                <h3>Deleting Secrets</h3>
+                <pre><code><span class="comment"># 'delete' just creates a new "deleted" version (soft delete)</span>
+$ <span class="command">vault</span> kv delete secret/my-app/aws
+
+<span class="comment"># 'destroy' permanently destroys a specific version's data</span>
+$ <span class="command">vault</span> kv destroy -versions=1 secret/my-app/aws
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 5: Auth & Policies -->
+                <!-- ========================== -->
+
+                <h2>Part 5: Auth Methods & Policies (The "Real" Way)</h2>
+                <p>You should **NEVER** give the **Root Token** to your applications or other users. The Root Token is for initial setup *only*.
+                <br>
+                The proper workflow is:
+                1.  You (the admin) create a **Policy** (a set of rules).
+                2.  You enable an **Auth Method** (like <code>userpass</code>).
+                3.  You create a **User** (e.g., <code>dev-user</code>) and *attach* the Policy to them.
+                4.  The `dev-user` then logs in and gets a *new, less-privileged token* that can only do what the Policy allows.</p>
+                
+                <h3>Step 1: Write a Policy (HCL)</h3>
+                <p>Policies are written in **HCL (HashiCorp Configuration Language)**. They are "deny by default." You only add <code>capabilities</code> that you want to *allow*.</p>
+                <p>Let's create a "read-only" policy for our app.</p>
+                
+                <span class="code-filename">my-app-policy.hcl</span>
+                <pre><code><span class="comment"># This policy grants READ-ONLY access to the secrets
+# at the path "secret/data/my-app/*"</span>
+
+<span class="keyword">path</span> <span class="string">"secret/data/my-app/*"</span> {
+  <span class="property">capabilities</span> = [ <span class="string">"read"</span>, <span class="string">"list"</span> ]
+}
+
+<span class="comment"># Note: For KV v2, you MUST add 'data/' after the engine path ('secret/')</span>
+</code></pre>
+                <ul>
+                    <li><code>path</code>: The path of the secret you are controlling. The <code>*</code> is a wildcard.</li>
+                    <li><code>capabilities</code>: The list of allowed actions. The most common are <code>create</code>, <code>read</code>, <code>update</code>, <code>delete</code>, <code>list</code>, and <code>sudo</code>.</li>
+                </ul>
+                
+                <h3>Step 2: Upload the Policy</h3>
+                <pre><code><span class="comment"># 'vault policy write' <name-of-policy> <file-path></span>
+$ <span class="command">vault</span> policy write my-app-readonly my-app-policy.hcl
+<span class="comment_output">Success! Uploaded policy: my-app-readonly</span>
+</code></pre>
+
+                <h3>Step 3: Enable Auth Method & Create User</h3>
+                <p>Let's create a simple username/password login for our app.</p>
+                <pre><code><span class="comment"># 1. Enable the 'userpass' auth method</span>
+$ <span class="command">vault</span> auth enable userpass
+<span class="comment_output">Success! Enabled userpass auth method at: userpass/</span>
+
+<span class="comment"># 2. Create a new user named 'my-app-user' and attach our policy</span>
+$ <span class="command">vault</span> write auth/userpass/users/my-app-user \
+    <span class="string">password</span>=<span class="string">"my-strong-password"</span> \
+    <span class="string">policies</span>=<span class="string">"default,my-app-readonly"</span>
+<span class="comment_output">Success! Data written to: auth/userpass/users/my-app-user</span>
+</code></pre>
+                
+                <h3>Step 4: Test it!</h3>
+                <p>First, let's "un-set" our root token so we are logged out.</p>
+                <pre><code>$ <span class="command">unset</span> <span class="variable">VAULT_TOKEN</span>
+
+<span class="comment"># Now, try to read the secret. It will fail.</span>
+$ <span class="command">vault</span> kv get secret/my-app/aws
+<span class="comment_output">
+Error...: <span style="color: #ef4444;">missing client token: 403</span>
+</span>
+
+<span class="comment"># Now, log in as our new, less-privileged user</span>
+$ <span class="command">vault</span> login -method=userpass username=<span class="string">"my-app-user"</span>
+<span class="comment_output">
+Password (will be hidden): *****************
+Success! You are now authenticated. The token metadata is:
+Key                  Value
+---                  -----
+token                <span class="keyword">hvs.A_BRAND_NEW_LIMITED_TOKEN</span>
+token_policies       [default, my-app-readonly]
+token_duration       768h
+...
+</span>
+</code></pre>
+                <p>A *new* token (<code>hvs.A_BRAND_NEW_LIMITED_TOKEN</code>) is automatically put in the <code>VAULT_TOKEN</code> environment variable. This new token *only* has the "my-app-readonly" policy.</p>
+                
+                <pre><code><span class="comment"># Let's try to read the secret we HAVE permission for:</span>
+$ <span class="command">vault</span> kv get secret/my-app/aws
+<span class="comment_output">
+==== Data ====
+Key                      Value
+---                      -----
+aws_access_key_id        AKIA123456789
+...
+</span>
+
+<span class="comment"># Now, let's try to write a secret (we DON'T have permission):</span>
+$ <span class="command">vault</span> kv put secret/my-app/new-secret <span class="string">value</span>=<span class="string">"test"</span>
+<span class="comment_output">
+Error writing data to secret/data/my-app/new-secret: Error making API request.
+URL: PUT http://127.0.0.1:8200/v1/secret/data/my-app/new-secret
+Code: 403. Errors:
+* <span style="color: #ef4444;">1 error occurred:</span>
+<span style="color: #ef4444;">* permission denied</span>
+</span>
+</code></pre>
+                <p>It worked! Our policy successfully blocked the <code>write</code> action. This is the core loop of DevSecOps.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 6: Dynamic Secrets -->
+                <!-- ========================== -->
+                
+                <h2>Part 6: Dynamic Secrets (Vault's Killer Feature)</h2>
+                <p>Static secrets (like our AWS key) are good, but they still live forever. The *best* security is a secret that doesn't exist until you need it, and disappears after you use it. This is **Dynamic Secrets**.</p>
+                
+                <h3>How it Works (Database Example)</h3>
+                <p>We will configure Vault to be a "manager" for our PostgreSQL database. Our app will *never* have the admin password.
+                <br>
+                Instead, our app will say: "Hey Vault, I need to talk to the database."
+                <br>
+                Vault will *dynamically create* a *new* PostgreSQL user (e.g., <code>v-app-abc123</code>) with a *new* password, give it `READ ONLY` permissions, and set its expiration to **5 minutes**.
+                <br>
+                Your app uses this temporary credential. 5 minutes later, Vault automatically logs into PostgreSQL and *deletes* that user.
+                <br>
+                Now, even if your app's credential leaks, it's useless 5 minutes later.</p>
+                
+                <h4>Step 1: Enable the Database Secrets Engine</h4>
+                <pre><code>$ <span class="command">vault</span> secrets enable database
+<span class="comment_output">Success! Enabled the database secrets engine at: database/</span>
+</code></pre>
+                
+                <h4>Step 2: Configure Vault's access to PostgreSQL</h4>
+                <p>(This assumes you have a running PostgreSQL server and a "root" user named <code>vaultadmin</code> that Vault can use to create *other* users.)</p>
+                <pre><code>$ <span class="command">vault</span> write database/config/my-postgres-db \
+    <span class="string">plugin_name</span>=<span class="string">"postgresql-database-plugin"</span> \
+    <span class="string">allowed_roles</span>=<span class="string">"my-app-role"</span> \
+    <span class="string">connection_url</span>=<span class="string">"postgresql://vaultadmin:pass@postgres-server:5432/mydb?sslmode=disable"</span>
+</code></pre>
+                
+                <h4>Step 3: Create a "Role" (The "Recipe" for new users)</h4>
+                <p>This is the most important step. You write the SQL that Vault will use to create new users.</p>
+                <pre><code><span class="comment"># Define a role named 'my-app-role'</span>
+$ <span class="command">vault</span> write database/roles/my-app-role \
+    <span class="string">db_name</span>=<span class="string">"my-postgres-db"</span> \
+    <span class="string">creation_statements</span>=<span class="string">"CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; \
+                         GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";"</span> \
+    <span class="string">default_ttl</span>=<span class="string">"1m"</span> \
+    <span class="string">max_ttl</span>=<span class="string">"5m"</span>
+</code></pre>
+                <ul>
+                    <li><code>creation_statements</code>: The SQL command. Vault will replace <code>{{name}}</code>, <code>{{password}}</code>, and <code>{{expiration}}</code> with new, random values.</li>
+                    <li><code>default_ttl="1m"</code>: The secret expires in 1 minute (but the app can renew it).</li>
+                    <li><code>max_ttl="5m"</code>: The secret can *never* live longer than 5 minutes.</li>
+                </ul>
+                
+                <h4>Step 4: The App Workflow (Requesting a Secret)</h4>
+                <p>Now, your app (which has a token with a policy allowing it to access <code>database/creds/my-app-role</code>) makes *this* call:</p>
+                <pre><code>$ <span class="command">vault</span> read database/creds/my-app-role
+<span class="comment_output">
+Key                Value
+---                -----
+lease_id           database/creds/my-app-role/abc-123
+lease_duration     1m
+lease_renewable    true
+password           <span class="string">"A1b-super-random-password"</span>
+username           <span class="string">"v-app-my-app-role-123xyz"</span>
+</span>
+</code></pre>
+                <p>Vault has just created a *brand new* user in PostgreSQL (<code>v-app-my-app-role-123xyz</code>) and given the credentials to your app. Your app now connects to the database *using this temporary user*.
+                <br>
+                When the 1-minute TTL is up, Vault automatically revokes the lease and runs the `revocation_statements` (which is <code>DROP ROLE "{{name}}"</code>) in your database. The user is gone.
+                <br>
+                **This is the future of secrets management. Your app *never* touches a static, long-lived password.**</p>
+                
+                <a href="https://developer.hashicorp.com/vault/tutorials/secrets-management/database-secrets" target="_blank" class="read-more-link">Read More about Dynamic Secrets &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 7: K8s Integration -->
+                <!-- ========================== -->
+                
+                <h2>Part 7: Vault in Kubernetes (The `Vault Agent`)</h2>
+                <p>How does your *Pod* in Kubernetes log in to Vault to get secrets?
+                <br>
+                You use the **Vault Agent Injector**. This is a service you install in your K8s cluster. It watches for new Pods being created. When it sees a Pod with special "annotations" (metadata), it *automatically* injects two containers into that Pod:</p>
+                <ol>
+                    <li><strong><code>vault-agent</code>:** An "init container" that runs *first*. It talks to Vault, authenticates (using the Pod's Kubernetes Service Account), gets the secrets, and writes them to a shared *in-memory volume* (<code>/vault/secrets</code>).</li>
+                    <li><strong><code>vault-agent-sidecar</code>:** A "sidecar container" that runs *alongside* your app. Its job is to keep renewing the secrets (like a dynamic password) before they expire.</li>
+                </ol>
+                
+                
+                <p>Now, your main application container just reads its password from a file: <code>/vault/secrets/db-password.txt</code>. It has *no idea* Vault even exists. This is perfect separation of concerns.</p>
+                
+                <span class="code-filename">my-app-deployment.yml</span>
+                <pre><code><span class="property">apiVersion:</span> <span class="string">apps/v1</span>
+<span class="property">kind:</span> <span class="string">Deployment</span>
+<span class="property">metadata:</span>
+  <span class="property">name:</span> <span class="string">my-app</span>
+<span class="property">spec:</span>
+  <span class="comment_comment">...</span>
+  <span class="property">template:</span>
+    <span class="property">metadata:</span>
+      <span class="comment"># === These annotations trigger the Vault Agent ===</span>
+      <span class="property">annotations:</span>
+        <span class="property">vault.hashicorp.com/agent-inject:</span> <span class="string">'true'</span>
+        <span class="property">vault.hashicorp.com/role:</span> <span class="string">'my-app-role'</span> <span class="comment_comment"># The Vault role</span>
+        <span class="property">vault.hashicorp.com/agent-inject-secret-db-pass:</span> <span class="string">'database/creds/my-app-role'</span>
+        <span class="property">vault.hashicorp.com/agent-inject-template-db-pass:</span> |
+          <span class="string">{{- with secret "database/creds/my-app-role" -}}</span>
+          <span class="string">export DB_PASSWORD={{ .Data.password }}</span>
+          <span class="string">{{- end -}}</span>
+    <span class="property">spec:</span>
+      <span class="property">containers:</span>
+      - <span class="property">name:</span> <span class="string">my-app-container</span>
+        <span class="property">image:</span> <span class="string">my-app:v1</span>
+        <span class="comment"># This script is run by the agent to load the secrets</span>
+        <span class="property">command:</span> [<span class="string">"/bin/sh"</span>, <span class="string">"-c"</span>, <span class="string">"source /vault/secrets/db-pass && /app/start"</span>]
+</code></pre>
+                
+                <a href="https://developer.hashicorp.com/vault/docs/platform/kubernetes" target="_blank" class="read-more-link">Read More about Vault + Kubernetes Integration &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-iac-ansible.html" class="cta-button prev">&larr; Chapter 8: Ansible</a>
+                    <a href="devops-security-scanning.html" class="cta-button">Next: Chapter 9.2: App Security &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
