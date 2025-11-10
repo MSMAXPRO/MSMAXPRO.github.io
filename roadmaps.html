@@ -46,6 +46,33 @@
             background-color: #0ea5e9; /* Tailwind Sky 500 */
         }
 
+        /* === NAYA SEARCH BAR STYLE === */
+        .search-bar-container {
+            max-width: 800px; /* Matches the content header width */
+            margin: 0 auto 50px auto; /* Adds space below */
+        }
+
+        .roadmap-search {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            background-color: #1e2b3b; /* Slightly lighter bg */
+            color: #fff;
+            box-sizing: border-box; /* Important for padding */
+        }
+
+        .roadmap-search::placeholder {
+            color: #94a3b8;
+        }
+
+        .roadmap-search:focus {
+            outline: none;
+            border-color: #ec4899;
+            box-shadow: 0 0 0 3px #ec489930;
+        }
+
     </style>
 </head>
 <body>
@@ -82,9 +109,13 @@
             <div class="container">
                 <h2>Choose Your <span class="highlight">Path</span></h2>
                 
+                <!-- === NAYA SEARCH BAR HTML === -->
+                <div class="search-bar-container">
+                    <input type="text" id="roadmapSearchInput" class="roadmap-search" placeholder="Search for roadmaps (e.g., 'Frontend', 'DevOps', 'Android')...">
+                </div>
+
                 <div class="roadmaps-grid">
                     
-                    <!-- === UPDATED === -->
                     <a href="frontend-roadmap.html" class="roadmap-card">
                         <img src="images/roadmap-frontend.jpg" alt="Frontend Roadmap">
                         <div class="project-content">
@@ -94,7 +125,6 @@
                         </div>
                     </a>
                     
-                    <!-- === UPDATED === -->
                     <a href="backend-roadmap.html" class="roadmap-card">
                         <img src="images/roadmap-backend.jpg" alt="Backend Roadmap"> 
                         <div class="project-content">
@@ -104,7 +134,6 @@
                         </div>
                     </a>
 
-                    <!-- === UPDATED === -->
                     <a href="data-analyst-roadmap.html" class="roadmap-card">
                         <img src="images/roadmap-data-analyst-worldmap.jpg" alt="Data Analyst Roadmap"> 
                         <div class="project-content">
@@ -114,7 +143,6 @@
                         </div>
                     </a>
                     
-                    <!-- === NO CHANGE === -->
                     <a href="full-stack-developer.html" class="roadmap-card">
                         <img src="images/roadmap-fullstack.jpg" alt="Full Stack Roadmap">
                         <div class="project-content">
@@ -124,7 +152,6 @@
                         </div>
                     </a>
                     
-                    <!-- === UPDATED === -->
                     <a href="devops-engineer.html" class="roadmap-card">
                         <img src="images/roadmap-devops.jpg" alt="DevOps Roadmap">
                         <div class="project-content">
@@ -134,7 +161,6 @@
                         </div>
                     </a>
 
-                    <!-- === NO CHANGE === -->
                     <a href="android-developer-roadmap.html" class="roadmap-card">
                         <img src="images/roadmap-android.jpg" alt="Android Roadmap">
                         <div class="project-content">
@@ -197,7 +223,44 @@
             </div>
         </div>
     </footer>
+    
     <script src="app.js"></script>
+
+    <!-- === NAYA SEARCH JAVASCRIPT === -->
+    <script>
+        // DOMContentLoaded event lagana zaroori nahi hai kyunki script body ke end mein hai,
+        // lekin yeh ek acchi practice hai.
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Saare zaroori elements ko select karo
+            const searchInput = document.getElementById('roadmapSearchInput');
+            const allCards = document.querySelectorAll('.roadmap-card');
+
+            // 2. Search input par 'input' event listener lagao (har letter type karne par trigger hoga)
+            searchInput.addEventListener('input', (e) => {
+                
+                // 3. User jo type kar raha hai, use lowercase mein le lo
+                const searchTerm = e.target.value.toLowerCase();
+
+                // 4. Har ek card par loop chalao
+                allCards.forEach(card => {
+                    
+                    // 5. Har card ka Title (h3) aur Description (p) ka text nikalo
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const cardText = title + ' ' + description;
+
+                    // 6. Check karo ki title ya description mein search term hai ya nahi
+                    if (cardText.includes(searchTerm)) {
+                        card.style.display = 'block'; // Agar hai, toh card ko dikhao
+                    } else {
+                        card.style.display = 'none'; // Agar nahi hai, toh hide kar do
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- === SCRIPT END === -->
 
 </body>
 </html>
