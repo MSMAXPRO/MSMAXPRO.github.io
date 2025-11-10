@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 5: Cloud Providers (AWS, Azure, GCP) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #f59e0b, #ef4444); /* Orange/Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #f59e0b; /* Orange highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash/Python/Terraform */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* resource, provider, variable */
+        .content-section pre code .function { color: #818cf8; } /* main */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* "aws_instance" */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .variable { color: #e2e8f0; } /* var.name */
+        .content-section pre code .command { color: #34d399; } /* terraform, aws */
+        .content-section pre code .property { color: #38bdf8; } /* ami, instance_type */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 5: <span class="highlight">Cloud Providers (AWS, Azure, GCP)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The "Why": What is Cloud Computing?</h2>
+                <p>In the previous chapters, we've learned how to write scripts, manage a Linux server, and build CI/CD pipelines. But *where* do these servers live? Ten years ago, the answer was an "on-premise" (on-prem) data center. This means your company would buy physical server hardware, put it in a cold room in your office, manage the electricity, and manage the internet connection.</p>
+                <p>This was slow, expensive, and didn't scale. If your website suddenly got 10 million users, you couldn't just "buy 1,000 new servers" instantly. You'd have to order them, wait weeks for delivery, and manually install them.</p>
+                
+                <h3>The Cloud Revolution</h3>
+                <p>**Cloud Computing** (like **Amazon Web Services (AWS)**) solves this. A cloud provider is simply a company that has *already* built massive, global data centers, and they rent you their servers by the second.
+                <br>
+                Instead of buying a physical server, you make an API call (or click a button) and a new virtual server is ready for you in 30 seconds. When you're done, you make another API call to delete it, and you stop paying.</p>
+                
+                <p>This is the foundation of DevOps. The cloud provides **on-demand, self-service, pay-as-you-go infrastructure**, which is the perfect platform for automation.</p>
+                
+                <h3>The 3 Main Service Models (IaaS, PaaS, SaaS)</h3>
+                <p>"Cloud" is a general term. It's broken down into three main service models. The most famous analogy is the "Pizza as a Service" model.</p>
+                
+                
+                <h4>1. IaaS (Infrastructure as a Service)</h4>
+                <ul>
+                    <li><strong>The Analogy:</strong> You buy the ingredients (flour, sauce, cheese) and use the restaurant's oven.</li>
+                    <li><strong>The Explanation:</strong> The cloud provider gives you the *raw infrastructure* (virtual servers, storage, networking). You are responsible for *everything* else: managing the OS, installing security patches, installing your database, and running your app.</li>
+                    <li><strong>This is the primary domain of a DevOps Engineer.</strong></li>
+                    <li><strong>Example Services:</strong> **AWS EC2**, Azure Virtual Machines, Google Compute Engine.</li>
+                </ul>
+                
+                <h4>2. PaaS (Platform as a Service)</h4>
+                <ul>
+                    <li><strong>The Analogy:</strong> You just order the pizza. The restaurant handles the ingredients, oven, and cooking. You just set the table.</li>
+                    <li><strong>The Explanation:</strong> The cloud provider manages the OS, the patching, and the runtime (e.g., the Node.js or Python environment). You *only* upload your code (e.g., your <code>app.js</code> file) and the platform runs it for you.</li>
+                    <li><strong>Pros:</strong> Much easier than IaaS. No server management.</li>
+                    <li><strong>Cons:</strong> Less flexible. You can't SSH into the server to install a custom tool.</li>
+                    <li><strong>Example Services:</strong> **Heroku**, AWS Elastic Beanstalk, Google App Engine.</li>
+                </ul>
+                
+                <h4>3. SaaS (Software as a Service)</h4>
+                <ul>
+                    <li><strong>The Analogy:</strong> You go to a restaurant, sit down, and eat. You manage nothing.</li>
+                    <li><strong>The Explanation:</strong> You are just a *user* of the software. The provider manages everything.</li>
+                    <li><strong>Example Services:</strong> **Gmail**, **GitHub**, **Firebase**, Office 365, Dropbox.</li>
+                </ul>
+                
+                <h3>The 3 Deployment Models (Public, Private, Hybrid)</h3>
+                <ul>
+                    <li><strong>Public Cloud (AWS, GCP, Azure):</strong> The most common. You share the data center with other companies (this is called "multi-tenancy"). It's the cheapest and most scalable.</li>
+                    <li><strong>Private Cloud:</strong> A private data center that a company builds *for itself*, but it runs on cloud principles (automation, self-service). Used by banks or governments with extreme security needs.</li>
+                    <li><strong>Hybrid Cloud:</strong> A mix of both. A company might run its public website on AWS (Public Cloud) but keep its sensitive user database on-premise (Private Cloud) and connect the two.</li>
+                </ul>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: The Big 3 -->
+                <!-- ========================== -->
+
+                <h2>Part 2: The "Big 3" Cloud Providers</h2>
+                <p>While hundreds of cloud providers exist, the market is dominated by three giants. As a DevOps engineer, you must be familiar with at least one, and ideally all three.</p>
+                
+                
+                <ol>
+                    <li><strong>Amazon Web Services (AWS):</strong> The undisputed market leader (around 32% market share). It has the most services, the largest community, and is the most widely used by startups and enterprises. We will focus on AWS for our deep dive.</li>
+                    <li><strong>Microsoft Azure:</strong> The clear #2 (around 22% market share). It is extremely popular in large corporations that already use a lot of Microsoft products (like Windows Server, .NET, and SQL Server).</li>
+                    <li><strong>Google Cloud Platform (GCP):</strong> The #3 (around 11% market share). It is famous for its data engineering, machine learning, and, most importantly, **Kubernetes**. Google *invented* Kubernetes (GKE - Google Kubernetes Engine) and is considered the leader in that specific area.</li>
+                </ol>
+
+                <!-- =================================== -->
+                <!-- PART 3: AWS (Amazon Web Services) -->
+                <!-- =================================== -->
+                
+                <h2>Part 3: Deep Dive into AWS (The Market Leader)</h2>
+                <p>AWS has over 200 services. You don't need to know them all. A DevOps engineer needs to master the "core" services related to compute, storage, networking, and identity.</p>
+                
+                <h3>Core Concepts: Regions, AZs, and IAM</h3>
+                <ul>
+                    <li><strong>Region:</strong> A physical, geographic location in the world (e.g., <code>us-east-1</code> in N. Virginia, <code>ap-south-1</code> in Mumbai).</li>
+                    <li><strong>Availability Zone (AZ):** A single data center (or multiple data centers) *within* a Region. Each Region has at least 2-3 AZs.
+                    <br>
+                    <strong>Why?</strong> For **High Availability**. You should run your app in *at least two* AZs. If one data center (AZ-1) has a power failure, your app will keep running in AZ-2, and your users will never know.</li>
+                </ul>
+
+                <h3>AWS IAM: Identity & Access Management (CRITICAL)</h3>
+                <p>This is the **most important** security service. IAM answers the question: "**Who** can do **what**?"</p>
+                
+                <ul>
+                    <li><strong>Users:** An end-user (a person, e.g., "msmaxpro"). You log in with a user. **Best Practice:** You *never* use your "root" (main) account. You create a new IAM user for yourself with limited permissions.</li>
+                    <li><strong>Groups:** A collection of users (e.g., "Developers," "Admins," "Testers"). You apply permissions to the *Group*, not the User.</li>
+                    <li><strong>Roles:** This is for *services*. You create a "Role" that an AWS service (like an EC2 server) can "assume" (wear like a hat) to get temporary permissions.
+                    <br>
+                    **Example:** You give your EC2 server a "S3_Access_Role" so it can write to S3, without you *ever* having to hard-code an API key into your server. This is the secure way.</li>
+                    <li><strong>Policies:** The "rulebook." A JSON document that defines *what* is allowed or denied.</li>
+                </ul>
+                
+                <h4>Example: An IAM Policy (JSON)</h4>
+                <pre><code><span class="comment">// This policy allows a user to READ (Get, List)
+// from the "my-app-backups" S3 bucket, but nothing else.</span>
+{
+    <span class="string">"Version"</span>: <span class="string">"2012-10-17"</span>,
+    <span class="string">"Statement"</span>: [
+        {
+            <span class="string">"Effect"</span>: <span class="string">"Allow"</span>,
+            <span class="string">"Action"</span>: [
+                <span class="string">"s3:GetObject"</span>,
+                <span class="string">"s3:ListBucket"</span>
+            ],
+            <span class="string">"Resource"</span>: [
+                <span class="string">"arn:aws:s3:::my-app-backups"</span>,
+                <span class="string">"arn:aws:s3:::my-app-backups/*"</span>
+            ]
+        }
+    ]
+}
+</code></pre>
+                
+                <h3>AWS Compute Services</h3>
+                <h4>1. EC2 (Elastic Compute Cloud) - (IaaS)</h4>
+                <p>This is the "virtual server" service. It's the #1 service you will use. It lets you rent virtual machines (called "instances") by the second.</p>
+                <ul>
+                    <li><strong>Instance Types:</strong> The "size" of your server (e.g., <code>t2.micro</code> - a small, cheap server for testing; <code>m5.large</code> - a powerful server for production).</li>
+                    <li><strong>AMI (Amazon Machine Image):** The "template" for your server. You choose an AMI to start with (e.g., "Ubuntu 22.04", "RHEL 9", "Windows Server 2022").</li>
+                    <li><strong>Security Groups:** This is the **firewall** for your server. It's a list of rules defining what "ports" are open.
+                    <br>
+                    **Example:** A security group for a web server would have these rules:
+                        <ul>
+                            <li>Allow TCP on Port 22 (SSH) from *My IP only*.</li>
+                            <li>Allow TCP on Port 80 (HTTP) from *Anywhere* (0.0.0.0/0).</li>
+                            <li>Allow TCP on Port 443 (HTTPS) from *Anywhere* (0.0.0.0/0).</li>
+                        </ul>
+                    </li>
+                    <li><strong>SSH Key Pair:** How you log in. When you create an EC2 instance, you select your SSH public key. This is the *only* way to log in (password login is disabled by default, which is good practice).</li>
+                </ul>
+
+                <h4>2. Lambda (Serverless) - (FaaS)</h4>
+                <p>**Serverless** (or FaaS - Function as a Service) is the next evolution. What if you just need a *function* to run, not a whole server?
+                <br>
+                Lambda lets you upload a single function (e.g., a Python script) and it will run it for you. You are billed *only* for the 100ms it takes to run. You manage *nothing*. No OS, no patches, no servers.</p>
+                <p><strong>Use Case:** An API endpoint that runs when a user clicks a button, or a function that runs automatically every time a new image is uploaded to S3 (e.g., to create a thumbnail).</p>
+                
+                <h3>AWS Storage Services</h3>
+                <h4>1. S3 (Simple Storage Service) - Object Storage</h4>
+                <p>S3 is an infinitely scalable storage service for "objects" (files). It is *not* a hard drive. You can't install an OS on it. You use it to store and serve files via HTTP.
+                <br>
+                This is where you store your website's static files (images, CSS), your log files, your database backups, and your Docker images.</p>
+                <ul>
+                    <li><strong>Bucket:** A "folder" with a globally unique name (e.g., <code>codewithmsmaxpro-backups</code>).</li>
+                    <li><strong>Object:** The file you upload (e.g., <code>my-backup.zip</code>).</li>
+                </ul>
+                
+                <h4>2. EBS (Elastic Block Store) - Block Storage</h4>
+                <p>This is the **virtual hard drive** for your EC2 instance. When you create an EC2 server, you attach an EBS volume to it. This is where your Linux OS is installed.</p>
+                
+                <h3>AWS Networking Services</h3>
+                <h4>1. VPC (Virtual Private Cloud)</h4>
+                <p>This is your **private, isolated network** inside AWS. It's a virtual version of your office network. You define your own IP range (e.g., <code>10.0.0.0/16</code>) and create "subnets" inside it.</p>
+                
+                <h4>2. Public vs. Private Subnets</h4>
+                <p>This is the foundation of cloud security.</p>
+                
+                <ul>
+                    <li><strong>Public Subnet:** A subnet that has a "route" to the internet (via an "Internet Gateway"). Your **web servers** and **load balancers** live here.</li>
+                    <li><strong>Private Subnet:** A subnet that is **100% private** and cannot be accessed from the internet. Your **databases** and other secure services live here.</li>
+                </ul>
+                <p>This is how you protect your database. A user can access your web server, but your web server is the *only* thing that can access your database.</p>
+                
+                <h4>3. ELB (Elastic Load Balancer)</h4>
+                <p>What if your website gets 10 million users? One EC2 server can't handle it. So you run 10 identical EC2 servers. But how do users find them?
+                <br>
+                An **ELB (Application Load Balancer - ALB)** sits in front of your 10 servers. It has *one* public DNS name. All users go to the ALB, and it **distributes (balances) the traffic** across all your healthy servers.</p>
+                
+                <h4>4. Route 53</h4>
+                <p>This is AWS's global DNS service. This is where you would host your <code>codewithmsmaxpro.me</code> domain and create your 'A', 'CNAME', and 'MX' records (as we learned in Chapter 2.2).</p>
+                
+                <a href="https://aws.amazon.com/getting-started/" target="_blank" class="read-more-link">Read the Official AWS Getting Started Docs &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Azure & GCP -->
+                <!-- ========================== -->
+
+                <h2>Part 4: Azure & GCP (The Other Giants)</h2>
+                <p>Once you understand the *concepts* from AWS, learning Azure and GCP is just learning new *names* for the same services.</p>
+                
+                <h3>Service Name Translation</h3>
+                <pre><code>
+| Concept                | AWS (Amazon)                | Azure (Microsoft)               | GCP (Google)                |
+|------------------------|-----------------------------|---------------------------------|-----------------------------|
+| Virtual Server (IaaS)  | EC2 (Elastic Compute Cloud) | Azure Virtual Machines          | GCE (Google Compute Engine) |
+| Object Storage         | S3 (Simple Storage Service) | Blob Storage                    | Google Cloud Storage (GCS)  |
+| Virtual Network        | VPC (Virtual Private Cloud) | VNet (Virtual Network)          | VPC (Virtual Private Cloud) |
+| Serverless Function    | Lambda                      | Azure Functions                 | Google Cloud Functions      |
+| Relational Database    | RDS (Relational DB Service) | Azure SQL Database              | Cloud SQL                   |
+| NoSQL Database         | DynamoDB                    | Cosmos DB                       | Firestore / Bigtable        |
+| DNS Service            | Route 53                    | Azure DNS                       | Cloud DNS                   |
+| Kubernetes             | EKS (Elastic K8s Service)   | AKS (Azure K8s Service)         | GKE (Google K8s Engine)     |
+| Docker Registry        | ECR (Elastic Container Registry) | ACR (Azure Container Registry) | GCR (Google Container Registry) |
+| Identity / Auth        | IAM                         | Entra ID (was Azure AD)         | Cloud IAM                   |
+
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 5: IaC -->
+                <!-- ========================== -->
+
+                <h2>Part 5: Infrastructure as Code (IaC) - The DevOps Way</h2>
+                <p>You *can* log in to the AWS Console (the website) and click buttons to create all your servers, VPCs, and databases. This is called **"ClickOps"**. It's fine for learning, but it's **terrible** for production.</p>
+                <p>Why? It's not repeatable, it's not documented, and it's error-prone. What if you forget to set a firewall rule?</p>
+                <p>The DevOps solution is **Infrastructure as Code (IaC)**. You write *code* that defines your infrastructure. This code is your new blueprint. You run this code, and it *automatically* builds your entire AWS environment.
+                <br>
+                The #1 tool for this is **Terraform**.</p>
+                
+                <h3>Terraform (by HashiCorp)</h3>
+                <p>Terraform is a tool that lets you define your cloud infrastructure in a simple, declarative language called **HCL (HashiCorp Configuration Language)**. It is "cloud-agnostic," meaning you can use it to manage AWS, Azure, GCP, and more, all with the same tool.</p>
+                
+                
+                <h4>Example: Creating an AWS EC2 Server with Terraform</h4>
+                <p>Create a file named <code>main.tf</code>.</p>
+                
+                <span class="code-filename">main.tf</span>
+                <pre><code><span class="comment"># 1. Configure the AWS Provider</span>
+<span class="keyword">terraform</span> {
+  <span class="property">required_providers</span> {
+    <span class="variable">aws</span> = {
+      <span class="property">source</span>  = <span class="string">"hashicorp/aws"</span>
+      <span class="property">version</span> = <span class="string">"~> 5.0"</span>
+    }
+  }
+}
+
+<span class="keyword">provider</span> <span class="type">"aws"</span> {
+  <span class="property">region</span> = <span class="string">"us-east-1"</span>
+}
+
+<span class="comment"># 2. Define a variable</span>
+<span class="keyword">variable</span> <span class="type">"instance_type"</span> {
+  <span class="property">description</span> = <span class="string">"The type of EC2 instance"</span>
+  <span class="property">type</span>        = <span class="type">string</span>
+  <span class="property">default</span>     = <span class="string">"t2.micro"</span>
+}
+
+<span class="comment"># 3. Define a resource (the server)</span>
+<span class="keyword">resource</span> <span class="type">"aws_instance"</span> <span class="string">"my_web_server"</span> {
+  <span class="property">ami</span>           = <span class="string">"ami-0c7217cdde317cfec"</span> <span class="comment"># Ubuntu 22.04 AMI in us-east-1</span>
+  <span class="property">instance_type</span> = <span class="variable">var.instance_type</span>
+
+  <span class="property">tags</span> = {
+    <span class="property">Name</span> = <span class="string">"My-Web-Server-01"</span>
+  }
+}
+</code></pre>
+                
+                <p>Now, you just run three commands in your terminal:</p>
+                <pre><code><span class="comment"># 1. Initialize the project (downloads the AWS provider)</span>
+$ <span class="command">terraform</span> init
+
+<span class="comment"># 2. See what Terraform *plans* to do</span>
+$ <span class="command">terraform</span> plan
+<span class="comment_output">
+Terraform will perform the following actions:
+  # aws_instance.my_web_server will be created
+  + resource "aws_instance" "my_web_server" { ... }
+Plan: 1 to add, 0 to change, 0 to destroy.
+</span>
+
+<span class="comment"># 3. Apply the changes</span>
+$ <span class="command">terraform</span> apply
+<span class="comment_output">
+Do you want to perform these actions?
+  Only 'yes' will be accepted to approve.
+  
+  Enter a value: yes
+
+aws_instance.my_web_server: Creating...
+aws_instance.my_web_server: Creation complete after 30s [id=i-1234567890abcdef]
+</span>
+</code></pre>
+                <p>That's it! Your server is now running on AWS. When you are done, you run <code>terraform destroy</code> to delete it. This is the power of IaC.</p>
+                <a href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started" target="_blank" class="read-more-link">Read the Official Terraform AWS Guide &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-cicd.html" class="cta-button prev">&larr; Chapter 4: CI/CD Pipelines</a>
+                    <a href="devops-containers.html" class="cta-button">Next Chapter: Containers &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
