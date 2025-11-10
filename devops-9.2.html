@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 9.2: Application & Pipeline Security - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (SECURITY) --- */
+        .highlight {
+            background: linear-gradient(90deg, #ef4444, #b91c1c); /* Red */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #ef4444; /* Red highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for YAML/Bash */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* jobs, on, steps, run */
+        .content-section pre code .property { color: #38bdf8; } /* name, uses, with */
+        .content-section pre code .string { color: #a78bfa; } /* "message" */
+        .content-section pre code .variable { color: #e2e8f0; } /* ${{ secrets.VAR }} */
+        .content-section pre code .command { color: #34d399; } /* docker, echo */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 9.2: <span class="highlight">Application & Pipeline Security</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The "Why" - What is DevSecOps?</h2>
+                <p>In Chapter 9.1, we learned how to manage secrets with Vault. That was the first step in **DevSecOps** (Development + Security + Operations). But "security" is much more than just hiding passwords. It's a mindset.</p>
+                <p>The old way: Developers write code for 6 months. Then, they "throw it over the wall" to the Security team, who spend 1 month finding 200 bugs. The developers get angry, the project is delayed, and everyone is unhappy.</p>
+                <p>The DevSecOps way: **"Shift Left."** This means you move security *left* in the timeline, from the end of the process to the very beginning. You build security *into* your CI/CD pipeline. You automate it.</p>
+                
+                
+                <h3>The Goal: Fast, Automated Feedback</h3>
+                <p>The goal is to find vulnerabilities *before* they are merged. Your CI pipeline (Chapter 4) is the perfect place for this. A good DevSecOps pipeline looks like this:</p>
+                <ol>
+                    <li>Developer -> `git push`</li>
+                    <li>**CI Pipeline Triggers:**
+                        <ul>
+                            <li>**Step 1: Secret Scanning:** Does this code contain an API key? (Fail if yes)</li>
+                            <li>**Step 2: SAST Scan:** Does this code have any obvious bugs (like SQL Injection)? (Fail if yes)</li>
+                            <li>**Step 3: SCA Scan:** Does this code use any open-source libraries with known vulnerabilities? (Fail if yes)</li>
+                            <li>**Step 4: Build:** Does the code compile?</li>
+                            <li>**Step 5: Test:** Do all the unit tests pass?</li>
+                            <li>**Step 6: Build Docker Image:** Package the app.</li>
+                            <li>**Step 7: Container Scan:** Does the new Docker image have any OS vulnerabilities? (Fail if yes)</li>
+                            <li>**Step 8: Deploy to Staging:** Push the *clean* app to a test server.</li>
+                            <li>**Step 9: DAST Scan:** Attack the live staging server. (Fail if it breaks)</li>
+                            <li>**Step 10:** Merge to `main` and deploy to production.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>This chapter will teach you how to build this pipeline, step-by-step.</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: SAST -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: SAST (Static Application Security Testing)</h2>
+                <p><strong>What is SAST?** It's "white-box" testing. SAST tools scan your **source code** *before* it's ever run. They are like a super-powered linter that looks for common bug patterns and security flaws.</p>
+                
+                <h3>What it finds:</h3>
+                <ul>
+                    <li>**SQL Injection:** <code>db.query("SELECT * FROM users WHERE id = " + user_id)</code></li>
+                    <li>**Hardcoded Secrets:** <code>val apiKey = "sk_live_123..."</code></li>
+                    <li>**Buffer Overflows:** (In C/C++) <code>strcpy(buffer, user_input)</code></li>
+                    <li>**Logical Flaws:** Code that will never be reached (dead code).</li>
+                </ul>
+                
+                <h3>Tool 1: GitHub Code Scanning (CodeQL)</h3>
+                <p>If your project is on GitHub, this is the easiest way to start. CodeQL is GitHub's powerful SAST engine.</p>
+                <ol>
+                    <li>Go to your GitHub repository.</li>
+                    <li>Click the **"Security"** tab.</li>
+                    <li>Find **"Code scanning"** and click "Set up."</li>
+                    <li>GitHub will suggest a workflow file. Just commit it.</li>
+                </ol>
+                <p>This will create a <code>codeql-analysis.yml</code> file in your <code>.github/workflows</code> folder. Now, every time you push, CodeQL will run, and it will report vulnerabilities *directly on your pull request*.</p>
+                
+                
+                <h3>Tool 2: SonarQube (The Industry Standard)</h3>
+                <p>SonarQube is the most popular, comprehensive platform for "static code analysis." It does SAST, but also measures "Code Quality" and "Code Smells" (e.g., duplicated code, overly complex functions).</p>
+                
+                <h4>How it Works:</h4>
+                <ol>
+                    <li>You run a SonarQube server (e.g., in Docker).</li>
+                    <li>You add a "SonarScanner" step to your CI pipeline.</li>
+                    <li>The scanner analyzes your code and sends the report to your SonarQube server.</li>
+                    <li>The server shows a dashboard with a grade (A-F) and a "Quality Gate."</li>
+                    <li>You configure your pipeline to *fail* if the Quality Gate (e.t., "no new bugs allowed") is not met.</li>
+                </ol>
+                
+                <h4>Example: SonarQube in GitHub Actions</h4>
+                <pre><code><span class="property">name:</span> <span class="string">Build, Test, and Scan</span>
+<span class="property">on:</span> <span class="string">push</span>
+
+<span class="property">jobs:</span>
+  <span class="property">sonar-scan:</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    <span class="property">steps:</span>
+      - <span class="property">name:</span> <span class="string">Checkout code</span>
+        <span class="property">uses:</span> <span class="string">actions/checkout@v4</span>
+        <span class="property">with:</span>
+          <span class="property">fetch-depth:</span> <span class="number">0</span> <span class="comment"># Needed for SonarQube to analyze branches</span>
+
+      - <span class="property">name:</span> <span class="string">Set up JDK 17</span>
+        <span class="property">uses:</span> <span class="string">actions/setup-java@v3</span>
+        <span class="property">with:</span>
+          <span class="property">java-version:</span> <span class="string">'17'</span>
+          <span class="property">distribution:</span> <span class="string">'temurin'</span>
+
+      - <span class="property">name:</span> <span class="string">Analyze with SonarQube</span>
+        <span class="property">uses:</span> <span class="string">sonarsource/sonarqube-scan-action@master</span>
+        <span class="property">env:</span>
+          <span class="comment"># These secrets are set in GitHub repo settings</span>
+          <span class="property">SONAR_TOKEN:</span> <span class="string">${{ secrets.SONAR_TOKEN }}</span>
+          <span class="property">SONAR_HOST_URL:</span> <span class="string">${{ secrets.SONAR_HOST_URL }}</span>
+</code></pre>
+                <a href="https://sonarcloud.io/" target="_blank" class="read-more-link">Read More about SonarQube/SonarCloud &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: SCA -->
+                <!-- ========================== -->
+
+                <h2>Part 3: SCA (Software Composition Analysis)</h2>
+                <p>This is arguably the **most important** security scan you can run. **Your code is not just *your* code.** If you're using Node.js, you have 1,000+ dependencies in <code>node_modules</code>. You didn't write them. Are they secure?</p>
+                <p>SCA tools scan your dependency files (<code>package.json</code>, <code>requirements.txt</code>, <code>pom.xml</code>) and check all your libraries (and *their* dependencies) against a global database of **CVEs (Common Vulnerabilities and Exposures)**.</p>
+                
+                <h4>The `Log4Shell` Example (CVE-2021-44228)</h4>
+                <p>In 2021, a critical vulnerability (Log4Shell) was found in <code>log4j</code>, a very popular Java logging library. Hackers could gain *full control* of a server just by sending a special text message. SCA tools instantly saved millions of companies by:
+                <br>
+                1. Scanning their code.
+                <br>
+                2. Reporting: "VULNERABILITY FOUND: You are using <code>log4j 2.14</code>. This is vulnerable. You **must** upgrade to <code>2.17</code>."</p>
+                
+                <h3>Tool 1: GitHub Dependabot (The "Easy Button")</h3>
+                <p>This is built into GitHub and is the easiest way to do SCA.
+                <br>
+                Go to **Repo > Settings > Code security and analysis** and enable **Dependabot alerts** and **Dependabot security updates**.</p>
+                
+                <p>That's it! Now, when a vulnerability is found in one of your dependencies, Dependabot will **automatically create a Pull Request** for you, upgrading the library to the safe version. All you have to do is "Merge".</p>
+                
+                <h3>Tool 2: Snyk (The CI/CD Tool)</h3>
+                <p>Dependabot is great, but it's not a CI check. Snyk is a popular tool that you can run *in* your pipeline to *fail the build* if a new, high-severity vulnerability is found.</p>
+                
+                <span class="code-filename">.github/workflows/main.yml (add this job)</span>
+                <pre><code>  <span class="property">security-scan:</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    <span class="property">steps:</span>
+      - <span class="property">name:</span> <span class="string">Checkout code</span>
+        <span class="property">uses:</span> <span class="string">actions/checkout@v4</span>
+        
+      - <span class="property">name:</span> <span class="string">Install Node.js</span>
+        <span class="property">uses:</span> <span class="string">actions/setup-node@v4</span>
+        <span class="property">with:</span>
+          <span class="property">node-version:</span> <span class="string">'18'</span>
+          
+      - <span class="property">name:</span> <span class="string">Install Snyk</span>
+        <span class="property">run:</span> <span class="command">npm</span> install -g snyk
+        
+      - <span class="property">name:</span> <span class="string">Run Snyk to check for vulnerabilities</span>
+        <span class="property">run:</span> <span class="command">snyk test --fail-on=high</span>
+        <span class="property">env:</span>
+          <span class="property">SNYK_TOKEN:</span> <span class="string">${{ secrets.SNYK_TOKEN }}</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Container Scanning -->
+                <!-- ========================== -->
+
+                <h2>Part 4: Container & Image Scanning</h2>
+                <p>Okay, we've scanned our source code (SAST) and our dependencies (SCA). We're safe, right? **No.**
+                <br>
+                Your <code>Dockerfile</code> starts with <code>FROM node:18-alpine</code>. This <code>alpine</code> OS image itself contains *other* software (like <code>openssl</code>, <code>curl</code>, <code>libc</code>). What if that <code>openssl</code> version is 5 years old and has a critical bug?</p>
+                <p>A **Container Scanner** analyzes every layer of your *built Docker image* and checks all the OS packages and app dependencies inside it for known CVEs.</p>
+                
+                <h3>Tool: Trivy (The Best Open-Source Tool)</h3>
+                <p>Trivy, by Aqua Security, is the most popular, fastest, and easiest-to-use open-source scanner. You run it in your CI pipeline *after* you build your image but *before* you push it to a registry.</p>
+                
+                
+                <h4>Example: Trivy in GitHub Actions</h4>
+                <pre><code><span class="property">name:</span> <span class="string">Build, Scan, and Push Docker Image</span>
+<span class="property">on:</span> <span class="string">push</span>
+
+<span class="property">jobs:</span>
+  <span class="property">build-and-scan:</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    <span class="property">steps:</span>
+      - <span class="property">name:</span> <span class="string">Checkout code</span>
+        <span class="property">uses:</span> <span class="string">actions/checkout@v4</span>
+
+      - <span class="property">name:</span> <span class="string">Build the Docker image</span>
+        <span class="property">run:</span> <span class="command">docker</span> build -t my-app:latest .
+        
+      - <span class="property">name:</span> <span class="string">Install Trivy</span>
+        <span class="property">uses:</span> <span class="string">aquasecurity/trivy-action@v0.12.0</span>
+        <span class="property">with:</span>
+          <span class="property">scan-type:</span> <span class="string">'image'</span>
+          <span class="property">image-ref:</span> <span class="string">'my-app:latest'</span>
+          <span class="property">format:</span> <span class="string">'table'</span>
+          <span class="comment"># Fail the build if any CRITICAL vulnerabilities are found</span>
+          <span class="property">exit-code:</span> <span class="string">'1'</span>
+          <span class="property">severity:</span> <span class="string">'CRITICAL'</span>
+          
+      - <span class="property">name:</span> <span class="string">Log in to GHCR</span>
+        <span class="comment"># ... (This step only runs if Trivy passes) ...</span>
+        <span class="property">uses:</span> <span class="string">docker/login-action@v3</span>
+        <span class="property">with:</span>
+          <span class="property">registry:</span> <span class="string">ghcr.io</span>
+          <span class="property">username:</span> <span class="string">${{ github.repository_owner }}</span>
+          <span class="property">password:</span> <span class="string">${{ secrets.GITHUB_TOKEN }}</span>
+
+      - <span class="property">name:</span> <span class="string">Push the clean image</span>
+        <span class="property">run:</span> <span class="command">docker</span> push ghcr.io/${{ github.repository_owner }}/my-app:latest
+</code></pre>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: DAST -->
+                <!-- ========================== -->
+                
+                <h2>Part 5: DAST (Dynamic Application Security Testing)</h2>
+                <p>**What is DAST?** This is "black-box" testing. DAST tools don't know your source code. They act like a *real hacker* and attack your *live, running application* (on a staging server) from the outside.</p>
+                <p>They will "crawl" your website and then try to inject malicious payloads into every input field, form, and URL parameter to find vulnerabilities.</p>
+                
+                <h3>What it finds:</h3>
+                <ul>
+                    <li><strong>Cross-Site Scripting (XSS):** Can it inject a <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> tag?</li>
+                    <li>**SQL Injection:** Can it send <code>' OR 1=1; --</code> in the login form?</li>
+                    <li>**Insecure Headers:** Is your server missing key security headers like <code>Content-Security-Policy</code>?</li>
+                </ul>
+                
+                <h3>Tool: OWASP ZAP (Zed Attack Proxy)</h3>
+                <p>ZAP is the most popular, open-source DAST tool. You can run it in your CI pipeline as a Docker container.</p>
+                
+                <h4>Example: ZAP Baseline Scan in GitHub Actions</h4>
+                <p>This job runs *after* your "Deploy to Staging" job is complete.</p>
+                <pre><code>  <span class="property">dast-scan:</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    <span class="property">needs:</span> <span class="string">deploy-to-staging</span> <span class="comment"># Wait for deployment to finish</span>
+    
+    <span class="property">steps:</span>
+      - <span class="property">name:</span> <span class="string">Run ZAP Baseline Scan</span>
+        <span class="property">uses:</span> <span class="string">actions/zap-scan@v0.0.19</span>
+        <span class="property">with:</span>
+          <span class="comment"># The URL of your live staging app</span>
+          <span class="property">target:</span> <span class="string">'https://staging.codewithmsmaxpro.me'</span>
+          <span class="property">docker_name:</span> <span class="string">'owasp/zap2docker-stable'</span>
+          <span class="comment"># This will fail the build if ZAP finds any high-risk issues</span>
+          <span class="property">fail_action:</span> <span class="keyword">true</span>
+</code></pre>
+                
+                <!-- ========================== -->
+                <!-- SECTION 6: Secret Scanning -->
+                <!-- ========================== -->
+                
+                <h2>Part 6: Secret Scanning (Prevention)</h2>
+                <p>This is your last line of defense. What happens if a developer *does* commit an API key (<code>"sk_live_..."</code>) or an SSH private key (<code>-----BEGIN RSA PRIVATE KEY-----</code>)?</anp>
+                <p>Secret Scanning tools scan your code for high-entropy (random-looking) strings and known patterns of API keys.</p>
+                
+                <h3>Tool 1: GitHub Secret Scanning (Built-in)</h3>
+                <p>For public repos, this is enabled automatically. If you push an AWS or GitHub token, GitHub will email you within *seconds* to let you know, and will often auto-revoke the token for you.</p>
+                
+                <h3>Tool 2: `gitleaks` (The CI/CD Tool)</h3>
+                <p><code>gitleaks</code> is an open-source tool you can run in your pipeline to *prevent* the push from ever succeeding.</p>
+                
+                <h4>Example: `gitleaks` in GitHub Actions</h4>
+                <pre><code>  <span class="property">secret-scan:</span>
+    <span class="property">runs-on:</span> <span class="string">ubuntu-latest</span>
+    <span class="property">steps:</span>
+      - <span class="property">name:</span> <span class="string">Checkout code</span>
+        <span class="property">uses:</span> <span class="string">actions/checkout@v4</span>
+        <span class="property">with:</span>
+          <span class="property">fetch-depth:</span> <span class="number">0</span> <span class="comment"># Fetch all history for scanning</span>
+          
+      - <span class="property">name:</span> <span class="string">Run Gitleaks</span>
+        <span class="property">uses:</span> <span class="string">gitleaks/gitleaks-action@v2</span>
+        <span class="property">env:</span>
+          <span class="comment"># This token is needed to report back to the PR</span>
+          <span class="property">GITHUB_TOKEN:</span> <span class="string">${{ secrets.GITHUB_TOKEN }}</span>
+</code></pre>
+                <p>If `gitleaks` finds a hardcoded password or key, it will fail the build and prevent the merge, forcing the developer to fix their mistake *before* it becomes a security disaster.</p>
+                <a href="https://owasp.org/www-project-top-ten/" target="_blank" class="read-more-link">Read the Official OWASP Top 10 List &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-security-vault.html" class="cta-button prev">&larr; Chapter 9.1: Vault</a>
+                    <a href="devops-advanced-k8s.html" class="cta-button">Next Chapter: Advanced K8s &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
