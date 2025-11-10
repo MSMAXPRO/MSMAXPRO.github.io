@@ -92,7 +92,6 @@
 
     <main>
         <section class="roadmap-details">
-            <!-- === NAYE CHAPTERS YAHAN HAIN === -->
             <div class="container roadmap-container">
                 <h1><span class="highlight">DevOps Engineer</span> Roadmap</h1>
                 
@@ -106,6 +105,7 @@
                     </div>
                 </a>
 
+                <!-- === LINK 2 FIXED === -->
                 <a href="devops-linux.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">2</div>
@@ -116,6 +116,7 @@
                     </div>
                 </a>
 
+                <!-- === LINK 3 FIXED === -->
                 <a href="devops-3.html" style="text-decoration: none; color: inherit;">
                     <div class="roadmap-step">
                         <div class="step-number">3</div>
@@ -166,6 +167,38 @@
                     </div>
                 </a>
                 
+                <!-- === 3 NAYE CHAPTERS ADD KIYE HAIN === -->
+                
+                <a href="devops-iac-ansible.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">8</div>
+                        <div class="step-content">
+                            <h3>Config. Management (Ansible)</h3>
+                            <p>Learn to automate server setup and configuration using Infrastructure as Code (IaC) with Ansible.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="devops-security-vault.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">9</div>
+                        <div class="step-content">
+                            <h3>DevSecOps (Secrets Management)</h3>
+                            <p>Learn to securely manage passwords and API keys using a secrets manager like HashiCorp Vault.</p>
+                        </div>
+                    </div>
+                </a>
+                
+                <a href="devops-advanced-k8s.html" style="text-decoration: none; color: inherit;">
+                    <div class="roadmap-step">
+                        <div class="step-number">10</div>
+                        <div class="step-content">
+                            <h3>Advanced Kubernetes</h3>
+                            <p>Learn professional K8s concepts like Service Mesh (Istio) and GitOps (ArgoCD) for automated deployments.</p>
+                        </div>
+                    </div>
+                </a>
+                
             </div>
         </section>
     </main>
@@ -181,10 +214,12 @@
             const hamburger = document.querySelector('.hamburger');
             const nav = document.querySelector('.nav-links');
 
-            hamburger.addEventListener('click', () => {
-                nav.classList.toggle('nav-active');
-                hamburger.classList.toggle('toggle');
-            });
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
         }
         navSlide();
     </script>
