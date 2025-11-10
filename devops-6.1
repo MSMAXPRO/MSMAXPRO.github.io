@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 6.1: Containers (Docker) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (DEVOPS) --- */
+        .highlight {
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9); /* Blue */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #38bdf8; /* Blue highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for Bash/Python */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* fun, val, var, class, if, for */
+        .content-section pre code .function { color: #818cf8; } /* println, main, def */
+        .content-section pre code .string { color: #a78bfa; } /* "Hello" */
+        .content-section pre code .type { color: #38bdf8; } /* String, Int, Boolean */
+        .content-section pre code .number { color: #f59e0b; } /* 10, 3.14 */
+        .content-section pre code .variable { color: #e2e8f0; } /* $VAR, my_var */
+        .content-section pre code .command { color: #34d399; } /* ls, grep, curl, docker */
+        .content-section pre code .operator { color: #e2e8f0; } /* +, =, : */
+        .content-section pre code .property { color: #e2e8f0; } /* length, name */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 6.1: <span class="highlight">Containers (Docker)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: The "Why" - VMs vs. Containers</h2>
+                <p>Before Docker, if you wanted to run a web application, a database, and a caching server, you had two bad options:</p>
+                <ol>
+                    <li><strong>Run all three on one physical server.</strong>
+                        <ul><li><strong>Problem:</strong> "The Matrix from Hell." What if the web app needs Python 3.8 but the caching server needs Python 3.10? What if they both try to use Port 80? You have constant conflicts.</li></ul>
+                    </li>
+                    <li><strong>Buy three separate physical servers.</strong>
+                        <ul><li><strong>Problem:</strong> Extremely expensive and wasteful. Your web server might use 10% of its CPU, and your database 5%. You are wasting 90% of your resources.</li></ul>
+                    </li>
+                </ol>
+                
+                <h3>The First Solution: Virtual Machines (VMs)</h3>
+                <p>VMs were the first good solution. A **Hypervisor** (like VMware or VirtualBox) lets you run multiple, complete, *isolated* **Guest Operating Systems** (like 3 separate Ubuntu servers) on a single **Host Operating System** (your physical machine).</p>
+                )]
+                <ul>
+                    <li><strong>Pros:</strong> Full isolation. No conflicts. Secure.</li>
+                    <li><strong>Cons:</strong> **Extremely heavy.** Each VM is a *full* OS, which can be 5-10 GB. They are slow to boot (minutes) and waste a *ton* of resources just running 3 identical copies of the Ubuntu kernel.</li>
+                </ul>
+                
+                <h3>The Modern Solution: Containers (Docker)</h3>
+                <p>In 2013, Docker changed everything. A **Container** is a lightweight, standalone, executable package that includes everything needed to run a piece of software: the code, its libraries, and its settings.</p>
+                <p>The magic is that containers **virtualize the OS** itself. All containers on a server *share* the same Host OS kernel. They don't need to boot a "Guest OS." They are just *isolated processes*.</p>
+                )]
+                <ul>
+                    <li><strong>Pros:</strong>
+                        <ul>
+                            <li><strong>Lightweight:</strong> A container is tiny (megabytes, not gigabytes).</li>
+                            <li><strong>Fast:</strong> A container can boot in *milliseconds*, not minutes.</li>
+                            <li><strong>Portable:** A Docker container built on your Windows laptop will run *exactly the same way* on a Linux server in AWS. This is the core principle: **"Build once, run anywhere."**</li>
+                        </ul>
+                    </li>
+                    <li><strong>Cons:</strong> Less isolation than a VM (all containers share the same kernel).</li>
+                </ul>
+                <p>For a DevOps engineer, Docker solves the #1 problem: **"It works on my machine!"** With Docker, if it works on your machine, it works *everywhere*.</p>
+                
+                <a href="https://www.docker.com/resources/what-container/" target="_blank" class="read-more-link">Read More about What a Container Is &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 2: Docker Setup -->
+                <!-- ========================== -->
+                
+                <h2>Part 2: Installing Docker</h2>
+                <p>You need to install the Docker "engine" to build and run containers.</p>
+                
+                <h3>Option 1: Docker Desktop (Windows & macOS)</h3>
+                <p>This is the all-in-one, easy-to-use application for your development machine. It includes the Docker Engine, the Docker CLI (command-line tool), and a helpful GUI (Graphical User Interface).</p>
+                <ol>
+                    <li>Go to the <a href="https://www.docker.com/products/docker-desktop/" target="_blank">Docker Desktop website</a>.</li>
+                    <li>Download the installer for your OS (Windows or Mac).</li>
+                    <li>Run the installer. (On Windows, it may require you to enable **WSL 2 (Windows Subsystem for Linux)**, which it can often do for you. This is what allows Windows to run Linux containers.)</li>
+                    <li>After installation, open your terminal (PowerShell or Terminal) and run:</li>
+                </ol>
+                <pre><code>$ <span class="command">docker</span> --version
+<span class="comment_output">Docker version 25.0.3, build 4debf41</span>
+</code></pre>
+                
+                <h3>Option 2: Docker Engine (Linux Server)</h3>
+                <p>On a production Linux server, you don't install Docker Desktop. You install the lightweight **Docker Engine**.</p>
+                <pre><code><span class="comment"># On Ubuntu/Debian:</span>
+
+<span class="comment"># 1. Update apt and install prerequisites</span>
+$ <span class="command">sudo</span> apt-get update
+$ <span class="command">sudo</span> apt-get install -y ca-certificates curl gnupg
+
+<span class="comment"># 2. Add Docker's official GPG key</span>
+$ <span class="command">sudo</span> install -m 0755 -d /etc/apt/keyrings
+$ <span class="command">curl</span> -fsSL https://download.docker.com/linux/ubuntu/gpg | <span class="command">sudo</span> gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+$ <span class="command">sudo</span> chmod a+r /etc/apt/keyrings/docker.gpg
+
+<span class="comment"># 3. Set up the Docker repository</span>
+$ <span class="command">echo</span> \
+  <span class="string">"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable"</span> | <span class="command">sudo</span> tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+<span class="comment"># 4. Install Docker Engine</span>
+$ <span class="command">sudo</span> apt-get update
+$ <span class="command">sudo</span> apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+<span class="comment"># 5. (CRITICAL) Add your user to the 'docker' group</span>
+<span class="comment"># This lets you run 'docker' commands without 'sudo'</span>
+$ <span class="command">sudo</span> usermod -aG docker $USER
+
+<span class="comment"># 6. Log out and log back in for the group changes to apply.</span>
+<span class="comment"># Then verify it works:</span>
+$ <span class="command">docker</span> ps
+</code></pre>
+                
+                <!-- =================================== -->
+                <!-- PART 3: The 3 Core Docker Concepts -->
+                <!-- =================================== -->
+                
+                <h2>Part 3: The 3 Core Docker Concepts</h2>
+                <p>This is the holy trinity of Docker. You *must* understand the difference between these three.</p>
+                
+                
+                <h3>1. The `Dockerfile` (The "Blueprint")</h3>
+                <p>A `Dockerfile` is a plain text file with **instructions** on *how to build* a Docker Image. It's the "recipe." You write commands like "Start from Ubuntu," "Install Python," "Copy my app code," and "Run my app."</p>
+                <pre><code><span class="comment"># This is a Dockerfile</span>
+<span class="keyword">FROM</span><span class="type"> python:3.10-slim</span>
+<span class="keyword">WORKDIR</span><span class="type"> /app</span>
+<span class="keyword">COPY</span><span class="type"> requirements.txt .</span>
+<span class="keyword">RUN</span><span class="type"> pip install -r requirements.txt</span>
+<span class="keyword">COPY</span><span class="type"> . .</span>
+<span class="keyword">CMD</span><span class="type"> ["python", "app.py"]</span>
+</code></pre>
+                
+                <h3>2. The Image (The "Snapshot" / The ".exe")</h3>
+                <p>A Docker **Image** is what you get when you **build** your `Dockerfile`. It's a read-only, compressed snapshot that contains your application, its libraries, and the OS filesystem (e.g., the Ubuntu filesystem). You store this image on a **Registry** (like Docker Hub or GHCR).</p>
+                <pre><code><span class="comment"># This command reads the Dockerfile and builds an Image</span>
+$ <span class="command">docker</span> build -t my-python-app .
+</code></pre>
+                
+                <h3>3. The Container (The "Running Instance")</h3>
+                <p>A **Container** is what you get when you **run** your Image. It's a live, running process. You can start, stop, and delete containers. You can run *multiple* containers from the *same* image (e.g., run 10 copies of your `my-python-app` image, all isolated from each other).</p>
+                <pre><code><span class="comment"># This command runs the 'my-python-app' image as a new container</span>
+$ <span class="command">docker</span> run my-python-app
+</code></pre>
+                <p><strong>Analogy:** The `Dockerfile` is the architectural blueprint. The `Image` is the finished, shrink-wrapped house in a box. The `Container` is the actual house you've placed on a street, with electricity and water turned on, and people living inside.</p>
+                
+                <!-- =================================== -->
+                <!-- PART 4: Deep Dive: The Dockerfile -->
+                <!-- =================================== -->
+                
+                <h2>Part 4: Deep Dive - Writing a `Dockerfile`</h2>
+                <p>Let's build a container for a simple Node.js web app. Here are the most important instructions you'll use.</p>
+                
+                <span class="code-filename">Dockerfile</span>
+                <pre><code><span class="comment"># --- Stage 1: The 'Build' Stage ---</span>
+<span class="comment"># Use an official Node.js image as the "base"</span>
+<span class="keyword">FROM</span> <span class="type">node:18-alpine</span> <span class="keyword">AS</span> <span class="type">builder</span>
+
+<span class="comment"># Set the working directory *inside* the image</span>
+<span class="keyword">WORKDIR</span> <span class="type">/usr/src/app</span>
+
+<span class="comment"># Copy the package.json and package-lock.json first</span>
+<span class="comment"># This takes advantage of Docker's layer caching</span>
+<span class="keyword">COPY</span> <span class="type">package*.json ./</span>
+
+<span class="comment"># Run the install command</span>
+<span class="keyword">RUN</span> <span class="type">npm install</span>
+
+<span class="comment"># Copy the rest of the application code</span>
+<span class="keyword">COPY</span> <span class="type">. .</span>
+
+<span class="comment"># Run the 'build' script (e.g., for a React app)</span>
+<span class="keyword">RUN</span> <span class="type">npm run build</span>
+
+<span class="comment"># --- Stage 2: The 'Production' Stage ---</span>
+<span class="comment"># Start fresh from a lightweight Nginx server image</span>
+<span class="keyword">FROM</span> <span class="type">nginx:1.25-alpine</span>
+
+<span class="comment"># Copy *only* the built files from the 'builder' stage</span>
+<span class="keyword">COPY</span> <span class="type">--from=builder /usr/src/app/build /usr/share/nginx/html</span>
+
+<span class="comment"># Tell Docker the container listens on port 80</span>
+<span class="keyword">EXPOSE</span> <span class="type">80</span>
+
+<span class="comment"># The command to run when the container starts</span>
+<span class="keyword">CMD</span> <span class="type">["nginx", "-g", "daemon off;"]</span>
+</code></pre>
+                
+                <h4>Instruction Deep Dive:</h4>
+                <ul>
+                    <li><strong><code>FROM node:18-alpine</code>:** This is the most important. It says, "Start with an OS that *already* has Node.js 18 and Alpine Linux installed." This is your "base image."</li>
+                    <li><strong><code>WORKDIR /usr/src/app</code>:** Sets the *default directory* for all future commands (<code>COPY</code>, <code>RUN</code>) inside the container.</li>
+                    <li><strong><code>COPY package*.json ./</code>:** Copies files from your *local machine* (the "build context") into the *container's* working directory (<code>/usr/src/app</code>).</li>
+                    <li><strong><code>RUN npm install</code>:** **Runs a shell command** inside the container *at build time*. This creates a new "layer" in the image.</li>
+                    <li><strong>Multi-Stage Build (<code>AS builder</code>, <code>--from=builder</code>):</strong> This is an advanced, critical optimization. We use a big Node.js image (the "builder") to install <code>npm</code> and build our app. Then, we start fresh with a *tiny* Nginx image and *only* copy the final <code>build</code> folder. The final image is tiny (e.g., 20MB) and doesn't contain all the <code>npm</code> build tools, making it more secure.</li>
+                    <li><strong><code>EXPOSE 80</code>:** This is just *documentation*. It tells the user that the app inside *listens* on port 80. It does **not** actually open the port.</li>
+                    <li><strong><code>CMD ["nginx", "-g", "daemon off;"]</code>:** The **default command** to run *when the container starts*. You can only have one <code>CMD</code>. This is the "program" the container is meant to run.</li>
+                </ul>
+                
+                <h4><code>CMD</code> vs. <code>ENTRYPOINT</code></h4>
+                <p>This is a common confusion.
+                    <ul>
+                        <li><strong><code>CMD</code>:** The *default command* to run. You can easily override it from the command line.</li>
+                        <li><strong><code>ENTRYPOINT</code>:** The *main executable* of the container. This is harder to override.</li>
+                    </ul>
+                </p>
+                <p><strong>Best Practice:** Use <code>ENTRYPOINT</code> to set the main command and <code>CMD</code> to set the *default argument* for that command.</p>
+                <pre><code><span class="keyword">ENTRYPOINT</span> <span class="type">["ping"]</span>
+<span class="keyword">CMD</span> <span class="type">["google.com"]</span>
+
+<span class="comment"># 'docker run my-image' -> runs 'ping google.com'</span>
+<span class="comment"># 'docker run my-image facebook.com' -> runs 'ping facebook.com'</span>
+</code></pre>
+                
+                <h4>`.dockerignore`</h4>
+                <p>Just like <code>.gitignore</code>. When you run <code>COPY . .</code>, you don't want to copy your <code>node_modules</code> or <code>.git</code> folder into the image. You create a <code>.dockerignore</code> file:</p>
+                <pre><code>node_modules
+.git
+.env
+Dockerfile
+</code></pre>
+
+                <!-- =================================== -->
+                <!-- PART 5: Building & Running -->
+                <!-- =================================== -->
+                
+                <h2>Part 5: Building & Running Containers (The Commands)</h2>
+                
+                <h3><code>docker build</code></h3>
+                <p>This command reads the <code>Dockerfile</code> and builds your image.</p>
+                <pre><code><span class="comment"># Build an image from the Dockerfile in the current directory (.)</span>
+<span class="comment"># '-t' (tag) gives the image a name (my-app) and tag (v1)</span>
+$ <span class="command">docker</span> build -t my-app:v1 .
+</code></pre>
+                
+                <h3><code>docker images</code></h3>
+                <p>Lists all the images you have built or downloaded to your local machine.</p>
+                <pre><code>$ <span class="command">docker</span> images
+<span class="comment_output">
+REPOSITORY     TAG       IMAGE ID       CREATED        SIZE
+my-app         v1        d1a2b3c4e5f6   5 seconds ago  22.1MB
+node           18-alpine a1b2c3d4e5f6   2 weeks ago    182MB
+nginx          1.25-alpine f6g7h8i9j0k1   3 weeks ago    21.9MB
+</span>
+</code></pre>
+
+                <h3><code>docker run</code> (The Big One)</h3>
+                <p>This is the most important command. It creates and starts a new container from an image.</p>
+                <pre><code><span class="comment"># Run the 'my-app:v1' image</span>
+<span class="comment"># '-d' (detached) - Run in the background</span>
+<span class="comment"># '-p 8080:80' (port) - Map port 8080 on *my laptop* to port 80 *inside* the container</span>
+<span class="comment"># '--name' - Give the container a custom name</span>
+$ <span class="command">docker</span> run -d -p 8080:80 --name my-web-server my-app:v1
+<span class="comment_output">
+ab1234567890abcdef...
+</span>
+</code></pre>
+                <p>You can now open your browser to <code>http://localhost:8080</code> and you will see your Nginx server running!</p>
+                
+                <h4>Other `docker run` flags:</h4>
+                <ul>
+                    <li><strong><code>-it</code> (Interactive TTY):</strong> Runs the container in the *foreground* and attaches your terminal to it.
+                    <pre><code><span class="comment"># Start a new Ubuntu container and get a Bash shell inside it</span>
+$ <span class="command">docker</span> run -it ubuntu:latest bash
+<span class="comment_output">
+root@ab12345:/# ls
+bin  boot  dev  etc  home  ...
+</span>
+</code></pre>
+                    </li>
+                    <li><strong><code>-e</code> (Environment Variable):</strong> Sets an environment variable inside the container.
+                    <pre><code>$ <span class="command">docker</span> run -d -e "MY_VAR=hello" my-app:v1
+</code></pre>
+                    </li>
+                </ul>
+                
+                <h3><code>docker ps</code> (Manage Containers)</h3>
+                <p>This is your "task manager" for running containers.</p>
+                <pre><code><span class="comment"># Show *running* containers</span>
+$ <span class="command">docker</span> ps
+<span class="comment_output">
+CONTAINER ID   IMAGE       COMMAND                  CREATED         STATUS         PORTS                  NAMES
+ab1234567890   my-app:v1   "nginx -g 'daemon of…"   5 minutes ago   Up 5 minutes   0.0.0.0:8080->80/tcp   my-web-server
+</span>
+
+<span class="comment"># Show *all* containers (including stopped ones)</span>
+$ <span class="command">docker</span> ps -a
+</code></pre>
+                
+                <h3><code>docker stop</code> / <code>start</code> / <code>rm</code></h3>
+                <pre><code><span class="comment"># Stop the running container (using its name or ID)</span>
+$ <span class="command">docker</span> stop my-web-server
+
+<span class="comment"># Start it again</span>
+$ <span class="command">docker</span> start my-web-server
+
+<span class="comment"># Permanently delete the container</span>
+$ <span class="command">docker</span> rm my-web-server
+</code></pre>
+                
+                <h3><code>docker logs</code> (Debugging)</h3>
+                <p>This lets you see the console output (Logcat) from a *running* container.</p>
+                <pre><code><span class="comment"># Show all logs for the container</span>
+$ <span class="command">docker</span> logs my-web-server
+
+<span class="comment"># Follow the logs in real-time (like 'tail -f')</span>
+$ <span class="command">docker</span> logs -f my-web-server
+</code></pre>
+                
+                <h3><code>docker exec</code> (Run commands inside)</h3>
+                <p>This is your "SSH" into a *running* container.</p>
+                <pre><code><span class="comment"># Get a Bash shell *inside* the already-running 'my-web-server'</span>
+$ <span class="command">docker</span> exec -it my-web-server bash
+<span class="comment_output">
+root@ab12345:/usr/share/nginx/html# ls
+index.html  50x.html
+</span>
+</code></pre>
+
+                <!-- =================================== -->
+                <!-- PART 6: Storage & Networking -->
+                <!-- =================================== -->
+                
+                <h2>Part 6: Docker Storage & Networking</h2>
+                
+                <h3>Docker Volumes (Persistent Storage)</h3>
+                <p><strong>CRITICAL CONCEPT:** A container's filesystem is **ephemeral**. When you run <code>docker rm my-web-server</code>, the container is deleted, and any data *inside* it (like user uploads or a database) is **gone forever**.
+                <br>
+                To solve this, you use a **Volume**. A Volume is a way to "mount" a folder from your *Host* machine (your laptop) *into* the container. The data lives on your laptop, but the container *thinks* it's just a regular folder.</p>
+                
+                
+                <p>Let's run a **PostgreSQL database** in a container. We must mount a volume to protect the database files.</p>
+                <pre><code><span class="comment"># 1. Create a named volume (managed by Docker)</span>
+$ <span class="command">docker</span> volume create postgres-db-data
+
+<span class="comment"># 2. Run the container and mount the volume</span>
+$ <span class="command">docker</span> run -d \
+  -p 5432:5432 \
+  -e "POSTGRES_PASSWORD=mysecretpassword" \
+  --name my-postgres-db \
+  <span class="keyword">-v</span> <span class="string">postgres-db-data:/var/lib/postgresql/data</span> \
+  <span class="type">postgres:15</span>
+
+<span class="comment_comment"># Breakdown:</span>
+<span class="comment_comment"># '-v' is the volume flag</span>
+<span class="comment_comment"># 'postgres-db-data' is the name of the volume on our HOST</span>
+<span class="comment_comment"># '/var/lib/postgresql/data' is the path *INSIDE* the container where Postgres saves its data</span>
+</code></pre>
+                <p>Now, when the container writes to <code>/var/lib/postgresql/data</code>, it's *actually* writing to the <code>postgres-db-data</code> volume on your host. You can now <code>docker stop</code> and <code>docker rm</code> this container, start a new one, mount the *same volume*, and all your data will still be there.</p>
+                
+                <h3>Docker Networking</h3>
+                <p>How do containers talk to each other? By default, Docker creates a "bridge" network. All containers on this network can find each other *by name*.</p>
+                <p>Instead of hard-coding an IP (<code>172.17.0.2</code>), your "web-app" container can just connect to the host named <code>"db"</code>.</p>
+                
+                <!-- =================================== -->
+                <!-- PART 7: Docker Compose -->
+                <!-- =================================== -->
+
+                <h2>Part 7: Docker Compose (Multi-Container Apps)</h2>
+                <p>You are *not* going to run 10 <code>docker run ...</code> commands with complex volume and network flags. That's what scripts are for.
+                <br>
+                **Docker Compose** is a tool that uses a single YAML file (<code>docker-compose.yml</code>) to define and run a *multi-container application*.</p>
+                
+                <p>Let's define a full stack app: a Node.js API (<code>api</code>) and a Redis database (<code>db</code>).</p>
+                
+                <span class="code-filename">docker-compose.yml</span>
+                <pre><code><span class="comment"># Define the file version</span>
+<span class="property">version:</span> <span class="string">'3.8'</span>
+
+<span class="comment"># Define all the 'services' (containers) we need</span>
+<span class="property">services:</span>
+  
+  <span class="comment"># 1. Our API service</span>
+  <span class="property">api:</span>
+    <span class="comment"># Build the Dockerfile in the current directory</span>
+    <span class="property">build:</span> <span class="string">.</span>
+    <span class="property">ports:</span>
+      - <span class="string">"8080:8080"</span> <span class="comment"># Map host port 8080 to container 8080</span>
+    <span class="property">volumes:</span>
+      - <span class="string">./app:/usr/src/app</span> <span class="comment"># Mount our code for live-reloading</span>
+    <span class="property">environment:</span>
+      - <span class="string">REDIS_HOST=db</span> <span class="comment"># Tell our app the DB is at hostname 'db'</span>
+    <span class="comment"># This service depends on 'db' starting first</span>
+    <span class="property">depends_on:</span>
+      - <span class="string">db</span>
+
+  <span class="comment"># 2. Our Database service</span>
+  <span class="property">db:</span>
+    <span class="comment"># Pull this image directly from Docker Hub</span>
+    <span class="property">image:</span> <span class="string">redis:latest</span>
+    <span class="property">ports:</span>
+      - <span class="string">"6379:6379"</span>
+    <span class="property">volumes:</span>
+      - <span class="string">redis-data:/data</span>
+
+<span class="comment"># Define the named volume</span>
+<span class="property">volumes:</span>
+  <span class="property">redis-data:</span>
+</code></pre>
+                
+                <p>Now, you just run **one** command to start this entire 2-container application:</p>
+                <pre><code><span class="comment"># Start all services in detached mode</span>
+$ <span class="command">docker-compose</span> up -d
+<span class="comment_output">
+[+] Running 2/2
+ ⠿ Container my-project-db-1   Started
+ ⠿ Container my-project-api-1  Started
+</span>
+</code></pre>
+                <p>And one command to stop and delete everything:</p>
+                <pre><code>$ <span class="command">docker-compose</span> down
+<span class="comment_output">
+[+] Running 2/2
+ ⠿ Container my-project-api-1  Removed
+ ⠿ Container my-project-db-1   Removed
+</span>
+</code></pre>
+                
+                <!-- =================================== -->
+                <!-- PART 8: Registries -->
+                <!-- =================================== -->
+                
+                <h2>Part 8: Container Registries (Sharing Images)</h2>
+                <p>Your image is built (<code>my-app:v1</code>). It's on your laptop. How do you get it to your production server in AWS?</p>
+                <p>You use a **Container Registry**. This is a "GitHub for Docker Images."</p>
+                <ul>
+                    <li><strong>Docker Hub:** The main public registry (like GitHub.com).</li>
+                    <li><strong>GitHub Container Registry (GHCR):** Hosts images directly on your GitHub repo.</li>
+                    <li><strong>AWS ECR / Google GCR / Azure ACR:</strong> Private registries hosted by cloud providers.</li>
+                </ul>
+                
+                <p>The workflow is simple: `tag`, `login`, `push`, `pull`.</p>
+                <pre><code><span class="comment"># 1. (Tag) Give your image a "full name" that includes the registry</span>
+$ <span class="command">docker</span> tag my-app:v1 ghcr.io/msmaxpro/my-app:v1
+
+<span class="comment"># 2. (Login) Log in to the registry</span>
+$ <span class="command">docker</span> login ghcr.io -u MSMAXPRO -p $GITHUB_TOKEN
+
+<span class="comment"># 3. (Push) Upload your image</span>
+$ <span class="command">docker</span> push ghcr.io/msmaxpro/my-app:v1
+
+<span class="comment"># 4. (Pull) On your production server, log in and pull the image</span>
+$ <span class="command">docker</span> pull ghcr.io/msmaxpro/my-app:v1
+
+<span class="comment"># 5. (Run) Run the container from the newly pulled image</span>
+$ <span class="command">docker</span> run -d -p 80:80 ghcr.io/msmaxpro/my-app:v1
+</code></pre>
+                
+                <a href="https://docs.docker.com/" target="_blank" class="read-more-link">Read the Official Docker Documentation &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-cloud.html" class="cta-button prev">&larr; Chapter 5: Cloud Providers</a>
+                    <a href="devops-kubernetes.html" class="cta-button">Next Chapter: Kubernetes &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
