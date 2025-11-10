@@ -412,4 +412,416 @@
                 </ul>
 
                 <h4><code>onStop()</code></h4>
-  
+                <ul>
+                    <li><strong>When is it called?</strong> When the Activity is no longer visible to the user (e.g., the user pressed the Home button or switched to another app).</li>
+                    <li><strong>What to do here:</strong> Release any resources you don't need while in the background. Stop animations, disconnect from network sockets.</li>
+                </ul>
+
+                <h4><code>onRestart()</code></h4>
+                <ul>
+                    <li><strong>When is it called?</strong> When the user navigates *back* to your app after it was in the "Stopped" state (e.g., they press the app icon again). It is always followed by <code>onStart()</code>.</li>
+                </ul>
+
+                <h4><code>onDestroy()</code></h4>
+                <ul>
+                    <li><strong>When is it called?</strong> The Activity is being permanently destroyed. This happens for two reasons:
+                        <ol>
+                            <li>The user manually finished it (e.g., by pressing the Back button).</li>
+                            <li>The system is temporarily destroying it due to a **Configuration Change** (like rotating the phone) or to save memory.</li>
+                        </ol>
+                    </li>
+                    <li><strong>What to do here:</strong> Clean up any final resources (like closing database connections or unbinding services).</li>
+                </ul>
+
+                <h4>Example Scenarios:</h4>
+                <ol>
+                    <li><strong>App Launch:</strong> <code>onCreate()</code> -> <code>onStart()</code> -> <code>onResume()</code>. (App is running)</li>
+                    <li><strong>User presses Home button:</strong> <code>onPause()</code> -> <code>onStop()</code>. (App is in background)</li>
+                    <li>**User returns to app:</strong> <code>onRestart()</code> -> <code>onStart()</code> -> <code>onResume()</code>. (App is running again)</li>
+                    <li>**User presses Back button:</strong> <code>onPause()</code> -> <code>onStop()</code> -> <code>onDestroy()</code>. (App is finished)</li>
+                </ol>
+
+                <h3>Configuration Changes & State Handling</h3>
+                <p>This is a classic "beginner trap" in Android. **By default, when a "configuration change" happens (like rotating the phone from portrait to landscape), Android *destroys* your entire Activity and *re-creates* it from scratch.**</p>
+                <p><code>onPause()</code> -> <code>onStop()</code> -> <code>onDestroy()</code> -> <code>onCreate()</code> -> <code>onStart()</code> -> <code>onResume()</code></p>
+                <p>If you have a counter variable in your Activity, it will be reset to 0! This is terrible UX.</p>
+                
+                <h4>The Old Way: `onSaveInstanceState`</h4>
+                <p>To fix this, you override <code>onSaveInstanceState</code>. The system calls this method *before* destroying your Activity (after <code>onPause()</code>), giving you a chance to save small amounts of data (like the counter) into a "Bundle".</p>
+                
+                <pre><code><span class="keyword">class</span> <span class="type">MainActivity</span> <span class="operator">:</span> <span class="type">AppCompatActivity</span>() {
+    <span class="keyword">var</span> <span class="attr">counter</span> <span class="operator">=</span> <span class="number">0</span>
+    <span class="keyword">val</span> <span class="attr">COUNTER_KEY</span> <span class="operator">=</span> <span class="string">"MY_COUNTER"</span>
+
+    <span class="keyword">override fun</span> <span class="function">onCreate</span>(<span class="attr">savedInstanceState</span><span class="operator">:</span> <span class="type">Bundle?</span>) {
+        <span class="keyword">super</span>.<span class="function">onCreate</span>(<span class="attr">savedInstanceState</span>)
+        
+        <span class="comment">// 2. Restore the state if it exists</span>
+        <span class="keyword">if</span> (<span class="attr">savedInstanceState</span> <span class="operator">!=</span> <span class="keyword">null</span>) {
+            <span class="attr">counter</span> <span class="operator">=</span> <span class="attr">savedInstanceState</span>.<span class="function">getInt</span>(<span class="attr">COUNTER_KEY</span>, <span class="number">0</span>)
+        }
+        
+        <span class="comment">// ... your setContentView and click listeners ...</span>
+        <span class="attr">myButton</span>.<span class="function">setOnClickListener</span> { <span class="attr">counter</span><span class="operator">++</span> }
+    }
+
+    <span class="comment">// 1. Save the state before destruction</span>
+    <span class="keyword">override fun</span> <span class="function">onSaveInstanceState</span>(<span class="attr">outState</span><span class="operator">:</span> <span class="type">Bundle</span>) {
+        <span class="attr">outState</span>.<span class="function">putInt</span>(<span class="attr">COUNTER_KEY</span>, <span class="attr">counter</span>)
+        <span class="keyword">super</span>.<span class="function">onSaveInstanceState</span>(<span class="attr">outState</span>)
+    }
+}
+</code></pre>
+                
+                <h4>The Modern Way: `ViewModel` (The Right Way)</h4>
+                <p>The `onSaveInstanceState` method is only for small amounts of data. The **correct, modern** way to handle this is to *not* store state in the Activity at all. You store it in a special class called a **`ViewModel`**.</p>
+                <p>A `ViewModel` is a class designed to survive configuration changes. When the Activity is destroyed and re-created, the *same ViewModel instance* is re-connected to the new Activity, so your data is never lost. (We will cover this in **Chapter 7: Modern Architecture**).</p>
+                
+                <a href="https://developer.android.com/guide/components/activities/activity-lifecycle" target="_blank" class="read-more-link">Read More about the Activity Lifecycle &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Intents         -->
+                <!-- ========================== -->
+
+                <h2>Deep Dive: Intents (The "Glue")</h2>
+                <p>An **Intent** is an asynchronous "message" that your app uses to request an action from another component. You don't start an Activity or Service by calling its class directly. Instead, you create an Intent object that *describes* what you want to do, and you pass that Intent to the Android system (e.g., <code>startActivity(myIntent)</code>). The system then finds the right component to handle it.</p>
+                <p>There are two types of Intents:</p>
+                
+                <h3>1. Explicit Intents</h3>
+                <p>An Explicit Intent is "explicit" because you **name the exact component** (class) you want to start. You almost always use this to start components *within your own app*.</p>
+                
+                
+                <h4>Example: Starting another Activity</h4>
+                <pre><code><span class="comment">// Inside MainActivity.kt</span>
+<span class="keyword">val</span> <span class="attr">goToProfileButton</span> <span class="operator">=</span> <span class="function">findViewById</span><span class="operator">&lt;</span><span class="type">Button</span><span class="operator">&gt;</span>(<span class="type">R</span>.<span class="attr">id</span>.<span class="attr">profile_button</span>)
+
+<span class="attr">goToProfileButton</span>.<span class="function">setOnClickListener</span> {
+    <span class="comment">// Create an explicit intent for ProfileActivity</span>
+    <span class="keyword">val</span> <span class="attr">intent</span> <span class="operator">=</span> <span class="type">Intent</span>(<span class="keyword">this</span>, <span class="type">ProfileActivity</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+    
+    <span class="comment">// (Optional) Add extra data (like a "key-value" pair)</span>
+    <span class="attr">intent</span>.<span class="function">putExtra</span>(<span class="string">"USER_ID"</span>, <span class="number">12345</span>)
+    <span class="attr">intent</span>.<span class="function">putExtra</span>(<span class="string">"USERNAME"</span>, <span class="string">"MSMAXPRO"</span>)
+    
+    <span class="comment">// Start the new activity</span>
+    <span class="function">startActivity</span>(<span class="attr">intent</span>)
+}
+
+<span class="comment">// Inside ProfileActivity.kt, in onCreate()</span>
+<span class="keyword">val</span> <span class="attr">userId</span> <span class="operator">=</span> <span class="attr">intent</span>.<span class="function">getIntExtra</span>(<span class="string">"USER_ID"</span>, <span class="number">0</span>) <span class="comment">// 0 is a default value</span>
+<span class="keyword">val</span> <span class="attr">username</span> <span class="operator">=</span> <span class="attr">intent</span>.<span class="function">getStringExtra</span>(<span class="string">"USERNAME"</span>)
+</code></pre>
+
+                <h3>2. Implicit Intents</h3>
+                <p>An Implicit Intent is "implicit" because you **do not name the component**. Instead, you describe the **action** you want to perform (e.g., "open a webpage," "share text," "take a picture"). The Android system then finds *all* the apps on the user's phone that can handle this action (e.g., Chrome, Firefox, Opera for a webpage) and shows the user a "chooser" dialog.</p>
+                
+                
+                <h4>Example 1: Opening a Webpage</h4>
+                <pre><code><span class="keyword">val</span> <span class="attr">openWebButton</span> <span class="operator">=</span> <span class="function">findViewById</span><span class="operator">&lt;</span><span class="type">Button</span><span class="operator">&gt;</span>(<span class="type">R</span>.<span class="attr">id</span>.<span class="attr">web_button</span>)
+<span class="attr">openWebButton</span>.<span class="function">setOnClickListener</span> {
+    <span class="comment">// 1. Define the Action (what to do)</span>
+    <span class="keyword">val</span> <span class="attr">action</span> <span class="operator">=</span> <span class="type">Intent</span>.<span class="attr">ACTION_VIEW</span>
+    
+    <span class="comment">// 2. Define the Data (what to do it on)</span>
+    <span class="keyword">val</span> <span class="attr">data</span> <span class="operator">=</span> <span class="type">Uri</span>.<span class="function">parse</span>(<span class="string">"https://codewithmsmaxpro.me"</span>)
+    
+    <span class="comment">// 3. Create the intent</span>
+    <span class="keyword">val</span> <span class="attr">intent</span> <span class="operator">=</span> <span class="type">Intent</span>(<span class="attr">action</span>, <span class="attr">data</span>)
+    
+    <span class="comment">// 4. Start the activity</span>
+    <span class="function">startActivity</span>(<span class="attr">intent</span>)
+}
+</code></pre>
+                
+                <h4>Example 2: Sharing Text</h4>
+                <pre><code><span class="keyword">val</span> <span class="attr">shareButton</span> <span class="operator">=</span> <span class="function">findViewById</span><span class="operator">&lt;</span><span class="type">Button</span><span class="operator">&gt;</span>(<span class="type">R</span>.<span class="attr">id</span>.<span class="attr">share_button</span>)
+<span class="attr">shareButton</span>.<span class="function">setOnClickListener</span> {
+    <span class="keyword">val</span> <span class="attr">intent</span> <span class="operator">=</span> <span class="type">Intent</span>(<span class="type">Intent</span>.<span class="attr">ACTION_SEND</span>)
+    <span class="attr">intent</span>.<span class="attr">type</span> <span class="operator">=</span> <span class="string">"text/plain"</span>
+    <span class="attr">intent</span>.<span class="function">putExtra</span>(<span class="type">Intent</span>.<span class="attr">EXTRA_SUBJECT</span>, <span class="string">"Check out this cool website"</span>)
+    <span class="attr">intent</span>.<span class="function">putExtra</span>(<span class="type">Intent</span>.<span class="attr">EXTRA_TEXT</span>, <span class="string">"https://codewithmsmaxpro.me"</span>)
+    
+    <span class="comment">// Create a chooser dialog so the user can pick (e.g., WhatsApp, Twitter)</span>
+    <span class="function">startActivity</span>(<span class="type">Intent</span>.<span class="function">createChooser</span>(<span class="attr">intent</span>, <span class="string">"Share via"</span>))
+}
+</code></pre>
+                
+                <h4>Intent Filters</h4>
+                <p>How does the system know that *your* app can handle an implicit intent? You declare an <code>&lt;intent-filter&gt;</code> in your <code>AndroidManifest.xml</code>. This is how you "register" your app to handle certain actions.</p>
+                <p>For example, to make your app appear in the "Share" dialog for text:</p>
+                <pre><code><span class="tag">&lt;activity <span class="attr">android:name=</span><span class="string">".ShareReceiverActivity"</span>&gt;</span>
+    <span class="tag">&lt;intent-filter&gt;</span>
+        <span class="tag">&lt;action <span class="attr">android:name=</span><span class="string">"android.intent.action.SEND"</span> /&gt;</span>
+        <span class="tag">&lt;category <span class="attr">android:name=</span><span class="string">"android.intent.category.DEFAULT"</span> /&gt;</span>
+        <span class="tag">&lt;data <span class="attr">android:mimeType=</span><span class="string">"text/plain"</span> /&gt;</span>
+    <span class="tag">&lt;/intent-filter&gt;</span>
+<span class="tag">&lt;/activity&gt;</span>
+</code></pre>
+                
+                <a href="https://developer.android.com/guide/components/intents-filters" target="_blank" class="read-more-link">Read More about Intents and Intent Filters &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 4: Services        -->
+                <!-- ========================== -->
+
+                <h2>Deep Dive: Services & Background Work</h2>
+                <p>A **Service** is an application component that can perform long-running operations in the **background** without a user interface. It's used for tasks that should continue running even when the user leaves your app's main screen.</p>
+                <p><strong>Warning:</strong> Services are one of the most misunderstood components. Since Android 8.0 (Oreo), the OS *heavily restricts* background services to save battery. You can no longer just run a service in the background for hours.</p>
+                
+                <h4>Types of Services:</h4>
+                <ol>
+                    <li><strong>Started Service:</strong> "Fire and forget." You start it, it does its job, and it stops itself. Used for a single operation (e.g., uploading a user's photo).</li>
+                    <li><strong>Bound Service:</strong> A client-server interface. The Activity "binds" to the service to communicate with it (e.g., a music player where the Activity needs to tell the service to "play," "pause," or "skip").</li>
+                    <li><strong>Foreground Service:</strong> The *only* type of service that can run in the background for a long time. It *must* display a persistent, non-dismissible notification to the user (e.g., a music player's notification, a "navigating" notification from Google Maps, a "steps counted" notification).</li>
+                </ol>
+                
+                <h3>Foreground Services: The Modern "Service"</h3>
+                <p>If you need to play music or track a user's run, you must use a Foreground Service.</p>
+                <p><strong>Step 1: Request Permission in Manifest</strong> (for Android 9+)</p>
+                <pre><code><span class="tag">&lt;uses-permission <span class="attr">android:name=</span><span class="string">"android.permission.FOREGROUND_SERVICE"</span> /&gt;</span>
+</code></pre>
+                
+                <p><strong>Step 2: Create the Service Class</strong></p>
+                <pre><code><span class="keyword">class</span> <span class="type">MyMusicService</span> <span class="operator">:</span> <span class="type">Service</span>() {
+    
+    <span class="keyword">override fun</span> <span class="function">onStartCommand</span>(<span class="attr">intent</span><span class="operator">:</span> <span class="type">Intent?</span>, <span class="attr">flags</span><span class="operator">:</span> <span class="type">Int</span>, <span class="attr">startId</span><span class="operator">:</span> <span class="type">Int</span>)<span class="operator">:</span> <span class="type">Int</span> {
+        <span class="comment">// This method is called when startService() is used</span>
+        
+        <span class="comment">// 1. Create the Notification (MUST be done in 5 seconds)</span>
+        <span class="keyword">val</span> <span class="attr">notification</span> <span class="operator">=</span> <span class="function">createNotification</span>() <span class="comment">// (See helper function below)</span>
+
+        <span class="comment">// 2. Start the service in the foreground</span>
+        <span class="function">startForeground</span>(<span class="number">1</span>, <span class="attr">notification</span>) <span class="comment">// 1 is a unique ID for the notification</span>
+        
+        <span class="comment">// 3. Start your long-running task (e.g., play music)</span>
+        <span class="function">playMusic</span>()
+        
+        <span class="keyword">return</span> <span class="type">START_STICKY</span> <span class="comment">// If killed by system, try to restart</span>
+    }
+    
+    <span class="keyword">private fun</span> <span class="function">playMusic</span>() { <span class="comment">/* ... */</span> }
+    <span class="keyword">private fun</span> <span class="function">createNotification</span>()<span class="operator">:</span> <span class="type">Notification</span> { <span class="comment">/* ... */</span> }
+
+    <span class="keyword">override fun</span> <span class="function">onBind</span>(<span class="attr">intent</span><span class="operator">:</span> <span class="type">Intent?</span>)<span class="operator">:</span> <span class="type">IBinder?</span> {
+        <span class="keyword">return</span> <span class="keyword">null</span> <span class="comment">// We are not using binding</span>
+    }
+}
+</code></pre>
+                
+                <p><strong>Step 3: Start the Service from your Activity</strong></p>
+                <pre><code><span class="keyword">val</span> <span class="attr">intent</span> <span class="operator">=</span> <span class="type">Intent</span>(<span class="keyword">this</span>, <span class="type">MyMusicService</span><span class="operator">::</span><span class="keyword">class</span>.<span class="attr">java</span>)
+<span class="comment">// Use startForegroundService for modern Android</span>
+<span class="type">ContextCompat</span>.<span class="function">startForegroundService</span>(<span class="keyword">this</span>, <span class="attr">intent</span>)
+</code></pre>
+
+                <h3>The *Real* Modern Way: `WorkManager`</h3>
+                <p>The rules for background work are complex. What if you want to upload a file, but *only* when the phone is charging and on Wi-Fi? And what if the user closes the app?</p>
+                <p>For these "deferrable" (can run later) and "guaranteed" (will run eventually) tasks, Google created the **WorkManager** library. This is now the recommended solution for *most* background tasks that are not immediate (like playing music).</p>
+                
+                
+                <p><strong>Step 1: Add the Dependency</strong></p>
+                <pre><code><span class="function">implementation</span>(<span class="string">"androidx.work:work-runtime-ktx:2.9.0"</span>)
+</code></pre>
+
+                <p><strong>Step 2: Create a `Worker`</strong></p>
+                <p>A `Worker` defines the *work* you want to do. It runs on a background thread automatically.</p>
+                <pre><code><span class="keyword">class</span> <span class="type">UploadLogWorker</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span>, <span class="attr">params</span><span class="operator">:</span> <span class="type">WorkerParameters</span>) <span class="operator">:</span> <span class="type">Worker</span>(<span class="attr">context</span>, <span class="attr">params</span>) {
+    
+    <span class="keyword">override fun</span> <span class="function">doWork</span>()<span class="operator">:</span> <span class="type">Result</span> {
+        <span class="keyword">try</span> {
+            <span class="comment">// Your background logic here</span>
+            <span class="function">uploadLogsToServer</span>()
+            <span class="keyword">return</span> <span class="type">Result</span>.<span class="function">success</span>()
+        } <span class="keyword">catch</span> (<span class="attr">e</span><span class="operator">:</span> <span class="type">Exception</span>) {
+            <span class="keyword">return</span> <span class="type">Result</span>.<span class="function">failure</span>()
+        }
+    }
+}
+</code></pre>
+
+                <p><strong>Step 3: Schedule the Work from your Activity</strong></p>
+                <p>You create a `WorkRequest` that defines *when* this work should run.</p>
+                <pre><code><span class="comment">// 1. Define the rules (Constraints)</span>
+<span class="keyword">val</span> <span class="attr">constraints</span> <span class="operator">=</span> <span class="type">Constraints</span>.<span class="function">Builder</span>()
+    .<span class="function">setRequiredNetworkType</span>(<span class="type">NetworkType</span>.<span class="attr">UNMETERED</span>) <span class="comment">// Only on Wi-Fi</span>
+    .<span class="function">setRequiresCharging</span>(<span class="keyword">true</span>) <span class="comment">// Only when charging</span>
+    .<span class="function">build</span>()
+
+<span class="comment">// 2. Create the request</span>
+<span class="keyword">val</span> <span class="attr">uploadRequest</span> <span class="operator">=</span> <span class="type">OneTimeWorkRequestBuilder</span><span class="operator">&lt;</span><span class="type">UploadLogWorker</span><span class="operator">&gt;</span>()
+    .<span class="function">setConstraints</span>(<span class="attr">constraints</span>)
+    .<span class="function">build</span>()
+
+<span class="comment">// 3. Give it to the WorkManager to run</span>
+<span class="type">WorkManager</span>.<span class="function">getInstance</span>(<span class="keyword">this</span>).<span class="function">enqueue</span>(<span class="attr">uploadRequest</span>)
+</code></pre>
+                <p>That's it! The OS will now guarantee that your <code>UploadLogWorker</code> will run whenever those conditions (Wi-Fi and charging) are met, even if the user has rebooted their phone.</p>
+                
+                <a href="https://developer.android.com/guide/components/services" target="_blank" class="read-more-link">Read More about Services & Background Work &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: Broadcast Receivers -->
+                <!-- ========================== -->
+
+                <h2>Deep Dive: Broadcast Receivers</h2>
+                <p>A **Broadcast Receiver** is a component that does *one thing*: it listens for system-wide messages (broadcasts) and reacts to them. It has no UI. It's designed to be a "listener" or "trigger."</p>
+                <p>The system broadcasts messages for many events:</p>
+                <ul>
+                    <li><code>android.intent.action.BOOT_COMPLETED</code> (Phone finished booting)</li>
+                    <li><code>android.intent.action.ACTION_POWER_CONNECTED</code> (Charger plugged in)</li>
+                    <li><code>android.intent.action.AIRPLANE_MODE_CHANGED</code> (Airplane mode toggled)</li>
+                </ul>
+                <p>You can also send your own custom broadcasts from one part of your app to another.</p>
+                
+                <h3>Type 1: Static (Manifest-declared) Receivers</h3>
+                <p>These are receivers you register in your <code>AndroidManifest.xml</code>. Their main power is that they can receive broadcasts **even if your app is not running**.</p>
+                <p><strong>Problem:</strong> This was *heavily* restricted in Android 8 (Oreo) to save battery. You can no longer register for *most* implicit broadcasts (like network changes) in the manifest. Only a few, rare broadcasts (like <code>ACTION_BOOT_COMPLETED</code>) are still allowed.</p>
+
+                <h4>Example: Run code on Boot</h4>
+                <p><strong>Step 1: Add Permission to Manifest</strong></p>
+                <pre><code><span class="tag">&lt;uses-permission <span class="attr">android:name=</span><span class="string">"android.permission.RECEIVE_BOOT_COMPLETED"</span> /&gt;</span>
+</code></pre>
+
+                <p><strong>Step 2: Create the Receiver Class</strong></p>
+                <pre><code><span class="keyword">class</span> <span class="type">MyBootReceiver</span> <span class="operator">:</span> <span class="type">BroadcastReceiver</span>() {
+    <span class="keyword">override fun</span> <span class="function">onReceive</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context</span><span class="operator">?</span>, <span class="attr">intent</span><span class="operator">:</span> <span class="type">Intent?</span>) {
+        <span class="keyword">if</span> (<span class="attr">intent</span><span class="operator">?.</span><span class="attr">action</span> <span class="operator">==</span> <span class="type">Intent</span>.<span class="attr">ACTION_BOOT_COMPLETED</span>) {
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"BootReceiver"</span>, <span class="string">"Phone just finished booting!"</span>)
+            <span class="comment">// Start a WorkManager job here, NOT a service</span>
+        }
+    }
+}
+</code></pre>
+                
+                <p><strong>Step 3: Register in Manifest</strong></p>
+                <pre><code><span class="tag">&lt;application ...&gt;</span>
+    <span class="tag">&lt;receiver 
+        <span class="attr">android:name=</span><span class="string">".MyBootReceiver"</span> 
+        <span class="attr">android:exported=</span><span class="string">"true"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;intent-filter&gt;</span>
+            <span class="tag">&lt;action <span class="attr">android:name=</span><span class="string">"android.intent.action.BOOT_COMPLETED"</span> /&gt;</span>
+        <span class="tag">&lt;/intent-filter&gt;</span>
+    <span class="tag">&lt;/receiver&gt;</span>
+<span class="tag">&lt;/application&gt;</span>
+</code></pre>
+
+                <h3>Type 2: Dynamic (Context-registered) Receivers</h3>
+                <p>This is the modern, recommended way. You register a receiver *dynamically* from your Kotlin code (e.g., in your Activity). This receiver **only works while that component is running** (e.g., between <code>onStart()</code> and <code>onStop()</code>).</p>
+                <p>This is perfect for listening to events that only matter when your app is open (like "network connection lost").</p>
+
+                <h4>Example: Listen for Charger Connection</h4>
+                <pre><code><span class="keyword">class</span> <span class="type">MainActivity</span> <span class="operator">:</span> <span class="type">AppCompatActivity</span>() {
+    
+    <span class="keyword">private val</span> <span class="attr">powerReceiver</span> <span class="operator">=</span> <span class="keyword">object</span> <span class="operator">:</span> <span class="type">BroadcastReceiver</span>() {
+        <span class="keyword">override fun</span> <span class="function">onReceive</span>(<span class="attr">context</span><span class="operator">:</span> <span class="type">Context?</span>, <span class="attr">intent</span><span class="operator">:</span> <span class="type">Intent?</span>) {
+            <span class="keyword">if</span> (<span class="attr">intent</span><span class="operator">?.</span><span class="attr">action</span> <span class="operator">==</span> <span class="type">Intent</span>.<span class="attr">ACTION_POWER_CONNECTED</span>) {
+                <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"PowerReceiver"</span>, <span class="string">"Charger connected!"</span>)
+            }
+        }
+    }
+    
+    <span class="keyword">override fun</span> <span class="function">onStart</span>() { <span class="comment">// Register when visible</span>
+        <span class="keyword">super</span>.<span class="function">onStart</span>()
+        <span class="keyword">val</span> <span class="attr">filter</span> <span class="operator">=</span> <span class="type">IntentFilter</span>(<span class="type">Intent</span>.<span class="attr">ACTION_POWER_CONNECTED</span>)
+        <span class="function">registerReceiver</span>(<span class="attr">powerReceiver</span>, <span class="attr">filter</span>)
+    }
+
+    <span class="keyword">override fun</span> <span class="function">onStop</span>() { <span class="comment">// Unregister when invisible (VERY important)</span>
+        <span class="keyword">super</span>.<span class="function">onStop</span>()
+        <span class="function">unregisterReceiver</span>(<span class="attr">powerReceiver</span>)
+    }
+}
+</code></pre>
+                
+                <a href="https://developer.android.com/guide/components/broadcasts" target="_blank" class="read-more-link">Read More about Broadcast Receivers &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 6: Content Providers -->
+                <!-- ========================== -->
+
+                <h2>Deep Dive: Content Providers</h2>
+                <p>A **Content Provider** is a component that manages a shared set of app data. Its job is to provide a secure, database-like interface to *other apps* that want to access *your* app's data.</p>
+                <p><strong>You will almost never need to *create* your own Content Provider.</strong> This is a very advanced topic, only needed if you are building an app (like a Contacts or Photos app) that needs to share its data with the world.</p>
+                <p>However, you will **frequently need to *use* (consume) Content Providers** built into the Android system.</p>
+                
+                <h3>Consuming a Content Provider (e.g., Reading Contacts)</h3>
+                <p>The best example is the Android Contacts app. It stores all contacts in a database and exposes them to other apps (like WhatsApp, Telegram, or your app) via a Content Provider.</p>
+                <p>You don't access its database directly. You use a "resolver" to "query" a special "URL".</p>
+                
+                <h4>Key Concepts:</h4>
+                <ul>
+                    <li><strong>Content URI:</strong> A special URL that identifies the data. It's not <code>http://</code>, it's <code>content://</code>. For example, the URI for all contacts is <code>ContactsContract.CommonDataKinds.Phone.CONTENT_URI</code>.</li>
+                    <li><strong>ContentResolver:</strong> An object you get from your <code>Context</code> that lets you talk to the provider. You call <code>contentResolver.query(...)</code>.</li>
+                    <li><strong>Cursor:</strong> An object that holds the results of your query (like a pointer to a database row). You loop through the cursor to read the data.</li>
+                </ul>
+                
+                <h4>Example: Reading Contact Names</h4>
+                <p><strong>Step 1: Add Permission to Manifest</strong></p>
+                <pre><code><span class="tag">&lt;uses-permission <span class="attr">android:name=</span><span class="string">"android.permission.READ_CONTACTS"</span> /&gt;</span>
+</code></pre>
+
+                <p><strong>Step 2: Query the Provider (in Kotlin)</strong></p>
+                <pre><code><span class="comment">// (You must also request this permission at runtime)</span>
+<span class="keyword">fun</span> <span class="function">readContacts</span>() {
+    <span class="keyword">val</span> <span class="attr">projection</span> <span class="operator">=</span> <span class="function">arrayOf</span>(
+        <span class="type">ContactsContract</span>.<span class="type">CommonDataKinds</span>.<span class="type">Phone</span>.<span class="attr">DISPLAY_NAME</span>,
+        <span class="type">ContactsContract</span>.<span class="type">CommonDataKinds</span>.<span class="type">Phone</span>.<span class="attr">NUMBER</span>
+    )
+
+    <span class="keyword">val</span> <span class="attr">cursor</span> <span class="operator">=</span> <span class="attr">contentResolver</span>.<span class="function">query</span>(
+        <span class="type">ContactsContract</span>.<span class="type">CommonDataKinds</span>.<span class="type">Phone</span>.<span class="attr">CONTENT_URI</span>,
+        <span class="attr">projection</span>,
+        <span class="keyword">null</span>, <span class="comment">// No 'where' clause</span>
+        <span class="keyword">null</span>, <span class="comment">// No selection args</span>
+        <span class="keyword">null</span> <span class="comment">// Default sort order</span>
+    )
+
+    <span class="attr">cursor</span><span class="operator">?.</span><span class="function">use</span> { <span class="comment">// 'use' automatically closes the cursor</span>
+        <span class="keyword">val</span> <span class="attr">nameIndex</span> <span class="operator">=</span> <span class="attr">it</span>.<span class="function">getColumnIndex</span>(<span class="type">ContactsContract</span>.<span class="type">CommonDataKinds</span>.<span class="type">Phone</span>.<span class="attr">DISPLAY_NAME</span>)
+        
+        <span class="keyword">while</span> (<span class="attr">it</span>.<span class="function">moveToNext</span>()) {
+            <span class="keyword">val</span> <span class="attr">name</span> <span class="operator">=</span> <span class="attr">it</span>.<span class="function">getString</span>(<span class="attr">nameIndex</span>)
+            <span class="type">Log</span>.<span class="function">d</span>(<span class="string">"Contacts"</span>, <span class="string">"Name: $name"</span>)
+        }
+    }
+}
+</code></pre>
+                <p>This is a complex topic, but it shows how Android's components work together securely. You didn't access the Contacts app's database; you *asked* its Content Provider for data, and it gave you a `Cursor` with the results.</p>
+                <a href="https://developer.android.com/guide/components/fundamentals" target="_blank" class="read-more-link">Read More about App Components & Fundamentals &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="android-ui.html" class="cta-button prev">&larr; Chapter 3: UI & Navigation</a>
+                    <a href="android-data-storage.html" class="cta-button">Next Chapter: Data Storage &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
