@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 7.2: Centralized Logging (ELK Stack) - CodeWithMSMAXPRO</title>
+    
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* --- Page-Specific Styles --- */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #0f172a;
+            background-image: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: transparent;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 30px;
+        }
+        .nav-links li a {
+            text-decoration: none;
+            color: #cbd5e1;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links li a:hover {
+            color: #7c3aed;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        .page-title { 
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+        
+        /* --- HIGHLIGHT COLOR (MONITORING) --- */
+        .highlight {
+            background: linear-gradient(90deg, #d946ef, #c026d3); /* Fuchsia/Purple */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+        
+        /* --- Content-Specific Styles --- */
+        .content-section {
+            padding-top: 0;
+        }
+        
+        .content-section h2 {
+            font-size: 2.2rem;
+            color: #fff;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 10px;
+        }
+        
+        .content-section h3 {
+            font-size: 1.8rem;
+            color: #e2e8f0;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        .content-section h4 {
+            font-size: 1.4rem;
+            color: #d946ef; /* Fuchsia highlight */
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .content-section p, .content-section li {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 15px;
+        }
+        
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+        }
+        
+        /* Code Block Style */
+        .content-section pre {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        
+        /* Simple inline code block */
+        .content-section code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1e293b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            color: #f472b6;
+        }
+
+        /* Full code block syntax highlighting */
+        .content-section pre code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #e2e8f0;
+            background: none;
+            padding: 0;
+        }
+        
+        /* Syntax Highlighting for YAML/Bash */
+        .content-section pre code .comment { color: #64748b; }
+        .content-section pre code .keyword { color: #f472b6; } /* input, filter, output, if */
+        .content-section pre code .property { color: #38bdf8; } /* path, hosts, index, match */
+        .content-section pre code .string { color: #a78bfa; } /* "message" */
+        .content-section pre code .number { color: #f59e0b; } /* 9200 */
+        .content-section pre code .command { color: #34d399; } /* docker, echo */
+        .content-section pre code .regex { color: #f87171; } /* %{IPORHOST:clientip} */
+        
+
+        /* Read More Link */
+        .read-more-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 700;
+            color: #a78bfa;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        .read-more-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation Buttons */
+        .page-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            border-top: 1px solid #334155;
+            padding-top: 30px;
+        }
+        
+        .cta-button {
+            background: linear-gradient(90deg, #f97316, #ef4444);
+            color: #ffffff;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            opacity: 0.9;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .cta-button.prev {
+            background: #334155;
+        }
+        .cta-button.prev:hover {
+            background: #475569;
+        }
+        
+        /* Mobile Nav Styles */
+        @media (max-width: 768px) {
+            .logo span { display: none; }
+            .nav-links { position: fixed; right: 0px; height: 100vh; top: 0; background-color: #1e293b; display: flex; flex-direction: column; align-items: center; justify-content: space-evenly; width: 60%; transform: translateX(100%); transition: transform 0.5s ease-in; z-index: 999; }
+            .nav-links li { margin-left: 0; opacity: 0; }
+            .hamburger { display: block; }
+        }
+        .nav-active { transform: translateX(0%); }
+        .nav-active li { opacity: 1; transition: opacity 0.5s ease 0.3s; }
+        .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
+        .toggle .line2 { opacity: 0; }
+        .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
+                </a>
+                
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li> 
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1 class="page-title">Chapter 7.2: <span class="highlight">Centralized Logging (ELK Stack)</span></h1>
+                
+                <!-- ========================== -->
+                <!-- SECTION 1: Introduction -->
+                <!-- ========================== -->
+                
+                <h2>The "Why": Metrics vs. Logs</h2>
+                <p>In the last chapter, we mastered **Metrics** with Prometheus. Metrics tell you **"WHAT"** is happening. They are numbers, aggregated over time. For example:</p>
+                <ul>
+                    <li><code>http_requests_total{status="500"}</code> = 150</li>
+                    <li><code>cpu_usage_percent</code> = 98%</li>
+                </ul>
+                <p>Metrics are great for alerts ("My CPU is at 98%!") and dashboards. But they can't tell you *why* the CPU is at 98%. For that, you need **Logs**.</p>
+                <p>**Logs** tell you **"WHY"** something happened. They are detailed, timestamped, text-based records of specific events.
+                <br>
+                <code>[2025-11-10T10:30:01] ERROR: User '123' failed to log in: password incorrect.</code>
+                <br>
+                <code>[2025-11-10T10:30:05] ERROR: (PID 4567) Unhandled Exception: 'NoneType' object has no attribute 'user' in app/auth.py:52</code>
+                </center>
+                
+                <h3>The Problem: The "500 Container" Problem</h3>
+                <p>In a modern Kubernetes cluster, you have 500 containers running your app. A user reports an error. Which container has the log? You can't <code>kubectl logs</code> 500 different pods. And what if the pod crashed? Its logs are *gone forever*.</p>
+                <p>The solution is **Centralized Logging**. You need a system that automatically:
+                <ol>
+                    <li>**Ships (Collects):** All logs from all 500 containers.</li>
+                    <li>**Parses:** Converts unstructured text logs into structured JSON (e.g., separating the timestamp, log level, and message).</li>
+                    <li>**Stores (Indexes):** Saves all these logs in one central, searchable database.</li>
+                    <li>**Visualizes (Queries):** Gives you a beautiful UI (like Kibana) to search and filter all your logs (e.g., "Show me all `ERROR` logs from `payment-service` in the last 15 minutes").</li>
+                </ol>
+                
+                <h3>The Solution: The ELK Stack</h3>
+                <p>The most popular open-source solution for this is the **ELK Stack** (or "Elastic Stack").</p>
+                
+                <ul>
+                    <li><strong>E - Elasticsearch:** The "Store." This is the highly scalable, distributed search engine that *stores* and *indexes* all your logs.</li>
+                    <li><strong>L - Logstash:** The "Pipeline." This is the server-side tool that *collects*, *parses* (using Grok), and *transforms* your logs before sending them to Elasticsearch.</li>
+                    <li><strong>K - Kibana:** The "Dashboard." This is the web UI (like Grafana) that lets you *visualize*, *search*, and *analyze* the logs stored in Elasticsearch.</li>
+                </ul>
+                <p>(Note: A fourth component, "Beats," is often used. "Filebeat" is a lightweight *agent* you install on your servers to "ship" logs *to* Logstash. For our purposes, we'll group it with Logstash).</p>
+                
+                <!-- ========================== -->
+                <!-- SECTION 2: Elasticsearch -->
+                <!-- ========================== -->
+                
+                <h2>Part 1: Elasticsearch (The "Database")</h2>
+                <p>Elasticsearch is the heart of the stack. It's built on top of **Apache Lucene** and is, at its core, a **full-text search engine**, not a traditional database. This makes it incredibly fast at searching through terabytes of unstructured text data (like logs).</p>
+                
+                
+                <h3>Core Concepts (SQL vs. Elasticsearch)</h3>
+                <p>To understand Elasticsearch, it's helpful to compare it to a SQL database:</p>
+                <ul>
+                    <li>SQL Database -> **Elasticsearch Index** (e.g., <code>logs-2025-11-10</code>)</li>
+                    <li>SQL Table -> **(No direct equivalent)**</li>
+                    <li>SQL Row -> **Elasticsearch Document** (a JSON object)</li>
+                    <li>SQL Column -> **Elasticsearch Field** (a key in the JSON object)</li>
+                    <li>SQL Schema -> **Elasticsearch Mapping**</li>
+                </ul>
+                
+                <h3>How it Works: The Inverted Index</h3>
+                <p>Why is Elasticsearch so fast? It doesn't scan every log line. It uses an **Inverted Index**, just like the index at the back of a textbook.
+                <br>
+                When you save a log <code>"user 'admin' failed"</code>, Elasticsearch *doesn't* just store the string. It breaks it down and updates its index:</p>
+                <ul>
+                    <li><code>user</code> -> (in document 1, 5, 7)</li>
+                    <li><code>admin</code> -> (in document 1, 44)</li>
+                    <li><code>failed</code> -> (in document 1, 2, 99)</li>
+                </ul>
+                <p>When you *search* for "admin" AND "failed", it just finds the intersection of those two lists (document 1). This is lightning fast.</p>
+                
+                <h3>Running Elasticsearch with Docker</h3>
+                <p>Elasticsearch is complex to install, but trivial with Docker.</p>
+                <pre><code><span class="comment"># Run a single-node, development-mode cluster</span>
+<span class="command">docker</span> run -d \
+    -p 9200:9200 \
+    -p 9300:9300 \
+    -e <span class="string">"discovery.type=single-node"</span> \
+    --name elasticsearch \
+    docker.elastic.co/elasticsearch/elasticsearch:8.10.4
+</code></pre>
+                
+                <h3>Querying Elasticsearch (with `curl`)</h3>
+                <p>Elasticsearch has a powerful REST API that you can query with `curl`. You don't use SQL; you use **Query DSL** (a JSON-based query language).</p>
+                <pre><code><span class="comment"># Check the cluster health (wait for status to be 'green' or 'yellow')</span>
+$ <span class="command">curl</span> -X GET <span class="string">"localhost:9200/_cluster/health?pretty"</span>
+
+<span class="comment"># Search for *all* logs in *all* indexes</span>
+$ <span class="command">curl</span> -X GET <span class="string">"localhost:9200/_search?pretty"</span>
+
+<span class="comment"># Use Query DSL: Find all logs where 'level' is 'ERROR'</span>
+$ <span class="command">curl</span> -X GET <span class="string">"localhost:9200/_search?pretty"</span> -H <span class="string">'Content-Type: application/json'</span> -d'
+{
+  "query": {
+    "match": {
+      "level": "ERROR"
+    }
+  }
+}
+'
+</code></pre>
+                <p>You will almost never do this by hand. You will use **Kibana** to do this for you.</p>
+                <a href="https://www.elastic.co/elasticsearch/service" target="_blank" class="read-more-link">Read More about Elasticsearch &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 3: Logstash -->
+                <!-- ========================== -->
+
+                <h2>Part 2: Logstash (The "Pipeline")</h2>
+                <p>Logstash is the "L" in ELK. It's a server-side data processing pipeline. Its job is to pull data from many sources, transform it, and send it to a "stash" (like Elasticsearch).</p>
+                
+                
+                <h3>The 3 Stages of a Logstash Pipeline</h3>
+                <p>You configure Logstash with a simple config file (e.g., <code>logstash.conf</code>) that has three sections:</p>
+                <ol>
+                    <li><strong><code>input</code>:** Where are the logs coming from? (e.g., a file, a port, another service).</li>
+                    <li><strong><code>filter</code>:** How do we **parse** and **transform** the logs? (This is the most important part).</li>
+                    <li><strong><code>output</code>:** Where do the processed logs go? (e.g., Elasticsearch, or just the console for debugging).</li>
+                </ol>
+                
+                <h3>Example: Parsing a Simple Nginx Log</h3>
+                <p>Let's say our Nginx log file (<code>/var/log/nginx.log</code>) looks like this:</p>
+                <pre><code><span class="number">127.0.0.1</span> - - [10/Nov/2025:13:55:01 +0000] "GET /api/users HTTP/1.1" <span class="number">200</span> 456
+</code></pre>
+                <p>This is "unstructured" text. We want to parse it into "structured" JSON, like this:</p>
+                <pre><code>{
+  "client_ip": "127.0.0.1",
+  "http_verb": "GET",
+  "http_path": "/api/users",
+  "http_status": 200,
+  "bytes_sent": 456
+}
+</code></pre>
+                
+                <h3>Logstash Configuration (`logstash.conf`)</h3>
+                <p>We use the **<code>grok</code>** filter to do this. `grok` is a powerful plugin that uses pre-built regex patterns to parse unstructured data.</p>
+                
+                <span class="code-filename">logstash.conf</span>
+                <pre><code><span class="keyword">input</span> {
+  <span class="comment"># We will read from a file</span>
+  <span class="property">file</span> {
+    <span class="property">path</span> => <span class="string">"/var/log/nginx.log"</span>
+    <span class="property">start_position</span> => <span class="string">"beginning"</span>
+  }
+}
+
+<span class="keyword">filter</span> {
+  <span class="comment"># This is the 'grok' filter, the heart of Logstash</span>
+  <span class="property">grok</span> {
+    <span class="comment"># 'match' defines the pattern to use</span>
+    <span class="comment"># '%{...}' is a pre-defined grok pattern</span>
+    <span class="property">match</span> => { <span class="string">"message"</span> => <span class="string">"%{<span class="regex">IPORHOST:client_ip</span>} - - \[%{<span class="regex">HTTPDATE:timestamp</span>}\] \"%{<span class="regex">WORD:http_verb</span>} %{<span class="regex">URIPATHPARAM:http_path</span>} HTTP/%{<span class="regex">NUMBER:http_version</span>}\" %{<span class="regex">INT:http_status</span>} %{<span class="regex">INT:bytes_sent</span>}"</span> }
+  }
+  
+  <span class="comment"># After grok, http_status is a "String" ("200").</span>
+  <span class="comment"># We need to convert it to a number.</span>
+  <span class="property">mutate</span> {
+    <span class="property">convert</span> => {
+      <span class="string">"http_status"</span> => <span class="string">"integer"</span>
+      <span class="string">"bytes_sent"</span> => <span class="string">"integer"</span>
+    }
+  }
+  
+  <span class="comment"># Parse the timestamp so Elasticsearch knows it's a date</span>
+  <span class="property">date</span> {
+    <span class="property">match</span> => [ <span class="string">"timestamp"</span>, <span class="string">"dd/MMM/yyyy:HH:mm:ss Z"</span> ]
+  }
+}
+
+<span class="keyword">output</span> {
+  <span class="comment"># 1. Send the data to our Elasticsearch container</span>
+  <span class="property">elasticsearch</span> {
+    <span class="property">hosts</span> => [<span class="string">"http://elasticsearch:9200"</span>]
+    <span class="property">index</span> => <span class="string">"nginx-logs-%{+YYYY.MM.dd}"</span> <span class="comment"># Create a new index every day</span>
+  }
+  
+  <span class="comment"># 2. Also print it to the console for debugging</span>
+  <span class="property">stdout</span> {
+    <span class="property">codec</span> => <span class="string">rubydebug</span>
+  }
+}
+</code></pre>
+                <a href="https://www.elastic.co/guide/en/logstash/current/introduction.html" target="_blank" class="read-more-link">Read More about Logstash &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- SECTION 4: Kibana -->
+                <!-- ========================== -->
+
+                <h2>Part 3: Kibana (The "Dashboard")</h2>
+                <p>Kibana is the final piece. It's the web UI that lets you search, visualize, and build dashboards on the data in Elasticsearch.</p>
+                
+                
+                <h3>Key Features of Kibana</h3>
+                <ul>
+                    <li><strong>Discover:** The main "search" page. This is where you see the raw logs and can filter them. You can use **KQL (Kibana Query Language)** to search.
+                        <ul>
+                            <li><code>http_status: 404</code> (Show me all "Not Found" errors)</li>
+                            <li><code>level: "ERROR" AND client_ip: "123.45.67.89"</code> (Show all errors from this specific user)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Visualize:** The tool for creating charts. You can create a pie chart of `http_status` codes, or a line chart of `errors_total` over time.</li>
+                    <li><strong>Dashboard:** A page where you can arrange multiple visualizations to create a single, high-level overview of your application's health.</li>
+                </ul>
+                <a href="https://www.elastic.co/kibana/" target="_blank" class="read-more-link">Read More about Kibana &rarr;</a>
+
+                <!-- ========================== -->
+                <!-- SECTION 5: EFK Stack -->
+                <!-- ========================== -->
+                
+                <h2>Part 4: The Modern Stack (Fluentd / Fluent Bit)</h2>
+                <p>Logstash is powerful, but it's a "heavyweight." It's written in Java (runs on the JVM) and can use a lot of memory. This can be too much for a simple server or container.</p>
+                <p>The modern, cloud-native alternative is the **EFK Stack**:
+                <br>
+                **E**lasticsearch + **F**luentd/Fluent Bit + **K**ibana</p>
+                
+                <h3>What is Fluentd / Fluent Bit?</h3>
+                
+                <p><strong>Fluentd** (written in Ruby) and **Fluent Bit** (written in C) are lightweight, high-performance log *collectors* and *shippers*. They are designed to run *everywhere*.</p>
+                
+                <h4>Why use them?</h4>
+                <ul>
+                    <li><strong>Lightweight:** Fluent Bit uses *very* little memory and CPU, making it perfect for running as a "sidecar" in Kubernetes.</li>
+                    <li><strong>Cloud-Native:** It was built to understand containers and Kubernetes. It can automatically grab all logs from all Pods on a server and enrich them with metadata (like the Pod name, namespace, and labels).</li>
+                    <li><strong>Pluggable:** It has hundreds of plugins to send logs *to* any destination (not just Elasticsearch, but also AWS S3, Prometheus, etc.).</li>
+                </ul>
+                
+                <h3>How it works in Kubernetes (The `DaemonSet`)</h3>
+                <p>In a production Kubernetes cluster, you don't run Logstash. Instead, you run **Fluent Bit** as a **<code>DaemonSet</code>**.</p>
+                
+                <p>A <code>DaemonSet</code> is a Kubernetes object (like a <code>Deployment</code>) that ensures **one and only one** copy of a Pod runs on *every single Node* in the cluster.
+                <br>
+                This Fluent Bit pod (running as a DaemonSet) mounts the host's log directory (<code>/var/log/containers</code>) and "tails" all the log files from all the other containers on that server, shipping them off to your central Elasticsearch cluster.</p>
+                
+                <span class="code-filename">fluent-bit.conf (Example)</span>
+                <pre><code>[<span class="keyword">SERVICE</span>]
+    <span class="property">Log_Level</span>    <span class="string">info</span>
+    <span class="property">Daemon</span>       <span class="string">Off</span>
+
+[<span class="keyword">INPUT</span>]
+    <span class="property">Name</span>         <span class="string">tail</span>
+    <span class="property">Path</span>         <span class="string">/var/log/containers/*.log</span>
+    <span class="property">Parser</span>       <span class="string">docker</span> <span class="comment"># Use the built-in docker log parser</span>
+
+[<span class="keyword">FILTER</span>]
+    <span class="property">Name</span>         <span class="string">kubernetes</span>
+    <span class="property">Match</span>        <span class="string">*</span>
+    <span class="property">Kube_URL</span>     <span class="string">https://kubernetes.default.svc:443</span>
+    <span class="property">Merge_Log</span>    <span class="string">On</span> <span class="comment"># Merge the JSON log string into the main object</span>
+
+[<span class="keyword">OUTPUT</span>]
+    <span class="property">Name</span>         <span class="string">es</span> <span class="comment"># (Elasticsearch)</span>
+    <span class="property">Match</span>        <span class="string">*</span>
+    <span class="property">Host</span>         <span class="string">elasticsearch-master</span>
+    <span class="property">Port</span>         <span class="string">9200</span>
+    <span class="property">Logstash_Format</span> <span class="string">On</span>
+    <span class="property">Index</span>        <span class="string">k8s-logs-%Y.%m.%d</span>
+</code></pre>
+                
+                <a href="https://fluentbit.io/" target="_blank" class="read-more-link">Read More about Fluent Bit &rarr;</a>
+                
+                <!-- ========================== -->
+                <!-- Page Navigation            -->
+                <!-- ========================== -->
+
+                <div class="page-nav">
+                    <a href="devops-monitoring-prometheus.html" class="cta-button prev">&larr; Chapter 7.1: Monitoring</a>
+                    <a href="devops-roadmap.html" class="cta-button">Back to Roadmap &rarr;</a>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        const navSlide = () => {
+            const hamburger = document.querySelector('.hamburger');
+            const nav = document.querySelector('.nav-links');
+
+            if (hamburger && nav) {
+                hamburger.addEventListener('click', () => {
+                    nav.classList.toggle('nav-active');
+                    hamburger.classList.toggle('toggle');
+                });
+            }
+        }
+        navSlide();
+    </script>
+
+</body>
+</html>
