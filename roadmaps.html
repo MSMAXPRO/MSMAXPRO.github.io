@@ -18,19 +18,34 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        /* ✅ ADDED CSS FOR COMPLETED BADGE ✅ */
-        .completed-badge { 
+        
+        /* Base Badge Style */
+        .status-badge { 
             display: inline-block;
             margin-top: 10px;
             padding: 5px 10px;
-            /* Green color scheme */
-            background-color: #10b981; 
             color: #ffffff;
             border-radius: 5px;
             font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
         }
+
+        /* Green: Completed */
+        .completed-badge { 
+            background-color: #10b981; /* Tailwind Green 600 */
+        }
+
+        /* Red: Coming Soon */
+        .coming-soon-badge { 
+            background-color: #ef4444; /* Tailwind Red 500 */
+        }
+        
+        /* Sky Blue: On Going (Applied to DevOps) */
+        .ongoing-badge {
+            background-color: #0ea5e9; /* Tailwind Sky 500 */
+        }
+
     </style>
 </head>
 <body>
@@ -98,6 +113,7 @@
                         <div class="project-content">
                             <h3>Full Stack Developer</h3>
                             <p>Master both frontend and backend to build complete applications from start to finish.</p>
+                            <span class="status-badge coming-soon-badge">⏳ Coming Soon</span>
                         </div>
                     </a>
                     
@@ -106,6 +122,7 @@
                         <div class="project-content">
                             <h3>DevOps Engineer</h3>
                             <p>Learn CI/CD, automation, and cloud platforms to deploy, manage, and scale applications.</p>
+                            <span class="status-badge ongoing-badge">🛠️ On Going</span>
                         </div>
                     </a>
 
@@ -114,7 +131,7 @@
                         <div class="project-content">
                             <h3>Android Developer</h3>
                             <p>Learn Kotlin and modern Android development to build native applications for Android devices.</p>
-                            <span class="completed-badge">✅ Completed</span>
+                            <span class="status-badge completed-badge">✅ Completed</span>
                         </div>
                     </a>
                     
