@@ -6,90 +6,203 @@
     <title>About Me - CodeWithMSMAXPRO</title>
     
     <link rel="icon" type="image/png" href="favicon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+
     <link rel="stylesheet" href="style.css">
 
-    <!-- Added styles for the new 'About Me' content -->
     <style>
-        /* Additional styles for the enhanced about page */
-        .about-flex-container {
+        /* --- HIGH-TECH ABOUT PAGE STYLES --- */
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.4);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- 1. HERO SECTION (3D Card + Typewriter) --- */
+        .about-hero {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem; /* Gap between pic and text on mobile */
+            flex-direction: column-reverse; /* Mobile friendly */
             align-items: center;
-            margin-bottom: 2rem;
+            gap: 40px;
+            margin-bottom: 80px;
+            padding-top: 40px;
         }
-        
-        .about-profile-pic img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
+
+        .hero-text { flex: 1; text-align: center; }
+        .hero-text h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+        .hero-text .typewriter { color: var(--primary); font-family: 'Fira Code', monospace; font-size: 1.2rem; min-height: 1.5em; display: block; }
+        .hero-text p { color: var(--text-muted); margin-top: 15px; line-height: 1.6; font-size: 1.1rem; }
+
+        .profile-card-wrap {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+        }
+        .profile-card-wrap img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            /* Assuming .highlight uses a color like this, linking it visually */
-            border: 4px solid #6366f1; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 15px;
+            filter: grayscale(20%);
+            transition: 0.5s;
         }
-        
-        .about-intro-text {
-            flex: 1;
-            text-align: center; /* Center text on mobile */
-        }
-        
-        .about-content h2 {
-            margin-top: 2.5rem; /* Add more space before new sections */
-            font-size: 1.75rem; /* Make headings a bit bigger */
-            /* Assuming a dark theme, lighter text */
-            color: #f1f5f9; 
-            border-bottom: 2px solid #6366f1;
-            padding-bottom: 0.5rem;
-            display: inline-block;
-        }
-        
-        .about-content p, .about-content ul {
-            font-size: 1.1rem; /* Slightly larger text for readability */
-            line-height: 1.7;
-            /* Assuming a dark theme, lighter paragraph text */
-            color: #cbd5e1; 
-        }
+        .profile-card-wrap:hover img { filter: grayscale(0%); }
 
-        .about-content ul {
-            list-style-type: disc;
-            padding-left: 25px;
-            margin-top: 1rem;
+        /* --- 2. STATS COUNTER --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 80px;
         }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--primary); display: block; }
+        .stat-label { color: var(--text-muted); font-size: 0.9rem; }
 
-        .skills-list {
-            list-style: none;
-            padding-left: 0;
+        /* --- 3. HACKER TERMINAL --- */
+        .terminal-section { margin-bottom: 80px; }
+        .terminal-window {
+            background: #0d1117;
+            border-radius: 10px;
+            border: 1px solid #30363d;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            font-family: 'Fira Code', monospace;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .terminal-header {
+            background: #161b22;
+            padding: 10px 15px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 1rem;
+            gap: 8px;
+            border-bottom: 1px solid #30363d;
         }
-        
-        .skill-tag {
-            background-color: #334155;
-            color: #e2e8f0;
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.9rem;
-            font-weight: 500;
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+        .terminal-body { padding: 20px; color: #c9d1d9; font-size: 0.95rem; line-height: 1.6; }
+        .command { color: #4ade80; margin-bottom: 10px; display: block; }
+        .comment { color: #8b949e; font-style: italic; }
+        .keyword { color: #ff7b72; } .string { color: #a5d6ff; }
+
+        /* --- 4. VERTICAL TIMELINE --- */
+        .timeline-section { margin-bottom: 80px; position: relative; }
+        .timeline-container {
+            border-left: 2px solid var(--primary);
+            margin-left: 20px;
+            padding-left: 30px;
         }
-        
-        /* On desktop, show pic and text side-by-side */
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-dot {
+            width: 16px; height: 16px;
+            background: var(--bg-dark);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -39px;
+            top: 5px;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+        .timeline-date { color: var(--primary); font-weight: bold; margin-bottom: 5px; display: block; }
+        .timeline-content h3 { margin: 0 0 5px 0; color: #fff; }
+        .timeline-content p { color: var(--text-muted); font-size: 0.95rem; }
+
+        /* --- 5. GLOWING TECH STACK --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 80px;
+        }
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: default;
+        }
+        .skill-card i { font-size: 2rem; margin-bottom: 10px; color: var(--text-muted); transition: 0.3s; }
+        .skill-card:hover { border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); transform: translateY(-5px); }
+        .skill-card:hover i { color: var(--primary); }
+        .skill-name { display: block; font-size: 0.9rem; font-weight: 600; }
+
+        /* --- 6. GITHUB & GEAR --- */
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+        .gear-list { list-style: none; padding: 0; }
+        .gear-item {
+            display: flex; align-items: center; gap: 15px;
+            background: rgba(255,255,255,0.03);
+            padding: 12px; margin-bottom: 10px;
+            border-radius: 8px; border: 1px solid var(--border-color);
+        }
+        .gear-item i { color: var(--primary); width: 20px; text-align: center; }
+
+        /* --- 7. GLITCH BUTTON --- */
+        .glitch-btn {
+            position: relative;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: #000;
+            font-weight: 800;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.3s;
+            margin-top: 20px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .glitch-btn:hover { box-shadow: 0 0 20px var(--primary-glow); transform: scale(1.05); }
+
+        /* Desktop Responsiveness */
         @media (min-width: 768px) {
-            .about-flex-container {
-                flex-direction: row;
-                align-items: flex-start;
-                gap: 2.5rem; /* Wider gap on desktop */
-            }
-            
-            .about-intro-text {
-                text-align: left; /* Align text to the left on desktop */
-            }
+            .about-hero { flex-direction: row; text-align: left; }
+            .hero-text { text-align: left; }
+            .grid-2-col { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -102,8 +215,7 @@
                     <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                
-                                <ul class="nav-links">
+                <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
@@ -112,7 +224,6 @@
                     <li><a href="about.html">About</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
-                
                 <div class="hamburger">
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -123,128 +234,204 @@
     </header>
 
     <main>
-        <section class="about-section">
-            <div class="container">
-                <h1>About <span class="highlight">Me</span></h1>
+        <div class="container">
+            
+            <section class="about-hero">
+                <div class="hero-text reveal-left">
+                    <span style="color: var(--primary); font-size: 0.9rem; font-weight: 600; letter-spacing: 1px;">// INTRODUCING</span>
+                    <h1>Hello! I'm <span style="color: #fff;">MSMAXPRO</span></h1>
+                    <span class="typewriter" id="typewriter"></span>
+                    <p>I'm a passionate builder, a relentless problem-solver, and your guide on this crazy journey into tech. I believe code is the ultimate creative tool.</p>
+                    
+                    <a href="#" class="glitch-btn"><i class="fas fa-download"></i> Download Resume</a>
+                </div>
                 
-                <!-- ==================== NEW ABOUT CONTENT START ==================== -->
-                <div class="about-content">
-    
-                    <div class="about-flex-container">
-                        <div class="about-profile-pic">
-                            <!-- IMPORTANT: Replace this placeholder with your actual photo! -->
-                            <img src="images/about-me.jpg" alt="A picture of MSMAXPRO">
-                        </div>
-                        <div class="about-intro-text">
-                            <h2>Hello! I'm <span class="highlight">MSMAXPRO</span>.</h2>
-                            <p>I'm not just a computer science student; I'm a passionate builder, a relentless problem-solver, and your guide on this crazy, exciting journey into the world of tech. I believe that code is the ultimate creative tool, and I'm obsessed with using it to build cool things and help others do the same.</p>
+                <div class="profile-card-wrap reveal-right" data-tilt data-tilt-max="15" data-tilt-speed="400">
+                    <img src="images/about-me.jpg" alt="MSMAXPRO Profile">
+                </div>
+            </section>
+
+            <section class="stats-grid reveal-bottom">
+                <div class="stat-card">
+                    <span class="stat-number" data-target="15">0</span>
+                    <span class="stat-label">Projects Built</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-target="12000">0</span>
+                    <span class="stat-label">Lines of Code</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-target="500">0</span>
+                    <span class="stat-label">Coffees Consumed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">Bugs Fixed</span>
+                </div>
+            </section>
+
+            <section class="terminal-section reveal-bottom">
+                <h2 style="margin-bottom: 20px;">> Who Am I?</h2>
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+                        <span style="margin-left: 10px; color: #8b949e; font-size: 0.8rem;">bash — msmaxpro@kali-linux</span>
+                    </div>
+                    <div class="terminal-body">
+                        <span class="command">> cat about_me.py</span>
+                        <p>
+                            <span class="keyword">class</span> <span class="string">Developer</span>:<br>
+                            &nbsp;&nbsp;name = <span class="string">"MSMAXPRO"</span><br>
+                            &nbsp;&nbsp;role = <span class="string">"Full Stack Dev & Security Researcher"</span><br>
+                            &nbsp;&nbsp;mission = <span class="string">"Helping others build cool stuff."</span><br><br>
+                            
+                            <span class="keyword">def</span> <span class="string">current_status</span>(self):<br>
+                            &nbsp;&nbsp;<span class="keyword">return</span> [<span class="string">"Coding"</span>, <span class="string">"Learning CyberSec"</span>, <span class="string">"Building Toolkit"</span>]<br><br>
+                            
+                            <span class="comment"># Ready to collaborate?</span><br>
+                            <span class="keyword">print</span>(<span class="string">"Let's Build the Future!"</span>)
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline-section reveal-left">
+                <h2>My Journey</h2>
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date">2025 - Present</span>
+                        <div class="timeline-content">
+                            <h3>Focusing on Cybersecurity</h3>
+                            <p>Diving deep into Network Security, Ethical Hacking, and building secure web apps.</p>
                         </div>
                     </div>
-
-                    <h2>My Journey So Far</h2>
-                    <p>Like many of you, I started my coding journey feeling both excited and completely overwhelmed. I spent countless nights staring at error messages, wondering if I was smart enough, and scouring the internet for a clear path forward. I bounced between tutorials, felt lost in a sea of documentation, and wished I had a mentor to point me in the right direction.</p>
-                    <p>I created <strong>CodeWithMSMAXPRO</strong> to be the resource I never had. This isn't just a website; it's my personal playbook, built from the ground up to help you cut through the noise, avoid the common pitfalls, and land that dream tech job, faster.</p>
-
-                    <h2>My Mission: Your Tech Launchpad</h2>
-                    <p>My goal is simple: to provide you with the most practical, no-fluff, and actionable content to accelerate your career. Here's what I'm focused on:</p>
-                    <ul>
-                        <li><strong>Clear Roadmaps:</strong> Step-by-step guides that show you exactly what to learn and in what order.</li>
-                        <li><strong>Real-World Projects:</strong> Forget "todo" apps. We'll talk about projects that impress recruiters.</li>
-                        <li><strong>Honest Career Advice:</strong> My unfiltered thoughts on internships, interviews, building a resume, and navigating the tech industry.</li>
-                        <li><strong>Essential Tools & Resources:</strong> A curated list of the best tools and resources that I personally use and recommend.</li>
-                    </ul>
-
-                    <h2>My Core Skills</h2>
-                    <p>Here's a peek at the technologies I love working with:</p>
-                    <ul class="skills-list">
-                        <li class="skill-tag">JavaScript (ES6+)</li>
-                        <li class="skill-tag">React.js</li>
-                        <li class="skill-tag">Node.js</li>
-                        <li class="skill-tag">Python</li>
-                        <li class="skill-tag">SQL & NoSQL</li>
-                        <li class="skill-tag">HTML5 & CSS3</li>
-                        <li class="skill-tag">Git & GitHub</li>
-                        <li class="skill-tag">Firebase</li>
-                        <li class="skill-tag">Tailwind CSS</li>
-                    </ul>
-
-                    <h2>Beyond the Code</h2>
-                    <p>When I'm not debugging (or... creating new bugs), you can usually find me:
-                        <ul>
-                            <li>Exploring new sci-fi novels or movies.</li>
-                           <li>Try to find new courses and amazing features.</li>
-                            <li>Contributing to open-source projects.</li>
-                            <li>Learning about the latest in AI and machine learning.</li>
-                        </ul>
-                    </p>
-                    
-                    <h2>Let's Connect & Build Together!</h2>
-                    <p>This journey is 100x better when we do it together. I'm always here to chat, answer questions, or collaborate on a project. Don't be a stranger—<a href="contact.html" style="color: #818cf8; text-decoration: underline;">reach out and say hi!</a> Let's build our future in tech, one line of code at a time.</p>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date">2024</span>
+                        <div class="timeline-content">
+                            <h3>Built MSMAXPRO Toolkit</h3>
+                            <p>Launched my first major tool website to help developers with daily utilities.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <span class="timeline-date">2023</span>
+                        <div class="timeline-content">
+                            <h3>Started Coding</h3>
+                            <p>Wrote my first "Hello World" in Python. The obsession began.</p>
+                        </div>
+                    </div>
                 </div>
-                <!-- ==================== NEW ABOUT CONTENT END ==================== -->
+            </section>
+
+            <section class="reveal-bottom" style="margin-bottom: 80px;">
+                <h2>Tech Stack</h2>
+                <div class="skills-grid">
+                    <div class="skill-card"><i class="fab fa-python"></i><span class="skill-name">Python</span></div>
+                    <div class="skill-card"><i class="fab fa-js"></i><span class="skill-name">JavaScript</span></div>
+                    <div class="skill-card"><i class="fab fa-react"></i><span class="skill-name">React</span></div>
+                    <div class="skill-card"><i class="fab fa-node"></i><span class="skill-name">Node.js</span></div>
+                    <div class="skill-card"><i class="fas fa-database"></i><span class="skill-name">SQL</span></div>
+                    <div class="skill-card"><i class="fab fa-html5"></i><span class="skill-name">HTML5</span></div>
+                    <div class="skill-card"><i class="fab fa-css3-alt"></i><span class="skill-name">CSS3</span></div>
+                    <div class="skill-card"><i class="fab fa-git-alt"></i><span class="skill-name">Git</span></div>
+                    <div class="skill-card"><i class="fas fa-shield-alt"></i><span class="skill-name">Security</span></div>
+                    <div class="skill-card"><i class="fab fa-linux"></i><span class="skill-name">Linux</span></div>
+                </div>
+            </section>
+
+            <div class="grid-2-col reveal-bottom">
                 
+                <div>
+                    <h2>GitHub Activity</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">I commit code daily. Check out my contributions.</p>
+                    <a href="https://github.com/MSMAXPRO" target="_blank">
+                        <img src="https://github-readme-stats.vercel.app/api?username=MSMAXPRO&show_icons=true&theme=dark&hide_border=true&bg_color=0f172a" 
+                             alt="MSMAXPRO GitHub Stats" style="width: 100%; border-radius: 10px; border: 1px solid var(--border-color);">
+                    </a>
+                </div>
+
+                <div>
+                    <h2>My Arsenal ⚙️</h2>
+                    <p style="color: var(--text-muted); margin-bottom: 15px;">Tools I use to build and break things.</p>
+                    <ul class="gear-list">
+                        <li class="gear-item"><i class="fas fa-laptop-code"></i> VS Code (Theme: SynthWave '84)</li>
+                        <li class="gear-item"><i class="fab fa-linux"></i> Kali Linux / Ubuntu</li>
+                        <li class="gear-item"><i class="fas fa-terminal"></i> ZSH Terminal</li>
+                        <li class="gear-item"><i class="fas fa-palette"></i> Figma for Design</li>
+                        <li class="gear-item"><i class="fas fa-server"></i> Postman for API Testing</li>
+                    </ul>
+                </div>
             </div>
-        </section>
+
+        </div>
     </main>
 
-    <footer>
-        <!-- ==================== NEW FOOTER START ==================== -->
     <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container" style="max-width: 1100px;">
-            <div class="footer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: left;">
-                
-                <!-- Column 1: Brand -->
-                <div class="footer-column">
-                    <a href="/" class="logo" style="margin-bottom: 15px; font-size: 1.8rem;">
-                        <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                        <span>CodeWithMSMAXPRO</span>
-                    </a>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Your companion on the journey to a successful tech career. Learn, build, and grow with us.</p>
-                </div>
-
-                <!-- Column 2: Quick Links -->
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Quick Links</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="/roadmaps.html" style="color: #94a3b8; text-decoration: none;">Roadmaps</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/blog.html" style="color: #94a3b8; text-decoration: none;">Blog</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/projects.html" style="color: #94a3b8; text-decoration: none;">Projects</a></li>
-                        <li style="margin-bottom: 10px;"><a href="/contact.html" style="color: #94a3b8; text-decoration: none;">Contact</a></li>
-                    </ul>
-                </div>
-
-                <!-- Column 3: Connect with Me -->
-                <div class="footer-column">
-                    <h3 style="color: #ffffff; font-weight: 700; margin-bottom: 15px;">Connect with Me</h3>
-                    <div class="social-links" style="display: flex; gap: 15px;">
-                        <a href="https://github.com/MSMAXPRO" target="_blank" title="GitHub">
-                            <!-- GitHub SVG Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                        </a>
-                        <a href="https://linkedin.com/in/your-linkedin-username" target="_blank" title="LinkedIn"> <!-- IMPORTANT: Update your LinkedIn URL -->
-                            <!-- LinkedIn SVG Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                        </a>
-                        <a href="https://twitter.com/your-twitter-username" target="_blank" title="Twitter/X"> <!-- IMPORTANT: Update your Twitter/X URL -->
-                            <!-- Twitter/X SVG Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Copyright line -->
             <div class="footer-copyright" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #94a3b8; font-size: 0.9rem;">
                 <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
             </div>
         </div>
     </footer>
-    <!-- ==================== NEW FOOTER END ==================== -->
-    </footer>
     
     <script src="app.js"></script>
+    <script>
+        // --- 1. TYPEWRITER EFFECT ---
+        const texts = ["Web Developer", "Security Enthusiast", "Open Source Contributor", "Problem Solver"];
+        let count = 0;
+        let index = 0;
+        let currentText = "";
+        let letter = "";
+
+        (function type() {
+            if (count === texts.length) count = 0;
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+            
+            document.getElementById('typewriter').textContent = letter + "|";
+            
+            if (letter.length === currentText.length) {
+                count++;
+                index = 0;
+                setTimeout(type, 2000); // Wait 2s before typing next
+            } else {
+                setTimeout(type, 100);
+            }
+        }());
+
+        // --- 2. STATS COUNTER ANIMATION ---
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / 100; // Speed
+
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target + "+";
+                }
+            };
+            updateCount();
+        });
+
+        // --- 3. SCROLL REVEAL ANIMATIONS ---
+        ScrollReveal().reveal('.reveal-bottom', { distance: '50px', duration: 1000, easing: 'ease-in-out', origin: 'bottom', reset: true });
+        ScrollReveal().reveal('.reveal-left', { distance: '50px', duration: 1000, easing: 'ease-in-out', origin: 'left', reset: true });
+        ScrollReveal().reveal('.reveal-right', { distance: '50px', duration: 1000, easing: 'ease-in-out', origin: 'right', reset: true });
+
+        // --- 4. TILT EFFECT INIT ---
+        VanillaTilt.init(document.querySelector(".profile-card-wrap"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+        });
+    </script>
 
 </body>
 </html>
-
