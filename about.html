@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- COMPACT STYLING & PERFORMANCE --- */
+        /* --- PERFORMANCE & STYLING CORE --- */
         :root {
             --bg-dark: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.6);
@@ -32,84 +32,95 @@
 
         body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
 
-        /* 3. Reading Progress Bar */
-        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 9999; transition: width 0.1s; }
+        /* 1. CUSTOM CYBER SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
 
-        /* --- REDUCED SPACING FOR SECTIONS --- */
-        section { margin-bottom: 40px; /* Was 80px */ }
+        /* 2. TEXT SELECTION COLOR */
+        ::selection { background: var(--primary); color: #000; }
+
+        /* 3. READING PROGRESS BAR */
+        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 9999; transition: width 0.1s; box-shadow: 0 0 10px var(--primary); }
+
+        /* --- COMPACT SPACING --- */
+        section { margin-bottom: 40px; }
         
-        /* --- HERO SECTION (Compact) --- */
-        .about-hero {
-            display: flex; flex-direction: column-reverse; align-items: center; 
-            gap: 30px; /* Reduced gap */
-            padding-top: 40px;
-        }
+        /* 6. BREADCRUMBS */
+        .breadcrumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-family: 'Fira Code', monospace; }
+        .breadcrumbs a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .breadcrumbs a:hover { color: var(--primary); }
+
+        /* --- HERO SECTION --- */
+        .about-hero { display: flex; flex-direction: column-reverse; align-items: center; gap: 20px; padding-top: 20px; }
         .hero-text { flex: 1; text-align: center; }
         .hero-text h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 5px; }
         .hero-text .typewriter { color: var(--primary); font-family: 'Fira Code', monospace; font-size: 1.1rem; min-height: 1.5em; display: block; }
         .hero-text p { color: var(--text-muted); margin-top: 10px; line-height: 1.5; font-size: 1rem; }
 
-        .profile-card-wrap {
-            position: relative; width: 250px; height: 250px; border-radius: 20px;
-            background: linear-gradient(145deg, #1e293b, #0f172a); padding: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4); border: 1px solid var(--border-color);
-        }
-        .profile-card-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; filter: grayscale(20%); transition: 0.5s; }
-        .profile-card-wrap:hover img { filter: grayscale(0%); }
+        /* 9. OPEN TO WORK PULSE */
+        .status-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; color: #4ade80; margin-bottom: 10px; }
+        .status-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* --- 6. EXPERIENCE COUNTER --- */
-        .exp-badge { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; margin-bottom: 10px; font-family: 'Fira Code', monospace; }
+        /* 4. PROFILE GLITCH & SKELETON */
+        .profile-card-wrap { position: relative; width: 220px; height: 220px; border-radius: 20px; background: linear-gradient(145deg, #1e293b, #0f172a); padding: 5px; border: 1px solid var(--border-color); overflow: hidden; }
+        /* 3. Skeleton Loading */
+        .profile-card-wrap.skeleton { animation: shimmer 1.5s infinite linear; background: linear-gradient(to right, #1e293b 0%, #334155 50%, #1e293b 100%); background-size: 200% 100%; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        
+        .profile-card-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; filter: grayscale(10%); transition: 0.3s; opacity: 0; }
+        .profile-card-wrap img.loaded { opacity: 1; }
+        /* Glitch Effect on Hover */
+        .profile-card-wrap:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        
+        /* 6. EXPERIENCE COUNTER */
+        .exp-badge { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 10px; font-family: 'Fira Code', monospace; }
 
-        /* --- 1. LOW POWER TOGGLE --- */
+        /* 1. LOW POWER TOGGLE */
         .low-power-toggle { position: fixed; top: 80px; right: 15px; z-index: 100; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 50%; border: 1px solid var(--border-color); cursor: pointer; color: var(--text-muted); transition: 0.3s; }
-        .low-power-toggle:hover { color: #fff; background: var(--primary); }
         .low-power-toggle.active { color: #ef4444; border-color: #ef4444; }
 
-        /* --- 5. CERTIFICATES (Compact Slider) --- */
-        .cert-scroller { display: flex; overflow-x: auto; gap: 15px; padding: 15px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
-        .cert-scroller::-webkit-scrollbar { display: none; }
-        .cert-card { min-width: 220px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .cert-card i { font-size: 1.8rem; color: #fbbf24; margin-bottom: 8px; }
-        .cert-title { font-weight: bold; margin-bottom: 4px; font-size: 0.95rem; }
-        .cert-issuer { font-size: 0.75rem; color: var(--text-muted); }
+        /* 8. CSS SKILL METERS (Compact Grid) */
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 40px; }
+        .skill-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 10px; transition: 0.3s; display: flex; flex-direction: column; gap: 5px; }
+        .skill-header { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; }
+        .skill-header i { color: var(--primary); }
+        .skill-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+        .skill-bar-fill { height: 100%; background: var(--primary); border-radius: 2px; }
 
-        /* --- 10. CODE DNA BAR --- */
-        .dna-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 15px auto; width: 90%; max-width: 500px; }
-        .dna-seg { height: 100%; transition: width 1s; }
-        .dna-labels { display: flex; justify-content: center; gap: 10px; font-size: 0.75rem; color: var(--text-muted); }
-        .dot { width: 6px; height: 6px; display: inline-block; border-radius: 50%; margin-right: 4px; }
+        /* 7. EXTERNAL LINK ICONS */
+        .external-link::after { content: "\f08e"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 0.7em; margin-left: 5px; opacity: 0.7; }
 
-        /* --- TERMINAL & TIMELINE (Tighter) --- */
+        /* --- STATS & TERMINAL --- */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 30px; }
+        .stat-card { background: var(--card-bg); padding: 10px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
+        .stat-number { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
+        .stat-label { color: var(--text-muted); font-size: 0.75rem; }
+
         .terminal-window { background: #0d1117; border-radius: 8px; border: 1px solid #30363d; font-family: 'Fira Code', monospace; overflow: hidden; max-width: 700px; margin: 0 auto 30px auto; }
         .terminal-header { background: #161b22; padding: 8px 12px; display: flex; gap: 6px; }
         .dot-term { width: 10px; height: 10px; border-radius: 50%; background: #333; }
-        .terminal-body { padding: 15px; color: #c9d1d9; font-size: 0.9rem; line-height: 1.5; }
-        
-        .timeline-section { margin-bottom: 30px; position: relative; }
-        .timeline-container { border-left: 2px solid var(--primary); margin-left: 15px; padding-left: 25px; }
-        .timeline-item { position: relative; margin-bottom: 25px; }
-        .timeline-dot { width: 14px; height: 14px; background: var(--bg-dark); border: 2px solid var(--primary); border-radius: 50%; position: absolute; left: -33px; top: 4px; }
-        .timeline-content h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .timeline-content p { font-size: 0.9rem; }
+        .terminal-body { padding: 15px; color: #c9d1d9; font-size: 0.85rem; line-height: 1.5; }
 
-        /* --- SKILLS & STATS (Compact Grids) --- */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-bottom: 40px; }
-        .skill-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 10px; text-align: center; transition: 0.3s; }
-        .skill-card i { font-size: 1.5rem; margin-bottom: 8px; }
-        .skill-name { font-size: 0.85rem; }
+        /* --- CERTIFICATES --- */
+        .cert-scroller { display: flex; overflow-x: auto; gap: 15px; padding: 10px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .cert-card { min-width: 200px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; scroll-snap-align: center; text-align: center; }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 40px; }
-        .stat-card { background: var(--card-bg); padding: 15px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color); }
-        .stat-number { font-size: 1.8rem; font-weight: 800; color: var(--primary); display: block; }
-        .stat-label { color: var(--text-muted); font-size: 0.8rem; }
+        /* --- TIMELINE --- */
+        .timeline-section { margin-bottom: 30px; padding-left: 10px; }
+        .timeline-container { border-left: 2px solid var(--primary); margin-left: 10px; padding-left: 20px; }
+        .timeline-item { position: relative; margin-bottom: 20px; }
+        .timeline-dot { width: 12px; height: 12px; background: var(--bg-dark); border: 2px solid var(--primary); border-radius: 50%; position: absolute; left: -27px; top: 5px; }
+        .timeline-content h3 { font-size: 1rem; margin-bottom: 3px; }
+        .timeline-content p { font-size: 0.85rem; color: var(--text-muted); }
 
-        /* --- 8. BACK TO TOP --- */
+        /* --- BUTTONS --- */
         .back-to-top { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 99; border: none; }
         .back-to-top.visible { opacity: 1; pointer-events: all; }
-
-        /* --- GLITCH BUTTON --- */
-        .glitch-btn { position: relative; padding: 10px 25px; background: var(--primary); color: #000; font-weight: 700; text-transform: uppercase; border: none; border-radius: 5px; font-size: 0.9rem; cursor: pointer; transition: 0.3s; margin-top: 15px; display: inline-block; text-decoration: none; }
-        .share-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 12px; border-radius: 15px; cursor: pointer; margin-top: 8px; transition: 0.3s; font-size: 0.85rem; }
+        .glitch-btn { position: relative; padding: 10px 20px; background: var(--primary); color: #000; font-weight: 700; text-transform: uppercase; border: none; border-radius: 5px; font-size: 0.85rem; cursor: pointer; transition: 0.3s; margin-top: 15px; display: inline-block; text-decoration: none; }
+        .share-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 12px; border-radius: 15px; cursor: pointer; margin-top: 8px; transition: 0.3s; font-size: 0.8rem; }
 
         @media (min-width: 768px) {
             .about-hero { flex-direction: row; text-align: left; gap: 50px; }
@@ -118,15 +129,15 @@
             section { margin-bottom: 60px; }
         }
         
-        h2 { font-size: 1.8rem; margin-bottom: 20px; text-align: center; }
-        @media (min-width: 768px) { h2 { text-align: left; } }
+        /* 10. SMART NAVBAR ACTIVE STATE */
+        .nav-links a.active { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="progress-bar"></div>
 
-    <button class="low-power-toggle" onclick="toggleLowPower()" title="Toggle Animations (Low Power)">
+    <button class="low-power-toggle" onclick="toggleLowPower()" title="Toggle Animations">
         <i class="fas fa-bolt"></i>
     </button>
 
@@ -141,10 +152,8 @@
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
                     <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about.html" class="active">About</a></li> <li><a href="contact.html">Contact</a></li>
                 </ul>
                 <div class="hamburger">
                     <div class="line1"></div>
@@ -160,13 +169,18 @@
             
             <section class="about-hero">
                 <div class="hero-text reveal-left">
-                    <span style="color: var(--primary); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px;">// INTRODUCING</span>
+                    <div class="breadcrumbs"><a href="index.html">Home</a> / About Me</div>
+                    
+                    <div class="status-pill"><div class="status-dot"></div> Open to Work</div>
+                    
                     <h1>Hello! I'm <span style="color: #fff;">MSMAXPRO</span></h1>
                     
                     <span id="exp-counter" class="exp-badge">Coding for: Loading...</span>
                     
+                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 10px;"><i class="far fa-clock"></i> <span id="read-time">1 min read</span></span>
+
                     <span class="typewriter" id="typewriter"></span>
-                    <p>I'm a passionate builder, a relentless problem-solver, and your guide on this crazy journey into tech. I believe code is the ultimate creative tool.</p>
+                    <p>I'm a passionate builder and problem-solver. I build tools that make developers' lives easier.</p>
                     
                     <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; @media(min-width:768px){justify-content: flex-start;}">
                         <a href="#" class="glitch-btn" onclick="window.print()"><i class="fas fa-print"></i> Save CV</a>
@@ -174,8 +188,8 @@
                     </div>
                 </div>
                 
-                <div class="profile-card-wrap reveal-right" data-tilt data-tilt-max="10" data-tilt-speed="400">
-                    <img src="images/about-me.jpg" alt="MSMAXPRO Profile" loading="lazy">
+                <div class="profile-card-wrap skeleton" data-tilt data-tilt-max="10" data-tilt-speed="400">
+                    <img src="images/about-me.jpg" alt="MSMAXPRO Profile" loading="lazy" onload="this.parentElement.classList.remove('skeleton'); this.classList.add('loaded');">
                 </div>
             </section>
 
@@ -186,19 +200,7 @@
                 <div class="stat-card"><span class="stat-number" data-target="100">0</span><span class="stat-label">Bugs Fixed</span></div>
             </section>
 
-            <section class="reveal-bottom" style="text-align: center;">
-                <h3 style="margin-bottom: 10px; font-size: 1.1rem;">Code DNA</h3>
-                <div class="dna-bar">
-                    <div class="dna-seg" style="width: 50%; background: #f0db4f;"></div> <div class="dna-seg" style="width: 30%; background: #3776ab;"></div> <div class="dna-seg" style="width: 20%; background: #e34c26;"></div> </div>
-                <div class="dna-labels">
-                    <span><span class="dot" style="background: #f0db4f;"></span>JS 50%</span>
-                    <span><span class="dot" style="background: #3776ab;"></span>Py 30%</span>
-                    <span><span class="dot" style="background: #e34c26;"></span>Web 20%</span>
-                </div>
-            </section>
-
             <section class="terminal-section reveal-bottom">
-                <h2>> Who Am I?</h2>
                 <div class="terminal-window">
                     <div class="terminal-header">
                         <div class="dot-term" style="background:#ff5f56"></div>
@@ -208,13 +210,7 @@
                     </div>
                     <div class="terminal-body">
                         <span class="command">> cat mission.txt</span>
-                        <p style="margin: 5px 0;">
-                            <span class="string">"Helping students bridge the gap between theory and real-world dev."</span>
-                        </p>
-                        <span class="command">> list goals</span>
-                        <p style="margin: 5px 0;">
-                            [<span class="string">"Cyber Security Expert"</span>, <span class="string">"Full Stack Mastery"</span>, <span class="string">"Community Building"</span>]
-                        </p>
+                        <p style="margin: 5px 0;">"Helping students bridge the gap between theory and real-world dev."</p>
                     </div>
                 </div>
             </section>
@@ -222,26 +218,26 @@
             <section class="reveal-left">
                 <h2>Certifications</h2>
                 <div class="cert-scroller">
-                    <div class="cert-card"><i class="fas fa-certificate"></i><span class="cert-title">Python Basics</span><span class="cert-issuer">HackerRank</span></div>
-                    <div class="cert-card"><i class="fas fa-shield-alt"></i><span class="cert-title">Cyber Security Intro</span><span class="cert-issuer">Cisco</span></div>
-                    <div class="cert-card"><i class="fab fa-js"></i><span class="cert-title">JS Algorithms</span><span class="cert-issuer">FreeCodeCamp</span></div>
+                    <div class="cert-card"><i class="fas fa-certificate"></i><br><strong>Python Basics</strong><br><small>HackerRank</small></div>
+                    <div class="cert-card"><i class="fas fa-shield-alt"></i><br><strong>Cyber Security</strong><br><small>Cisco</small></div>
+                    <div class="cert-card"><i class="fab fa-js"></i><br><strong>JS Algorithms</strong><br><small>FreeCodeCamp</small></div>
                 </div>
             </section>
 
             <section class="timeline-section reveal-left">
-                <h2>My Journey</h2>
+                <h2>Journey</h2>
                 <div class="timeline-container">
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.9rem;">2025 - Present</span>
-                        <div class="timeline-content"><h3>Focusing on Cybersecurity</h3><p>Diving deep into Network Security & Ethical Hacking.</p></div>
+                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.85rem;">2025</span>
+                        <div class="timeline-content"><h3>Cybersecurity Focus</h3><p>Network Security & Ethical Hacking.</p></div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.9rem;">2024</span>
-                        <div class="timeline-content"><h3>Built MSMAXPRO Toolkit</h3><p>Launched my first major tool website for developers.</p></div>
+                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.85rem;">2024</span>
+                        <div class="timeline-content"><h3>Built Toolkit</h3><p>Launched MSMAXPRO Toolkit.</p></div>
                     </div>
                     <div class="timeline-item">
-                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.9rem;">2023</span>
-                        <div class="timeline-content"><h3>Started Coding</h3><p>Wrote my first "Hello World" in Python.</p></div>
+                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.85rem;">2023</span>
+                        <div class="timeline-content"><h3>Started Coding</h3><p>Python "Hello World".</p></div>
                     </div>
                 </div>
             </section>
@@ -249,14 +245,22 @@
             <section class="reveal-bottom">
                 <h2>Tech Stack</h2>
                 <div class="skills-grid">
-                    <div class="skill-card"><i class="fab fa-python"></i><span class="skill-name">Python</span></div>
-                    <div class="skill-card"><i class="fab fa-js"></i><span class="skill-name">JavaScript</span></div>
-                    <div class="skill-card"><i class="fab fa-react"></i><span class="skill-name">React</span></div>
-                    <div class="skill-card"><i class="fab fa-node"></i><span class="skill-name">Node.js</span></div>
-                    <div class="skill-card"><i class="fas fa-database"></i><span class="skill-name">SQL</span></div>
-                    <div class="skill-card"><i class="fas fa-shield-alt"></i><span class="skill-name">Security</span></div>
-                    <div class="skill-card"><i class="fab fa-linux"></i><span class="skill-name">Linux</span></div>
-                    <div class="skill-card"><i class="fab fa-git-alt"></i><span class="skill-name">Git</span></div>
+                    <div class="skill-card">
+                        <div class="skill-header"><i class="fab fa-python"></i> Python</div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header"><i class="fab fa-js"></i> JavaScript</div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header"><i class="fab fa-react"></i> React</div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-header"><i class="fas fa-shield-alt"></i> Security</div>
+                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 60%;"></div></div>
+                    </div>
                 </div>
             </section>
 
@@ -267,25 +271,22 @@
 
     <footer style="background-color: #1e293b; padding: 30px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container" style="max-width: 1100px;">
-            <div style="text-align: center; margin-bottom: 15px; font-family: monospace; color: #94a3b8; font-size: 0.9rem;">
-                [ <span onclick="alert('msmaxpro4@gmail.com')" style="cursor: pointer; border-bottom: 1px dashed;">Show Email</span> ]
-            </div>
             <div class="footer-copyright" style="text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 15px; color: #94a3b8; font-size: 0.85rem;">
                 <p>&copy; <span id="year"></span> CodeWithMSMAXPRO. All rights reserved.</p>
+                <p><a href="https://github.com/MSMAXPRO" target="_blank" class="external-link" style="color: var(--text-muted);">GitHub</a></p>
             </div>
         </div>
     </footer>
     
     <script src="app.js"></script>
     <script>
-        // --- JS IS SAME AS BEFORE, JUST RE-APPLIED ---
-        const texts = ["Web Developer", "Security Enthusiast", "Open Source Contributor"]; let count = 0, index = 0, currentText = "", letter = "";
+        const texts = ["Web Developer", "Security Enthusiast", "Builder"]; let count = 0, index = 0, currentText = "", letter = "";
         (function type() { if (count === texts.length) count = 0; currentText = texts[count]; letter = currentText.slice(0, ++index); document.getElementById('typewriter').textContent = letter + "|"; if (letter.length === currentText.length) { count++; index = 0; setTimeout(type, 2000); } else { setTimeout(type, 100); } }());
         const startDate = new Date("2023-01-01"); function updateExp() { const now = new Date(); const diff = now - startDate; const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365)); const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24)); document.getElementById('exp-counter').innerText = `Coding for: ${years}Y ${days}D`; } updateExp();
         window.onscroll = function() { let winScroll = document.body.scrollTop || document.documentElement.scrollTop; let height = document.documentElement.scrollHeight - document.documentElement.clientHeight; let scrolled = (winScroll / height) * 100; document.getElementById("progress-bar").style.width = scrolled + "%"; const btn = document.querySelector('.back-to-top'); if (scrolled > 20) btn.classList.add('visible'); else btn.classList.remove('visible'); };
-        let lowPower = false; function toggleLowPower() { lowPower = !lowPower; const btn = document.querySelector('.low-power-toggle'); if(lowPower) { btn.classList.add('active'); if(window.VanillaTilt) { const tilts = document.querySelectorAll("[data-tilt]"); tilts.forEach(t => t.vanillaTilt.destroy()); } document.body.style.transition = 'none'; ScrollReveal().clean(); alert("Performance Mode: Animations Disabled"); } else { btn.classList.remove('active'); location.reload(); } }
-        function nativeShare() { if (navigator.share) { navigator.share({ title: 'CodeWithMSMAXPRO', text: 'Check out this portfolio!', url: window.location.href, }); } else { alert("Sharing not supported on this browser."); } }
-        window.addEventListener('load', () => { if(!lowPower && window.ScrollReveal) { ScrollReveal().reveal('.reveal-bottom', { distance: '20px', duration: 600, origin: 'bottom', reset: false }); ScrollReveal().reveal('.reveal-left', { distance: '20px', duration: 600, origin: 'left', reset: false }); ScrollReveal().reveal('.reveal-right', { distance: '20px', duration: 600, origin: 'right', reset: false }); } document.getElementById('year').innerText = new Date().getFullYear(); });
+        let lowPower = false; function toggleLowPower() { lowPower = !lowPower; const btn = document.querySelector('.low-power-toggle'); if(lowPower) { btn.classList.add('active'); if(window.VanillaTilt) { const tilts = document.querySelectorAll("[data-tilt]"); tilts.forEach(t => t.vanillaTilt.destroy()); } document.body.style.transition = 'none'; ScrollReveal().clean(); alert("Performance Mode ON"); } else { btn.classList.remove('active'); location.reload(); } }
+        function nativeShare() { if (navigator.share) { navigator.share({ title: 'CodeWithMSMAXPRO', text: 'Portfolio', url: window.location.href, }); } else { alert("Feature not supported."); } }
+        window.addEventListener('load', () => { if(!lowPower && window.ScrollReveal) { ScrollReveal().reveal('.reveal-bottom', { distance: '20px', duration: 600, origin: 'bottom', reset: false }); ScrollReveal().reveal('.reveal-left', { distance: '20px', duration: 600, origin: 'left', reset: false }); } document.getElementById('year').innerText = new Date().getFullYear(); });
         if(window.VanillaTilt) { VanillaTilt.init(document.querySelector(".profile-card-wrap"), { max: 8, speed: 400, glare: true, "max-glare": 0.1 }); }
         const counters = document.querySelectorAll('.stat-number'); counters.forEach(counter => { const updateCount = () => { const target = +counter.getAttribute('data-target'); const count = +counter.innerText; const inc = target / 50; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 30); } else { counter.innerText = target + "+"; } }; updateCount(); });
     </script>
