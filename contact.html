@@ -6,9 +6,7 @@
     <title>Contact Us - CodeWithMSMAXPRO</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -99,7 +97,7 @@
         .modal-content { background: #fff; padding: 30px; border-radius: 20px; text-align: center; max-width: 320px; width: 90%; position: relative; }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #333; }
 
-        /* NEW: Pay Button in Modal */
+        /* Pay Button in Modal */
         .pay-now-btn {
             display: inline-block; width: 100%; margin-top: 15px; padding: 12px;
             background: #25D366; color: #fff; font-weight: bold; border-radius: 10px;
@@ -107,6 +105,9 @@
         }
         .pay-now-btn:hover { background: #128C7E; }
         
+        /* Note Text */
+        .note-text { color: #64748b; font-size: 0.8rem; margin-top: 15px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 10px; }
+
         @media (max-width: 768px) {
             .contact-hero h1 { font-size: 2.5rem; }
             .clean-form-wrapper { padding: 25px; }
@@ -255,7 +256,10 @@
             <img src="images/upi-qr.jpg" alt="UPI QR Code" style="width: 200px; height: 200px; border: 2px solid #333; border-radius: 10px;">
             
             <p style="color: #555; margin-top: 15px; font-size: 0.95rem;">Any amount is appreciated! 🙏</p>
-            <p style="color: #333; font-weight: bold; margin-top: 5px; font-size: 0.9rem;">UPI: your-upi-id@okaxis</p>
+            
+            <p class="note-text">
+                <i class="fas fa-info-circle"></i> Note: My real name might appear during payment instead of MSMAXPRO. Don't worry, it's correct! Thanks for supporting. ❤️
+            </p>
 
             <a href="upi://pay?pa=harveersingh786.a@okicici&pn=MSMAXPRO&cu=INR" class="pay-now-btn">
                 Open in UPI App 📲
