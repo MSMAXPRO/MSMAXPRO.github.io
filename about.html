@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of MSMAXPRO - Web Developer & Security Researcher.">
+    <meta name="theme-color" content="#0f172a">
     <title>About Me - CodeWithMSMAXPRO</title>
-    
-    <meta name="description" content="Portfolio and Journey of MSMAXPRO - Web Developer & Security Enthusiast.">
     <link rel="icon" type="image/png" href="favicon.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,282 +13,382 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
     <script src="https://unpkg.com/scrollreveal" defer></script>
 
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- PERFORMANCE & STYLING CORE --- */
+        /* --- 1. CORE VARIABLES & PERFORMANCE --- */
         :root {
             --bg-dark: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.6);
             --primary: #38bdf8;
             --primary-glow: rgba(56, 189, 248, 0.4);
+            --secondary: #a855f7; /* Purple for variety */
             --text-main: #ffffff;
             --text-muted: #94a3b8;
             --border-color: rgba(255, 255, 255, 0.1);
+            --success: #4ade80;
+            --danger: #f43f5e;
         }
 
-        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; font-family: 'Inter', sans-serif; position: relative; }
 
-        /* 1. CUSTOM CYBER SCROLLBAR */
+        /* --- 2. VISUAL POLISH (CSS ONLY) --- */
+        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
-
-        /* 2. TEXT SELECTION COLOR */
-        ::selection { background: var(--primary); color: #000; }
-
-        /* 3. READING PROGRESS BAR */
-        #progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 9999; transition: width 0.1s; box-shadow: 0 0 10px var(--primary); }
-
-        /* --- COMPACT SPACING --- */
-        section { margin-bottom: 40px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; box-shadow: 0 0 10px var(--primary-glow); }
         
-        /* 6. BREADCRUMBS */
-        .breadcrumbs { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; font-family: 'Fira Code', monospace; }
-        .breadcrumbs a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
-        .breadcrumbs a:hover { color: var(--primary); }
+        /* Selection Color */
+        ::selection { background: var(--success); color: #000; }
+
+        /* CRT Scanline Effect (Overlay) */
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; z-index: 9999; pointer-events: none; opacity: 0.3; }
+
+        /* Corner Ribbon */
+        .ribbon { position: fixed; top: 0; right: 0; z-index: 100; overflow: hidden; width: 150px; height: 150px; pointer-events: none; }
+        .ribbon span { position: absolute; top: 30px; right: -35px; transform: rotate(45deg); width: 200px; background-color: var(--primary); padding: 5px 0; color: #000; text-align: center; font-weight: bold; font-size: 0.8rem; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
+
+        /* --- 3. PRINT STYLES (RESUME MODE) --- */
+        @media print {
+            body { background: #fff; color: #000; }
+            .navbar, .btn-group, footer, .scanlines, .ribbon, .reading-progress-container, .zen-toggle { display: none !important; }
+            .about-hero { flex-direction: row; text-align: left; padding: 0; }
+            .hero-text h1 { color: #000; }
+            .timeline-item { break-inside: avoid; }
+            a { text-decoration: none; color: #000; }
+            a::after { content: " (" attr(href) ")"; font-size: 0.8rem; }
+        }
+
+        /* --- 4. COMPACT LAYOUT --- */
+        section { margin-bottom: 50px; padding: 0 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
 
         /* --- HERO SECTION --- */
-        .about-hero { display: flex; flex-direction: column-reverse; align-items: center; gap: 20px; padding-top: 20px; }
+        .about-hero { display: flex; flex-direction: column-reverse; align-items: center; gap: 30px; padding-top: 40px; }
         .hero-text { flex: 1; text-align: center; }
-        .hero-text h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 5px; }
-        .hero-text .typewriter { color: var(--primary); font-family: 'Fira Code', monospace; font-size: 1.1rem; min-height: 1.5em; display: block; }
-        .hero-text p { color: var(--text-muted); margin-top: 10px; line-height: 1.5; font-size: 1rem; }
-
-        /* 9. OPEN TO WORK PULSE */
-        .status-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; color: #4ade80; margin-bottom: 10px; }
-        .status-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 8px #4ade80; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-
-        /* 4. PROFILE GLITCH & SKELETON */
-        .profile-card-wrap { position: relative; width: 220px; height: 220px; border-radius: 20px; background: linear-gradient(145deg, #1e293b, #0f172a); padding: 5px; border: 1px solid var(--border-color); overflow: hidden; }
-        /* 3. Skeleton Loading */
-        .profile-card-wrap.skeleton { animation: shimmer 1.5s infinite linear; background: linear-gradient(to right, #1e293b 0%, #334155 50%, #1e293b 100%); background-size: 200% 100%; }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        /* Gradient Text Animation */
+        .gradient-text { background: linear-gradient(45deg, var(--primary), var(--secondary), var(--success)); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: gradient-move 5s ease infinite; font-size: 2.5rem; font-weight: 800; }
+        @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        .profile-card-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; filter: grayscale(10%); transition: 0.3s; opacity: 0; }
-        .profile-card-wrap img.loaded { opacity: 1; }
-        /* Glitch Effect on Hover */
-        .profile-card-wrap:hover img { filter: grayscale(0%); transform: scale(1.05); }
+        .typewriter { color: var(--primary); font-family: 'Fira Code', monospace; display: block; min-height: 1.5em; margin: 10px 0; }
         
-        /* 6. EXPERIENCE COUNTER */
-        .exp-badge { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; margin-bottom: 10px; font-family: 'Fira Code', monospace; }
+        /* Image Pulse */
+        .profile-card-wrap { position: relative; width: 200px; height: 200px; border-radius: 50%; padding: 5px; background: linear-gradient(var(--primary), var(--secondary)); animation: border-pulse 3s infinite; }
+        .profile-card-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg-dark); }
+        @keyframes border-pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); } }
 
-        /* 1. LOW POWER TOGGLE */
-        .low-power-toggle { position: fixed; top: 80px; right: 15px; z-index: 100; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 50%; border: 1px solid var(--border-color); cursor: pointer; color: var(--text-muted); transition: 0.3s; }
-        .low-power-toggle.active { color: #ef4444; border-color: #ef4444; }
+        /* --- UTILITY WIDGETS --- */
+        .status-bar { display: flex; justify-content: center; gap: 15px; font-size: 0.8rem; color: var(--text-muted); font-family: 'Fira Code', monospace; margin-bottom: 20px; flex-wrap: wrap; }
+        .status-item i { margin-right: 5px; }
+        .online { color: var(--success); } .offline { color: var(--danger); }
 
-        /* 8. CSS SKILL METERS (Compact Grid) */
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 40px; }
-        .skill-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px; border-radius: 10px; transition: 0.3s; display: flex; flex-direction: column; gap: 5px; }
-        .skill-header { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; }
-        .skill-header i { color: var(--primary); }
-        .skill-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-        .skill-bar-fill { height: 100%; background: var(--primary); border-radius: 2px; }
+        /* --- 5. FOCUS MODE (Blur others on hover) --- */
+        .focus-group:hover > :not(:hover) { opacity: 0.3; filter: blur(2px); transition: 0.3s; }
+        .focus-item { transition: 0.3s; }
 
-        /* 7. EXTERNAL LINK ICONS */
-        .external-link::after { content: "\f08e"; font-family: "Font Awesome 6 Free"; font-weight: 900; font-size: 0.7em; margin-left: 5px; opacity: 0.7; }
+        /* --- SKILLS & DNA --- */
+        .dna-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 20px auto; width: 100%; max-width: 500px; }
+        .dna-seg { height: 100%; transition: width 1s; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .skill-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px; border-radius: 10px; text-align: center; transition: 0.3s; cursor: default; position: relative; }
+        .skill-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        /* Glass Tooltip */
+        .skill-card::after { content: attr(data-level); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; opacity: 0; pointer-events: none; transition: 0.3s; border: 1px solid var(--border-color); white-space: nowrap; }
+        .skill-card:hover::after { opacity: 1; bottom: 110%; }
 
-        /* --- STATS & TERMINAL --- */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 30px; }
-        .stat-card { background: var(--card-bg); padding: 10px; border-radius: 10px; text-align: center; border: 1px solid var(--border-color); }
-        .stat-number { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: block; }
-        .stat-label { color: var(--text-muted); font-size: 0.75rem; }
+        /* --- TERMINAL --- */
+        .terminal-window { background: #0d1117; border-radius: 8px; border: 1px solid #30363d; font-family: 'Fira Code', monospace; overflow: hidden; position: relative; }
+        .terminal-header { background: #161b22; padding: 8px; display: flex; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal-body { padding: 15px; color: #c9d1d9; font-size: 0.85rem; }
+        .copy-code-btn { position: absolute; top: 5px; right: 10px; background: transparent; border: 1px solid #30363d; color: #8b949e; cursor: pointer; border-radius: 4px; font-size: 0.7rem; padding: 2px 6px; }
+        .copy-code-btn:hover { color: #fff; border-color: #fff; }
 
-        .terminal-window { background: #0d1117; border-radius: 8px; border: 1px solid #30363d; font-family: 'Fira Code', monospace; overflow: hidden; max-width: 700px; margin: 0 auto 30px auto; }
-        .terminal-header { background: #161b22; padding: 8px 12px; display: flex; gap: 6px; }
-        .dot-term { width: 10px; height: 10px; border-radius: 50%; background: #333; }
-        .terminal-body { padding: 15px; color: #c9d1d9; font-size: 0.85rem; line-height: 1.5; }
+        /* --- GITHUB CALENDAR (CSS Grid) --- */
+        .github-calendar { display: grid; grid-template-columns: repeat(auto-fit, minmax(10px, 1fr)); gap: 3px; max-width: 300px; margin: 0 auto; }
+        .cal-box { width: 10px; height: 10px; background: #161b22; border-radius: 2px; }
+        .cal-low { background: #0e4429; } .cal-med { background: #006d32; } .cal-high { background: #39d353; }
 
-        /* --- CERTIFICATES --- */
-        .cert-scroller { display: flex; overflow-x: auto; gap: 15px; padding: 10px 0; scroll-snap-type: x mandatory; scrollbar-width: none; }
-        .cert-card { min-width: 200px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 12px; scroll-snap-align: center; text-align: center; }
-        
-        /* --- TIMELINE --- */
-        .timeline-section { margin-bottom: 30px; padding-left: 10px; }
-        .timeline-container { border-left: 2px solid var(--primary); margin-left: 10px; padding-left: 20px; }
-        .timeline-item { position: relative; margin-bottom: 20px; }
-        .timeline-dot { width: 12px; height: 12px; background: var(--bg-dark); border: 2px solid var(--primary); border-radius: 50%; position: absolute; left: -27px; top: 5px; }
-        .timeline-content h3 { font-size: 1rem; margin-bottom: 3px; }
-        .timeline-content p { font-size: 0.85rem; color: var(--text-muted); }
+        /* --- CONTENT GRIDS (Failures, Uses, Books) --- */
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .content-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; }
+        .content-box h3 { color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .list-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        .list-item i { color: var(--secondary); }
 
-        /* --- BUTTONS --- */
-        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: #000; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 99; border: none; }
-        .back-to-top.visible { opacity: 1; pointer-events: all; }
-        .glitch-btn { position: relative; padding: 10px 20px; background: var(--primary); color: #000; font-weight: 700; text-transform: uppercase; border: none; border-radius: 5px; font-size: 0.85rem; cursor: pointer; transition: 0.3s; margin-top: 15px; display: inline-block; text-decoration: none; }
-        .share-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 6px 12px; border-radius: 15px; cursor: pointer; margin-top: 8px; transition: 0.3s; font-size: 0.8rem; }
+        /* --- ZEN MODE TOGGLE --- */
+        .zen-toggle { position: fixed; top: 80px; right: 20px; z-index: 99; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 50%; cursor: pointer; color: var(--text-muted); transition: 0.3s; border: 1px solid var(--border-color); }
+        .zen-toggle:hover { color: #fff; background: var(--primary); }
+        /* Zen Mode Active State */
+        body.zen-active .navbar, body.zen-active footer, body.zen-active .ribbon, body.zen-active .status-bar { opacity: 0; pointer-events: none; transition: 0.5s; }
+        body.zen-active .container { max-width: 700px; }
+
+        /* --- READING CIRCLE (Back to Top) --- */
+        .reading-progress-container { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; z-index: 99; cursor: pointer; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .reading-progress-container.visible { opacity: 1; pointer-events: all; }
+        .progress-circle { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-circle circle { fill: var(--bg-dark); stroke-width: 4; stroke: var(--primary); stroke-dasharray: 150; stroke-dashoffset: 150; transition: 0.1s; }
+        .top-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-main); }
+
+        /* --- TESTIMONIALS --- */
+        .testimonial-card { background: rgba(255,255,255,0.03); border-left: 3px solid var(--primary); padding: 15px; font-style: italic; margin-bottom: 10px; border-radius: 0 10px 10px 0; }
+        .testimonial-author { display: block; margin-top: 5px; font-weight: bold; color: var(--secondary); font-style: normal; font-size: 0.8rem; }
+
+        /* --- FAQ --- */
+        details { background: rgba(255,255,255,0.03); margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
+        summary { padding: 12px; cursor: pointer; font-weight: 600; list-style: none; position: relative; }
+        summary::after { content: '+'; position: absolute; right: 15px; color: var(--primary); }
+        details[open] summary::after { content: '-'; }
+        details p { padding: 0 15px 15px; font-size: 0.9rem; color: var(--text-muted); }
 
         @media (min-width: 768px) {
-            .about-hero { flex-direction: row; text-align: left; gap: 50px; }
+            .about-hero { flex-direction: row; text-align: left; }
             .hero-text { text-align: left; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
-            section { margin-bottom: 60px; }
+            .grid-2 { grid-template-columns: 1fr 1fr; }
         }
-        
-        /* 10. SMART NAVBAR ACTIVE STATE */
-        .nav-links a.active { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="progress-bar"></div>
+    <div class="scanlines"></div>
+    
+    <div class="ribbon"><span>OPEN TO WORK</span></div>
 
-    <button class="low-power-toggle" onclick="toggleLowPower()" title="Toggle Animations">
-        <i class="fas fa-bolt"></i>
-    </button>
+    <button class="zen-toggle" onclick="toggleZenMode()" title="Zen Mode (Reading)"><i class="fas fa-book-open"></i></button>
 
-    <header>
+    <header class="navbar">
         <div class="container">
-            <nav>
-                <a href="/" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
+            <nav style="display: flex; justify-content: space-between; align-items: center; padding: 20px 0;">
+                <a href="/" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem;">
+                    <img src="images/logo.png" alt="Logo" style="height: 30px;"> CodeWithMSMAXPRO
                 </a>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="about.html" class="active">About</a></li> <li><a href="contact.html">Contact</a></li>
-                </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
-                </div>
+                <a href="index.html" style="color: var(--text-muted); text-decoration: none;"><i class="fas fa-arrow-left"></i> Home</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <div class="container" style="max-width: 900px;">
+        <div class="container">
             
-            <section class="about-hero">
+            <section class="about-hero" data-tilt>
                 <div class="hero-text reveal-left">
-                    <div class="breadcrumbs"><a href="index.html">Home</a> / About Me</div>
-                    
-                    <div class="status-pill"><div class="status-dot"></div> Open to Work</div>
-                    
-                    <h1>Hello! I'm <span style="color: #fff;">MSMAXPRO</span></h1>
-                    
-                    <span id="exp-counter" class="exp-badge">Coding for: Loading...</span>
-                    
-                    <span style="font-size: 0.75rem; color: var(--text-muted); margin-left: 10px;"><i class="far fa-clock"></i> <span id="read-time">1 min read</span></span>
+                    <div class="status-bar" style="justify-content: flex-start;">
+                        <span id="local-time"><i class="far fa-clock"></i> Agra: --:--</span>
+                        <span id="net-status" class="online"><i class="fas fa-wifi"></i> Online</span>
+                        <span id="battery-stat"><i class="fas fa-battery-full"></i> 100%</span>
+                    </div>
 
+                    <h1 class="gradient-text">Hello! I'm MSMAXPRO</h1>
                     <span class="typewriter" id="typewriter"></span>
-                    <p>I'm a passionate builder and problem-solver. I build tools that make developers' lives easier.</p>
                     
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; @media(min-width:768px){justify-content: flex-start;}">
-                        <a href="#" class="glitch-btn" onclick="window.print()"><i class="fas fa-print"></i> Save CV</a>
-                        <button class="share-btn" onclick="nativeShare()"><i class="fas fa-share-alt"></i> Share</button>
+                    <p>I build things for the web and break them to make them secure.</p>
+                    
+                    <div class="btn-group" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; @media(min-width:768px){justify-content: flex-start;}">
+                        <button onclick="vibrateDevice(); window.print()" style="padding: 10px 20px; background: var(--primary); border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Save CV</button>
+                        <button onclick="document.querySelector('.terminal-section').scrollIntoView()" style="padding: 10px 20px; background: transparent; border: 1px solid var(--text-muted); color: #fff; border-radius: 5px; cursor: pointer;">View Term</button>
                     </div>
                 </div>
-                
-                <div class="profile-card-wrap skeleton" data-tilt data-tilt-max="10" data-tilt-speed="400">
-                    <img src="images/about-me.jpg" alt="MSMAXPRO Profile" loading="lazy" onload="this.parentElement.classList.remove('skeleton'); this.classList.add('loaded');">
-                </div>
-            </section>
-
-            <section class="stats-grid reveal-bottom">
-                <div class="stat-card"><span class="stat-number" data-target="15">0</span><span class="stat-label">Projects</span></div>
-                <div class="stat-card"><span class="stat-number" data-target="12000">0</span><span class="stat-label">Lines of Code</span></div>
-                <div class="stat-card"><span class="stat-number" data-target="500">0</span><span class="stat-label">Coffees</span></div>
-                <div class="stat-card"><span class="stat-number" data-target="100">0</span><span class="stat-label">Bugs Fixed</span></div>
-            </section>
-
-            <section class="terminal-section reveal-bottom">
-                <div class="terminal-window">
-                    <div class="terminal-header">
-                        <div class="dot-term" style="background:#ff5f56"></div>
-                        <div class="dot-term" style="background:#ffbd2e"></div>
-                        <div class="dot-term" style="background:#27c93f"></div>
-                        <span style="margin-left: 8px; color: #8b949e; font-size: 0.75rem;">bash — msmaxpro@kali</span>
-                    </div>
-                    <div class="terminal-body">
-                        <span class="command">> cat mission.txt</span>
-                        <p style="margin: 5px 0;">"Helping students bridge the gap between theory and real-world dev."</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="reveal-left">
-                <h2>Certifications</h2>
-                <div class="cert-scroller">
-                    <div class="cert-card"><i class="fas fa-certificate"></i><br><strong>Python Basics</strong><br><small>HackerRank</small></div>
-                    <div class="cert-card"><i class="fas fa-shield-alt"></i><br><strong>Cyber Security</strong><br><small>Cisco</small></div>
-                    <div class="cert-card"><i class="fab fa-js"></i><br><strong>JS Algorithms</strong><br><small>FreeCodeCamp</small></div>
-                </div>
-            </section>
-
-            <section class="timeline-section reveal-left">
-                <h2>Journey</h2>
-                <div class="timeline-container">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.85rem;">2025</span>
-                        <div class="timeline-content"><h3>Cybersecurity Focus</h3><p>Network Security & Ethical Hacking.</p></div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.85rem;">2024</span>
-                        <div class="timeline-content"><h3>Built Toolkit</h3><p>Launched MSMAXPRO Toolkit.</p></div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div><span style="color: var(--primary); font-weight: bold; font-size: 0.85rem;">2023</span>
-                        <div class="timeline-content"><h3>Started Coding</h3><p>Python "Hello World".</p></div>
-                    </div>
+                <div class="profile-card-wrap">
+                    <img src="images/about-me.jpg" alt="Profile">
                 </div>
             </section>
 
             <section class="reveal-bottom">
-                <h2>Tech Stack</h2>
-                <div class="skills-grid">
-                    <div class="skill-card">
-                        <div class="skill-header"><i class="fab fa-python"></i> Python</div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 90%;"></div></div>
+                <div class="dna-bar">
+                    <div class="dna-seg" style="width: 50%; background: #f0db4f;" title="JS"></div>
+                    <div class="dna-seg" style="width: 30%; background: #3776ab;" title="Python"></div>
+                    <div class="dna-seg" style="width: 20%; background: #e34c26;" title="HTML/CSS"></div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px;">
+                    <span><i class="fas fa-circle" style="color: #f0db4f;"></i> JS 50%</span>
+                    <span><i class="fas fa-circle" style="color: #3776ab;"></i> Py 30%</span>
+                    <span><i class="fas fa-circle" style="color: #e34c26;"></i> Web 20%</span>
+                </div>
+                
+                <div class="grid-2 focus-group">
+                    <div class="content-box focus-item" style="text-align: center;">
+                        <i class="fas fa-code" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                        <h2 id="lines-count">0</h2>
+                        <p>Lines of Code</p>
                     </div>
-                    <div class="skill-card">
-                        <div class="skill-header"><i class="fab fa-js"></i> JavaScript</div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div>
+                    <div class="content-box focus-item" style="text-align: center;">
+                        <i class="fas fa-project-diagram" style="font-size: 2rem; color: var(--secondary); margin-bottom: 10px;"></i>
+                        <h2 id="projects-count">0</h2>
+                        <p>Projects Built</p>
                     </div>
-                    <div class="skill-card">
-                        <div class="skill-header"><i class="fab fa-react"></i> React</div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+                </div>
+            </section>
+
+            <section class="terminal-section reveal-left">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="dot" style="background:#ff5f56"></div>
+                        <div class="dot" style="background:#ffbd2e"></div>
+                        <div class="dot" style="background:#27c93f"></div>
+                        <span style="margin-left: 10px; color: #8b949e; font-size: 0.8rem;">bash — msmaxpro@kali</span>
+                        <button class="copy-code-btn" onclick="copySnippet(this)">Copy</button>
                     </div>
-                    <div class="skill-card">
-                        <div class="skill-header"><i class="fas fa-shield-alt"></i> Security</div>
-                        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 60%;"></div></div>
+                    <div class="terminal-body" id="code-snippet">
+                        <span style="color: #ff7b72;">const</span> <span style="color: #d2a8ff;">msmaxpro</span> = {<br>
+                        &nbsp;&nbsp;role: <span style="color: #a5d6ff;">"Developer"</span>,<br>
+                        &nbsp;&nbsp;location: <span style="color: #a5d6ff;">"Agra, India"</span>,<br>
+                        &nbsp;&nbsp;loves: [<span style="color: #a5d6ff;">"Python"</span>, <span style="color: #a5d6ff;">"CyberSec"</span>]<br>
+                        };
                     </div>
+                </div>
+            </section>
+
+            <section class="reveal-right">
+                <h3 style="margin-bottom: 20px;">Tech Arsenal</h3>
+                <div class="skills-grid focus-group">
+                    <div class="skill-card focus-item" data-level="Expert"><i class="fab fa-python" style="color: #3776ab;"></i> Python</div>
+                    <div class="skill-card focus-item" data-level="Advanced"><i class="fab fa-js" style="color: #f0db4f;"></i> JS</div>
+                    <div class="skill-card focus-item" data-level="Intermediate"><i class="fab fa-react" style="color: #61dafb;"></i> React</div>
+                    <div class="skill-card focus-item" data-level="Beginner"><i class="fas fa-shield-alt" style="color: #4ade80;"></i> Security</div>
+                    <div class="skill-card focus-item" data-level="Advanced"><i class="fab fa-html5" style="color: #e34c26;"></i> HTML5</div>
+                    <div class="skill-card focus-item" data-level="Advanced"><i class="fab fa-css3-alt" style="color: #264de4;"></i> CSS3</div>
+                </div>
+            </section>
+
+            <section class="grid-2 reveal-bottom">
+                <div class="content-box">
+                    <h3><i class="fas fa-laptop-code"></i> Uses / Gear</h3>
+                    <div class="list-item"><i class="fas fa-check"></i> VS Code (SynthWave '84)</div>
+                    <div class="list-item"><i class="fas fa-check"></i> Kali Linux / Windows 11</div>
+                    <div class="list-item"><i class="fas fa-check"></i> Firefox Developer Edition</div>
+                </div>
+                
+                <div class="content-box">
+                    <h3><i class="fas fa-exclamation-triangle"></i> My Failures</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">Things that taught me the most:</p>
+                    <div class="list-item"><i class="fas fa-times" style="color: var(--danger);"></i> Wiped DB without backup (2023)</div>
+                    <div class="list-item"><i class="fas fa-times" style="color: var(--danger);"></i> Infinite Loop crashed browser</div>
+                </div>
+            </section>
+
+            <section class="grid-2 reveal-left">
+                <div class="content-box">
+                    <h3><i class="fab fa-github"></i> Contribution Graph</h3>
+                    <div class="github-calendar">
+                        <div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-low"></div>
+                        <div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div>
+                        <div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div>
+                        <div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div>
+                    </div>
+                    <p style="text-align: center; font-size: 0.7rem; margin-top: 5px; color: var(--text-muted);">Last 30 Days Activity</p>
+                </div>
+
+                <div class="content-box">
+                    <h3><i class="fas fa-book"></i> Reading List</h3>
+                    <div class="list-item"><i class="fas fa-bookmark"></i> Automate the Boring Stuff</div>
+                    <div class="list-item"><i class="fas fa-bookmark"></i> You Don't Know JS</div>
+                    <div class="list-item"><i class="fas fa-bookmark"></i> Hacking: The Art of Exploitation</div>
+                </div>
+            </section>
+
+            <section class="reveal-right">
+                <h3 style="margin-bottom: 20px;">Quick FAQ</h3>
+                <details>
+                    <summary>Do I accept Freelance work?</summary>
+                    <p>Yes, I am currently open to small scripts and web projects.</p>
+                </details>
+                <details>
+                    <summary>What is my primary language?</summary>
+                    <p>Python is my first love, but I use JavaScript for web.</p>
+                </details>
+
+                <h3 style="margin: 30px 0 15px;">What People Say</h3>
+                <div class="testimonial-card">
+                    "MSMAXPRO helped me debug my Python script in minutes. Highly recommended!"
+                    <span class="testimonial-author">- Happy Student</span>
                 </div>
             </section>
 
         </div>
     </main>
 
-    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});"><i class="fas fa-arrow-up"></i></button>
+    <div class="reading-progress-container" onclick="vibrateDevice(); window.scrollTo({top: 0, behavior: 'smooth'})">
+        <svg class="progress-circle" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="23" fill="none"></circle>
+        </svg>
+        <div class="top-icon"><i class="fas fa-arrow-up"></i></div>
+    </div>
 
-    <footer style="background-color: #1e293b; padding: 30px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-        <div class="container" style="max-width: 1100px;">
-            <div class="footer-copyright" style="text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 15px; color: #94a3b8; font-size: 0.85rem;">
-                <p>&copy; <span id="year"></span> CodeWithMSMAXPRO. All rights reserved.</p>
-                <p><a href="https://github.com/MSMAXPRO" target="_blank" class="external-link" style="color: var(--text-muted);">GitHub</a></p>
-            </div>
+    <footer style="background: #1e293b; padding: 40px 0 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="container" style="text-align: center;">
+            <a href="https://www.buymeacoffee.com" target="_blank" style="background: #FFDD00; color: #000; padding: 8px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px;">
+                <i class="fas fa-mug-hot"></i> Buy me a Chai
+            </a>
+            <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.8rem;">
+                Total Clicks: <span id="click-count">0</span> | Location: Agra 🇮🇳
+            </p>
+            <p style="margin-top: 10px; color: var(--text-muted); font-size: 0.8rem;">&copy; 2025 CodeWithMSMAXPRO</p>
         </div>
     </footer>
-    
+
     <script src="app.js"></script>
     <script>
+        // --- ALL JS LOGIC (Lightweight) ---
+        
+        // 1. Typewriter
         const texts = ["Web Developer", "Security Enthusiast", "Builder"]; let count = 0, index = 0, currentText = "", letter = "";
         (function type() { if (count === texts.length) count = 0; currentText = texts[count]; letter = currentText.slice(0, ++index); document.getElementById('typewriter').textContent = letter + "|"; if (letter.length === currentText.length) { count++; index = 0; setTimeout(type, 2000); } else { setTimeout(type, 100); } }());
-        const startDate = new Date("2023-01-01"); function updateExp() { const now = new Date(); const diff = now - startDate; const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365)); const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24)); document.getElementById('exp-counter').innerText = `Coding for: ${years}Y ${days}D`; } updateExp();
-        window.onscroll = function() { let winScroll = document.body.scrollTop || document.documentElement.scrollTop; let height = document.documentElement.scrollHeight - document.documentElement.clientHeight; let scrolled = (winScroll / height) * 100; document.getElementById("progress-bar").style.width = scrolled + "%"; const btn = document.querySelector('.back-to-top'); if (scrolled > 20) btn.classList.add('visible'); else btn.classList.remove('visible'); };
-        let lowPower = false; function toggleLowPower() { lowPower = !lowPower; const btn = document.querySelector('.low-power-toggle'); if(lowPower) { btn.classList.add('active'); if(window.VanillaTilt) { const tilts = document.querySelectorAll("[data-tilt]"); tilts.forEach(t => t.vanillaTilt.destroy()); } document.body.style.transition = 'none'; ScrollReveal().clean(); alert("Performance Mode ON"); } else { btn.classList.remove('active'); location.reload(); } }
-        function nativeShare() { if (navigator.share) { navigator.share({ title: 'CodeWithMSMAXPRO', text: 'Portfolio', url: window.location.href, }); } else { alert("Feature not supported."); } }
-        window.addEventListener('load', () => { if(!lowPower && window.ScrollReveal) { ScrollReveal().reveal('.reveal-bottom', { distance: '20px', duration: 600, origin: 'bottom', reset: false }); ScrollReveal().reveal('.reveal-left', { distance: '20px', duration: 600, origin: 'left', reset: false }); } document.getElementById('year').innerText = new Date().getFullYear(); });
-        if(window.VanillaTilt) { VanillaTilt.init(document.querySelector(".profile-card-wrap"), { max: 8, speed: 400, glare: true, "max-glare": 0.1 }); }
-        const counters = document.querySelectorAll('.stat-number'); counters.forEach(counter => { const updateCount = () => { const target = +counter.getAttribute('data-target'); const count = +counter.innerText; const inc = target / 50; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(updateCount, 30); } else { counter.innerText = target + "+"; } }; updateCount(); });
+
+        // 2. Counters
+        const animateCount = (id, target) => { let count = 0; const inc = target / 50; const timer = setInterval(() => { count += inc; if (count >= target) { document.getElementById(id).innerText = target + "+"; clearInterval(timer); } else { document.getElementById(id).innerText = Math.ceil(count); } }, 40); };
+        window.addEventListener('load', () => { animateCount('lines-count', 12000); animateCount('projects-count', 15); });
+
+        // 3. Time, Battery, Network
+        function updateTime() { const now = new Date(); document.getElementById('local-time').innerHTML = `<i class="far fa-clock"></i> Agra: ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`; } setInterval(updateTime, 1000); updateTime();
+        if(navigator.getBattery) navigator.getBattery().then(b => document.getElementById('battery-stat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.round(b.level * 100)}%`);
+        window.addEventListener('offline', () => document.getElementById('net-status').innerHTML = '<i class="fas fa-wifi" style="color:var(--danger)"></i> Offline');
+        window.addEventListener('online', () => document.getElementById('net-status').innerHTML = '<i class="fas fa-wifi"></i> Online');
+
+        // 4. Scroll Progress Circle
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height);
+            const circle = document.querySelector('.progress-circle circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            circle.style.strokeDashoffset = circumference - (scrolled * circumference);
+            
+            const btn = document.querySelector('.reading-progress-container');
+            if (winScroll > 100) btn.classList.add('visible'); else btn.classList.remove('visible');
+        };
+
+        // 5. Zen Mode
+        function toggleZenMode() { document.body.classList.toggle('zen-active'); }
+
+        // 6. Copy Code
+        function copySnippet(btn) {
+            const code = document.getElementById('code-snippet').innerText;
+            navigator.clipboard.writeText(code);
+            btn.innerText = "Copied!"; setTimeout(() => btn.innerText = "Copy", 2000);
+        }
+
+        // 7. Tab Alert
+        let docTitle = document.title; window.addEventListener("blur", () => { document.title = "Come back, Dev! 👨‍💻"; }); window.addEventListener("focus", () => { document.title = docTitle; });
+
+        // 8. Haptics & Click Count
+        function vibrateDevice() { if(navigator.vibrate) navigator.vibrate(20); }
+        let clicks = localStorage.getItem('siteClicks') || 0; 
+        document.onclick = () => { clicks++; document.getElementById('click-count').innerText = clicks; localStorage.setItem('siteClicks', clicks); };
+        document.getElementById('click-count').innerText = clicks;
+
+        // 9. Konami Code (Secret)
+        const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        let kIndex = 0; document.addEventListener('keydown', (e) => { if(e.key === konami[kIndex]) { kIndex++; if(kIndex === konami.length) { alert("GOD MODE ENABLED 🕶️"); kIndex = 0; } } else { kIndex = 0; } });
+
+        // Scroll Reveal Init
+        if(window.ScrollReveal) { ScrollReveal().reveal('.reveal-bottom', {distance:'20px', duration:800, origin:'bottom'}); ScrollReveal().reveal('.reveal-left', {distance:'20px', duration:800, origin:'left'}); ScrollReveal().reveal('.reveal-right', {distance:'20px', duration:800, origin:'right'}); }
+        if(window.VanillaTilt) { VanillaTilt.init(document.querySelector(".about-hero"), {max: 5}); }
     </script>
 
 </body>
