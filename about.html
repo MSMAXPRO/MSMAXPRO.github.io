@@ -178,7 +178,7 @@
             <section class="about-hero" data-tilt>
                 <div class="hero-text reveal-left">
                     <div class="status-bar" style="justify-content: flex-start;">
-                        <span id="local-time"><i class="far fa-clock"></i> Agra: --:--</span>
+                        <span id="local-time"><i class="far fa-clock"></i> India: --:--</span>
                         <span id="net-status" class="online"><i class="fas fa-wifi"></i> Online</span>
                         <span id="battery-stat"><i class="fas fa-battery-full"></i> 100%</span>
                     </div>
@@ -236,7 +236,7 @@
                     <div class="terminal-body" id="code-snippet">
                         <span style="color: #ff7b72;">const</span> <span style="color: #d2a8ff;">msmaxpro</span> = {<br>
                         &nbsp;&nbsp;role: <span style="color: #a5d6ff;">"Developer"</span>,<br>
-                        &nbsp;&nbsp;location: <span style="color: #a5d6ff;">"Agra, India"</span>,<br>
+                        &nbsp;&nbsp;location: <span style="color: #a5d6ff;">"India"</span>,<br>
                         &nbsp;&nbsp;loves: [<span style="color: #a5d6ff;">"Python"</span>, <span style="color: #a5d6ff;">"CyberSec"</span>]<br>
                         };
                     </div>
@@ -325,7 +325,7 @@
                 <i class="fas fa-mug-hot"></i> Buy me a Chai
             </a>
             <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.8rem;">
-                Total Clicks: <span id="click-count">0</span> | Location: Agra 🇮🇳
+                Total Clicks: <span id="click-count">0</span> | Location: India 🇮🇳
             </p>
             <p style="margin-top: 10px; color: var(--text-muted); font-size: 0.8rem;">&copy; 2025 CodeWithMSMAXPRO</p>
         </div>
@@ -344,7 +344,8 @@
         window.addEventListener('load', () => { animateCount('lines-count', 12000); animateCount('projects-count', 15); });
 
         // 3. Time, Battery, Network
-        function updateTime() { const now = new Date(); document.getElementById('local-time').innerHTML = `<i class="far fa-clock"></i> Agra: ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`; } setInterval(updateTime, 1000); updateTime();
+        // UPDATED JS TIME FUNCTION TO SHOW "India"
+        function updateTime() { const now = new Date(); document.getElementById('local-time').innerHTML = `<i class="far fa-clock"></i> India: ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`; } setInterval(updateTime, 1000); updateTime();
         if(navigator.getBattery) navigator.getBattery().then(b => document.getElementById('battery-stat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.round(b.level * 100)}%`);
         window.addEventListener('offline', () => document.getElementById('net-status').innerHTML = '<i class="fas fa-wifi" style="color:var(--danger)"></i> Offline');
         window.addEventListener('online', () => document.getElementById('net-status').innerHTML = '<i class="fas fa-wifi"></i> Online');
