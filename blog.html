@@ -4,350 +4,405 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - CodeWithMSMAXPRO</title>
-    
+    <meta name="description" content="Tutorials and Articles on Web Development, Python, and Security.">
     <link rel="icon" type="image/png" href="favicon.png">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- Blog Page Styles --- */
-
-        /* Highlight color for this page */
-        .highlight {
-            background: linear-gradient(90deg, #f472b6, #a78bfa); /* Pink/Purple */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        /* --- CORE STYLES --- */
+        :root {
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.3);
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* --- 1. Featured Post Section --- */
-        .blog-featured {
-            padding-bottom: 60px;
-            background-color: #0f172a; /* Card background */
-            border-bottom: 1px solid #1e293b;
-        }
+        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        
+        /* Layout */
+        .container { width: 92%; max-width: 1200px; margin: 0 auto; }
+        header { border-bottom: 1px solid var(--border-color); padding: 15px 0; background: rgba(15, 23, 42, 0.95); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
 
-        .featured-card {
-            display: grid;
-            grid-template-columns: 1fr; /* Stacked on mobile */
-            gap: 30px;
-            align-items: center;
-        }
+        /* --- SEARCH & HERO --- */
+        .blog-hero { text-align: center; padding: 50px 0; }
+        .blog-hero h1 { font-size: 3rem; margin-bottom: 10px; color: #fff; }
+        .search-container { max-width: 600px; margin: 0 auto 40px; position: relative; }
+        .search-input { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 20px 15px 50px; border-radius: 50px; color: #fff; font-size: 1rem; transition: 0.3s; }
+        .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 15px var(--primary-glow); }
+        .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        .featured-image img {
+        /* --- BLOG GRID --- */
+        .posts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 30px; 
+            padding-bottom: 80px;
+        }
+        
+        /* Card Design */
+        .post-card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            overflow: hidden; 
+            border: 1px solid var(--border-color); 
+            transition: 0.3s; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100%; 
+        }
+        .post-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        
+        .card-img-wrap { 
+            position: relative; 
             width: 100%;
-            height: auto;
-            border-radius: 12px;
-            border: 1px solid #1e293b;
+            aspect-ratio: 16 / 9; 
+            overflow: hidden; 
+            background: #0f172a;
         }
-
-        /* Specific rule to override style.css */
-        section.blog-featured .featured-content .tag {
-            display: inline-block;
-            background-color: #a78bfa30;
-            color: #c4b5fd;
-            padding: 5px 15px;
-            border-radius: 99px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 15px;
-        }
-
-        .featured-content h2 {
-            font-size: 2.5rem;
-            color: #fff;
-            margin: 0 0 15px 0;
-        }
-
-        .featured-content p {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            line-height: 1.7;
-            margin-bottom: 25px;
-        }
-
-        /* --- 2. Blog List Section --- */
-        .blog-list-section {
-            padding: 60px 0 80px 0;
-        }
-
-        .blog-list-header {
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        .blog-list-header h2 {
-            font-size: 2.5rem;
-            color: #fff;
-        }
-
-        /* === CSS FIX: Layout ko specific banaya === */
-        section.blog-list-section .blog-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* 1 column on mobile (Default) */
-            gap: 30px;
-        }
-
-        /* --- 3. Upgraded Blog Card --- */
-        section.blog-list-section .blog-post-card {
-            background-color: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        section.blog-list-section .blog-post-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .blog-card-image img {
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .post-card:hover .card-img { transform: scale(1.1); }
+        
+        .card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        
+        .card-tags { display: flex; gap: 8px; margin-bottom: 10px; }
+        .tag { background: rgba(56, 189, 248, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 5px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        
+        .card-title { font-size: 1.25rem; margin: 0 0 10px; font-weight: 700; color: #fff; line-height: 1.4; }
+        .card-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; flex-grow: 1; } 
+        
+        .read-more { 
+            display: inline-block; 
+            padding: 10px 0; 
+            color: var(--primary); 
+            font-weight: bold; 
+            text-decoration: none; 
+            border-top: 1px solid var(--border-color); 
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            margin-top: auto; 
+            transition: 0.3s;
         }
+        .read-more:hover { color: #fff; padding-left: 5px; }
 
-        .blog-card-content {
-            padding: 25px;
-        }
-
-        .blog-card-tags {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-        }
-
-        section.blog-list-section .blog-card-tags .tag {
-            display: inline-block;
-            background-color: #334155;
-            color: #94a3b8;
-            padding: 4px 12px;
-            border-radius: 99px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .blog-card-content h3 {
-            font-size: 1.5rem;
-            color: #fff;
-            margin: 0 0 10px 0;
-        }
-
-        .blog-card-content p {
-            font-size: 1rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .read-more-btn {
-            color: #c4b5fd;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        .read-more-btn:hover {
-            text-decoration: underline;
-        }
-
-        /* --- Search Bar Style --- */
-        .search-bar-container {
-            max-width: 800px;
-            margin: -20px auto 50px auto;
-        }
-
-        .blog-search {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 1rem;
-            border-radius: 10px;
-            border: 1px solid #334155;
-            background-color: #1e293b;
-            color: #fff;
-            box-sizing: border-box;
-        }
-
-        .blog-search::placeholder {
-            color: #94a3b8;
-        }
-
-        .blog-search:focus {
-            outline: none;
-            border-color: #a78bfa;
-            box-shadow: 0 0 0 3px #a78bfa30;
-        }
-
-
-        /* --- Media Queries for Grid (Ab yeh 768px se upar hi apply hoga) --- */
-        @media (min-width: 768px) {
-            .featured-card {
-                grid-template-columns: 1.5fr 1fr;
-            }
-            
-            section.blog-list-section .blog-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
-            }
-        }
-
-        @media (min-width: 1024px) {
-            section.blog-list-section .blog-grid {
-                grid-template-columns: repeat(3, 1fr); /* 3 columns on desktop */
-            }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-hero h1 { font-size: 2rem; }
+            .posts-grid { grid-template-columns: 1fr; }
         }
     </style>
-    </head>
+</head>
 <body>
 
     <header>
         <div class="container">
-            <nav>
-                <a href="/" class="logo">
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
+            <nav style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="/" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem;">
+                    <img src="images/logo.png" alt="Logo" style="height: 30px;"> CodeWithMSMAXPRO
                 </a>
-                
-                 <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Project Ideas</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li> 
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-                
                 <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
+                    <div class="line1"></div><div class="line2"></div><div class="line3"></div>
                 </div>
+                <ul class="nav-links" style="display: flex; gap: 20px; list-style: none; margin: 0; padding: 0;">
+                    <li><a href="index.html" style="color: var(--text-muted); text-decoration: none;">Home</a></li>
+                    <li><a href="roadmaps.html" style="color: var(--text-muted); text-decoration: none;">Roadmaps</a></li>
+                    <li><a href="blog.html" style="color: var(--primary); font-weight: bold; text-decoration: none;">Blog</a></li>
+                    <li><a href="projects.html" style="color: var(--text-muted); text-decoration: none;">Projects</a></li>
+                    <li><a href="portfolio.html" style="color: var(--text-muted); text-decoration: none;">Portfolio</a></li>
+                    <li><a href="about.html" style="color: var(--text-muted); text-decoration: none;">About</a></li>
+                    <li><a href="contact.html" style="color: var(--text-muted); text-decoration: none;">Contact</a></li>
+                </ul>
             </nav>
         </div>
     </header>
 
     <main>
-        
-        <section class="blog-list-section">
+        <section class="blog-hero">
             <div class="container">
-                
-                <div class="content-header" style="max-width: 800px; margin: 0 auto 50px auto;">
-                    <h1>All <span class="highlight">Posts</span></h1>
-                    <p class="content-meta" style="font-size: 1.15rem; line-height: 1.7;">
-                        Welcome to my personal blog. Here I share my learnings, step-by-step guides, and thoughts on web development, from React to Python.
-                    </p>
-                </div>
-
-                <div class="search-bar-container">
-                    <input type="text" id="blogSearchInput" class="blog-search" placeholder="Search for posts by title...">
-                </div>
-
-                <div class="blog-grid">
-                    
-                    <div class="blog-post-card">
-                        <div class="blog-card-image">
-                            <img src="images/Blog/post-github-pack.jpg" alt="GitHub Student Developer Pack">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-card-tags">
-                                <span class="tag">Guide</span>
-                            </div>
-                            <h3>How to Get the GitHub Student Developer Pack?</h3>
-                            <p>A step-by-step guide on how you can get thousands of dollars worth of developer tools for free.</p>
-                            <a href="post-github-pack.html" class="read-more-btn">Read More &rarr;</a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post-card">
-                        <div class="blog-card-image">
-                            <img src="images/Blog/post-first-website.jpg" alt="My First Website">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-card-tags">
-                                <span class="tag">Opinion</span>
-                                <span class="tag">Dev</span>
-                            </div>
-                            <h3>My First Website: What I Learned</h3>
-                            <p>Building your first website can be tough. Here are the key lessons I learned and the mistakes to avoid...</p>
-                            <a href="post-first-website.html" class="read-more-btn">Read More &rarr;</a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post-card">
-                        <div class="blog-card-image">
-                            <img src="images/Blog/post-vscode.jpg" alt="VS Code Extensions">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-card-tags">
-                                <span class="tag">Tools</span>
-                            </div>
-                            <h3>5 Must-Have VS Code Extensions for Beginners</h3>
-                            <p>Supercharge your coding workflow with these essential Visual Studio Code extensions...</p>
-                            <a href="post-vscode-extensions.html" class="read-more-btn">Read More &rarr;</a>
-                        </div>
-                    </div>
-
-                    <div class="blog-post-card">
-                        <div class="blog-card-image">
-                            <img src="images/Blog/post-api.jpg" alt="What is an API?">
-                        </div>
-                        <div class="blog-card-content">
-                            <div class="blog-card-tags">
-                                <span class="tag">Concepts</span>
-                            </div>
-                            <h3>What is an API? A Simple Explanation for Beginners</h3>
-                            <p>APIs are everywhere, but what do they actually do? Let's break it down with a simple analogy...</p>
-                            <a href="post-api-analogy.html" class="read-more-btn">Read More &rarr;</a>
-                        </div>
-                    </div>
-
+                <h1>Tutorials & Guides</h1>
+                <p style="color: #94a3b8;">Learn coding, security, and development with clear guides.</p>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search blogs..." onkeyup="filterPosts()">
                 </div>
             </div>
         </section>
+
+        <div class="container">
+            <div class="posts-grid" id="postsContainer">
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-github-pack.jpg" alt="GitHub Pack" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Guide</span></div>
+                        <h3 class="card-title">How to Get GitHub Student Pack?</h3>
+                        <p class="card-desc">Get thousands of dollars worth of developer tools for free with your student ID.</p>
+                        <a href="post-github-pack.html" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-first-website.jpg" alt="First Website" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Web Dev</span></div>
+                        <h3 class="card-title">My First Website: Lessons Learned</h3>
+                        <p class="card-desc">Building your first site is tough. Here are mistakes to avoid and tips to succeed.</p>
+                        <a href="post-first-website.html" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-vscode.jpg" alt="VS Code" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Tools</span></div>
+                        <h3 class="card-title">5 Must-Have VS Code Extensions</h3>
+                        <p class="card-desc">Supercharge your coding workflow with these essential extensions.</p>
+                        <a href="post-vscode-extensions.html" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-api.jpg" alt="API" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Concept</span></div>
+                        <h3 class="card-title">What is an API? Explained Simply</h3>
+                        <p class="card-desc">APIs are everywhere. Let's break down how they work using a restaurant analogy.</p>
+                        <a href="post-api-analogy.html" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-5.jpg" alt="Flexbox" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">CSS</span></div>
+                        <h3 class="card-title">Mastering CSS Flexbox in 10 Mins</h3>
+                        <p class="card-desc">Stop struggling with alignment. Learn how to layout web pages easily with Flexbox.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-6.jpg" alt="React" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">React</span></div>
+                        <h3 class="card-title">React vs Vue: Which One to Choose?</h3>
+                        <p class="card-desc">A detailed comparison of two popular JS frameworks for 2025.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-7.jpg" alt="Python" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Python</span></div>
+                        <h3 class="card-title">Automate Boring Stuff with Python</h3>
+                        <p class="card-desc">Simple scripts to rename files, send emails, and scrape data automatically.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-8.jpg" alt="Security" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">CyberSec</span></div>
+                        <h3 class="card-title">Ethical Hacking Roadmap 2025</h3>
+                        <p class="card-desc">From Linux basics to penetration testing tools. Start your security journey.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-9.jpg" alt="Git" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Git</span></div>
+                        <h3 class="card-title">Git Commands You Must Know</h3>
+                        <p class="card-desc">Beyond commit and push. Learn rebase, stash, and cherry-pick to work like a pro.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-10.jpg" alt="Docker" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">DevOps</span></div>
+                        <h3 class="card-title">Why Developers Need Docker?</h3>
+                        <p class="card-desc">Stop saying 'It works on my machine'. Containerize your apps today.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-11.jpg" alt="SQL" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Database</span></div>
+                        <h3 class="card-title">SQL vs NoSQL: What's the Difference?</h3>
+                        <p class="card-desc">Understanding when to use MongoDB vs PostgreSQL for your next project.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-12.jpg" alt="Responsive" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Design</span></div>
+                        <h3 class="card-title">Responsive Design Tricks</h3>
+                        <p class="card-desc">Make your website look great on Mobile, Tablet, and Desktop using CSS Grid.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-13.jpg" alt="JS" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">JavaScript</span></div>
+                        <h3 class="card-title">JavaScript ES6 Features Explained</h3>
+                        <p class="card-desc">Arrow functions, Destructuring, Promises - Modern JS concepts simplified.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-14.jpg" alt="Freelance" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Career</span></div>
+                        <h3 class="card-title">How to Get First Freelance Client?</h3>
+                        <p class="card-desc">Practical tips to build a portfolio and pitch clients on Upwork/Fiverr.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-15.jpg" alt="Open Source" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Community</span></div>
+                        <h3 class="card-title">Getting Started with Open Source</h3>
+                        <p class="card-desc">How to make your first contribution to projects like Mozilla or VS Code.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-16.jpg" alt="DevTools" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Debug</span></div>
+                        <h3 class="card-title">Chrome DevTools for Beginners</h3>
+                        <p class="card-desc">Debug CSS and JS like a pro using the browser's built-in inspector.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-17.jpg" alt="Clean Code" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Best Practice</span></div>
+                        <h3 class="card-title">Writing Clean & Readable Code</h3>
+                        <p class="card-desc">Why variable naming and comments matter more than you think.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-18.jpg" alt="AI" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">AI</span></div>
+                        <h3 class="card-title">Will AI Replace Developers?</h3>
+                        <p class="card-desc">The future of coding with ChatGPT and Copilot. Should you be worried?</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="card-img-wrap">
+                        <img src="images/Blog/post-19.jpg" alt="Portfolio" class="card-img" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-tags"><span class="tag">Career</span></div>
+                        <h3 class="card-title">Building a Killer Portfolio</h3>
+                        <p class="card-desc">What projects to include to impress recruiters at top tech companies.</p>
+                        <a href="#" class="read-more">Read Article &rarr;</a>
+                    </div>
+                </article>
+
+            </div>
+            
+            <div id="noResults" style="display:none; text-align:center; padding: 50px; color: #94a3b8;">
+                <h3>No posts found matching your search.</h3>
+            </div>
+        </div>
     </main>
 
-    <footer style="background-color: #1e293b; padding: 50px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-        </footer>
-    
+    <footer style="background-color: #1e293b; padding: 40px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+        <div class="container" style="text-align: center; color: #94a3b8; font-size: 0.9rem;">
+            <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="app.js"></script>
-
     <script>
-        // 1. Saare zaroori elements ko select karo
-        const searchInput = document.getElementById('blogSearchInput');
-        const blogGrid = document.querySelector('.blog-grid');
-        const allPosts = blogGrid.querySelectorAll('.blog-post-card');
+        // LIVE SEARCH
+        function filterPosts() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const posts = document.querySelectorAll('.post-card');
+            let hasResults = false;
 
-        // 2. Search input par 'input' event listener lagao
-        searchInput.addEventListener('input', function(e) {
-            
-            // 3. Search term ko words mein todo (Google jaisa search)
-            const searchTerm = e.target.value.toLowerCase();
-            const searchWords = searchTerm.split(' ').filter(word => word.length > 0);
-
-            // 4. Har ek post card par loop chalao
-            allPosts.forEach(post => {
+            posts.forEach(post => {
+                const title = post.querySelector('.card-title').innerText.toLowerCase();
+                const desc = post.querySelector('.card-desc').innerText.toLowerCase();
                 
-                const titleElement = post.querySelector('h3');
-                
-                if (titleElement) {
-                    const title = titleElement.textContent.toLowerCase();
-
-                    // 5. Check karo ki title mein "saare" search words hain ya nahi
-                    // .every() check karta hai ki array ke sabhi items true hain
-                    const isMatch = searchWords.every(word => title.includes(word));
-
-                    if (isMatch) {
-                        post.style.display = 'block'; // Agar hai, toh card ko dikhao
-                    } else {
-                        post.style.display = 'none'; // Agar nahi hai, toh hide kar do
-                    }
+                if (title.includes(input) || desc.includes(input)) {
+                    post.style.display = 'flex';
+                    hasResults = true;
+                } else {
+                    post.style.display = 'none';
                 }
             });
-        });
+            document.getElementById('noResults').style.display = hasResults ? 'none' : 'block';
+        }
     </script>
-    </body>
+
+</body>
 </html>
