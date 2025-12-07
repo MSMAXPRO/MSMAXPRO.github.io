@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering CSS Flexbox in 10 Mins - CodeWithMSMAXPRO</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Wide Layout */
+        .post-container .container { max-width: 1100px !important; }
+
+        .post-content h2 { margin-top: 40px; color: #38bdf8; font-size: 1.8rem; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .post-content h3 { margin-top: 30px; color: #fff; font-size: 1.4rem; }
+        .post-content p { color: #cbd5e1; line-height: 1.8; font-size: 1.1rem; margin-bottom: 20px; }
+        .post-content ul, .post-content ol { padding-left: 20px; color: #cbd5e1; margin-bottom: 20px; font-size: 1.1rem; }
+        .post-content li { margin-bottom: 10px; line-height: 1.6; }
+        
+        pre { background: #1e293b; padding: 25px; border-radius: 10px; overflow-x: auto; border: 1px solid #334155; margin: 20px 0; }
+        code { font-family: 'Fira Code', monospace; color: #a5d6ff; font-size: 1rem; }
+        
+        .visual-box { background: #0f172a; border: 2px dashed #38bdf8; padding: 20px; margin: 20px 0; border-radius: 8px; display: flex; gap: 10px; }
+        .box-item { background: #38bdf8; color: #000; padding: 15px; font-weight: bold; border-radius: 5px; }
+
+        /* Navbar Links */
+        .nav-links li a { color: #94a3b8; text-decoration: none; font-weight: 500; transition: 0.3s; }
+        .nav-links li a:hover { color: #38bdf8; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav style="display:flex; justify-content:space-between; align-items:center; padding: 15px 0;">
+                <a href="/" class="logo"><img src="images/logo.png" alt="Logo"> <span>CodeWithMSMAXPRO</span></a>
+                <ul class="nav-links" style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html" style="color: #38bdf8; font-weight: bold;">Blog</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="post-container" style="padding: 60px 0;">
+            <div class="container">
+                <article class="post-content">
+                    
+                    <div class="post-header" style="text-align:center; margin-bottom:50px;">
+                        <span style="background:#38bdf8; color:#000; padding:5px 15px; border-radius:5px; font-weight:bold; font-size:0.9rem;">CSS</span>
+                        <h1 style="font-size:3rem; margin:20px 0;">Mastering CSS Flexbox in 10 Mins 📦</h1>
+                        <p style="color:#94a3b8;">Published on Dec 8, 2025 by <span style="color:#38bdf8;">MSMAXPRO</span> • 10 min read</p>
+                    </div>
+
+                    <img src="images/Blog/post-5.jpg" alt="CSS Flexbox" style="width:100%; border-radius:15px; margin-bottom:50px; border:1px solid #334155;">
+                    
+                    <p>Before Flexbox, laying out a website was a nightmare. We used <code>float</code>, <code>position: absolute</code>, and weird hacks like <code>clearfix</code>. It was messy.</p>
+                    <p>Then came <strong>Flexbox (Flexible Box Layout)</strong>. It changed everything. It allows you to align items in rows or columns, handle spacing automatically, and fix alignment issues instantly.</p>
+
+                    <h2>1. The Two Main Players</h2>
+                    <p>In Flexbox, there are only two things you need to understand:</p>
+                    <ul>
+                        <li><strong>The Container (Parent):</strong> The box that holds everything.</li>
+                        <li><strong>The Items (Children):</strong> The elements inside the box.</li>
+                    </ul>
+
+                    <pre><code>.container {
+  display: flex; /* This turns on the magic */
+}</code></pre>
+
+                    <h2>2. Controlling the Direction</h2>
+                    <p>By default, <code>display: flex</code> puts everything in a row (left to right). But you can change that.</p>
+                    <ul>
+                        <li><code>flex-direction: row;</code> (Default: Horizontal)</li>
+                        <li><code>flex-direction: column;</code> (Vertical: Top to Bottom)</li>
+                    </ul>
+
+                    <h2>3. Justify Content (Main Axis Alignment)</h2>
+                    <p>This property controls alignment along the main axis (usually horizontal). Think of it as "Left/Right/Center" alignment.</p>
+                    
+                    <pre><code>.container {
+  display: flex;
+  justify-content: center; /* Options: flex-start, flex-end, space-between, space-around */
+}</code></pre>
+
+                    <p><strong>Visual Example (Space Between):</strong></p>
+                    <div class="visual-box" style="justify-content: space-between;">
+                        <div class="box-item">Item 1</div>
+                        <div class="box-item">Item 2</div>
+                        <div class="box-item">Item 3</div>
+                    </div>
+
+                    <h2>4. Align Items (Cross Axis Alignment)</h2>
+                    <p>This controls alignment along the cross axis (usually vertical). This fixes the famous "How do I center a div vertically?" problem.</p>
+                    
+                    <pre><code>.container {
+  display: flex;
+  height: 200px;
+  align-items: center; /* Options: flex-start, flex-end, stretch */
+}</code></pre>
+
+                    <h2>5. Real World Example: A Navbar</h2>
+                    <p>Let's build a classic navigation bar using Flexbox. Logo on the left, Links on the right.</p>
+
+                    <pre><code>&lt;nav class="navbar"&gt;
+  &lt;div class="logo"&gt;MyLogo&lt;/div&gt;
+  &lt;ul class="links"&gt;
+    &lt;li&gt;Home&lt;/li&gt;
+    &lt;li&gt;About&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+/* CSS */
+.navbar {
+  display: flex;
+  justify-content: space-between; /* Pushes logo left, links right */
+  align-items: center; /* Vertically centers them */
+  padding: 20px;
+}</code></pre>
+
+                    <h2>6. The Flexbox Cheatsheet</h2>
+                    <p>Save this for later usage:</p>
+                    <ul style="border: 1px solid #334155; padding: 20px; border-radius: 10px; background: rgba(30,41,59,0.5);">
+                        <li><strong>display: flex;</strong> -> Activates Flexbox.</li>
+                        <li><strong>justify-content: center;</strong> -> Centers horizontally.</li>
+                        <li><strong>align-items: center;</strong> -> Centers vertically.</li>
+                        <li><strong>flex-direction: column;</strong> -> Stacks items vertically.</li>
+                        <li><strong>flex-wrap: wrap;</strong> -> Allows items to go to the next line if space runs out.</li>
+                    </ul>
+
+                    <h2>Conclusion</h2>
+                    <p>Flexbox is powerful for 1-dimensional layouts (rows OR columns). For 2-dimensional layouts (rows AND columns together), you should look into <strong>CSS Grid</strong> (which we will cover in the next blog!).</p>
+
+                    <div style="margin-top:50px; padding-top:20px; border-top:1px solid #334155; text-align:center;">
+                        <h3 style="margin-bottom:20px;">Mastered Flexbox?</h3>
+                        <a href="blog.html" style="background:#38bdf8; color:#000; padding:15px 35px; border-radius:30px; text-decoration:none; font-weight:bold; display:inline-block; font-size:1.1rem;">← Back to All Blogs</a>
+                    </div>
+
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background:#1e293b; padding:40px 0; text-align:center; border-top:1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <p style="color:#94a3b8;">&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

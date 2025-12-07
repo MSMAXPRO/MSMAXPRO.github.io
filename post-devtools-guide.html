@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome DevTools for Beginners - CodeWithMSMAXPRO</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .post-container .container { max-width: 1100px !important; }
+        .post-content h2 { margin-top: 40px; color: #38bdf8; font-size: 1.8rem; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .post-content p { color: #cbd5e1; line-height: 1.8; font-size: 1.1rem; margin-bottom: 20px; }
+        .post-content ul { padding-left: 20px; color: #cbd5e1; margin-bottom: 20px; font-size: 1.1rem; }
+        .post-content li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav style="display:flex; justify-content:space-between; align-items:center; padding: 15px 0;">
+                <a href="/" class="logo"><img src="images/logo.png" alt="Logo"> <span>CodeWithMSMAXPRO</span></a>
+                <ul class="nav-links" style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html" style="color: #38bdf8; font-weight: bold;">Blog</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="post-container" style="padding: 60px 0;">
+            <div class="container">
+                <article class="post-content">
+                    <div class="post-header" style="text-align:center; margin-bottom:50px;">
+                        <span style="background:#38bdf8; color:#000; padding:5px 15px; border-radius:5px; font-weight:bold; font-size:0.9rem;">DEBUGGING</span>
+                        <h1 style="font-size:3rem; margin:20px 0;">Chrome DevTools: A Beginner's Guide 🛠️</h1>
+                        <p style="color:#94a3b8;">Published on Dec 10, 2025 by <span style="color:#38bdf8;">MSMAXPRO</span> • 8 min read</p>
+                    </div>
+
+                    <img src="images/Blog/post-16.jpg" alt="Chrome DevTools" style="width:100%; border-radius:15px; margin-bottom:50px; border:1px solid #334155;">
+                    
+                    <p>If you are a web developer and you aren't using Chrome DevTools, you are coding with a blindfold on. It is the most powerful tool in your browser to debug CSS, fix JavaScript errors, and optimize performance.</p>
+                    <p>To open it, simply right-click anywhere on a webpage and select <strong>Inspect</strong>, or press <code>F12</code> or <code>Ctrl + Shift + I</code>.</p>
+
+                    <h2>1. The Elements Panel (HTML & CSS)</h2>
+                    <p>This is where you'll spend most of your time. You can:</p>
+                    <ul>
+                        <li><strong>Edit Text Live:</strong> Double click any text to change it and see how it looks.</li>
+                        <li><strong>Tweak CSS:</strong> Select an element and change its color, margin, or font-size in the Styles pane. Great for pixel-perfect design.</li>
+                        <li><strong>Hover State:</strong> Force an element to be in `:hover` state to debug dropdowns or buttons.</li>
+                    </ul>
+
+                    <h2>2. The Console Panel (JavaScript)</h2>
+                    <p>This is where your JavaScript errors appear in red. If your button isn't clicking, look here first.</p>
+                    <p>You can also write JavaScript directly here! Try typing <code>alert("Hello")</code> and hit Enter.</p>
+
+                    <h2>3. The Network Panel (APIs)</h2>
+                    <p>Is your website loading slowly? Or is an API call failing?</p>
+                    <ul>
+                        <li>Reload the page with this panel open to see every file being downloaded.</li>
+                        <li>Filter by "Fetch/XHR" to see API requests. You can check the Response tab to see exactly what data the server sent back.</li>
+                    </ul>
+
+                    <h2>4. Device Mode (Mobile Responsiveness)</h2>
+                    <p>Click the little "Phone/Tablet" icon next to the Elements tab. This lets you simulate how your website looks on an iPhone, Pixel, or iPad without actually owning those devices.</p>
+
+                    <h2>Conclusion</h2>
+                    <p>DevTools is a deep rabbit hole. Start with these basics, and you'll find yourself fixing bugs 10x faster than before.</p>
+
+                    <div style="margin-top:50px; text-align:center;">
+                        <a href="blog.html" style="background:#38bdf8; color:#000; padding:15px 35px; border-radius:30px; text-decoration:none; font-weight:bold; font-size:1.1rem;">← Back to All Blogs</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer style="background:#1e293b; padding:40px 0; text-align:center; border-top:1px solid rgba(255,255,255,0.1);">
+        <div class="container">
+            <p style="color:#94a3b8;">&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
