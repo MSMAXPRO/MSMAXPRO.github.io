@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of MSMAXPRO - Web Developer & Security Researcher.">
+    <meta name="theme-color" content="#0f172a">
     <title>About Me - CodeWithMSMAXPRO</title>
     <link rel="icon" type="image/png" href="favicon.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js" defer></script>
@@ -18,253 +20,312 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* --- CORE STYLES --- */
+        /* --- 1. CORE VARIABLES & PERFORMANCE --- */
         :root {
             --bg-dark: #0f172a;
             --card-bg: rgba(30, 41, 59, 0.6);
             --primary: #38bdf8;
             --primary-glow: rgba(56, 189, 248, 0.4);
+            --secondary: #a855f7;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
             --border-color: rgba(255, 255, 255, 0.1);
+            --success: #4ade80;
+            --danger: #f43f5e;
         }
 
-        body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
-        
-        /* NAVBAR FIXED */
-        header { 
-            border-bottom: 1px solid var(--border-color); 
-            padding: 15px 0; 
-            background: rgba(15, 23, 42, 0.95); 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            backdrop-filter: blur(10px); 
-        }
-        .container { width: 92%; max-width: 1200px; margin: 0 auto; }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: var(--text-main); overflow-x: hidden; font-family: 'Inter', sans-serif; position: relative; }
 
-        /* NAV LINKS (DESKTOP) */
-        .nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; }
-        .nav-links li a { color: var(--text-muted); text-decoration: none; transition: 0.3s; font-weight: 500; }
-        .nav-links li a:hover, .nav-links li a.active { color: var(--primary); font-weight: 700; }
-        
-        .hamburger { display: none; cursor: pointer; }
-        .hamburger div { width: 25px; height: 3px; background-color: #fff; margin: 5px; transition: 0.3s; }
+        /* --- 2. VISUAL POLISH (CSS ONLY) --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; box-shadow: 0 0 10px var(--primary-glow); }
+        ::selection { background: var(--success); color: #000; }
+        .scanlines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); background-size: 100% 4px; z-index: 9999; pointer-events: none; opacity: 0.3; }
+        .ribbon { position: fixed; top: 0; right: 0; z-index: 100; overflow: hidden; width: 150px; height: 150px; pointer-events: none; }
+        .ribbon span { position: absolute; top: 30px; right: -35px; transform: rotate(45deg); width: 200px; background-color: var(--primary); padding: 5px 0; color: #000; text-align: center; font-weight: bold; font-size: 0.8rem; box-shadow: 0 5px 10px rgba(0,0,0,0.5); }
 
-        /* --- MOBILE MENU FIX (HALF SCREEN) --- */
-        @media (max-width: 768px) {
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: 0;
-                height: 100vh;
-                width: 65%; /* Half Screen Width */
-                background: #0f172a; /* Solid background to hide content behind */
-                border-left: 1px solid var(--border-color);
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                transform: translateX(100%); /* Hidden by default */
-                transition: transform 0.3s ease-in-out;
-                z-index: 9999;
-                box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-            }
-            .nav-links.nav-active {
-                transform: translateX(0%); /* Visible */
-            }
-            .nav-links li { margin: 20px 0; opacity: 1; } /* Ensure Visible */
-            .hamburger { display: block; z-index: 10000; }
-            
-            /* Hamburger Animation */
-            .toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
-            .toggle .line2 { opacity: 0; }
-            .toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }
+        @media print {
+            body { background: #fff; color: #000; }
+            .navbar, .btn-group, footer, .scanlines, .ribbon, .reading-progress-container, .zen-toggle { display: none !important; }
+            .about-hero { flex-direction: row; text-align: left; padding: 0; }
+            .hero-text h1 { color: #000; }
+            .timeline-item { break-inside: avoid; }
+            a { text-decoration: none; color: #000; }
+            a::after { content: " (" attr(href) ")"; font-size: 0.8rem; }
         }
 
-        /* PAGE CONTENT STYLES */
+        section { margin-bottom: 50px; padding: 0 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+
         .about-hero { display: flex; flex-direction: column-reverse; align-items: center; gap: 30px; padding-top: 40px; }
         .hero-text { flex: 1; text-align: center; }
-        .gradient-text { background: linear-gradient(45deg, var(--primary), #a855f7, #4ade80); -webkit-background-clip: text; color: transparent; font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; display: inline-block; }
-        
-        .profile-card-wrap { position: relative; width: 220px; height: 220px; border-radius: 50%; padding: 5px; background: linear-gradient(var(--primary), #a855f7); margin-bottom: 20px; }
+        .gradient-text { background: linear-gradient(45deg, var(--primary), var(--secondary), var(--success)); background-size: 200% 200%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: gradient-move 5s ease infinite; font-size: 2.5rem; font-weight: 800; }
+        @keyframes gradient-move { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .typewriter { color: var(--primary); font-family: 'Fira Code', monospace; display: block; min-height: 1.5em; margin: 10px 0; }
+        .profile-card-wrap { position: relative; width: 200px; height: 200px; border-radius: 50%; padding: 5px; background: linear-gradient(var(--primary), var(--secondary)); animation: border-pulse 3s infinite; }
         .profile-card-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg-dark); }
+        @keyframes border-pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); } }
 
-        .status-bar { display: flex; justify-content: center; gap: 15px; font-size: 0.85rem; color: var(--text-muted); font-family: 'Fira Code', monospace; margin-bottom: 20px; flex-wrap: wrap; }
-        .online { color: #4ade80; }
+        .status-bar { display: flex; justify-content: center; gap: 15px; font-size: 0.8rem; color: var(--text-muted); font-family: 'Fira Code', monospace; margin-bottom: 20px; flex-wrap: wrap; }
+        .status-item i { margin-right: 5px; }
+        .online { color: var(--success); } .offline { color: var(--danger); }
 
-        section { margin-bottom: 60px; }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .stat-card { background: var(--card-bg); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid var(--border-color); }
-        .stat-number { font-size: 2rem; font-weight: 800; color: var(--primary); display: block; }
-        
-        .terminal-window { background: #0d1117; border-radius: 8px; border: 1px solid #30363d; font-family: 'Fira Code', monospace; overflow: hidden; max-width: 800px; margin: 0 auto; }
-        .terminal-header { background: #161b22; padding: 10px 15px; display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .terminal-body { padding: 20px; color: #c9d1d9; font-size: 0.95rem; line-height: 1.6; text-align: left; }
+        .focus-group:hover > :not(:hover) { opacity: 0.3; filter: blur(2px); transition: 0.3s; }
+        .focus-item { transition: 0.3s; }
 
-        .timeline-section { padding-left: 10px; }
-        .timeline-container { border-left: 2px solid var(--primary); margin-left: 10px; padding-left: 25px; text-align: left; }
-        .timeline-item { position: relative; margin-bottom: 30px; }
-        .timeline-dot { width: 14px; height: 14px; background: var(--bg-dark); border: 2px solid var(--primary); border-radius: 50%; position: absolute; left: -33px; top: 5px; }
-
-        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px; }
-        .skill-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; border-radius: 10px; text-align: center; transition: 0.3s; }
+        .dna-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin: 20px auto; width: 100%; max-width: 500px; }
+        .dna-seg { height: 100%; transition: width 1s; }
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+        .skill-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 10px; border-radius: 10px; text-align: center; transition: 0.3s; cursor: default; position: relative; }
         .skill-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .skill-card::after { content: attr(data-level); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.1); backdrop-filter: blur(5px); padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; opacity: 0; pointer-events: none; transition: 0.3s; border: 1px solid var(--border-color); white-space: nowrap; }
+        .skill-card:hover::after { opacity: 1; bottom: 110%; }
 
-        .glitch-btn { position: relative; padding: 12px 30px; background: var(--primary); color: #000; font-weight: 700; text-transform: uppercase; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 20px; }
+        .terminal-window { background: #0d1117; border-radius: 8px; border: 1px solid #30363d; font-family: 'Fira Code', monospace; overflow: hidden; position: relative; }
+        .terminal-header { background: #161b22; padding: 8px; display: flex; gap: 6px; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; }
+        .terminal-body { padding: 15px; color: #c9d1d9; font-size: 0.85rem; }
+        .copy-code-btn { position: absolute; top: 5px; right: 10px; background: transparent; border: 1px solid #30363d; color: #8b949e; cursor: pointer; border-radius: 4px; font-size: 0.7rem; padding: 2px 6px; }
+        .copy-code-btn:hover { color: #fff; border-color: #fff; }
 
-        /* MODAL */
+        .github-calendar { display: grid; grid-template-columns: repeat(auto-fit, minmax(10px, 1fr)); gap: 3px; max-width: 300px; margin: 0 auto; }
+        .cal-box { width: 10px; height: 10px; background: #161b22; border-radius: 2px; }
+        .cal-low { background: #0e4429; } .cal-med { background: #006d32; } .cal-high { background: #39d353; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        .content-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; }
+        .content-box h3 { color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .list-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; color: var(--text-muted); }
+        .list-item i { color: var(--secondary); }
+
+        .zen-toggle { position: fixed; top: 80px; right: 20px; z-index: 99; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 50%; cursor: pointer; color: var(--text-muted); transition: 0.3s; border: 1px solid var(--border-color); }
+        .zen-toggle:hover { color: #fff; background: var(--primary); }
+        body.zen-active .navbar, body.zen-active footer, body.zen-active .ribbon, body.zen-active .status-bar { opacity: 0; pointer-events: none; transition: 0.5s; }
+        body.zen-active .container { max-width: 700px; }
+
+        .reading-progress-container { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; z-index: 99; cursor: pointer; opacity: 0; transition: 0.3s; pointer-events: none; }
+        .reading-progress-container.visible { opacity: 1; pointer-events: all; }
+        .progress-circle { transform: rotate(-90deg); width: 100%; height: 100%; }
+        .progress-circle circle { fill: var(--bg-dark); stroke-width: 4; stroke: var(--primary); stroke-dasharray: 150; stroke-dashoffset: 150; transition: 0.1s; }
+        .top-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-main); }
+
+        .testimonial-card { background: rgba(255,255,255,0.03); border-left: 3px solid var(--primary); padding: 15px; font-style: italic; margin-bottom: 10px; border-radius: 0 10px 10px 0; }
+        .testimonial-author { display: block; margin-top: 5px; font-weight: bold; color: var(--secondary); font-style: normal; font-size: 0.8rem; }
+
+        details { background: rgba(255,255,255,0.03); margin-bottom: 10px; border-radius: 8px; overflow: hidden; }
+        summary { padding: 12px; cursor: pointer; font-weight: 600; list-style: none; position: relative; }
+        summary::after { content: '+'; position: absolute; right: 15px; color: var(--primary); }
+        details[open] summary::after { content: '-'; }
+        details p { padding: 0 15px 15px; font-size: 0.9rem; color: var(--text-muted); }
+
+        /* UPI MODAL STYLES */
         #upi-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
         .modal-content { background: #fff; padding: 30px; border-radius: 20px; text-align: center; max-width: 320px; width: 90%; position: relative; }
         .close-btn { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; color: #333; }
-        .pay-now-btn { display: inline-block; width: 100%; margin-top: 15px; padding: 12px; background: #25D366; color: #fff; font-weight: bold; border-radius: 10px; text-decoration: none; font-size: 1rem; transition: 0.3s; }
-        .pay-now-btn:hover { background: #128C7E; }
-        .note-text { color: #64748b; font-size: 0.8rem; margin-top: 15px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 10px; }
-
-        /* BIG UPI BUTTON */
-        .upi-btn-large {
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 16px 35px; border-radius: 50px;
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: #fff; font-weight: 800; font-size: 1.1rem; text-decoration: none;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4); border: none; cursor: pointer;
-            transition: 0.3s;
-        }
-        .upi-btn-large:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(37, 211, 102, 0.6); }
+        .pay-now-btn { display: inline-block; width: 100%; margin-top: 15px; padding: 12px; background: #25D366; color: #fff; font-weight: bold; border-radius: 10px; text-decoration: none; }
+        .note-text { color: #64748b; font-size: 0.8rem; margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
+        .upi-btn-large { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 25px; border-radius: 20px; background: #25D366; color: #fff; font-weight: bold; font-size: 0.9rem; text-decoration: none; border: none; cursor: pointer; transition: 0.3s; }
+        .upi-btn-large:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
 
         @media (min-width: 768px) {
-            .about-hero { flex-direction: row; text-align: left; gap: 60px; }
+            .about-hero { flex-direction: row; text-align: left; }
             .hero-text { text-align: left; }
-            .status-bar { justify-content: flex-start; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); }
+            .grid-2 { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
+    <div class="scanlines"></div>
+    
+    <div class="ribbon"><span>OPEN TO WORK</span></div>
+
+    <button class="zen-toggle" onclick="toggleZenMode()" title="Zen Mode (Reading)"><i class="fas fa-book-open"></i></button>
+
     <header>
         <div class="container">
-            <nav style="display: flex; justify-content: space-between; align-items: center;">
-                <a href="/" class="logo" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #fff; font-weight: 800; font-size: 1.2rem;">
-                    <img src="images/logo.png" alt="Logo" style="height: 30px;"> CodeWithMSMAXPRO
+            <nav>
+                <a href="index.html" class="logo">
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                    <span>CodeWithMSMAXPRO</span>
                 </a>
-                
-                <div class="hamburger" onclick="toggleMenu()">
-                    <div class="line1"></div><div class="line2"></div><div class="line3"></div>
-                </div>
-
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="roadmaps.html">Roadmaps</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="portfolio.html">Portfolio</a></li>
-                    <li><a href="about.html" class="active">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                <ul style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
+                    <li><a href="index.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Home</a></li>
+                    <li><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Roadmaps</a></li>
+                    <li><a href="blog.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Blog</a></li>
+                    <li><a href="projects.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Projects</a></li>
+                    <li><a href="portfolio.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Portfolio</a></li>
+                    <li><a href="about.html" style="color: #38bdf8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">About</a></li>
+                    <li><a href="contact.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Contact</a></li>
                 </ul>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
             </nav>
         </div>
     </header>
 
     <main>
-        <div class="container" style="max-width: 900px;">
+        <div class="container">
             
             <section class="about-hero" data-tilt>
                 <div class="hero-text reveal-left">
-                    <div class="status-bar">
+                    <div class="status-bar" style="justify-content: flex-start;">
                         <span id="local-time"><i class="far fa-clock"></i> India: --:--</span>
-                        <span class="online"><i class="fas fa-wifi"></i> Online</span>
-                        <span><i class="fas fa-battery-full"></i> 100%</span>
+                        <span id="net-status" class="online"><i class="fas fa-wifi"></i> Online</span>
+                        <span id="battery-stat"><i class="fas fa-battery-full"></i> 100%</span>
                     </div>
 
                     <h1 class="gradient-text">Hello! I'm MSMAXPRO</h1>
-                    <p style="color: var(--primary); font-family: 'Fira Code'; margin: 10px 0; font-size: 1.1rem;">Web Developer | Security Enthusiast</p>
-                    <p style="color: var(--text-muted); line-height: 1.6; font-size: 1rem;">I build secure, high-performance web applications and love breaking them to make them stronger. Passionate about Open Source and teaching.</p>
+                    <span class="typewriter" id="typewriter"></span>
                     
-                    <a href="#" class="glitch-btn" onclick="window.print()">Download Resume</a>
+                    <p>I build things for the web and break them to make them secure.</p>
+                    
+                    <div class="btn-group" style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; @media(min-width:768px){justify-content: flex-start;}">
+                        <button onclick="vibrateDevice(); window.print()" style="padding: 10px 20px; background: var(--primary); border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">Save CV</button>
+                        <button onclick="document.querySelector('.terminal-section').scrollIntoView()" style="padding: 10px 20px; background: transparent; border: 1px solid var(--text-muted); color: #fff; border-radius: 5px; cursor: pointer;">View Term</button>
+                    </div>
                 </div>
                 <div class="profile-card-wrap">
                     <img src="images/about-me.jpg" alt="Profile">
                 </div>
             </section>
 
-            <section class="stats-grid reveal-bottom">
-                <div class="stat-card"><span class="stat-number">15+</span><span style="color:#94a3b8; font-size:0.9rem;">Projects</span></div>
-                <div class="stat-card"><span class="stat-number">12k+</span><span style="color:#94a3b8; font-size:0.9rem;">Lines of Code</span></div>
-                <div class="stat-card"><span class="stat-number">500+</span><span style="color:#94a3b8; font-size:0.9rem;">Coffees</span></div>
-                <div class="stat-card"><span class="stat-number">100+</span><span style="color:#94a3b8; font-size:0.9rem;">Bugs Fixed</span></div>
+            <section class="reveal-bottom">
+                <div class="dna-bar">
+                    <div class="dna-seg" style="width: 50%; background: #f0db4f;" title="JS"></div>
+                    <div class="dna-seg" style="width: 30%; background: #3776ab;" title="Python"></div>
+                    <div class="dna-seg" style="width: 20%; background: #e34c26;" title="HTML/CSS"></div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 20px; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px;">
+                    <span><i class="fas fa-circle" style="color: #f0db4f;"></i> JS 50%</span>
+                    <span><i class="fas fa-circle" style="color: #3776ab;"></i> Py 30%</span>
+                    <span><i class="fas fa-circle" style="color: #e34c26;"></i> Web 20%</span>
+                </div>
+                
+                <div class="grid-2 focus-group">
+                    <div class="content-box focus-item" style="text-align: center;">
+                        <i class="fas fa-code" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                        <h2 id="lines-count">0</h2>
+                        <p>Lines of Code</p>
+                    </div>
+                    <div class="content-box focus-item" style="text-align: center;">
+                        <i class="fas fa-project-diagram" style="font-size: 2rem; color: var(--secondary); margin-bottom: 10px;"></i>
+                        <h2 id="projects-count">0</h2>
+                        <p>Projects Built</p>
+                    </div>
+                </div>
             </section>
 
-            <section class="reveal-bottom">
-                <h2 style="text-align:center; margin-bottom:25px; font-size:1.8rem;">> Who Am I?</h2>
+            <section class="terminal-section reveal-left">
                 <div class="terminal-window">
                     <div class="terminal-header">
                         <div class="dot" style="background:#ff5f56"></div>
                         <div class="dot" style="background:#ffbd2e"></div>
                         <div class="dot" style="background:#27c93f"></div>
-                        <span style="margin-left:10px; color:#8b949e; font-size:0.8rem;">bash — msmaxpro@kali</span>
+                        <span style="margin-left: 10px; color: #8b949e; font-size: 0.8rem;">bash — msmaxpro</span>
+                        <button class="copy-code-btn" onclick="copySnippet(this)">Copy</button>
                     </div>
-                    <div class="terminal-body">
-                        <p><span style="color:#ff7b72;">const</span> <span style="color:#d2a8ff;">msmaxpro</span> = {</p>
-                        <p>&nbsp;&nbsp;role: <span style="color:#a5d6ff;">"Full Stack Developer"</span>,</p>
-                        <p>&nbsp;&nbsp;location: <span style="color:#a5d6ff;">"India 🇮🇳"</span>,</p>
-                        <p>&nbsp;&nbsp;loves: [<span style="color:#a5d6ff;">"Python"</span>, <span style="color:#a5d6ff;">"CyberSec"</span>, <span style="color:#a5d6ff;">"Coffee"</span>]</p>
-                        <p>};</p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="timeline-section reveal-left">
-                <h2 style="margin-bottom:30px; font-size:1.8rem;">My Journey</h2>
-                <div class="timeline-container">
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span style="color:var(--primary); font-weight:bold;">2025 - Present</span>
-                        <p style="color:#fff; margin:5px 0; font-weight:600;">Focusing on Cybersecurity & Ethical Hacking</p>
-                        <p style="font-size:0.9rem; color:var(--text-muted);">Learning penetration testing and network security.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span style="color:var(--primary); font-weight:bold;">2024</span>
-                        <p style="color:#fff; margin:5px 0; font-weight:600;">Launched MSMAXPRO Toolkit</p>
-                        <p style="font-size:0.9rem; color:var(--text-muted);">Built a suite of developer tools used by 500+ users.</p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot"></div>
-                        <span style="color:var(--primary); font-weight:bold;">2023</span>
-                        <p style="color:#fff; margin:5px 0; font-weight:600;">Started Coding Journey</p>
-                        <p style="font-size:0.9rem; color:var(--text-muted);">Wrote my first Python script and fell in love with code.</p>
+                    <div class="terminal-body" id="code-snippet">
+                        <span style="color: #ff7b72;">const</span> <span style="color: #d2a8ff;">msmaxpro</span> = {<br>
+                        &nbsp;&nbsp;role: <span style="color: #a5d6ff;">"Developer"</span>,<br>
+                        &nbsp;&nbsp;location: <span style="color: #a5d6ff;">"India"</span>,<br>
+                        &nbsp;&nbsp;loves: [<span style="color: #a5d6ff;">"Python"</span>]<br>
+                        };
                     </div>
                 </div>
             </section>
 
-            <section class="reveal-bottom" style="padding-bottom: 40px;">
-                <h2 style="margin-bottom:30px; font-size:1.8rem;">Tech Stack</h2>
-                <div class="skills-grid">
-                    <div class="skill-card"><i class="fab fa-python" style="color:#3776ab; font-size:1.8rem;"></i><br><span style="font-size:0.9rem; font-weight:600; display:block; margin-top:8px;">Python</span></div>
-                    <div class="skill-card"><i class="fab fa-js" style="color:#f0db4f; font-size:1.8rem;"></i><br><span style="font-size:0.9rem; font-weight:600; display:block; margin-top:8px;">JavaScript</span></div>
-                    <div class="skill-card"><i class="fab fa-react" style="color:#61dafb; font-size:1.8rem;"></i><br><span style="font-size:0.9rem; font-weight:600; display:block; margin-top:8px;">React</span></div>
-                    <div class="skill-card"><i class="fas fa-shield-alt" style="color:#4ade80; font-size:1.8rem;"></i><br><span style="font-size:0.9rem; font-weight:600; display:block; margin-top:8px;">Security</span></div>
-                    <div class="skill-card"><i class="fab fa-html5" style="color:#e34c26; font-size:1.8rem;"></i><br><span style="font-size:0.9rem; font-weight:600; display:block; margin-top:8px;">HTML5</span></div>
-                    <div class="skill-card"><i class="fab fa-git-alt" style="color:#f44d27; font-size:1.8rem;"></i><br><span style="font-size:0.9rem; font-weight:600; display:block; margin-top:8px;">Git</span></div>
+            <section class="reveal-right">
+                <h3 style="margin-bottom: 20px;">Tech Arsenal</h3>
+                <div class="skills-grid focus-group">
+                    <div class="skill-card focus-item" data-level="Expert"><i class="fab fa-python" style="color: #3776ab;"></i> Python</div>
+                    <div class="skill-card focus-item" data-level="Advanced"><i class="fab fa-js" style="color: #f0db4f;"></i> JS</div>
+                    <div class="skill-card focus-item" data-level="Intermediate"><i class="fab fa-react" style="color: #61dafb;"></i> React</div>
+                    <div class="skill-card focus-item" data-level="Beginner"><i class="fas fa-shield-alt" style="color: #4ade80;"></i> Security</div>
+                    <div class="skill-card focus-item" data-level="Advanced"><i class="fab fa-html5" style="color: #e34c26;"></i> HTML5</div>
+                    <div class="skill-card focus-item" data-level="Advanced"><i class="fab fa-css3-alt" style="color: #264de4;"></i> CSS3</div>
+                </div>
+            </section>
+
+            <section class="grid-2 reveal-bottom">
+                <div class="content-box">
+                    <h3><i class="fas fa-laptop-code"></i> Uses / Gear</h3>
+                    <div class="list-item"><i class="fas fa-check"></i> VS Code (SynthWave '84)</div>
+                    <div class="list-item"><i class="fas fa-check"></i> Linux / Windows 11</div>
+                    <div class="list-item"><i class="fas fa-check"></i> Firefox Developer Edition</div>
+                </div>
+                
+                <div class="content-box">
+                    <h3><i class="fas fa-exclamation-triangle"></i> My Failures</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">Things that taught me the most:</p>
+                    <div class="list-item"><i class="fas fa-times" style="color: var(--danger);"></i> Wiped DB without backup (2023)</div>
+                    <div class="list-item"><i class="fas fa-times" style="color: var(--danger);"></i> Infinite Loop crashed browser</div>
+                </div>
+            </section>
+
+            <section class="grid-2 reveal-left">
+                <div class="content-box">
+                    <h3><i class="fab fa-github"></i> Contribution Graph</h3>
+                    <div class="github-calendar">
+                        <div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-low"></div>
+                        <div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div>
+                        <div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div>
+                        <div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div><div class="cal-box cal-low"></div><div class="cal-box cal-high"></div><div class="cal-box cal-med"></div>
+                    </div>
+                    <p style="text-align: center; font-size: 0.7rem; margin-top: 5px; color: var(--text-muted);">Last 30 Days Activity</p>
+                </div>
+
+                <div class="content-box">
+                    <h3><i class="fas fa-book"></i> Reading List</h3>
+                    <div class="list-item"><i class="fas fa-bookmark"></i> Automate the Boring Stuff</div>
+                    <div class="list-item"><i class="fas fa-bookmark"></i> You Don't Know JS</div>
+                </div>
+            </section>
+
+            <section class="reveal-right">
+                <h3 style="margin-bottom: 20px;">Quick FAQ</h3>
+                <details>
+                    <summary>Do I accept Freelance work?</summary>
+                    <p>Yes, I am currently open to small scripts and web projects.</p>
+                </details>
+                <details>
+                    <summary>What is my primary language?</summary>
+                    <p>Python is my first love, but I use JavaScript for web.</p>
+                </details>
+
+                <h3 style="margin: 30px 0 15px;">What People Say</h3>
+                <div class="testimonial-card">
+                    "MSMAXPRO helped me debug my Python script in minutes. Highly recommended!"
+                    <span class="testimonial-author">- Happy Student</span>
                 </div>
             </section>
 
         </div>
     </main>
 
-    <footer style="background-color: #1e293b; padding: 40px 0 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="reading-progress-container" onclick="vibrateDevice(); window.scrollTo({top: 0, behavior: 'smooth'})">
+        <svg class="progress-circle" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="23" fill="none"></circle>
+        </svg>
+        <div class="top-icon"><i class="fas fa-arrow-up"></i></div>
+    </div>
+
+    <footer style="background: #1e293b; padding: 40px 0 20px; border-top: 1px solid rgba(255,255,255,0.1);">
         <div class="container" style="text-align: center;">
             
             <button onclick="document.getElementById('upi-modal').style.display='flex'" class="upi-btn-large">
                 <i class="fas fa-qrcode"></i> Support via UPI
             </button>
 
-            <p style="margin-top: 25px; color: #94a3b8; font-size: 0.8rem;">
+            <p style="margin-top: 20px; color: var(--text-muted); font-size: 0.8rem;">
                 Total Clicks: <span id="click-count">0</span> | Location: India 🇮🇳
             </p>
-            <p style="margin-top: 10px; color: #94a3b8; font-size: 0.8rem;">&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
+            <p style="margin-top: 10px; color: var(--text-muted); font-size: 0.8rem;">&copy; 2025 CodeWithMSMAXPRO</p>
         </div>
     </footer>
 
@@ -275,29 +336,72 @@
             <img src="images/upi-qr.jpg" alt="UPI QR Code" style="width: 200px; height: 200px; border: 2px solid #333; border-radius: 10px;">
             <p style="color: #555; margin-top: 15px; font-size: 0.95rem;">Any amount is appreciated! 🙏</p>
             <p class="note-text"><i class="fas fa-info-circle"></i> Note: My real name might appear during payment. Don't worry, it's safe! ❤️</p>
-            <a href="upi://pay?pa=harveersingh786.a@okicici&pn=MSMAXPRO&cu=INR" class="pay-now-btn">Open in UPI App 📲</a>
+            <a href="upi://pay?pa=your-upi-id@okaxis&pn=MSMAXPRO&cu=INR" class="pay-now-btn">Open in UPI App 📲</a>
         </div>
     </div>
 
+    <script src="app.js"></script>
+    
     <script>
-        // --- NAVBAR TOGGLE SCRIPT ADDED DIRECTLY ---
-        function toggleMenu() {
-            const nav = document.querySelector('.nav-links');
-            const burger = document.querySelector('.hamburger');
-            nav.classList.toggle('nav-active');
-            burger.classList.toggle('toggle');
+        // --- ALL JS LOGIC ---
+        
+        // 1. Typewriter
+        const texts = ["Web Developer", "Security Enthusiast", "Builder"]; let count = 0, index = 0, currentText = "", letter = "";
+        (function type() { if (count === texts.length) count = 0; currentText = texts[count]; letter = currentText.slice(0, ++index); document.getElementById('typewriter').textContent = letter + "|"; if (letter.length === currentText.length) { count++; index = 0; setTimeout(type, 2000); } else { setTimeout(type, 100); } }());
+
+        // 2. Counters
+        const animateCount = (id, target) => { let count = 0; const inc = target / 50; const timer = setInterval(() => { count += inc; if (count >= target) { document.getElementById(id).innerText = target + "+"; clearInterval(timer); } else { document.getElementById(id).innerText = Math.ceil(count); } }, 40); };
+        window.addEventListener('load', () => { animateCount('lines-count', 12000); animateCount('projects-count', 15); });
+
+        // 3. Time, Battery, Network
+        function updateTime() { const now = new Date(); document.getElementById('local-time').innerHTML = `<i class="far fa-clock"></i> India: ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`; } setInterval(updateTime, 1000); updateTime();
+        if(navigator.getBattery) navigator.getBattery().then(b => document.getElementById('battery-stat').innerHTML = `<i class="fas fa-battery-half"></i> ${Math.round(b.level * 100)}%`);
+        window.addEventListener('offline', () => document.getElementById('net-status').innerHTML = '<i class="fas fa-wifi" style="color:var(--danger)"></i> Offline');
+        window.addEventListener('online', () => document.getElementById('net-status').innerHTML = '<i class="fas fa-wifi"></i> Online');
+
+        // 4. Scroll Progress Circle
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height);
+            const circle = document.querySelector('.progress-circle circle');
+            const radius = circle.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            circle.style.strokeDashoffset = circumference - (scrolled * circumference);
+            
+            const btn = document.querySelector('.reading-progress-container');
+            if (winScroll > 100) btn.classList.add('visible'); else btn.classList.remove('visible');
+        };
+
+        // 5. Zen Mode
+        function toggleZenMode() { document.body.classList.toggle('zen-active'); }
+
+        // 6. Copy Code
+        function copySnippet(btn) {
+            const code = document.getElementById('code-snippet').innerText;
+            navigator.clipboard.writeText(code);
+            btn.innerText = "Copied!"; setTimeout(() => btn.innerText = "Copy", 2000);
         }
 
-        function updateTime() { 
-            const now = new Date(); 
-            document.getElementById('local-time').innerHTML = `<i class="far fa-clock"></i> India: ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`; 
-        } 
-        setInterval(updateTime, 1000); updateTime();
+        // 7. Tab Alert
+        let docTitle = document.title; window.addEventListener("blur", () => { document.title = "Come back, Dev! 👨‍💻"; }); window.addEventListener("focus", () => { document.title = docTitle; });
 
+        // 8. Haptics & Click Count
+        function vibrateDevice() { if(navigator.vibrate) navigator.vibrate(20); }
+        let clicks = localStorage.getItem('siteClicks') || 0; 
+        document.onclick = () => { clicks++; document.getElementById('click-count').innerText = clicks; localStorage.setItem('siteClicks', clicks); };
+        document.getElementById('click-count').innerText = clicks;
+
+        // 9. Konami Code (Secret)
+        const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+        let kIndex = 0; document.addEventListener('keydown', (e) => { if(e.key === konami[kIndex]) { kIndex++; if(kIndex === konami.length) { alert("GOD MODE ENABLED 🕶️"); kIndex = 0; } } else { kIndex = 0; } });
+
+        // Scroll Reveal & Tilt (Run only on Desktop > 768px)
         if(window.matchMedia("(min-width: 768px)").matches) {
-            if(window.ScrollReveal) { ScrollReveal().reveal('.reveal-bottom', {distance:'30px', duration:800}); ScrollReveal().reveal('.reveal-left', {distance:'30px', duration:800, origin:'left'}); }
+            if(window.ScrollReveal) { ScrollReveal().reveal('.reveal-bottom', {distance:'20px', duration:800, origin:'bottom'}); ScrollReveal().reveal('.reveal-left', {distance:'20px', duration:800, origin:'left'}); ScrollReveal().reveal('.reveal-right', {distance:'20px', duration:800, origin:'right'}); }
             if(window.VanillaTilt) { VanillaTilt.init(document.querySelector(".about-hero"), {max: 5, gyroscope: false}); }
         }
     </script>
+
 </body>
 </html>
