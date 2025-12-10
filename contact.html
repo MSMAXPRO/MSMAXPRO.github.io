@@ -294,6 +294,85 @@
         .note-text { color: #64748b; font-size: 0.8rem; margin-top: 15px; line-height: 1.4; border-top: 1px solid #eee; padding-top: 10px; }
         .upi-btn-large { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 400px; padding: 18px; border-radius: 15px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff; font-weight: 800; font-size: 1.2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); transition: 0.3s; border: none; cursor: pointer; }
         .upi-btn-large:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5); }
+
+        /* --- MOBILE NAV / HAMBURGER --- */
+        .hamburger {
+            display: none; /* keep hidden on desktop */
+            width: 40px;
+            height: 32px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1001;
+            -webkit-tap-highlight-color: transparent;
+            margin-left: 12px;
+        }
+        .hamburger div {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #cbd5e1;
+            border-radius: 4px;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+        }
+        .hamburger .line1 { top: 4px; }
+        .hamburger .line2 { top: 14px; }
+        .hamburger .line3 { top: 24px; }
+
+        /* When active - turn into X */
+        .hamburger.active .line1 { transform: translateY(10px) rotate(45deg); }
+        .hamburger.active .line2 { opacity: 0; transform: scaleX(0); }
+        .hamburger.active .line3 { transform: translateY(-10px) rotate(-45deg); }
+
+        /* Mobile menu overlay */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 18, 0.95);
+            display: none;
+            z-index: 1000;
+            padding-top: 100px; /* space for header */
+            align-items: flex-start;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        .mobile-menu.open { display: flex; }
+
+        /* Style the links for mobile */
+        .mobile-menu .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            list-style: none;
+            padding: 0 24px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+        .mobile-menu .nav-links li a {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 18px;
+            display: inline-block;
+            border-radius: 10px;
+            transition: transform 0.18s, color 0.18s;
+        }
+        .mobile-menu .nav-links li a:hover {
+            transform: translateY(-4px);
+            color: var(--primary);
+        }
+
+        /* On desktop keep original look */
+        @media (max-width: 768px) {
+            /* hide desktop inline nav */
+            nav .nav-links { display: none !important; }
+            .hamburger { display: block; }
+            /* Make header nav layout breathe on mobile */
+            nav { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+        }
+
     </style>
 </head>
 <body>
@@ -304,7 +383,7 @@
                 <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                <ul style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
+                <ul class="nav-links" style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
                     <li><a href="index.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Home</a></li>
                     <li><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Roadmaps</a></li>
                     <li><a href="blog.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Blog</a></li>
@@ -319,6 +398,11 @@
                     <div class="line3"></div>
                 </div>
             </nav>
+
+            <!-- Mobile menu overlay (keeps same links structure) -->
+            <div class="mobile-menu" id="mobileMenu">
+                <!-- Links will be cloned here by JS -->
+            </div>
         </div>
     </header>
 
@@ -538,6 +622,63 @@
             formStatus.style.display = 'block';
             e.target.submit();
         });
+
+        // --- MOBILE NAV TOGGLE ---
+        (function() {
+            const hamburger = document.querySelector('.hamburger');
+            const originalNav = document.querySelector('ul.nav-links');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            if (!hamburger || !originalNav || !mobileMenu) return;
+
+            // clone nav links into mobile menu (so desktop ul remains untouched)
+            function populateMobileMenu() {
+                // clear any previous copy
+                mobileMenu.innerHTML = '';
+                const clone = originalNav.cloneNode(true);
+                clone.style.display = ''; // let CSS control it
+                // optional: add a close hint at top
+                const closeHint = document.createElement('div');
+                closeHint.style.width = '100%';
+                closeHint.style.display = 'flex';
+                closeHint.style.justifyContent = 'flex-end';
+                closeHint.style.padding = '0 24px 12px 24px';
+                mobileMenu.appendChild(closeHint);
+                mobileMenu.appendChild(clone);
+
+                // Close menu when any link is clicked
+                clone.querySelectorAll('a').forEach(a => {
+                    a.addEventListener('click', () => {
+                        mobileMenu.classList.remove('open');
+                        hamburger.classList.remove('active');
+                    });
+                });
+            }
+
+            hamburger.addEventListener('click', function(e) {
+                // lazy populate once
+                if (!mobileMenu.querySelector('.nav-links')) populateMobileMenu();
+
+                const isOpen = mobileMenu.classList.toggle('open');
+                hamburger.classList.toggle('active', isOpen);
+            });
+
+            // Close mobile menu when tapping outside the menu content
+            mobileMenu.addEventListener('click', function(e) {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('open');
+                    hamburger.classList.remove('active');
+                }
+            });
+
+            // Optional: close on Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    mobileMenu.classList.remove('open');
+                    hamburger.classList.remove('active');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
