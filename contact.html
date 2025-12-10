@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Contact Us - CodeWithMSMAXPRO</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <link rel="stylesheet" href="style.css?v=11.0"> 
+    <link rel="stylesheet" href="style.css?v=11.0">
 
     <style>
         /* --- 1. CSS VARIABLES (THEMES) --- */
@@ -161,7 +161,7 @@
 
         /* --- 7. INPUT FIELDS --- */
         .form-group { margin-bottom: 25px; text-align: left; }
-        
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -244,7 +244,7 @@
         }
         .cta-button:hover { transform: translateY(-3px); box-shadow: 0 10px 25px var(--primary-glow); }
 
-        .direct-email { 
+        .direct-email {
             text-align: center; font-size: 0.95rem; color: #cbd5e1; margin-bottom: 30px; padding: 20px; border-radius: 12px; display: inline-block; position: relative; background: var(--glass-bg); border: 1px solid var(--border-color); width: 100%; max-width: 400px; backdrop-filter: blur(10px);
         }
         .copy-btn { background: transparent; border: none; color: var(--text-muted); cursor: pointer; margin-left: 10px; font-size: 1.1rem; }
@@ -279,7 +279,7 @@
             .contact-form { padding: 20px; }
             .theme-btn { width: 40px; height: 40px; }
         }
-        
+
         #toast { visibility: hidden; min-width: 250px; background-color: var(--primary); color: #000; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; left: 50%; top: 30px; transform: translateX(-50%); font-weight: bold; box-shadow: 0 5px 20px rgba(0,0,0,0.3); }
         #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 4.5s; }
         @keyframes fadein { from {top: 0; opacity: 0;} to {top: 30px; opacity: 1;} }
@@ -295,82 +295,123 @@
         .upi-btn-large { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 400px; padding: 18px; border-radius: 15px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff; font-weight: 800; font-size: 1.2rem; text-decoration: none; box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); transition: 0.3s; border: none; cursor: pointer; }
         .upi-btn-large:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5); }
 
-        /* --- MOBILE NAV / HAMBURGER --- */
+        /* --- MOBILE NAV (RIGHT SLIDE) --- */
         .hamburger {
-            display: none; /* keep hidden on desktop */
-            width: 40px;
-            height: 32px;
+            display: none; /* desktop hidden */
+            width: 44px;
+            height: 36px;
             cursor: pointer;
             position: relative;
-            z-index: 1001;
+            z-index: 1101;
             -webkit-tap-highlight-color: transparent;
             margin-left: 12px;
         }
         .hamburger div {
             position: absolute;
-            left: 0;
-            right: 0;
+            left: 6px;
+            right: 6px;
             height: 4px;
             background: #cbd5e1;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: transform 0.35s ease, opacity 0.35s ease;
         }
-        .hamburger .line1 { top: 4px; }
-        .hamburger .line2 { top: 14px; }
-        .hamburger .line3 { top: 24px; }
+        .hamburger .line1 { top: 6px; }
+        .hamburger .line2 { top: 16px; }
+        .hamburger .line3 { top: 26px; }
 
-        /* When active - turn into X */
         .hamburger.active .line1 { transform: translateY(10px) rotate(45deg); }
         .hamburger.active .line2 { opacity: 0; transform: scaleX(0); }
         .hamburger.active .line3 { transform: translateY(-10px) rotate(-45deg); }
 
-        /* Mobile menu overlay */
-        .mobile-menu {
+        /* backdrop covering content (semi-transparent) */
+        .mobile-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(5, 8, 18, 0.95);
-            display: none;
-            z-index: 1000;
-            padding-top: 100px; /* space for header */
-            align-items: flex-start;
-            justify-content: center;
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.28s ease;
+            z-index: 1100;
+        }
+        .mobile-backdrop.open { opacity: 1; visibility: visible; }
+
+        /* slide-in panel from right */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 52%;                 /* adjust width to taste for the look like provided image */
+            max-width: 420px;
+            background: linear-gradient(180deg, rgba(28,39,60,0.98), rgba(20,30,50,0.98));
+            box-shadow: -10px 0 30px rgba(0,0,0,0.6);
+            transform: translateX(110%);
+            transition: transform 0.35s cubic-bezier(.2,.9,.2,1);
+            z-index: 1101;
+            padding-top: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
             overflow-y: auto;
         }
-        .mobile-menu.open { display: flex; }
+        .mobile-menu.open { transform: translateX(0); }
 
-        /* Style the links for mobile */
+        /* close X top-right inside panel */
+        .mobile-menu .close-x {
+            align-self: flex-end;
+            margin: 12px 18px 10px 0;
+            font-size: 30px;
+            color: #ffffff;
+            cursor: pointer;
+            line-height: 1;
+            border-radius: 6px;
+            padding: 6px;
+            background: transparent;
+            transition: background 0.2s, transform 0.18s;
+        }
+        .mobile-menu .close-x:hover { transform: scale(1.05); background: rgba(255,255,255,0.02); }
+
+        /* nav links layout inside panel (large, centered, spaced) */
         .mobile-menu .nav-links {
             display: flex;
             flex-direction: column;
-            gap: 22px;
-            list-style: none;
-            padding: 0 24px;
+            align-items: center;
+            gap: 36px; /* larger gap as in image */
+            margin-top: 20px;
             width: 100%;
-            max-width: 420px;
-            text-align: center;
+            padding: 20px 36px 40px 36px;
+            box-sizing: border-box;
+        }
+        .mobile-menu .nav-links li {
+            width: 100%;
+            list-style: none;
         }
         .mobile-menu .nav-links li a {
-            font-size: 1.4rem;
-            color: #94a3b8;
+            display: block;
+            text-align: left; /* left aligned text like the screenshot */
+            font-size: 1.6rem; /* large text */
+            color: #cbd5e1;
             text-decoration: none;
+            padding: 14px 18px;
+            border-radius: 8px;
             font-weight: 600;
-            padding: 12px 18px;
-            display: inline-block;
-            border-radius: 10px;
-            transition: transform 0.18s, color 0.18s;
+            transition: color 0.18s, transform 0.18s;
         }
         .mobile-menu .nav-links li a:hover {
-            transform: translateY(-4px);
             color: var(--primary);
+            transform: translateX(6px);
         }
 
-        /* On desktop keep original look */
+        /* make sure desktop nav remains unchanged */
         @media (max-width: 768px) {
-            /* hide desktop inline nav */
             nav .nav-links { display: none !important; }
             .hamburger { display: block; }
-            /* Make header nav layout breathe on mobile */
-            nav { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+            nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+            /* slightly reduce mobile menu width on small phones */
+            @media (max-width: 420px) {
+                .mobile-menu { width: 72%; }
+            }
         }
 
     </style>
@@ -380,39 +421,47 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
-                    <span>CodeWithMSMAXPRO</span>
+                <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo" style="height:36px; vertical-align:middle;">
+                    <span style="margin-left:8px; font-weight:700; color:var(--text-muted);">CodeWithMSMAXPRO</span>
                 </a>
+
+                <!-- Desktop inline links (kept intact) -->
                 <ul class="nav-links" style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
                     <li><a href="index.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Home</a></li>
                     <li><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Roadmaps</a></li>
                     <li><a href="blog.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Blog</a></li>
-                    <li><a href="projects.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Projects</a></li>
+                    <li><a href="projects.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Project Ideas</a></li>
                     <li><a href="portfolio.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Portfolio</a></li>
                     <li><a href="about.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">About</a></li>
                     <li><a href="contact.html" style="color: #38bdf8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Contact</a></li>
                 </ul>
-                <div class="hamburger">
+
+                <!-- Mobile hamburger -->
+                <div class="hamburger" aria-label="Open navigation" role="button" tabindex="0">
                     <div class="line1"></div>
                     <div class="line2"></div>
                     <div class="line3"></div>
                 </div>
             </nav>
 
-            <!-- Mobile menu overlay (keeps same links structure) -->
-            <div class="mobile-menu" id="mobileMenu">
-                <!-- Links will be cloned here by JS -->
-            </div>
+            <!-- backdrop for when menu opened -->
+            <div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
+
+            <!-- right slide-in mobile menu panel -->
+            <aside class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation panel">
+                <button class="close-x" id="mobileClose" aria-label="Close menu">&times;</button>
+                <!-- links will be cloned here by JS -->
+            </aside>
         </div>
     </header>
 
     <main>
         <section class="contact-form-section">
             <div class="container">
-                
+
                 <div id="dynamic-greeting" class="dynamic-greeting">HELLO!</div>
                 <h2>Get In Touch</h2>
-                
+
                 <div class="status-badge">
                     <div class="status-dot"></div>
                     Available for Work
@@ -431,7 +480,7 @@
 
                 <div style="text-align: center; margin-bottom: 40px;">
                     <div class="direct-email">
-                        📧 Prefer email? Mail directly at:<br> 
+                        📧 Prefer email? Mail directly at:<br>
                         <strong style="color: var(--primary); font-size: 1.1rem;">msmaxpro4@gmail.com</strong>
                         <button onclick="copyEmail()" class="copy-btn"><i class="far fa-copy"></i></button>
                         <span id="copy-msg">Copied!</span>
@@ -440,7 +489,7 @@
 
                 <div class="clean-form-wrapper">
                     <form action="https://submit-form.com/LPB7BuS9H" method="POST" class="contact-form" id="mainContactForm">
-                        
+
                         <input type="checkbox" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
                         <div class="form-group">
@@ -478,7 +527,7 @@
                         </div>
 
                         <button type="submit" class="cta-button" id="submitBtn">Send Message <i class="fas fa-paper-plane"></i></button>
-                        
+
                         <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">
                             <i class="fas fa-shield-alt" style="color: #4ade80;"></i> 100% Secure. I usually reply within 24 hours.
                         </p>
@@ -531,7 +580,7 @@
             <p>&copy; 2025 CodeWithMSMAXPRO. All rights reserved.</p>
         </div>
     </footer>
-    
+
     <script src="app.js"></script>
     <script>
         // --- THEME LOGIC ---
@@ -564,8 +613,7 @@
         function setSubject(text) {
             document.getElementById('subject').value = text;
             document.querySelectorAll('.chip').forEach(c => c.style.background = 'rgba(255,255,255,0.1)');
-            event.target.style.background = 'var(--primary)';
-            event.target.style.color = '#000';
+            try { event.target.style.background = 'var(--primary)'; event.target.style.color = '#000'; } catch (e) {}
         }
 
         function startVoiceInput() {
@@ -623,60 +671,75 @@
             e.target.submit();
         });
 
-        // --- MOBILE NAV TOGGLE ---
-        (function() {
+        // --- MOBILE NAV (right slide-in) ---
+        (function () {
             const hamburger = document.querySelector('.hamburger');
             const originalNav = document.querySelector('ul.nav-links');
             const mobileMenu = document.getElementById('mobileMenu');
+            const mobileBackdrop = document.getElementById('mobileBackdrop');
+            const mobileClose = document.getElementById('mobileClose');
 
-            if (!hamburger || !originalNav || !mobileMenu) return;
+            if (!hamburger || !originalNav || !mobileMenu || !mobileBackdrop) return;
 
-            // clone nav links into mobile menu (so desktop ul remains untouched)
-            function populateMobileMenu() {
-                // clear any previous copy
-                mobileMenu.innerHTML = '';
+            function buildMobileMenu() {
+                mobileMenu.innerHTML = ''; // clear
+                // add close button at top (keep one in DOM for accessibility, but ensure we re-attach close action)
+                const closeBtn = document.createElement('button');
+                closeBtn.className = 'close-x';
+                closeBtn.id = 'mobileCloseBtnClone';
+                closeBtn.setAttribute('aria-label', 'Close menu');
+                closeBtn.innerHTML = '&times;';
+                closeBtn.addEventListener('click', closeMenu);
+                mobileMenu.appendChild(closeBtn);
+
+                // clone links
                 const clone = originalNav.cloneNode(true);
-                clone.style.display = ''; // let CSS control it
-                // optional: add a close hint at top
-                const closeHint = document.createElement('div');
-                closeHint.style.width = '100%';
-                closeHint.style.display = 'flex';
-                closeHint.style.justifyContent = 'flex-end';
-                closeHint.style.padding = '0 24px 12px 24px';
-                mobileMenu.appendChild(closeHint);
+                clone.classList.add('mobile-nav-clone');
+                // adapt link text sizes / structure is handled by CSS
                 mobileMenu.appendChild(clone);
 
-                // Close menu when any link is clicked
+                // when a link is clicked, close menu
                 clone.querySelectorAll('a').forEach(a => {
                     a.addEventListener('click', () => {
-                        mobileMenu.classList.remove('open');
-                        hamburger.classList.remove('active');
+                        closeMenu();
                     });
                 });
             }
 
-            hamburger.addEventListener('click', function(e) {
-                // lazy populate once
-                if (!mobileMenu.querySelector('.nav-links')) populateMobileMenu();
+            function openMenu() {
+                if (!mobileMenu.querySelector('ul')) buildMobileMenu();
+                mobileBackdrop.classList.add('open');
+                mobileMenu.classList.add('open');
+                hamburger.classList.add('active');
+                // trap scroll on body
+                document.body.style.overflow = 'hidden';
+                mobileMenu.setAttribute('aria-hidden', 'false');
+                mobileBackdrop.setAttribute('aria-hidden', 'false');
+            }
 
-                const isOpen = mobileMenu.classList.toggle('open');
-                hamburger.classList.toggle('active', isOpen);
+            function closeMenu() {
+                mobileBackdrop.classList.remove('open');
+                mobileMenu.classList.remove('open');
+                hamburger.classList.remove('active');
+                document.body.style.overflow = '';
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                mobileBackdrop.setAttribute('aria-hidden', 'true');
+            }
+
+            hamburger.addEventListener('click', function () {
+                const isOpen = mobileMenu.classList.contains('open');
+                if (isOpen) closeMenu(); else openMenu();
             });
 
-            // Close mobile menu when tapping outside the menu content
-            mobileMenu.addEventListener('click', function(e) {
-                if (e.target === mobileMenu) {
-                    mobileMenu.classList.remove('open');
-                    hamburger.classList.remove('active');
-                }
-            });
+            // clicking backdrop closes
+            mobileBackdrop.addEventListener('click', closeMenu);
 
-            // Optional: close on Escape
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    mobileMenu.classList.remove('open');
-                    hamburger.classList.remove('active');
-                }
+            // close-x button (the static one we added in DOM) — attach to close logic
+            document.getElementById('mobileClose').addEventListener('click', closeMenu);
+
+            // close on ESC
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeMenu();
             });
         })();
     </script>
