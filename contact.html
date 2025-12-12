@@ -53,13 +53,13 @@
         .mobile-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.36); visibility:hidden; opacity:0; transition:opacity .28s ease, visibility .28s; z-index:205; }
         .mobile-backdrop.open{ visibility:visible; opacity:1; }
 
-        /* RIGHT SLIDE PANEL - styled to match the screenshot */
+        /* RIGHT SLIDE PANEL - UPDATED FOR 50% WIDTH & NO SCROLL */
         .mobile-menu{
             position:fixed;
             top:0;
             right:0;
-            height:100vh;
-            width:48%;                /* about half of the viewport, similar to your screenshot */
+            height:100vh;           /* Full viewport height */
+            width:50%;              /* EXACT 50% WIDTH as requested */
             max-width:420px;
             min-width:260px;
             background: linear-gradient(180deg,#22303b 0%, #1f3241 100%);
@@ -70,13 +70,13 @@
             display:flex;
             flex-direction:column;
             align-items:flex-start;
-            padding:18px 18px 36px 24px;
+            padding:18px 18px 18px 24px;
             box-sizing:border-box;
             color:var(--text-main);
         }
         .mobile-menu.open{ transform:translateX(0); }
 
-        /* Close X in top-right corner of the panel (visible like screenshot) */
+        /* Close X in top-right corner */
         .mobile-menu .close-x{
             position:absolute;
             top:14px;
@@ -89,28 +89,34 @@
             line-height:1;
             padding:6px;
             border-radius:6px;
+            z-index: 220;
         }
 
-        /* Vertical large link list like screenshot */
+        /* Vertical large link list - UPDATED FOR SPACING */
         .mobile-menu .nav-links{
-            margin-top:56px;                     /* push links below top area */
+            margin-top: 50px;       /* Space for close button */
             width:100%;
+            height: 100%;           /* Take remaining height */
             display:flex;
             flex-direction:column;
-            gap:40px;                             /* big spacing between items to match screenshot look */
+            /* This distributes space evenly so NO SCROLL is needed */
+            justify-content: space-evenly; 
+            gap: 0;                 /* Removed fixed gap */
             padding-right:8px;
+            padding-bottom: 20px;
         }
+        
         .mobile-menu .nav-links li{ list-style:none; width:100%; }
-        /* large, left-aligned text with sufficient left padding (looks like your screenshot) */
+        
         .mobile-menu .nav-links li a{
             display:block;
             padding:6px 6px;
-            font-size:1.8rem;                    /* large link text */
+            font-size:1.6rem;                    /* Slightly adjusted for fit */
             font-weight:600;
-            color:#cfd8df;                       /* slightly muted white */
+            color:#cfd8df;
             text-decoration:none;
             text-align:left;
-            padding-left:18px;
+            padding-left:10px;
             border-radius:6px;
             transition: color .18s, transform .18s;
         }
@@ -126,13 +132,13 @@
             nav{ display:flex; align-items:center; justify-content:space-between; }
         }
 
-        /* on very small phones slightly increase panel width so the panel looks like screenshot */
+        /* on very small phones */
         @media (max-width:420px){
-            .mobile-menu{ width:62%; }
-            .mobile-menu .nav-links li a{ font-size:1.6rem; }
+            .mobile-menu{ width:60%; } /* Slight increase for very tiny screens */
+            .mobile-menu .nav-links li a{ font-size:1.4rem; }
         }
 
-        /* rest of page simplified (keeps your original look/padding) */
+        /* rest of page simplified */
         .contact-form-section{ padding-top:40px; padding-bottom:120px; text-align:center; }
         .dynamic-greeting{ color:var(--primary); font-weight:800; margin-bottom:10px; text-transform:uppercase; }
         h2{ font-size:2.8rem; margin:6px 0 16px; }
@@ -153,7 +159,6 @@
                     <span>CodeWithMSMAXPRO</span>
                 </a>
 
-                <!-- Desktop inline links - unchanged for larger screens -->
                 <ul class="nav-links" aria-hidden="false">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="roadmaps.html">Roadmaps</a></li>
@@ -164,7 +169,6 @@
                     <li><a href="contact.html" style="color:var(--primary)">Contact</a></li>
                 </ul>
 
-                <!-- Mobile hamburger (visible on small screens) -->
                 <div class="hamburger" id="hamburger" aria-label="Open navigation" role="button" tabindex="0">
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -174,16 +178,12 @@
         </div>
     </header>
 
-    <!-- Backdrop that dims the page when panel is open -->
     <div class="mobile-backdrop" id="mobileBackdrop" aria-hidden="true"></div>
 
-    <!-- Slide-in menu panel from the RIGHT -->
     <aside class="mobile-menu" id="mobileMenu" aria-hidden="true" role="dialog" aria-label="Mobile navigation">
         <button class="close-x" id="mobileClose" aria-label="Close menu">&times;</button>
 
-        <!-- We'll inject a cloned list of links here via JS so desktop and mobile use the same source -->
         <ul class="nav-links" id="mobileNavClone">
-            <!-- populated by JS on open (keeps markup for no-JS fallback) -->
             <li><a href="index.html">Home</a></li>
             <li><a href="roadmaps.html">Roadmaps</a></li>
             <li><a href="blog.html">Blog</a></li>
@@ -252,7 +252,6 @@
         </section>
     </main>
 
-    <!-- Floating action buttons -->
     <div style="position:fixed;right:20px;bottom:24px;z-index:190;">
         <div style="background:var(--primary);width:62px;height:62px;border-radius:999px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(56,189,248,0.18);">
             <i class="fas fa-comment-dots" style="color:#000;font-size:20px;"></i>
