@@ -63,61 +63,6 @@
             margin: 0 auto;
         }
 
-        /* ===== MOBILE NAVBAR FIX (MERGED FROM FILE 1) ===== */
-        @media (max-width: 768px) {
-            nav ul {
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                flex-direction: column;
-                background: var(--glass-bg); /* Adapted to use theme var */
-                backdrop-filter: blur(10px);
-                display: none;
-                gap: 0 !important; /* Override inline style */
-                margin: 0;
-                padding: 0;
-                z-index: 999;
-                border-bottom: 1px solid var(--border-color);
-            }
-
-            nav ul li {
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                text-align: center;
-                border-bottom: 1px solid rgba(255,255,255,0.08);
-            }
-
-            nav ul li a {
-                display: block;
-                padding: 15px 0;
-                margin: 0;
-            }
-
-            nav ul.active {
-                display: flex;
-            }
-
-            .hamburger {
-                display: block !important; /* Ensure visibility */
-                cursor: pointer;
-            }
-
-            .hamburger div {
-                width: 25px;
-                height: 3px;
-                background: #fff;
-                margin: 5px 0;
-                transition: 0.3s;
-            }
-        }
-        
-        /* Desktop Hamburger Hide */
-        @media (min-width: 769px) {
-            .hamburger { display: none; }
-        }
-
         .contact-form-section {
             padding-top: 40px;
             padding-bottom: 120px;
@@ -235,7 +180,6 @@
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             transition: 0.3s;
-            box-sizing: border-box; /* Added for sizing fix */
         }
         .form-input:focus, .code-textarea:focus {
             outline: none;
@@ -356,12 +300,10 @@
 
     <header>
         <div class="container">
-            <nav style="display:flex; justify-content:space-between; align-items:center; padding: 15px 0;">
-                <a href="index.html" class="logo" style="display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; font-weight:bold; font-size:1.2rem;"> 
-                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo" style="height:40px;">
+            <nav>
+                <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                
                 <ul style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
                     <li><a href="index.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Home</a></li>
                     <li><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Roadmaps</a></li>
@@ -371,7 +313,6 @@
                     <li><a href="about.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">About</a></li>
                     <li><a href="contact.html" style="color: #38bdf8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Contact</a></li>
                 </ul>
-
                 <div class="hamburger">
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -509,16 +450,6 @@
     
     <script src="app.js"></script>
     <script>
-        // --- MOBILE MENU FIX (ADDED FROM FILE 1) ---
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('nav ul');
-        
-        if(hamburger){
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-        }
-
         // --- THEME LOGIC ---
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
