@@ -63,13 +63,120 @@
             margin: 0 auto;
         }
 
+        /* --- 3. NAVBAR STYLES (UPDATED FOR SIDEBAR) --- */
+        header {
+            background: rgba(15, 23, 42, 0.95); /* Dark background fix */
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+        .logo img { height: 40px; }
+
+        /* Desktop Menu */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-links li a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-links li a:hover, .nav-links li a.active {
+            color: var(--primary);
+        }
+
+        /* Close Button (Hidden on Desktop) */
+        .close-menu { display: none; }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        /* --- MOBILE SIDEBAR (Drawer Style) --- */
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Initially hidden */
+                width: 280px; /* Sidebar width */
+                height: 100vh;
+                background: #0f172a; /* Dark Blue Theme */
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                transition: 0.4s ease-in-out;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+                z-index: 1001;
+            }
+
+            .nav-links.active {
+                right: 0; /* Slide in */
+            }
+
+            /* Close Button Style */
+            .close-menu {
+                display: block;
+                position: absolute;
+                top: 25px;
+                right: 30px;
+                font-size: 2rem;
+                cursor: pointer;
+                color: #fff;
+            }
+
+            .nav-links li a {
+                font-size: 1.5rem; /* Larger fonts for mobile */
+                color: #cbd5e1;
+            }
+            
+            .nav-links li a:hover {
+                color: var(--primary);
+                transform: scale(1.1);
+            }
+        }
+
+        /* --- 4. CONTACT SECTION & TYPOGRAPHY --- */
         .contact-form-section {
             padding-top: 40px;
             padding-bottom: 120px;
             text-align: center;
         }
 
-        /* --- 3. TYPOGRAPHY --- */
         .dynamic-greeting {
             color: var(--primary);
             font-size: 1.1rem;
@@ -94,7 +201,7 @@
             font-weight: 500;
         }
 
-        /* --- 4. THEME SWITCHER --- */
+        /* --- 5. THEME SWITCHER --- */
         .theme-switcher-container {
             display: inline-flex;
             justify-content: center;
@@ -119,7 +226,7 @@
             box-shadow: 0 0 15px var(--primary);
         }
 
-        /* --- 5. STATUS BADGE --- */
+        /* --- 6. STATUS BADGE --- */
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -142,15 +249,15 @@
         }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } }
 
-        /* --- 6. CLEAN FORM CONTAINER (NO ANIMATION) --- */
+        /* --- 7. CLEAN FORM CONTAINER --- */
         .clean-form-wrapper {
             background: var(--glass-bg);
-            border: 1px solid var(--border-color); /* Static, clean border */
+            border: 1px solid var(--border-color); 
             border-radius: 20px;
             padding: 2px;
             margin: 0 auto 50px auto;
             max-width: 650px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4); /* Soft shadow */
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4); 
             backdrop-filter: blur(12px);
         }
 
@@ -159,7 +266,7 @@
             padding: 35px;
         }
 
-        /* --- 7. INPUT FIELDS --- */
+        /* --- 8. INPUT FIELDS --- */
         .form-group { margin-bottom: 25px; text-align: left; }
         
         label {
@@ -227,7 +334,7 @@
             line-height: 1.5;
         }
 
-        /* --- 8. BUTTONS & EMAIL --- */
+        /* --- 9. BUTTONS & EMAIL --- */
         .cta-button {
             width: 100%;
             padding: 18px;
@@ -253,7 +360,7 @@
         .mic-btn { position: absolute; bottom: 15px; right: 15px; background: transparent; border: none; color: var(--text-muted); font-size: 1.4rem; cursor: pointer; z-index: 5; }
         .mic-btn.listening { color: #ef4444; animation: pulse 1s infinite; }
 
-        /* --- 9. SOCIAL & EXTRAS --- */
+        /* --- 10. SOCIAL & EXTRAS --- */
         .social-connect {
             background: var(--glass-bg);
             border: 1px solid var(--border-color);
@@ -301,22 +408,27 @@
     <header>
         <div class="container">
             <nav>
-                <a href="index.html" class="logo"> <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
+                <a href="index.html" class="logo"> 
+                    <img src="images/logo.png" alt="CodeWithMSMAXPRO Logo">
                     <span>CodeWithMSMAXPRO</span>
                 </a>
-                <ul style="display: flex; gap: 30px; list-style: none; margin: 0; padding: 0;">
-                    <li><a href="index.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Home</a></li>
-                    <li><a href="roadmaps.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Roadmaps</a></li>
-                    <li><a href="blog.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Blog</a></li>
-                    <li><a href="projects.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Projects</a></li>
-                    <li><a href="portfolio.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Portfolio</a></li>
-                    <li><a href="about.html" style="color: #94a3b8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">About</a></li>
-                    <li><a href="contact.html" style="color: #38bdf8; text-decoration: none; font-weight: 500; font-family: 'Inter', sans-serif; transition: 0.3s;">Contact</a></li>
+
+                <ul class="nav-links" id="navLinks">
+                    <li class="close-menu" onclick="toggleMenu()">
+                        <i class="fas fa-times"></i>
+                    </li>
+
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="roadmaps.html">Roadmaps</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="projects.html">Project Ideas</a></li>
+                    <li><a href="portfolio.html">Portfolio</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html" style="color: var(--primary);">Contact</a></li>
                 </ul>
-                <div class="hamburger">
-                    <div class="line1"></div>
-                    <div class="line2"></div>
-                    <div class="line3"></div>
+
+                <div class="hamburger" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
                 </div>
             </nav>
         </div>
@@ -450,6 +562,21 @@
     
     <script src="app.js"></script>
     <script>
+        // --- NAVBAR TOGGLE LOGIC (NEW) ---
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            if (!navLinks.contains(e.target) && !hamburger.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+            }
+        });
+
         // --- THEME LOGIC ---
         function setTheme(theme) {
             document.documentElement.setAttribute('data-theme', theme);
