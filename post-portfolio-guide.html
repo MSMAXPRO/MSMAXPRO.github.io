@@ -1,221 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Build a Killer Developer Portfolio (2026 Guide) | CodeWithMSMAXPRO</title>
+    <meta name="description" content="Ultimate guide to building a professional developer portfolio with prerequisites, common mistakes, and actionable tasks.">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .toc {
+            background: var(--card-bg);
+            padding: 20px;
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .toc h2 { margin-top: 0; font-size: 1.2rem; }
+        .toc ul { list-style: none; padding-left: 10px; }
+        .toc li { margin: 8px 0; }
+        .toc a { color: var(--primary-color); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
 
-  <title>How to Build a Killer Developer Portfolio (2026 Guide) | CodeWithMSMAXPRO</title>
-
-  <meta name="description"
-    content="Learn how to build a professional developer portfolio step-by-step. Includes project ideas, design tips, mistakes to avoid, and examples for beginners in 2026." />
-
-  <meta name="keywords"
-    content="developer portfolio, web developer portfolio, coding portfolio, portfolio projects, frontend portfolio, full stack portfolio" />
-
-  <meta name="author" content="MSMAXPRO" />
-
-  <link rel="stylesheet" href="assets/css/style.css" />
+        .section { margin-bottom: 40px; }
+        h1 { color: #fff; font-size: 2.5rem; }
+        h2 { color: var(--primary-color); border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .alert-box {
+            background: #2c1a1a;
+            border: 1px solid #ff4d4d;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .task-box {
+            background: #1a2c1a;
+            border: 1px solid #4dff88;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .next-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .next-card {
+            background: var(--card-bg);
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s;
+            border: 1px solid #333;
+        }
+        .next-card:hover { background: var(--primary-color); }
+        
+        @media (max-width: 600px) {
+            .next-links { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-
 <body>
 
-  <!-- ================= HEADER ================= -->
-  <header class="post-header">
-    <h1>How to Build a Killer Developer Portfolio 🚀</h1>
-    <p class="post-meta">
-      By <strong>MSMAXPRO</strong> • Updated for <strong>2026</strong>
-    </p>
-  </header>
+<div class="container">
+    <header>
+        <h1>How to Build a Killer Developer Portfolio 🚀</h1>
+        <p>By <strong>MSMAXPRO</strong> • Updated for <strong>2026</strong></p>
+        <hr>
+    </header>
 
-  <!-- ================= MAIN CONTENT ================= -->
-  <main class="post-content">
+    <nav class="toc">
+        <h2>📋 Table of Contents</h2>
+        <ul>
+            <li><a href="#prerequisites">1. Prerequisites: Shuru Karne se Pehle</a></li>
+            <li><a href="#goal">2. Define Your Portfolio Goal</a></li>
+            <li><a href="#sections">3. Essential Sections Every Portfolio Must Have</a></li>
+            <li><a href="#mistakes">4. Common Mistakes Beginners Make ❌</a></li>
+            <li><a href="#hosting">5. Hosting & Design Tips</a></li>
+            <li><a href="#mini-task">6. Mini Task: Action Plan 🛠️</a></li>
+            <li><a href="#next">7. What to Learn Next?</a></li>
+        </ul>
+    </nav>
 
-    <!-- INTRO -->
-    <section>
-      <p>
-        A developer portfolio is <strong>more powerful than your resume</strong>.
-        It shows what you can actually build, not just what you claim to know.
-      </p>
+    <div class="section">
+        <p>A developer portfolio is <strong>more powerful than your resume</strong>. Ye sirf ek website nahi, balki aapka proof-of-work hai jo recruiters ko 24/7 dikhata hai ki aap kya kar sakte hain.</p>
+    </div>
 
-      <p>
-        Whether you're a beginner or preparing for your first job,
-        this guide will help you build a <strong>professional, job-ready portfolio</strong>
-        step by step.
-      </p>
+    <section id="prerequisites" class="section">
+        <h2>📌 Prerequisites (Taiyari)</h2>
+        <p>Shuru karne se pehle, niche di gayi cheezein ready rakhein:</p>
+        <ul>
+            <li><strong>3 Solid Projects:</strong> Kam se kam 2 projects aise ho jo kisi real problem ko solve karein.</li>
+            <li><strong>GitHub Repository:</strong> Har project ka code clean aur updated hona chahiye.</li>
+            <li><strong>Bio/About Me:</strong> Ek professional summary jo aapke passion ko bataye.</li>
+        </ul>
     </section>
 
-    <!-- WHY PORTFOLIO -->
-    <section>
-      <h2>Why a Portfolio Is So Important</h2>
-      <ul>
-        <li>✅ Shows real projects, not theory</li>
-        <li>✅ Builds trust with recruiters</li>
-        <li>✅ Proves problem-solving skills</li>
-        <li>✅ Works 24/7 for you online</li>
-      </ul>
-
-      <p>
-        Recruiters often decide in <strong>30 seconds</strong> whether to continue.
-        Your portfolio makes that first impression.
-      </p>
+    <section id="goal" class="section">
+        <h2>🎯 Step 1: Define Your Portfolio Goal</h2>
+        <p>Aapka portfolio kiske liye hai?
+            <ul>
+                <li><strong>Job Seekers:</strong> Focus on tech stack and clean code.</li>
+                <li><strong>Freelancers:</strong> Focus on services and testimonials.</li>
+                <li><strong>Personal Brand:</strong> Focus on blogs and community work.</li>
+            </ul>
+        </p>
     </section>
 
-    <!-- GOAL -->
-    <section>
-      <h2>Step 1: Define Your Portfolio Goal</h2>
-      <p>Before building anything, be clear about:</p>
-
-      <ul>
-        <li>🎯 Job portfolio (Frontend / Backend / Full Stack)</li>
-        <li>🎯 Freelancing portfolio</li>
-        <li>🎯 Personal brand / content creation</li>
-      </ul>
-
-      <p>
-        Your goal decides what projects you show and how your site looks.
-      </p>
+    <section id="sections" class="section">
+        <h2>🛠 Essential Sections</h2>
+        <h3>👤 About Me</h3>
+        <p>Write like a human. Mention what drives you to code and your career goals.</p>
+        
+        <h3>📁 Projects (The Game Changer)</h3>
+        <p>Har project mein ye hona mandatory hai:</p>
+        <ul>
+            <li>Live Demo Link</li>
+            <li>GitHub Code Link</li>
+            <li>Tech Stack used (e.g., React, Node.js)</li>
+            <li>Short Description of "Why" you built it.</li>
+        </ul>
     </section>
 
-    <!-- SECTIONS -->
-    <section>
-      <h2>Essential Sections Every Portfolio Must Have</h2>
-
-      <h3>👤 About Me</h3>
-      <p>
-        Write like a human, not a robot. Mention:
-      </p>
-      <ul>
-        <li>Your background</li>
-        <li>Why you love coding</li>
-        <li>Your career goals</li>
-        <li>Soft skills</li>
-      </ul>
-
-      <h3>🛠 Skills</h3>
-      <p>
-        List skills honestly. Group them:
-      </p>
-      <ul>
-        <li>Frontend: HTML, CSS, JavaScript, React</li>
-        <li>Backend: Node.js, Express, MongoDB</li>
-        <li>Tools: Git, GitHub, VS Code</li>
-      </ul>
-
-      <h3>📁 Projects (MOST IMPORTANT)</h3>
-      <p>Projects decide everything.</p>
-
-      <p>Each project should include:</p>
-      <ul>
-        <li>Project name</li>
-        <li>Short description</li>
-        <li>Tech stack</li>
-        <li>Live demo link</li>
-        <li>GitHub repository</li>
-        <li>Screenshots</li>
-      </ul>
-
-      <pre>
-Expense Tracker App
-Tech: React, Node, MongoDB
-Features:
-- Add / edit expenses
-- Monthly analytics
-- Responsive UI
-      </pre>
-
-      <h3>📄 Resume</h3>
-      <p>
-        Always add a <strong>downloadable PDF resume</strong>.
-      </p>
-
-      <h3>📞 Contact</h3>
-      <p>
-        Make it easy to contact you:
-      </p>
-      <ul>
-        <li>Email</li>
-        <li>LinkedIn</li>
-        <li>GitHub</li>
-      </ul>
+    <section id="mistakes" class="section">
+        <h2>⚠️ Common Mistakes Beginners Make</h2>
+        <div class="alert-box">
+            <ul>
+                <li><strong>Tutorial Clones:</strong> Pokedex ya Basic To-Do list daalna band karein. Kuch unique banayein.</li>
+                <li><strong>Broken Links:</strong> Check karein ki aapke buttons kaam kar rahe hain ya nahi.</li>
+                <li><strong>Poor Mobile View:</strong> Agar portfolio phone par kharab dikhega, toh impact bura padega.</li>
+                <li><strong>No Contact Info:</strong> Recruiter ko aapko dhundna na pade, contact form ya email clear rakhein.</li>
+            </ul>
+        </div>
     </section>
 
-    <!-- DESIGN -->
-    <section>
-      <h2>Portfolio Design Tips</h2>
-      <ul>
-        <li>✔ Clean and minimal UI</li>
-        <li>✔ Mobile responsive</li>
-        <li>✔ Fast loading</li>
-        <li>✔ Easy navigation</li>
-      </ul>
-
-      <p>
-        A simple design beats a complex one every time.
-      </p>
+    <section id="hosting" class="section">
+        <h2>🌐 Hosting & Design</h2>
+        <p>Design ko minimal rakhein. Hosting ke liye best free platforms:</p>
+        <ul>
+            <li><strong>Vercel / Netlify:</strong> For React/Frontend apps.</li>
+            <li><strong>GitHub Pages:</strong> For simple static sites.</li>
+        </ul>
     </section>
 
-    <!-- HOSTING -->
-    <section>
-      <h2>Hosting & Domain</h2>
-      <p>
-        Host your portfolio for free on:
-      </p>
-      <ul>
-        <li>GitHub Pages</li>
-        <li>Netlify</li>
-        <li>Vercel</li>
-      </ul>
-
-      <p>
-        Bonus points if you use a custom domain like
-        <strong>yourname.dev</strong>.
-      </p>
+    <section id="mini-task" class="section">
+        <div class="task-box">
+            <h2>🎯 Mini Task at the End</h2>
+            <p>Sirf padhne se result nahi milega. Aaj hi ye karein:</p>
+            <ol>
+                <li>Apne GitHub se top 2 projects pick karein aur unki <code>README.md</code> file update karein.</li>
+                <li>Ek simple HTML/CSS file banayein jisme aapka "Hero Section" ready ho.</li>
+                <li>Niche comment section mein apne portfolio ka "Coming Soon" link share karein!</li>
+            </ol>
+        </div>
     </section>
 
-    <!-- MISTAKES -->
-    <section>
-      <h2>Common Portfolio Mistakes ❌</h2>
-      <ul>
-        <li>Too many weak projects</li>
-        <li>No live demo links</li>
-        <li>No GitHub code</li>
-        <li>Cluttered UI</li>
-        <li>No contact info</li>
-      </ul>
+    <section id="next" class="section">
+        <h2>🚀 What to Learn Next?</h2>
+        <p>Ab jab aapka portfolio plan ready hai, toh in topics ko explore karein:</p>
+        <div class="next-links">
+            <a href="https://codewithmsmaxpro.me/git-guide.html" class="next-card">Master Git & GitHub</a>
+            <a href="https://codewithmsmaxpro.me/seo-guide.html" class="next-card">SEO for Developers</a>
+            <a href="https://codewithmsmaxpro.me/clean-code.html" class="next-card">Write Clean Code</a>
+            <a href="https://codewithmsmaxpro.me/hosting-guide.html" class="next-card">Advanced Hosting Tips</a>
+        </div>
     </section>
 
-    <!-- BONUS -->
-    <section>
-      <h2>Bonus Tips to Stand Out 🔥</h2>
-      <ul>
-        <li>Case studies for big projects</li>
-        <li>Blog section</li>
-        <li>Testimonials</li>
-        <li>GitHub contribution graph</li>
-      </ul>
-    </section>
-
-    <!-- CONCLUSION -->
-    <section>
-      <h2>Final Thoughts</h2>
-      <p>
-        Your portfolio is your <strong>online identity</strong>.
-        Build it seriously, update it often, and keep improving.
-      </p>
-
-      <p>
-        Start small. Build real projects. Stay consistent.
-      </p>
-    </section>
-
-  </main>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="post-footer">
-    <p>
-      © 2026 CodeWithMSMAXPRO • Learn • Build • Grow
-    </p>
-  </footer>
+    <footer>
+        <hr>
+        <p style="text-align: center;">© 2026 CodeWithMSMAXPRO • Learn • Build • Grow</p>
+    </footer>
+</div>
 
 </body>
 </html>
